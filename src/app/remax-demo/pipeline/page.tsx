@@ -117,6 +117,10 @@ export default async function PipelineOperativoPage({
                             <SentimentBadge sentiment={item.sentiment} />
                             <PriorityBadge priority={item.priority} />
                           </div>
+                          <div className="remax-pipeline-reference">
+                            <span>Referencia comercial</span>
+                            <strong>{item.commercialReference}</strong>
+                          </div>
                           <div className="remax-pipeline-next-action">
                             <span>Proxima accion</span>
                             <p>{item.nextAction}</p>
@@ -145,10 +149,12 @@ export default async function PipelineOperativoPage({
               },
               { key: "etapa", label: "Etapa", render: (row) => row.stage },
               { key: "asesor", label: "Asesor", render: (row) => getAdvisorById(row.advisorId)?.nombre ?? row.advisorId },
+              { key: "referencia", label: "Valor / referencia", render: (row) => row.commercialReference },
               { key: "estado", label: "Estado", render: (row) => row.status },
               { key: "accion", label: "Proxima accion", render: (row) => row.nextAction },
               { key: "sentimiento", label: "Sentimiento", render: (row) => <SentimentBadge sentiment={row.sentiment} /> },
-              { key: "prioridad", label: "Prioridad", render: (row) => <PriorityBadge priority={row.priority} /> }
+              { key: "prioridad", label: "Prioridad", render: (row) => <PriorityBadge priority={row.priority} /> },
+              { key: "fecha", label: "Fecha", render: (row) => row.updatedAt }
             ]}
           />
         )}

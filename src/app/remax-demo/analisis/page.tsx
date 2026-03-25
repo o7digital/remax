@@ -97,6 +97,10 @@ export default function AnalisisInteligentePage() {
                   </div>
 
                   <p>{item.note}</p>
+                  <div className="remax-insight-followup">
+                    <span>Proximo seguimiento</span>
+                    <strong>{item.nextFollowUp}</strong>
+                  </div>
 
                   <div className="remax-insight-footer">
                     <small>
@@ -127,7 +131,8 @@ export default function AnalisisInteligentePage() {
                 },
                 { key: "sentimiento", label: "Sentimiento", render: (row) => <SentimentBadge sentiment={row.sentiment} /> },
                 { key: "prioridad", label: "Prioridad", render: (row) => <PriorityBadge priority={row.priority} /> },
-                { key: "accion", label: "Accion sugerida", render: (row) => row.suggestedAction }
+                { key: "accion", label: "Accion sugerida", render: (row) => row.suggestedAction },
+                { key: "seguimiento", label: "Proximo seguimiento", render: (row) => row.nextFollowUp }
               ]}
             />
           </AccessSection>

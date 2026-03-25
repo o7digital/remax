@@ -90,6 +90,7 @@ export interface RemaxSentimentInsight {
   sentiment: RemaxSentimentLabel;
   priority: RemaxPriorityLevel;
   suggestedAction: RemaxSuggestedAction;
+  nextFollowUp: string;
   commercialSignal: string;
 }
 
@@ -104,6 +105,7 @@ export interface RemaxPipelineItem {
   nextAction: string;
   sentiment: RemaxSentimentLabel;
   priority: RemaxPriorityLevel;
+  commercialReference: string;
   updatedAt: string;
 }
 

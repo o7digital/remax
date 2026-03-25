@@ -12,7 +12,7 @@ function isActive(pathname: string, href: string) {
 
 function getFormTabs(pathname: string, step: string | null) {
   if (pathname === "/remax-demo") {
-    return ["Dashboard ejecutivo"];
+    return ["Plataforma ejecutiva"];
   }
 
   if (pathname === "/remax-demo/alta") {

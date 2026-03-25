@@ -309,6 +309,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "positivo",
     priority: "alta",
     suggestedAction: "seguimiento inmediato",
+    nextFollowUp: "Hoy 17:00",
     commercialSignal: "Ventana comercial activa y buena disposicion para avanzar."
   },
   {
@@ -322,6 +323,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "neutro",
     priority: "media",
     suggestedAction: "recontactar en 48h",
+    nextFollowUp: "26/03/2026 · 11:30",
     commercialSignal: "Hay intencion de cierre si se despejan dos puntos operativos."
   },
   {
@@ -335,6 +337,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "sensible / en riesgo",
     priority: "alta",
     suggestedAction: "seguimiento inmediato",
+    nextFollowUp: "Hoy 14:00",
     commercialSignal: "Riesgo comercial elevado por perdida de confianza en el seguimiento."
   },
   {
@@ -348,6 +351,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "sensible / en riesgo",
     priority: "media",
     suggestedAction: "oportunidad fria",
+    nextFollowUp: "29/03/2026 · Revisar reactivacion",
     commercialSignal: "Interes bajo y riesgo de salida si no hay nuevo detonador comercial."
   },
   {
@@ -361,6 +365,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "positivo",
     priority: "media",
     suggestedAction: "recontactar en 48h",
+    nextFollowUp: "26/03/2026 · 09:00",
     commercialSignal: "Buen momento para empujar visibilidad y activar agenda de visitas."
   },
   {
@@ -374,6 +379,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "neutro",
     priority: "baja",
     suggestedAction: "oportunidad fria",
+    nextFollowUp: "05/04/2026 · Seguimiento relacional",
     commercialSignal: "Relacion sana, aunque sin urgencia comercial inmediata."
   },
   {
@@ -386,6 +392,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sentiment: "positivo",
     priority: "alta",
     suggestedAction: "seguimiento inmediato",
+    nextFollowUp: "Hoy 12:30",
     commercialSignal: "Lead caliente con buena velocidad de respuesta y agenda disponible."
   }
 ];
@@ -413,6 +420,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Llamar hoy 16:30 para calificar requerimientos",
     sentiment: "positivo",
     priority: "alta",
+    commercialReference: "Presupuesto MXN 7.2M",
     updatedAt: "2026-03-25"
   },
   {
@@ -426,6 +434,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Confirmar calendario de publicaciones en 48h",
     sentiment: "neutro",
     priority: "media",
+    commercialReference: "Salida MXN 5.8M",
     updatedAt: "2026-03-24"
   },
   {
@@ -438,6 +447,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Cruzar inventario y enviar shortlist comercial",
     sentiment: "positivo",
     priority: "alta",
+    commercialReference: "Renta objetivo MXN 185k",
     updatedAt: "2026-03-24"
   },
   {
@@ -451,6 +461,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Cerrar propietarios y ficha tecnica hoy",
     sentiment: "positivo",
     priority: "alta",
+    commercialReference: "Referencia IBR-OP277",
     updatedAt: "2026-03-24"
   },
   {
@@ -464,6 +475,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Revisar copy y relanzar material visual",
     sentiment: "sensible / en riesgo",
     priority: "media",
+    commercialReference: "Campana activa 12 dias",
     updatedAt: "2026-03-23"
   },
   {
@@ -477,6 +489,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Coordinar acceso, llaves y ruta comercial",
     sentiment: "positivo",
     priority: "alta",
+    commercialReference: "Valor actual MXN 585k",
     updatedAt: "2026-03-22"
   },
   {
@@ -490,6 +503,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Alinear mantenimiento y vigencia antes del viernes",
     sentiment: "sensible / en riesgo",
     priority: "alta",
+    commercialReference: "Renta anual MXN 110k",
     updatedAt: "2026-03-21"
   },
   {
@@ -502,6 +516,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Confirmar minuta y liberar comunicado interno",
     sentiment: "neutro",
     priority: "media",
+    commercialReference: "Ingreso estimado MXN 96k",
     updatedAt: "2026-03-20"
   },
   {
@@ -515,6 +530,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     nextAction: "Cerrar seguimiento y documentar aprendizajes",
     sentiment: "sensible / en riesgo",
     priority: "baja",
+    commercialReference: "Caso archivado",
     updatedAt: "2026-03-24"
   }
 ];
