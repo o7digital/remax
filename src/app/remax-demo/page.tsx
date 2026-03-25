@@ -5,6 +5,13 @@ import { AccessSection } from "@/remax-demo/components/access-section";
 import { PriorityBadge } from "@/remax-demo/components/priority-badge";
 import { SentimentBadge } from "@/remax-demo/components/sentiment-badge";
 import { formatCurrencyMXN } from "@/remax-demo/formatters";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
+import {
+  rt,
+  translateCommunicationType,
+  translatePipelineStage,
+  type RemaxLanguage
+} from "@/remax-demo/i18n";
 import {
   getAllValueHistory,
   getMenuStats,
@@ -84,24 +91,12 @@ interface MobileScreen {
   actions: string[];
 }
 
-function formatShortDate(date: string) {
-  const [year, month, day] = date.split("-");
-  const monthByNumber: Record<string, string> = {
-    "01": "ene",
-    "02": "feb",
-    "03": "mar",
-    "04": "abr",
-    "05": "may",
-    "06": "jun",
-    "07": "jul",
-    "08": "ago",
-    "09": "sep",
-    "10": "oct",
-    "11": "nov",
-    "12": "dic"
-  };
-
-  return `${day} ${monthByNumber[month] ?? month} ${year}`;
+function formatShortDate(date: string, language: RemaxLanguage) {
+  return new Intl.DateTimeFormat(language === "en" ? "en-US" : "es-MX", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(new Date(`${date}T00:00:00`));
 }
 
 function getInitials(name: string) {
@@ -478,7 +473,9 @@ const mobileScreens: MobileScreen[] = [
   }
 ];
 
-export default function RemaxMenuOperacionPage() {
+export default async function RemaxMenuOperacionPage() {
+  const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const menuStats = getMenuStats();
   const pipelineSummary = getPipelineSummary();
   const pipelineItems = getPipelineItems();
@@ -642,16 +639,22 @@ export default function RemaxMenuOperacionPage() {
   const recentActivities = [
     ...remaxDemoCommunications.map((item) => ({
       date: item.fecha,
-      category: `Comunicado ${item.tipo}`,
-      title: item.asunto.replace("COMUNICADO INTERNO: ", "").replace(/\.$/, ""),
-      detail: item.resumen,
+      category:
+        language === "en"
+          ? `${translateCommunicationType(language, item.tipo)} communication`
+          : `Comunicado ${item.tipo}`,
+      title: `${translateCommunicationType(language, item.tipo)} · ${item.propiedadClave}`,
+      detail:
+        language === "en"
+          ? `${item.destinatarios.length} recipients · ${item.remitente}`
+          : `${item.destinatarios.length} destinatarios · ${item.remitente}`,
       href: `/remax-demo/comunicados?comunicado=${item.id}`
     })),
     ...valueHistory.map((item) => ({
       date: item.fecha,
-      category: "Actualizacion de valor",
-      title: `${item.propiedadClave} · ${item.motivoCambio}`,
-      detail: `${formatCurrencyMXN(item.valor)} · ${item.usuario}`,
+      category: t("Actualizacion de valor"),
+      title: `${item.propiedadClave} · ${t(item.motivoCambio)}`,
+      detail: `${formatCurrencyMXN(item.valor, language)} · ${item.usuario}`,
       href: `/remax-demo/valores?propiedad=${item.propiedadClave}`
     }))
   ]
@@ -662,63 +665,59 @@ export default function RemaxMenuOperacionPage() {
     <div className="remax-page-stack">
       <section className="remax-premium-hero">
         <div className="remax-premium-hero-copy">
-          <p className="remax-hero-kicker">RE/MAX ACTIVA | PLATAFORMA OPERATIVA INMOBILIARIA</p>
-          <h1>RE/MAX Activa | Plataforma Operativa Inmobiliaria</h1>
-          <p className="remax-hero-description">
-            Sistema inmobiliario moderno desarrollado en Astro para centralizar la operacion comercial,
-            administrativa y ejecutiva de una oficina inmobiliaria en una sola plataforma mas clara, rapida y
-            escalable.
-          </p>
+          <p className="remax-hero-kicker">{t("REMAX ACTIVA | PLATAFORMA OPERATIVA INMOBILIARIA")}</p>
+          <h1>{t("REMAX Activa | Plataforma Operativa Inmobiliaria")}</h1>
+          <p className="remax-hero-description">{t("Sistema inmobiliario moderno desarrollado en Astro para centralizar la operacion comercial, administrativa y ejecutiva de una oficina inmobiliaria en una sola plataforma mas clara, rapida y escalable.")}</p>
 
           <div className="remax-hero-actions">
             <Link href="/remax-demo/pipeline" className="button">
-              Ver pipeline operativo
+              {t("Ver pipeline operativo")}
             </Link>
             <Link href="/remax-demo/analisis" className="button button-secondary">
-              Abrir analisis inteligente
+              {t("Abrir analisis inteligente")}
             </Link>
             <Link href="/remax-demo#roadmap-producto" className="button button-secondary">
-              Ver roadmap movil
+              {t("Ver roadmap movil")}
             </Link>
           </div>
 
           <div className="remax-hero-benefits">
-            <span>Astro, Supabase y Railway</span>
-            <span>Gestion centralizada de propiedades, asesores, propietarios, visitas y cierres</span>
-            <span>Plataforma disenada para la operacion inmobiliaria real</span>
+            <span>{t("Astro, Supabase y Railway")}</span>
+            <span>{t("Gestion centralizada de propiedades, asesores, propietarios, visitas y cierres")}</span>
+            <span>{t("Plataforma disenada para la operacion inmobiliaria real")}</span>
           </div>
         </div>
 
         <aside className="remax-executive-panel">
           <div className="remax-executive-topline">
-            <span>Vista ejecutiva</span>
-            <strong>Direccion, administracion y coordinacion comercial</strong>
+            <span>{t("Vista ejecutiva")}</span>
+            <strong>{t("Direccion, administracion y coordinacion comercial")}</strong>
             <p className="remax-executive-caption">
-              Lectura sintetica del inventario, actividad, prioridades y capacidad de cierre desde una sola vista.
+              {t("Lectura sintetica del inventario, actividad, prioridades y capacidad de cierre desde una sola vista.")}
             </p>
           </div>
           <div className="remax-executive-grid">
             <article className="remax-executive-item">
-              <span>Pipeline activo</span>
+              <span>{t("Pipeline activo")}</span>
               <strong>{pipelineSummary.active}</strong>
-              <p>Oportunidades visibles entre lead, visitas, negociacion y cierre.</p>
+              <p>{t("Oportunidades visibles entre lead, visitas, negociacion y cierre.")}</p>
             </article>
             <article className="remax-executive-item">
-              <span>Alertas de seguimiento</span>
+              <span>{t("Alertas de seguimiento")}</span>
               <strong>{sentimentSummary.highPriority}</strong>
-              <p>Casos con prioridad alta detectados por la capa inteligente.</p>
+              <p>{t("Casos con prioridad alta detectados por la capa inteligente.")}</p>
             </article>
             <article className="remax-executive-item">
-              <span>Cierres pendientes</span>
+              <span>{t("Cierres pendientes")}</span>
               <strong>{pendingClosures.length}</strong>
-              <p>Operaciones en negociacion o cierre con accion inmediata.</p>
+              <p>{t("Operaciones en negociacion o cierre con accion inmediata.")}</p>
             </article>
             <article className="remax-executive-item">
-              <span>Estado del equipo</span>
+              <span>{t("Estado del equipo")}</span>
               <strong>
                 {menuStats.advisorsA}A / {menuStats.advisorsM}M
               </strong>
-              <p>Equipo comercial activo con soporte administrativo y recepcion.</p>
+              <p>{t("Equipo comercial activo con soporte administrativo y recepcion.")}</p>
             </article>
           </div>
         </aside>
@@ -727,59 +726,60 @@ export default function RemaxMenuOperacionPage() {
       <div className="remax-kpi-grid">
         {kpis.map((kpi) => (
           <article key={kpi.label} className="remax-kpi-card">
-            <span>{kpi.label}</span>
+            <span>{t(kpi.label)}</span>
             <strong>{kpi.value}</strong>
-            <p>{kpi.note}</p>
+            <p>{t(kpi.note)}</p>
           </article>
         ))}
       </div>
 
       <div className="remax-benefit-strip">
         {benefitStrip.map((item) => (
-          <span key={item}>{item}</span>
+          <span key={item}>{t(item)}</span>
         ))}
       </div>
 
-      <AccessSection title="Por que esta plataforma" accent="blue">
+      <AccessSection title={t("Por que esta plataforma")} accent="blue">
         <div className="remax-benefits-grid">
           {benefitCards.map((benefit) => (
             <article key={benefit.title} className="remax-benefit-card">
               <span className="remax-benefit-icon">{benefit.icon}</span>
-              <strong>{benefit.title}</strong>
-              <p>{benefit.copy}</p>
+              <strong>{t(benefit.title)}</strong>
+              <p>{t(benefit.copy)}</p>
             </article>
           ))}
         </div>
       </AccessSection>
 
       <AccessSection
-        title="Plataforma ejecutiva"
+        title={t("Plataforma ejecutiva")}
         accent="red"
-        action={<span className="remax-section-badge">Direccion y coordinacion</span>}
+        action={<span className="remax-section-badge">{language === "en" ? "Leadership & coordination" : "Direccion y coordinacion"}</span>}
       >
         <div className="remax-executive-command">
           <div className="remax-executive-command-header">
             <div className="remax-executive-command-copy">
-              <span>Plataforma ejecutiva</span>
-              <strong>Lectura de direccion para supervisar inventario, procesos abiertos, actividad comercial y seguimiento prioritario desde una sola vista.</strong>
-              <p>
-                Un cockpit de pilotaje inmobiliario con foco en operacion, ritmo comercial, alertas y capacidad de
-                respuesta del equipo.
-              </p>
+              <span>{t("Plataforma ejecutiva")}</span>
+              <strong>
+                {language === "en"
+                  ? "Leadership view to supervise inventory, open processes, commercial activity and priority follow-up from a single screen."
+                  : "Lectura de direccion para supervisar inventario, procesos abiertos, actividad comercial y seguimiento prioritario desde una sola vista."}
+              </strong>
+              <p>{t("Un cockpit de pilotaje inmobiliario con foco en operacion, ritmo comercial, alertas y capacidad de respuesta del equipo.")}</p>
             </div>
             <div className="remax-executive-command-status">
-              <span>Corte operativo</span>
-              <strong>25 de marzo de 2026</strong>
-              <p>Operacion estable con actividad comercial alta, seguimiento prioritario visible y cierres por destrabar.</p>
+              <span>{t("Corte operativo")}</span>
+              <strong>{t("25 de marzo de 2026")}</strong>
+              <p>{t("Operacion estable con actividad comercial alta, seguimiento prioritario visible y cierres por destrabar.")}</p>
             </div>
           </div>
 
           <div className="remax-executive-kpi-grid">
             {executiveKpis.map((kpi) => (
               <article key={kpi.label} className="remax-executive-kpi">
-                <span>{kpi.label}</span>
+                <span>{t(kpi.label)}</span>
                 <strong>{kpi.value}</strong>
-                <p>{kpi.note}</p>
+                <p>{t(kpi.note)}</p>
               </article>
             ))}
           </div>
@@ -787,15 +787,15 @@ export default function RemaxMenuOperacionPage() {
           <div className="remax-executive-command-grid">
             <article className="remax-command-card">
               <div className="remax-command-card-header">
-                <span>Estado general del inventario</span>
-                <strong>{totalProperties} propiedades monitoreadas</strong>
+                <span>{language === "en" ? "Inventory overview" : "Estado general del inventario"}</span>
+                <strong>{language === "en" ? `${totalProperties} properties monitored` : `${totalProperties} propiedades monitoreadas`}</strong>
               </div>
               <div className="remax-inventory-stack">
                 {inventoryMix.map((item) => (
                   <div key={item.label} className="remax-inventory-row">
                     <div className="remax-inventory-copy">
-                      <strong>{item.label}</strong>
-                      <span>{item.total} propiedades</span>
+                      <strong>{t(item.label)}</strong>
+                      <span>{language === "en" ? `${item.total} properties` : `${item.total} propiedades`}</span>
                     </div>
                     <div className={`remax-inventory-meter remax-inventory-meter-${item.tone}`}>
                       <span style={{ width: `${item.share}%` }} />
@@ -808,21 +808,21 @@ export default function RemaxMenuOperacionPage() {
 
             <article className="remax-command-card">
               <div className="remax-command-card-header">
-                <span>Procesos criticos del dia</span>
-                <strong>{openProcesses.length} frentes abiertos</strong>
+                <span>{t("Procesos criticos del dia")}</span>
+                <strong>{language === "en" ? `${openProcesses.length} active workstreams` : `${openProcesses.length} frentes abiertos`}</strong>
               </div>
               <div className="remax-executive-process-list">
                 {openProcesses.map((process) => (
                   <Link key={`${process.type}-${process.property}`} href={process.href} className="remax-executive-process-card">
                     <div className="remax-executive-process-topline">
-                      <span>{process.type}</span>
-                      <PriorityBadge priority={process.priority} />
+                      <span>{t(process.type)}</span>
+                      <PriorityBadge priority={process.priority} language={language} />
                     </div>
                     <strong>{process.property}</strong>
-                    <p>{process.stage}</p>
+                    <p>{t(process.stage)}</p>
                     <div className="remax-executive-process-next">
-                      <span>Proxima accion</span>
-                      <strong>{process.nextAction}</strong>
+                      <span>{language === "en" ? "Next action" : "Proxima accion"}</span>
+                      <strong>{t(process.nextAction)}</strong>
                     </div>
                     <div className="remax-executive-process-owners">
                       <div className="remax-owner-avatar-row">
@@ -841,54 +841,61 @@ export default function RemaxMenuOperacionPage() {
 
             <article className="remax-command-card">
               <div className="remax-command-card-header">
-                <span>Resumen del pipeline comercial</span>
-                <strong>{pipelineSummary.total} oportunidades activas y monitorizadas</strong>
+                <span>{t("Resumen del pipeline comercial")}</span>
+                <strong>{language === "en" ? `${pipelineSummary.total} active and monitored opportunities` : `${pipelineSummary.total} oportunidades activas y monitorizadas`}</strong>
               </div>
               <div className="remax-stage-overview remax-stage-overview-dense">
                 {stageOverview.map((item) => (
                   <div key={item.stage} className="remax-stage-row">
-                    <span>{item.stage}</span>
+                    <span>{translatePipelineStage(language, item.stage)}</span>
                     <strong>{item.total}</strong>
                   </div>
                 ))}
               </div>
               <div className="remax-pipeline-summary-cards">
                 <div className="remax-pipeline-summary-card">
-                  <span>Oportunidades calientes</span>
+                  <span>{language === "en" ? "Hot opportunities" : "Oportunidades calientes"}</span>
                   <strong>{hotOpportunities}</strong>
                 </div>
                 <div className="remax-pipeline-summary-card">
-                  <span>Seguimientos urgentes</span>
+                  <span>{language === "en" ? "Urgent follow-ups" : "Seguimientos urgentes"}</span>
                   <strong>{urgentFollowUps}</strong>
                 </div>
                 <div className="remax-pipeline-summary-card">
-                  <span>Probabilidad de cierre</span>
+                  <span>{language === "en" ? "Closing probability" : "Probabilidad de cierre"}</span>
                   <strong>{closeProbability}%</strong>
                 </div>
               </div>
               <div className="remax-inline-actions">
                 <Link href="/remax-demo/pipeline?view=kanban" className="button button-secondary">
-                  Ver Kanban
+                  {t("Ver Kanban")}
                 </Link>
                 <Link href="/remax-demo/pipeline?view=list" className="button button-secondary">
-                  Ver Lista
+                  {t("Ver Lista")}
                 </Link>
               </div>
             </article>
 
             <article className="remax-command-card">
               <div className="remax-command-card-header">
-                <span>Alertas y seguimiento prioritario</span>
-                <strong>Alertas ejecutivas</strong>
+                <span>{t("Alertas y seguimiento prioritario")}</span>
+                <strong>{t("Alertas ejecutivas")}</strong>
               </div>
               <div className="remax-alert-list">
                 {executiveAlerts.map((alert) => (
                   <Link key={alert.title} href={alert.href} className="remax-alert-card">
                     <div className="remax-alert-card-topline">
-                      <strong>{alert.title}</strong>
-                      <PriorityBadge priority={alert.priority} />
+                      <strong>{t(alert.title)}</strong>
+                      <PriorityBadge priority={alert.priority} language={language} />
                     </div>
-                    <p>{alert.detail}</p>
+                    <p>{language === "en"
+                      ? alert.detail
+                          .replace("requiere ajuste comercial y contacto puntual.", "requires commercial adjustment and timely contact.")
+                          .replace("necesita confirmacion de salida y comunicado final.", "needs offboarding confirmation and final communication.")
+                          .replace("avanza a cierre y debe pasar a circuito administrativo.", "is moving toward closing and should enter the administrative circuit.")
+                          .replace("necesita recontacto antes del final del dia.", "needs to be recontacted before the end of the day.")
+                          .replace("sigue en visitas y requiere feedback comercial inmediato.", "remains in visits and needs immediate commercial feedback.")
+                      : alert.detail}</p>
                   </Link>
                 ))}
               </div>
@@ -896,7 +903,7 @@ export default function RemaxMenuOperacionPage() {
           </div>
 
           <p className="remax-executive-closing">
-            Disenada para direccion, coordinacion y control comercial con una lectura mas clara, rapida y accionable.
+            {t("Disenada para direccion, coordinacion y control comercial con una lectura mas clara, rapida y accionable.")}
           </p>
         </div>
       </AccessSection>
@@ -905,30 +912,30 @@ export default function RemaxMenuOperacionPage() {
         {dashboardSections.map((section) => (
           <AccessSection
             key={section.title}
-            title={section.title}
+            title={t(section.title)}
             accent={section.accent}
-            action={<span className="remax-section-badge">{section.cards.length} modulos</span>}
+            action={<span className="remax-section-badge">{language === "en" ? `${section.cards.length} modules` : `${section.cards.length} modulos`}</span>}
           >
-            <p className="remax-section-copy">{section.description}</p>
+            <p className="remax-section-copy">{t(section.description)}</p>
             <div className="remax-action-grid">
               {section.cards.map((card) => (
                 <Link key={card.title} href={card.href} className={`remax-action-card remax-action-card-${card.tone}`}>
                   <div className="remax-action-header">
                     <span className="remax-action-icon">{card.icon}</span>
                     <div className="remax-action-topline">
-                      <span>{card.note}</span>
-                      <strong>{card.title}</strong>
+                      <span>{t(card.note)}</span>
+                      <strong>{t(card.title)}</strong>
                     </div>
                   </div>
-                  <p>{card.description}</p>
+                  <p>{t(card.description)}</p>
                   <div className="remax-action-pills">
                     {card.pills.map((pill) => (
                       <span key={pill} className="remax-action-pill">
-                        {pill}
+                        {t(pill)}
                       </span>
                     ))}
                   </div>
-                  <span className="remax-action-cta">{card.cta}</span>
+                  <span className="remax-action-cta">{t(card.cta)}</span>
                 </Link>
               ))}
             </div>
@@ -936,21 +943,22 @@ export default function RemaxMenuOperacionPage() {
         ))}
       </div>
 
-      <AccessSection title="Capa comercial avanzada" accent="gold">
+      <AccessSection title={t("Capa comercial avanzada")} accent="gold">
         <p className="remax-section-copy">
-          Dos diferenciadores para convertir la plataforma en una herramienta de direccion comercial: una capa
-          inteligente con Hugging Face y un pipeline operativo con lectura visual tipo CRM inmobiliario.
+          {language === "en"
+            ? "Two differentiators turn the platform into a commercial leadership tool: an intelligent layer with Hugging Face and an operational pipeline with a visual CRM-style reading."
+            : "Dos diferenciadores para convertir la plataforma en una herramienta de direccion comercial: una capa inteligente con Hugging Face y un pipeline operativo con lectura visual tipo CRM inmobiliario."}
         </p>
         <div className="remax-advanced-grid">
           <article className="remax-feature-panel">
             <div className="remax-feature-panel-header">
               <span className="remax-feature-icon">IA</span>
               <div>
-                <strong>Analisis inteligente</strong>
+                <strong>{t("Analisis inteligente")}</strong>
                 <p>
-                  Clasificacion asistida con Hugging Face para leer notas de asesores, comentarios de clientes y
-                  senales comerciales con el fin de priorizar seguimientos, detectar oportunidades sensibles y mejorar
-                  la toma de decision comercial.
+                  {language === "en"
+                    ? "Hugging Face assisted classification reads agent notes, client comments and commercial signals to prioritize follow-ups, detect sensitive opportunities and improve commercial decision-making."
+                    : "Clasificacion asistida con Hugging Face para leer notas de asesores, comentarios de clientes y senales comerciales con el fin de priorizar seguimientos, detectar oportunidades sensibles y mejorar la toma de decision comercial."}
                 </p>
               </div>
             </div>
@@ -964,8 +972,8 @@ export default function RemaxMenuOperacionPage() {
                   </div>
                   <p>{item.note}</p>
                   <div className="remax-feature-preview-badges">
-                    <SentimentBadge sentiment={item.sentiment} />
-                    <PriorityBadge priority={item.priority} />
+                    <SentimentBadge sentiment={item.sentiment} language={language} />
+                    <PriorityBadge priority={item.priority} language={language} />
                     <span className="remax-recommendation-pill">{item.suggestedAction}</span>
                   </div>
                 </Link>
@@ -974,9 +982,11 @@ export default function RemaxMenuOperacionPage() {
 
             <div className="remax-feature-footer">
               <small>
-                Prioridad alta: {sentimentPriority.alta} · Media: {sentimentPriority.media} · Baja: {sentimentPriority.baja}
+                {language === "en"
+                  ? `High priority: ${sentimentPriority.alta} · Medium: ${sentimentPriority.media} · Low: ${sentimentPriority.baja}`
+                  : `Prioridad alta: ${sentimentPriority.alta} · Media: ${sentimentPriority.media} · Baja: ${sentimentPriority.baja}`}
               </small>
-              <Link href="/remax-demo/analisis">Abrir analisis inteligente</Link>
+              <Link href="/remax-demo/analisis">{t("Abrir analisis inteligente")}</Link>
             </div>
           </article>
 
@@ -984,10 +994,11 @@ export default function RemaxMenuOperacionPage() {
             <div className="remax-feature-panel-header">
               <span className="remax-feature-icon">KAN</span>
               <div>
-                <strong>Pipeline operativo</strong>
+                <strong>{t("Pipeline operativo")}</strong>
                 <p>
-                  Vista Kanban y Lista para seguir leads, altas, publicaciones, visitas, negociacion, cierre y
-                  cancelacion con proxima accion, sentimiento, prioridad y referencia comercial visibles.
+                  {language === "en"
+                    ? "Kanban and List views to track leads, onboarding, publishing, visits, negotiation, closing and cancellation with visible next action, sentiment, priority and commercial reference."
+                    : "Vista Kanban y Lista para seguir leads, altas, publicaciones, visitas, negociacion, cierre y cancelacion con proxima accion, sentimiento, prioridad y referencia comercial visibles."}
                 </p>
               </div>
             </div>
@@ -997,12 +1008,12 @@ export default function RemaxMenuOperacionPage() {
                 <Link key={item.id} href="/remax-demo/pipeline" className="remax-mini-board-card">
                   <div className="remax-feature-preview-topline">
                     <strong>{item.itemLabel}</strong>
-                    <span>{item.stage}</span>
+                    <span>{translatePipelineStage(language, item.stage)}</span>
                   </div>
                   <p>{item.nextAction}</p>
                   <div className="remax-feature-preview-badges">
-                    <SentimentBadge sentiment={item.sentiment} />
-                    <PriorityBadge priority={item.priority} />
+                    <SentimentBadge sentiment={item.sentiment} language={language} />
+                    <PriorityBadge priority={item.priority} language={language} />
                   </div>
                   <small>{item.commercialReference}</small>
                 </Link>
@@ -1011,91 +1022,94 @@ export default function RemaxMenuOperacionPage() {
 
             <div className="remax-feature-footer">
               <small>
-                Pipeline activo: {pipelineSummary.active} · Casos sensibles: {pipelineSummary.risk} · Vista Kanban + Lista
+                {language === "en"
+                  ? `Active pipeline: ${pipelineSummary.active} · At-risk cases: ${pipelineSummary.risk} · Kanban + List view`
+                  : `Pipeline activo: ${pipelineSummary.active} · Casos sensibles: ${pipelineSummary.risk} · Vista Kanban + Lista`}
               </small>
-              <Link href="/remax-demo/pipeline">Ver pipeline operativo</Link>
+              <Link href="/remax-demo/pipeline">{t("Ver pipeline operativo")}</Link>
             </div>
           </article>
         </div>
       </AccessSection>
 
-      <AccessSection title="Hoja de ruta del producto" accent="blue">
+      <AccessSection title={t("Hoja de ruta del producto")} accent="blue">
         <div className="remax-roadmap-grid">
           <article className="remax-context-card remax-roadmap-card">
-            <span>Etapa 1</span>
-            <strong>Plataforma Web Operativa</strong>
+            <span>{language === "en" ? "Stage 1" : "Etapa 1"}</span>
+            <strong>{language === "en" ? "Web Operations Platform" : "Plataforma Web Operativa"}</strong>
             <p>
-              Pensada para direccion, administracion, coordinacion comercial y operacion interna. Esta etapa
-              centraliza la gestion de propiedades, propietarios, asesores, visitas, cierres, cancelaciones,
-              comisiones y control operativo en una interfaz web moderna, clara y escalable.
+              {language === "en"
+                ? "Designed for leadership, administration, commercial coordination and internal operations. This stage centralizes properties, owners, agents, visits, closings, cancellations, commissions and operational control in a modern, clear and scalable web interface."
+                : "Pensada para direccion, administracion, coordinacion comercial y operacion interna. Esta etapa centraliza la gestion de propiedades, propietarios, asesores, visitas, cierres, cancelaciones, comisiones y control operativo en una interfaz web moderna, clara y escalable."}
             </p>
             <ul className="remax-feature-list">
-              <li>Gestion centralizada</li>
-              <li>Flujo operativo mas claro</li>
-              <li>Mayor control administrativo</li>
-              <li>Base lista para crecimiento futuro</li>
+              <li>{t("Gestion centralizada")}</li>
+              <li>{language === "en" ? "Clearer operating flow" : "Flujo operativo mas claro"}</li>
+              <li>{language === "en" ? "Stronger administrative control" : "Mayor control administrativo"}</li>
+              <li>{language === "en" ? "Foundation ready for future growth" : "Base lista para crecimiento futuro"}</li>
             </ul>
           </article>
 
           <article className="remax-context-card remax-roadmap-card">
-            <span>Etapa 2</span>
-            <strong>App movil para asesores en campo</strong>
+            <span>{language === "en" ? "Stage 2" : "Etapa 2"}</span>
+            <strong>{language === "en" ? "Mobile App for Field Agents" : "App movil para asesores en campo"}</strong>
             <p>
-              Evolucion natural de la plataforma hacia una experiencia movil para iPhone y Android, conectada a la
-              misma base operativa para consulta, seguimiento, visitas, comunicacion y actualizacion rapida de
-              operaciones en campo.
+              {language === "en"
+                ? "Natural evolution of the platform toward a mobile experience for iPhone and Android, connected to the same operating base for lookup, follow-up, visits, communication and rapid field updates."
+                : "Evolucion natural de la plataforma hacia una experiencia movil para iPhone y Android, conectada a la misma base operativa para consulta, seguimiento, visitas, comunicacion y actualizacion rapida de operaciones en campo."}
             </p>
             <ul className="remax-feature-list">
-              <li>Dashboard del asesor</li>
-              <li>Agenda de visitas</li>
-              <li>Ficha de propiedad</li>
-              <li>Seguimiento de prospectos</li>
-              <li>Registro rapido de visitas</li>
-              <li>Llamada, WhatsApp y ubicacion</li>
-              <li>Carga de fotos y notas</li>
-              <li>Recordatorios y notificaciones</li>
+              <li>{t("Dashboard del asesor")}</li>
+              <li>{t("Agenda de visitas")}</li>
+              <li>{t("Ficha de propiedad")}</li>
+              <li>{language === "en" ? "Prospect follow-up" : "Seguimiento de prospectos"}</li>
+              <li>{language === "en" ? "Quick visit logging" : "Registro rapido de visitas"}</li>
+              <li>{language === "en" ? "Call, WhatsApp and location" : "Llamada, WhatsApp y ubicacion"}</li>
+              <li>{language === "en" ? "Photo and notes upload" : "Carga de fotos y notas"}</li>
+              <li>{language === "en" ? "Reminders and notifications" : "Recordatorios y notificaciones"}</li>
             </ul>
           </article>
         </div>
 
         <div className="remax-roadmap-summary">
-          <span>Subtexto final</span>
-          <strong>Una sola plataforma, dos niveles de uso</strong>
+          <span>{language === "en" ? "Final note" : "Subtexto final"}</span>
+          <strong>{language === "en" ? "One platform, two usage layers" : "Una sola plataforma, dos niveles de uso"}</strong>
           <ol className="remax-roadmap-list">
-            <li>Operacion web para administracion y control</li>
-            <li>Experiencia movil para productividad comercial en campo</li>
+            <li>{language === "en" ? "Web operations for administration and control" : "Operacion web para administracion y control"}</li>
+            <li>{language === "en" ? "Mobile experience for field commercial productivity" : "Experiencia movil para productividad comercial en campo"}</li>
           </ol>
         </div>
       </AccessSection>
 
       <div id="roadmap-producto">
         <AccessSection
-          title="Etapa 2 — App movil para asesores en campo"
+          title={t("Etapa 2 — App movil para asesores en campo")}
           accent="gold"
-          action={<span className="remax-section-badge">iPhone y Android via wrapper</span>}
+          action={<span className="remax-section-badge">{language === "en" ? "iPhone and Android via wrapper" : "iPhone y Android via wrapper"}</span>}
         >
           <div className="remax-mobile-stage">
             <div className="remax-mobile-stage-copy">
-              <span>Productividad comercial movil</span>
-              <strong>Version movil enfocada en productividad comercial para asesores fuera de oficina.</strong>
+              <span>{language === "en" ? "Mobile commercial productivity" : "Productividad comercial movil"}</span>
+              <strong>{language === "en" ? "Mobile version focused on commercial productivity for agents outside the office." : "Version movil enfocada en productividad comercial para asesores fuera de oficina."}</strong>
               <p>
-                Disenada para iPhone y Android mediante wrapper, conectada a la misma base operativa para consulta,
-                seguimiento, visitas, comunicacion y actualizacion rapida de operaciones en campo.
+                {language === "en"
+                  ? "Designed for iPhone and Android through a wrapper, connected to the same operating base for lookup, follow-up, visits, communication and rapid field updates."
+                  : "Disenada para iPhone y Android mediante wrapper, conectada a la misma base operativa para consulta, seguimiento, visitas, comunicacion y actualizacion rapida de operaciones en campo."}
               </p>
 
               <div className="remax-mobile-stage-summary">
-                <span>Una sola plataforma, dos niveles de uso</span>
+                <span>{language === "en" ? "One platform, two usage layers" : "Una sola plataforma, dos niveles de uso"}</span>
                 <ol className="remax-roadmap-list">
-                  <li>Operacion web para administracion y control</li>
-                  <li>Experiencia movil para productividad comercial en campo</li>
+                  <li>{language === "en" ? "Web operations for administration and control" : "Operacion web para administracion y control"}</li>
+                  <li>{language === "en" ? "Mobile experience for field commercial productivity" : "Experiencia movil para productividad comercial en campo"}</li>
                 </ol>
               </div>
 
               <div className="remax-mobile-stage-pills">
-                <span>Consulta rapida</span>
-                <span>Seguimiento comercial</span>
-                <span>Visitas y ubicacion</span>
-                <span>Operacion desde el telefono</span>
+                <span>{language === "en" ? "Fast lookup" : "Consulta rapida"}</span>
+                <span>{language === "en" ? "Commercial follow-up" : "Seguimiento comercial"}</span>
+                <span>{language === "en" ? "Visits and location" : "Visitas y ubicacion"}</span>
+                <span>{language === "en" ? "Operations from the phone" : "Operacion desde el telefono"}</span>
               </div>
             </div>
 
@@ -1111,14 +1125,14 @@ export default function RemaxMenuOperacionPage() {
                       </div>
 
                       <div className="remax-phone-topline">
-                        <span>{screen.title}</span>
-                        <strong>{screen.subtitle}</strong>
+                        <span>{t(screen.title)}</span>
+                        <strong>{t(screen.subtitle)}</strong>
                       </div>
 
                       {screen.style === "dashboard" ? (
                         <div className="remax-phone-hero-card">
-                          <strong>Jornada comercial en curso</strong>
-                          <p>{screen.note}</p>
+                          <strong>{language === "en" ? "Commercial day in progress" : "Jornada comercial en curso"}</strong>
+                          <p>{screen.note ? t(screen.note) : null}</p>
                         </div>
                       ) : null}
 
@@ -1126,7 +1140,7 @@ export default function RemaxMenuOperacionPage() {
                         <div className="remax-phone-kpi-grid">
                           {screen.kpis.map((kpi) => (
                             <div key={kpi.label} className="remax-phone-kpi">
-                              <span>{kpi.label}</span>
+                              <span>{t(kpi.label)}</span>
                               <strong>{kpi.value}</strong>
                             </div>
                           ))}
@@ -1143,7 +1157,7 @@ export default function RemaxMenuOperacionPage() {
                               </div>
                               <div>
                                 <span>{visit.property}</span>
-                                <strong>{visit.status}</strong>
+                                <strong>{t(visit.status)}</strong>
                               </div>
                             </div>
                           ))}
@@ -1152,39 +1166,39 @@ export default function RemaxMenuOperacionPage() {
 
                       {screen.style === "agenda" ? (
                         <div className="remax-phone-route-card">
-                          <span>Ruta activa</span>
-                          <strong>Zona poniente lista para cobertura</strong>
+                          <span>{language === "en" ? "Active route" : "Ruta activa"}</span>
+                          <strong>{language === "en" ? "West zone ready for coverage" : "Zona poniente lista para cobertura"}</strong>
                         </div>
                       ) : null}
 
-                      {screen.style === "property" ? <div className="remax-phone-photo">Residencial poniente</div> : null}
+                      {screen.style === "property" ? <div className="remax-phone-photo">{language === "en" ? "West side residence" : "Residencial poniente"}</div> : null}
 
                       {screen.details ? (
                         <div className="remax-phone-detail-stack">
                           {screen.details.map((detail) => (
                             <div key={detail.label} className="remax-phone-detail-card">
-                              <span>{detail.label}</span>
-                              <strong>{detail.value}</strong>
+                              <span>{t(detail.label)}</span>
+                              <strong>{t(detail.value)}</strong>
                             </div>
                           ))}
                         </div>
                       ) : null}
 
-                      {screen.note ? <div className="remax-phone-note">{screen.note}</div> : null}
+                      {screen.note ? <div className="remax-phone-note">{t(screen.note)}</div> : null}
 
                       <div className="remax-phone-actions">
                         {screen.actions.map((action) => (
                           <span key={action} className="remax-phone-action">
-                            {action}
+                            {t(action)}
                           </span>
                         ))}
                       </div>
 
                       <div className="remax-phone-bottomnav">
-                        <span className="active">Inicio</span>
-                        <span>Agenda</span>
-                        <span>Prospectos</span>
-                        <span>Mas</span>
+                        <span className="active">{language === "en" ? "Home" : "Inicio"}</span>
+                        <span>{language === "en" ? "Agenda" : "Agenda"}</span>
+                        <span>{language === "en" ? "Prospects" : "Prospectos"}</span>
+                        <span>{language === "en" ? "More" : "Mas"}</span>
                       </div>
                     </div>
                   </div>
@@ -1194,13 +1208,13 @@ export default function RemaxMenuOperacionPage() {
           </div>
 
           <p className="remax-mobile-footnote">
-            Pensado para asesores en movimiento: visitas, seguimiento, contacto y operacion rapida desde el telefono.
+            {t("Pensado para asesores en movimiento: visitas, seguimiento, contacto y operacion rapida desde el telefono.")}
           </p>
         </AccessSection>
       </div>
 
       <div className="remax-dashboard-lower">
-        <AccessSection title="Actividad reciente" accent="blue">
+        <AccessSection title={t("Actividad reciente")} accent="blue">
           <div className="remax-activity-list">
             {recentActivities.map((item) => (
               <Link
@@ -1212,7 +1226,7 @@ export default function RemaxMenuOperacionPage() {
                   <span className={`remax-activity-tag remax-activity-tag-${getActivityTone(item.category)}`}>
                     {item.category}
                   </span>
-                  <time>{formatShortDate(item.date)}</time>
+                  <time>{formatShortDate(item.date, language)}</time>
                 </div>
                 <div className="remax-activity-meta">
                   <strong>{item.title}</strong>
@@ -1224,19 +1238,19 @@ export default function RemaxMenuOperacionPage() {
         </AccessSection>
 
         <div className="remax-dashboard-side">
-          <AccessSection title="Procesos abiertos" accent="red">
+          <AccessSection title={t("Procesos abiertos")} accent="red">
             <div className="remax-process-list">
               {openProcesses.map((process) => (
                 <Link key={`${process.type}-${process.property}`} href={process.href} className="remax-process-card">
                   <div className="remax-process-topline">
-                    <span>{process.type}</span>
-                    <PriorityBadge priority={process.priority} />
+                    <span>{t(process.type)}</span>
+                    <PriorityBadge priority={process.priority} language={language} />
                   </div>
                   <strong>{process.property}</strong>
-                  <p>{process.stage}</p>
+                  <p>{t(process.stage)}</p>
                   <div className="remax-process-next">
-                    <span>Proxima accion</span>
-                    <strong>{process.nextAction}</strong>
+                    <span>{language === "en" ? "Next action" : "Proxima accion"}</span>
+                    <strong>{t(process.nextAction)}</strong>
                   </div>
                   <div className="remax-process-meta">
                     <div className="remax-process-owners">
@@ -1249,23 +1263,23 @@ export default function RemaxMenuOperacionPage() {
                       </div>
                       <small>{process.owners.join(" · ")}</small>
                     </div>
-                    <em>{process.status}</em>
+                    <em>{t(process.status)}</em>
                   </div>
                 </Link>
               ))}
             </div>
           </AccessSection>
 
-          <AccessSection title="Acciones rapidas" accent="gold">
+          <AccessSection title={t("Acciones rapidas")} accent="gold">
             <div className="remax-quick-actions">
               {quickActions.map((action) => (
                 <Link key={action.title} href={action.href} className="remax-quick-action">
                   <div className="remax-quick-action-topline">
                     <span className="remax-action-icon">{action.icon}</span>
-                    <span className="remax-quick-action-tag">{action.tag}</span>
+                    <span className="remax-quick-action-tag">{t(action.tag)}</span>
                   </div>
-                  <strong>{action.title}</strong>
-                  <p>{action.description}</p>
+                  <strong>{t(action.title)}</strong>
+                  <p>{t(action.description)}</p>
                 </Link>
               ))}
             </div>

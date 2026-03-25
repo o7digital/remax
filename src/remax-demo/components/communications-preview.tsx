@@ -1,5 +1,9 @@
 import { StatusBadge } from "@/components/status-badge";
 import { formatDateLong, formatPropertyAddress } from "@/remax-demo/formatters";
+import {
+  translateCommunicationStatus,
+  type RemaxLanguage
+} from "@/remax-demo/i18n";
 import type { RemaxCommunication, RemaxProperty } from "@/remax-demo/types";
 
 function getTone(status: RemaxCommunication["estado"]) {
@@ -12,32 +16,34 @@ function getTone(status: RemaxCommunication["estado"]) {
 
 export function CommunicationsPreview({
   communication,
-  property
+  property,
+  language = "es"
 }: {
   communication: RemaxCommunication;
   property?: RemaxProperty;
+  language?: RemaxLanguage;
 }) {
   return (
     <article className="remax-communication-preview">
       <div className="remax-communication-header">
         <div>
-          <p className="remax-eyebrow">Vista previa</p>
+          <p className="remax-eyebrow">{language === "en" ? "Preview" : "Vista previa"}</p>
           <h3>{communication.asunto}</h3>
         </div>
-        <StatusBadge value={communication.estado} tone={getTone(communication.estado)} />
+        <StatusBadge value={translateCommunicationStatus(language, communication.estado)} tone={getTone(communication.estado)} />
       </div>
 
       <div className="info-grid">
         <div className="info-item">
-          <span>Tipo</span>
+          <span>{language === "en" ? "Type" : "Tipo"}</span>
           <strong>{communication.tipo}</strong>
         </div>
         <div className="info-item">
-          <span>Fecha</span>
-            <strong>{formatDateLong(communication.fecha)}</strong>
+          <span>{language === "en" ? "Date" : "Fecha"}</span>
+            <strong>{formatDateLong(communication.fecha, language)}</strong>
           </div>
           <div className="info-item">
-            <span>Propiedad</span>
+            <span>{language === "en" ? "Property" : "Propiedad"}</span>
             <strong>
               {property
                 ? `${property.clave} · ${formatPropertyAddress(property)}`
@@ -45,23 +51,23 @@ export function CommunicationsPreview({
             </strong>
           </div>
         <div className="info-item">
-          <span>Destinatarios</span>
+          <span>{language === "en" ? "Recipients" : "Destinatarios"}</span>
           <strong>{communication.destinatarios.length}</strong>
         </div>
       </div>
 
       <div className="remax-message-box">
-        <p className="muted">Resumen registrado</p>
+        <p className="muted">{language === "en" ? "Recorded summary" : "Resumen registrado"}</p>
         <p>{communication.resumen}</p>
       </div>
 
       <div className="remax-message-box">
-        <p className="muted">Firma</p>
+        <p className="muted">{language === "en" ? "Signature" : "Firma"}</p>
         <p>{communication.firma}</p>
       </div>
 
       <div className="remax-message-box">
-        <p className="muted">Distribucion</p>
+        <p className="muted">{language === "en" ? "Distribution" : "Distribucion"}</p>
         <div className="inline-stack">
           {communication.destinatarios.map((recipient) => (
             <span key={recipient} className="badge badge-neutral">

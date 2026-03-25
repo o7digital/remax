@@ -1,104 +1,144 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import type { ReactNode } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, type ReactNode } from "react";
 
-import type { NavSection } from "@/lib/nav";
+import {
+  getRemaxDemoNavigation,
+  REMAX_LANGUAGE_COOKIE,
+  REMAX_LANGUAGE_STORAGE_KEY,
+  rt,
+  type RemaxLanguage
+} from "@/remax-demo/i18n";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function getFormTabs(pathname: string, step: string | null) {
+function getFormTabs(pathname: string, step: string | null, language: RemaxLanguage) {
   if (pathname === "/remax-demo") {
-    return ["Plataforma ejecutiva"];
+    return [rt(language, "Plataforma ejecutiva")];
   }
 
   if (pathname === "/remax-demo/alta") {
     const labelByStep = {
-      clave: "Generacion de clave",
-      expediente: "Expediente",
-      condiciones: "Condiciones",
-      valores: "Valores",
-      asesores: "Asesores",
-      propietarios: "Propietarios",
-      ficha: "Ficha tecnica"
+      clave: rt(language, "Generacion de clave"),
+      expediente: rt(language, "Expediente"),
+      condiciones: rt(language, "Condiciones"),
+      valores: rt(language, "Valores"),
+      asesores: rt(language, "Asesores"),
+      propietarios: rt(language, "Propietarios"),
+      ficha: language === "en" ? "Technical Sheet" : "Ficha tecnica"
     } as const;
 
-    return ["Plataforma RE/MAX", "Alta de propiedad", labelByStep[(step ?? "clave") as keyof typeof labelByStep] ?? "Alta de propiedad"];
+    return [
+      rt(language, "Plataforma REMAX"),
+      rt(language, "Alta de propiedad"),
+      labelByStep[(step ?? "clave") as keyof typeof labelByStep] ?? rt(language, "Alta de propiedad")
+    ];
   }
 
   if (pathname === "/remax-demo/baja") {
     const labelByStep = {
-      busqueda: "Busqueda",
-      registro: "Registro",
-      valores: "Valores",
-      asesores: "Asesores",
-      comunicado: "Comunicado"
+      busqueda: rt(language, "Busqueda"),
+      registro: rt(language, "Registro"),
+      valores: rt(language, "Valores"),
+      asesores: rt(language, "Asesores"),
+      comunicado: rt(language, "Comunicado")
     } as const;
 
-    return ["Plataforma RE/MAX", "Bajas y cierres", labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? "Bajas y cierres"];
+    return [
+      rt(language, "Plataforma REMAX"),
+      rt(language, "Bajas y cierres"),
+      labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? rt(language, "Bajas y cierres")
+    ];
   }
 
   if (pathname === "/remax-demo/cancelacion") {
     const labelByStep = {
-      busqueda: "Busqueda",
-      registro: "Registro",
-      asesores: "Asesores",
-      comunicado: "Comunicado"
+      busqueda: rt(language, "Busqueda"),
+      registro: rt(language, "Registro"),
+      asesores: rt(language, "Asesores"),
+      comunicado: rt(language, "Comunicado")
     } as const;
 
-    return ["Plataforma RE/MAX", "Cancelaciones", labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? "Cancelaciones"];
+    return [
+      rt(language, "Plataforma REMAX"),
+      rt(language, "Cancelaciones"),
+      labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? rt(language, "Cancelaciones")
+    ];
   }
 
   if (pathname === "/remax-demo/valores") {
-    return ["Plataforma RE/MAX", "Gestion de cartera", "Valores"];
+    return [rt(language, "Plataforma REMAX"), rt(language, "Gestion de cartera"), rt(language, "Valores")];
   }
 
   if (pathname === "/remax-demo/propietarios") {
-    return ["Plataforma RE/MAX", "Gestion de cartera", "Propietarios"];
+    return [rt(language, "Plataforma REMAX"), rt(language, "Gestion de cartera"), rt(language, "Propietarios")];
   }
 
   if (pathname === "/remax-demo/asesores") {
-    return ["Plataforma RE/MAX", "Equipo", "Asesores"];
+    return [rt(language, "Plataforma REMAX"), rt(language, "Equipo"), rt(language, "Asesores")];
   }
 
   if (pathname === "/remax-demo/comunicados") {
-    return ["Plataforma RE/MAX", "Control", "Comunicados"];
+    return [rt(language, "Plataforma REMAX"), rt(language, "Control"), rt(language, "Comunicados")];
   }
 
   if (pathname === "/remax-demo/analisis") {
-    return ["Plataforma RE/MAX", "Inteligencia comercial", "Analisis inteligente"];
+    return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Analisis inteligente")];
   }
 
   if (pathname === "/remax-demo/pipeline") {
-    return ["Plataforma RE/MAX", "Inteligencia comercial", "Pipeline operativo"];
+    return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Pipeline operativo")];
   }
 
-  return ["Plataforma RE/MAX", "Arquitectura Astro"];
+  return [rt(language, "Plataforma REMAX"), rt(language, "Arquitectura Astro")];
 }
 
 export function RemaxDemoShell({
   children,
-  navigationSections
+  currentLanguage,
+  shellTitle
 }: {
   children: ReactNode;
-  navigationSections: NavSection[];
+  currentLanguage: RemaxLanguage;
+  shellTitle: string;
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const tabs = getFormTabs(pathname, searchParams.get("step"));
+  const router = useRouter();
+  const tabs = getFormTabs(pathname, searchParams.get("step"), currentLanguage);
+  const navigationSections = useMemo(() => getRemaxDemoNavigation(currentLanguage), [currentLanguage]);
+
+  useEffect(() => {
+    const storedLanguage = window.localStorage.getItem(REMAX_LANGUAGE_STORAGE_KEY);
+
+    if (storedLanguage && storedLanguage !== currentLanguage) {
+      document.cookie = `${REMAX_LANGUAGE_COOKIE}=${storedLanguage}; path=/; max-age=31536000; samesite=lax`;
+      router.refresh();
+      return;
+    }
+
+    window.localStorage.setItem(REMAX_LANGUAGE_STORAGE_KEY, currentLanguage);
+  }, [currentLanguage, router]);
+
+  function setLanguage(language: RemaxLanguage) {
+    document.cookie = `${REMAX_LANGUAGE_COOKIE}=${language}; path=/; max-age=31536000; samesite=lax`;
+    window.localStorage.setItem(REMAX_LANGUAGE_STORAGE_KEY, language);
+    router.refresh();
+  }
 
   return (
     <div className="remax-shell">
       <aside className="remax-sidebar">
         <div className="remax-brand-panel">
           <div className="remax-brand-lockup">
-            <span className="remax-brand-mark">RE/MAX</span>
+            <span className="remax-brand-mark">REMAX</span>
             <span className="remax-brand-sub">ACTIVA</span>
           </div>
-          <p>RE/MAX Activa | Plataforma Operativa Inmobiliaria</p>
+          <p>{shellTitle}</p>
         </div>
 
         {navigationSections.map((section) => (
@@ -119,15 +159,15 @@ export function RemaxDemoShell({
         ))}
 
         <div className="remax-side-note">
-          <span>Arquitectura web moderna</span>
-          <strong>Astro, Supabase y Railway</strong>
-          <p>Interfaz mas rapida, datos centralizados y base preparada para evolucionar a nuevas funciones.</p>
+          <span>{rt(currentLanguage, "Arquitectura web moderna")}</span>
+          <strong>{rt(currentLanguage, "Astro, Supabase y Railway")}</strong>
+          <p>{rt(currentLanguage, "Interfaz mas rapida, datos centralizados y base preparada para evolucionar a nuevas funciones.")}</p>
         </div>
 
         <div className="remax-side-note">
-          <span>Gestion centralizada</span>
-          <strong>Propiedades, asesores y cierres</strong>
-          <p>Operacion comercial, cartera, propietarios, visitas y comunicados en una sola plataforma.</p>
+          <span>{rt(currentLanguage, "Gestion centralizada")}</span>
+          <strong>{rt(currentLanguage, "Propiedades, asesores y cierres")}</strong>
+          <p>{rt(currentLanguage, "Operacion comercial, cartera, propietarios, visitas y comunicados en una sola plataforma.")}</p>
         </div>
       </aside>
 
@@ -141,12 +181,28 @@ export function RemaxDemoShell({
         </div>
         <header className="remax-toolbar">
           <div className="remax-toolbar-ribbon">
-            <span className="remax-toolbar-chip">RE/MAX ACTIVA</span>
-            <span className="remax-toolbar-copy">Plataforma disenada para la operacion inmobiliaria real</span>
+            <span className="remax-toolbar-chip">REMAX ACTIVA</span>
+            <span className="remax-toolbar-copy">{rt(currentLanguage, "Plataforma disenada para la operacion inmobiliaria real")}</span>
+          </div>
+          <div className="remax-language-switch" aria-label="Language switcher">
+            <button
+              type="button"
+              className={currentLanguage === "es" ? "remax-language-button active" : "remax-language-button"}
+              onClick={() => setLanguage("es")}
+            >
+              ES
+            </button>
+            <button
+              type="button"
+              className={currentLanguage === "en" ? "remax-language-button active" : "remax-language-button"}
+              onClick={() => setLanguage("en")}
+            >
+              EN
+            </button>
           </div>
           <div className="remax-toolbar-meta">
-            <strong>martes, 24 de marzo de 2026</strong>
-            <p>Gestion centralizada de propiedades, asesores, propietarios, visitas y cierres</p>
+            <strong>{rt(currentLanguage, "martes, 24 de marzo de 2026")}</strong>
+            <p>{rt(currentLanguage, "Gestion centralizada de propiedades, asesores, propietarios, visitas y cierres")}</p>
           </div>
         </header>
         <main className="remax-content">{children}</main>

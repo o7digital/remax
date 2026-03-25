@@ -12,6 +12,11 @@ import {
   getSingleSearchParam
 } from "@/remax-demo/formatters";
 import {
+  rt,
+  translatePropertyStatus
+} from "@/remax-demo/i18n";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
+import {
   getAdvisorById,
   getCurrentValue,
   getPropertiesByStatus,
@@ -34,6 +39,8 @@ export default async function CancelacionPage({
 }) {
   const params = await searchParams;
   const step = getSingleSearchParam(params.step) ?? "busqueda";
+  const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "RTV-571";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("RTV-571");
 
@@ -47,25 +54,27 @@ export default async function CancelacionPage({
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title="Cancelacion de propiedad"
-        description="Flujo de cancelacion de la nueva plataforma: seleccion de propiedad, motivo de cancelacion, comision si/no, persona que registra, asesores de cancelacion y comunicado."
+        title={language === "en" ? "Property cancellation" : "Cancelacion de propiedad"}
+        description={language === "en"
+          ? "Cancellation workflow in the new platform: property selection, cancellation reason, commission yes/no, recording user, cancellation agents and communication."
+          : "Flujo de cancelacion de la nueva plataforma: seleccion de propiedad, motivo de cancelacion, comision si/no, persona que registra, asesores de cancelacion y comunicado."}
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">
-              Regresar a menú
+              {t("Regresar a menú")}
             </Link>
             <Link href="/remax-demo/comunicados" className="button">
-              Ver bitacora
+              {t("Ver bitacora")}
             </Link>
           </div>
         }
       />
 
-      <PropertyBanner property={property} title="Proceso de Cancelacion" />
+      <PropertyBanner property={property} title={t("Proceso de Cancelacion")} language={language} />
 
       <WorkflowTabs
         items={cancelacionSteps.map((item) => ({
-          label: item.label,
+          label: t(item.label),
           href: `/remax-demo/cancelacion?step=${item.key}&propiedad=${property.clave}`,
           active: step === item.key
         }))}
@@ -73,16 +82,16 @@ export default async function CancelacionPage({
 
       {step === "busqueda" ? (
         <AccessSection
-          title="Registro de Cancelacion de Propiedad"
+          title={language === "en" ? "Property cancellation record" : "Registro de Cancelacion de Propiedad"}
           action={
             <Link href={`/remax-demo/cancelacion?step=registro&propiedad=${property.clave}`} className="button">
-              Ir a cancelacion de propiedad
+              {language === "en" ? "Go to property cancellation" : "Ir a cancelacion de propiedad"}
             </Link>
           }
         >
           <div className="remax-search-header">
-            <strong>Buscar por Clave, Colonia, Calle, Coto, Fraccionamiento o Asesor</strong>
-            <span>Mostrando {getPropertiesByStatus("Cancelada").length} registros cancelados</span>
+            <strong>{language === "en" ? "Search by key, neighborhood, street, gated area, subdivision or agent" : "Buscar por Clave, Colonia, Calle, Coto, Fraccionamiento o Asesor"}</strong>
+            <span>{language === "en" ? `Showing ${getPropertiesByStatus("Cancelada").length} cancelled records` : `Mostrando ${getPropertiesByStatus("Cancelada").length} registros cancelados`}</span>
           </div>
           <DataTable
             rows={getPropertiesByStatus("Cancelada")}
@@ -100,8 +109,8 @@ export default async function CancelacionPage({
               { key: "colonia", label: "Colonia", render: (row) => row.address.colonia },
               { key: "domicilio", label: "Domicilio", render: (row) => `${row.address.calle} ${row.address.noExt}` },
               { key: "asesor", label: "Asesor", render: (row) => getAdvisorById(row.asesoresAlta[0]?.advisorId ?? "")?.nombre ?? "" },
-              { key: "precio", label: "Precio", align: "right", render: (row) => formatCurrencyMXN(getCurrentValue(row)) },
-              { key: "status", label: "Status Propiedad", render: () => "Cancelada" }
+              { key: "precio", label: language === "en" ? "Price" : "Precio", align: "right", render: (row) => formatCurrencyMXN(getCurrentValue(row), language) },
+              { key: "status", label: language === "en" ? "Property status" : "Status Propiedad", render: () => translatePropertyStatus(language, "Cancelada") }
             ]}
           />
         </AccessSection>
@@ -109,10 +118,10 @@ export default async function CancelacionPage({
 
       {step === "registro" ? (
         <AccessSection
-          title="Registro de Cancelacion de Propiedades"
+          title={language === "en" ? "Property cancellation details" : "Registro de Cancelacion de Propiedades"}
           action={
             <Link href={`/remax-demo/cancelacion?step=asesores&propiedad=${property.clave}`} className="button">
-              Registrar Asesores de Cancelacion
+              {language === "en" ? "Register cancellation agents" : "Registrar Asesores de Cancelacion"}
             </Link>
           }
         >
@@ -121,10 +130,10 @@ export default async function CancelacionPage({
             <label className="remax-field"><span>Baja por Cancelacion</span><input value={property.cancelacion?.bajaPor ?? ""} readOnly /></label>
             <label className="remax-field"><span>Fecha aviso a recepcion</span><input value={property.cancelacion?.fechaAvisoRecepcion ?? ""} readOnly /></label>
             <div className="remax-cancel-box remax-field-span-3">
-              <div className="remax-cancel-box-title">CANCELACIÓN</div>
+              <div className="remax-cancel-box-title">{language === "en" ? "CANCELLATION" : "CANCELACIÓN"}</div>
               <div className="remax-form-grid remax-form-grid-3">
                 <label className="remax-field"><span>Fecha Cancelación</span><input value={property.cancelacion?.fechaCancelacion ?? ""} readOnly /></label>
-                <label className="remax-field remax-field-span-2"><span>En caso de cancelación aplica comisión? (Sí/No)</span><input value={property.cancelacion?.aplicaComision ? "Sí" : "No"} readOnly /></label>
+                <label className="remax-field remax-field-span-2"><span>{language === "en" ? "Does commission apply in case of cancellation? (Yes/No)" : "En caso de cancelación aplica comisión? (Sí/No)"}</span><input value={language === "en" ? (property.cancelacion?.aplicaComision ? "Yes" : "No") : property.cancelacion?.aplicaComision ? "Sí" : "No"} readOnly /></label>
                 <label className="remax-field remax-field-span-3"><span>Motivo Cancelación</span><input value={property.cancelacion?.motivo ?? ""} readOnly /></label>
               </div>
             </div>
@@ -136,10 +145,10 @@ export default async function CancelacionPage({
 
       {step === "asesores" ? (
         <AccessSection
-          title="Asesores de cancelacion"
+          title={language === "en" ? "Cancellation agents" : "Asesores de cancelacion"}
           action={
             <Link href={`/remax-demo/cancelacion?step=comunicado&propiedad=${property.clave}`} className="button">
-              Ver comunicado
+              {language === "en" ? "View communication" : "Ver comunicado"}
             </Link>
           }
         >
@@ -159,24 +168,26 @@ export default async function CancelacionPage({
                 label: "Participacion %",
                 render: (row) => formatCompactPercent(row.participacionPorcentaje)
               },
-              { key: "monto", label: "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto) }
+              { key: "monto", label: language === "en" ? "Amount $" : "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto, language) }
             ]}
           />
 
           <div className="remax-role-callout">
-            <strong>Asesor multirol sobre la misma propiedad</strong>
+            <strong>{language === "en" ? "Multi-role agent on the same property" : "Asesor multirol sobre la misma propiedad"}</strong>
             <p>
               {roleMatrix.length > 0
                 ? roleMatrix.map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`).join(" · ")
-                : "El modelo permite registrar el mismo asesor en alta y cancelacion sin duplicar expedientes."}
+                : language === "en"
+                  ? "The model allows the same agent to be registered in onboarding and cancellation without duplicating records."
+                  : "El modelo permite registrar el mismo asesor en alta y cancelacion sin duplicar expedientes."}
             </p>
           </div>
         </AccessSection>
       ) : null}
 
       {step === "comunicado" && communication ? (
-        <AccessSection title="Comunicado de cancelacion">
-          <CommunicationsPreview communication={communication} property={property} />
+        <AccessSection title={language === "en" ? "Cancellation communication" : "Comunicado de cancelacion"}>
+          <CommunicationsPreview communication={communication} property={property} language={language} />
         </AccessSection>
       ) : null}
     </div>

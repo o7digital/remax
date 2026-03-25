@@ -13,6 +13,11 @@ import {
   getSingleSearchParam
 } from "@/remax-demo/formatters";
 import {
+  rt,
+  translatePropertyStatus
+} from "@/remax-demo/i18n";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
+import {
   getAdvisorById,
   getCurrentValue,
   getPropertyByClave,
@@ -36,6 +41,8 @@ export default async function BajaPage({
 }) {
   const params = await searchParams;
   const step = getSingleSearchParam(params.step) ?? "busqueda";
+  const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "CBR-1748";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("CBR-1748");
 
@@ -50,25 +57,27 @@ export default async function BajaPage({
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title="Baja / cierre de propiedad"
-        description="Flujo de baja de la nueva plataforma: busqueda de propiedad, cambio de estatus, revision de valores, asesores involucrados y comunicado generado."
+        title={language === "en" ? "Property closing / offboarding" : "Baja / cierre de propiedad"}
+        description={language === "en"
+          ? "Offboarding workflow in the new platform: property search, status change, value review, involved agents and generated communication."
+          : "Flujo de baja de la nueva plataforma: busqueda de propiedad, cambio de estatus, revision de valores, asesores involucrados y comunicado generado."}
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">
-              Regresar a menú
+              {t("Regresar a menú")}
             </Link>
             <Link href="/remax-demo/cancelacion" className="button">
-              Ir a Cancelacion
+              {t("Ir a Cancelacion")}
             </Link>
           </div>
         }
       />
 
-      <PropertyBanner property={property} title="Proceso de Baja / cierre" />
+      <PropertyBanner property={property} title={t("Proceso de Baja / cierre")} language={language} />
 
       <WorkflowTabs
         items={bajaSteps.map((item) => ({
-          label: item.label,
+          label: t(item.label),
           href: `/remax-demo/baja?step=${item.key}&propiedad=${property.clave}`,
           active: step === item.key
         }))}
@@ -76,16 +85,16 @@ export default async function BajaPage({
 
       {step === "busqueda" ? (
         <AccessSection
-          title="Registro de Cancelacion / Baja de Propiedad"
+          title={language === "en" ? "Cancellation / offboarding property record" : "Registro de Cancelacion / Baja de Propiedad"}
           action={
             <Link href={`/remax-demo/baja?step=registro&propiedad=${property.clave}`} className="button">
-              Ir a baja de propiedad
+              {language === "en" ? "Go to property offboarding" : "Ir a baja de propiedad"}
             </Link>
           }
         >
           <div className="remax-search-header">
-            <strong>Buscar por Clave, Colonia, Calle, Coto, Fraccionamiento o Asesor</strong>
-            <span>Mostrando {getSearchableProperties().length} registros demo</span>
+            <strong>{language === "en" ? "Search by key, neighborhood, street, gated area, subdivision or agent" : "Buscar por Clave, Colonia, Calle, Coto, Fraccionamiento o Asesor"}</strong>
+            <span>{language === "en" ? `Showing ${getSearchableProperties().length} demo records` : `Mostrando ${getSearchableProperties().length} registros demo`}</span>
           </div>
           <DataTable
             rows={getSearchableProperties()}
@@ -105,13 +114,13 @@ export default async function BajaPage({
               { key: "coto", label: "Coto", render: (row) => row.coto },
               { key: "fracc", label: "Fraccionamiento", render: (row) => row.fraccionamiento },
               { key: "asesor", label: "Asesor", render: (row) => row.asesor },
-              { key: "precio", label: "Precio", align: "right", render: (row) => formatCurrencyMXN(row.precio) },
+              { key: "precio", label: language === "en" ? "Price" : "Precio", align: "right", render: (row) => formatCurrencyMXN(row.precio, language) },
               {
                 key: "estatus",
-                label: "Status Propiedad",
+                label: language === "en" ? "Property status" : "Status Propiedad",
                 render: (row) => (
                   <StatusBadge
-                    value={row.estatus}
+                    value={translatePropertyStatus(language, row.estatus)}
                     tone={row.estatus === "Cerrada" ? "info" : row.estatus === "Cancelada" ? "danger" : "success"}
                   />
                 )
@@ -123,10 +132,10 @@ export default async function BajaPage({
 
       {step === "registro" ? (
         <AccessSection
-          title="Registro de BAJA de Propiedad"
+          title={language === "en" ? "Property offboarding record" : "Registro de BAJA de Propiedad"}
           action={
             <Link href={`/remax-demo/baja?step=valores&propiedad=${property.clave}`} className="button">
-              Ir a Revision de Valores
+              {language === "en" ? "Go to value review" : "Ir a Revision de Valores"}
             </Link>
           }
         >
@@ -161,20 +170,20 @@ export default async function BajaPage({
 
       {step === "valores" ? (
         <AccessSection
-          title="Revision de Valores de Propiedades"
+          title={language === "en" ? "Property value review" : "Revision de Valores de Propiedades"}
           action={
             <Link href={`/remax-demo/baja?step=asesores&propiedad=${property.clave}`} className="button">
-              Ir a Asesores Baja
+              {language === "en" ? "Go to closing agents" : "Ir a Asesores Baja"}
             </Link>
           }
         >
           <div className="remax-mini-summary">
             <div>
-              <span>Precio final</span>
-              <strong>{formatCurrencyMXN(getCurrentValue(property))}</strong>
+              <span>{language === "en" ? "Final price" : "Precio final"}</span>
+              <strong>{formatCurrencyMXN(getCurrentValue(property), language)}</strong>
             </div>
             <div>
-              <span>Condicion</span>
+              <span>{language === "en" ? "Condition" : "Condicion"}</span>
               <strong>{property.baja?.condicionCierre ?? "N/A"}</strong>
             </div>
           </div>
@@ -183,7 +192,7 @@ export default async function BajaPage({
             getRowId={(row) => row.id}
             columns={[
               { key: "reg", label: "Clave Propiedad", render: (row) => row.propiedadClave },
-              { key: "valor", label: "Valor", align: "right", render: (row) => formatCurrencyMXN(row.valor) },
+              { key: "valor", label: language === "en" ? "Value" : "Valor", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
               { key: "fecha", label: "Fecha", render: (row) => row.fecha },
               { key: "moneda", label: "Moneda", render: (row) => row.moneda },
               { key: "posicion", label: "Posicion", render: (row) => row.posicion || "-" },
@@ -196,10 +205,10 @@ export default async function BajaPage({
 
       {step === "asesores" ? (
         <AccessSection
-          title="Asesores involucrados en baja / cierre"
+          title={language === "en" ? "Agents involved in closing / offboarding" : "Asesores involucrados en baja / cierre"}
           action={
             <Link href={`/remax-demo/baja?step=comunicado&propiedad=${property.clave}`} className="button">
-              Ver comunicado
+              {language === "en" ? "View communication" : "Ver comunicado"}
             </Link>
           }
         >
@@ -219,24 +228,26 @@ export default async function BajaPage({
                 label: "Participacion %",
                 render: (row) => formatCompactPercent(row.participacionPorcentaje)
               },
-              { key: "monto", label: "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto) }
+              { key: "monto", label: language === "en" ? "Amount $" : "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto, language) }
             ]}
           />
 
           <div className="remax-role-callout">
-            <strong>Ventaja del nuevo modelo operativo</strong>
+            <strong>{language === "en" ? "Advantage of the new operating model" : "Ventaja del nuevo modelo operativo"}</strong>
             <p>
               {roleMatrix.length > 0
                 ? roleMatrix.map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`).join(" · ")
-                : "Este cierre no repite asesores entre alta y baja, pero el modelo ya lo soporta."}
+                : language === "en"
+                  ? "This closing does not repeat agents between onboarding and offboarding, but the model already supports it."
+                  : "Este cierre no repite asesores entre alta y baja, pero el modelo ya lo soporta."}
             </p>
           </div>
         </AccessSection>
       ) : null}
 
       {step === "comunicado" && communication ? (
-        <AccessSection title="Comunicado de baja">
-          <CommunicationsPreview communication={communication} property={property} />
+        <AccessSection title={language === "en" ? "Offboarding communication" : "Comunicado de baja"}>
+          <CommunicationsPreview communication={communication} property={property} language={language} />
         </AccessSection>
       ) : null}
     </div>

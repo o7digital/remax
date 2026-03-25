@@ -13,6 +13,12 @@ import {
   getSingleSearchParam
 } from "@/remax-demo/formatters";
 import {
+  rt,
+  translatePropertyStatus,
+  type RemaxLanguage
+} from "@/remax-demo/i18n";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
+import {
   getAdvisorById,
   getCurrentValue,
   getPropertyByClave,
@@ -39,9 +45,9 @@ function buildKeyPreview(
   return `${giroCode}${tipoCode}${operacionCode}-${categoriaCode}${sequence}`;
 }
 
-function YesNoBadge({ value }: { value: boolean }) {
+function YesNoBadge({ value, language }: { value: boolean; language: RemaxLanguage }) {
   return (
-    <StatusBadge value={value ? "Si" : "No"} tone={value ? "success" : "neutral"} />
+    <StatusBadge value={language === "en" ? (value ? "Yes" : "No") : value ? "Si" : "No"} tone={value ? "success" : "neutral"} />
   );
 }
 
@@ -52,6 +58,8 @@ export default async function AltaPage({
 }) {
   const params = await searchParams;
   const step = getSingleSearchParam(params.step) ?? "clave";
+  const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "IBR-OP277";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("IBR-OP277");
 
@@ -70,25 +78,27 @@ export default async function AltaPage({
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title="Alta de propiedad"
-        description="Flujo operativo de alta de la nueva plataforma: primero se genera la clave, luego se construye el expediente operativo y finalmente se completan condiciones, valores, asesores, propietarios y ficha tecnica."
+        title={language === "en" ? "Property Onboarding" : "Alta de propiedad"}
+        description={language === "en"
+          ? "Property onboarding workflow in the new platform: first the key is generated, then the operational record is built and finally conditions, values, agents, owners and technical sheet are completed."
+          : "Flujo operativo de alta de la nueva plataforma: primero se genera la clave, luego se construye el expediente operativo y finalmente se completan condiciones, valores, asesores, propietarios y ficha tecnica."}
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">
-              Regresar a menú
+              {t("Regresar a menú")}
             </Link>
             <Link href="/remax-demo/baja" className="button">
-              Ir a Baja
+              {t("Ir a Baja")}
             </Link>
           </div>
         }
       />
 
-      <PropertyBanner property={property} title="Flujo ALTA de propiedad" />
+      <PropertyBanner property={property} title={t("Flujo ALTA de propiedad")} language={language} />
 
       <WorkflowTabs
         items={altaSteps.map((item) => ({
-          label: item.label,
+          label: t(item.label),
           href: `/remax-demo/alta?step=${item.key}&propiedad=${property.clave}`,
           active: step === item.key
         }))}
@@ -96,10 +106,10 @@ export default async function AltaPage({
 
       {step === "clave" ? (
         <AccessSection
-          title="Generacion de CLAVE para nuevo registro de Propiedad"
+          title={language === "en" ? "Property key generation for a new record" : "Generacion de CLAVE para nuevo registro de Propiedad"}
           action={
             <Link href={`/remax-demo/alta?step=expediente&propiedad=${property.clave}`} className="button">
-              IR A Expediente
+              {language === "en" ? "GO TO Record" : "IR A Expediente"}
             </Link>
           }
         >
@@ -131,7 +141,7 @@ export default async function AltaPage({
               </div>
             </label>
             <div className="remax-key-preview">
-              <span>Nueva clave generada</span>
+              <span>{language === "en" ? "New generated key" : "Nueva clave generada"}</span>
               <strong>{generatedKey}</strong>
             </div>
             <label className="remax-field">
@@ -161,21 +171,21 @@ export default async function AltaPage({
               </div>
             </label>
             <div className="remax-note-box">
-              <strong>Logica de clave integrada al nuevo sistema</strong>
+              <strong>{language === "en" ? "Key logic integrated into the new platform" : "Logica de clave integrada al nuevo sistema"}</strong>
               <p>
-                {property.giroCode} + {property.tipoCode} + {property.operacionCode} define el tipo de expediente;
-                {` `}
-                {property.categoriaCode} conserva la categoria comercial.
+                {language === "en"
+                  ? `${property.giroCode} + ${property.tipoCode} + ${property.operacionCode} defines the record type; ${property.categoriaCode} keeps the commercial category.`
+                  : `${property.giroCode} + ${property.tipoCode} + ${property.operacionCode} define el tipo de expediente; ${property.categoriaCode} conserva la categoria comercial.`}
               </p>
             </div>
           </div>
 
           <div className="remax-inline-actions">
             <button className="button button-secondary" type="button">
-              Generar otra CLAVE
+              {language === "en" ? "Generate another key" : "Generar otra CLAVE"}
             </button>
             <Link href={`/remax-demo/alta?step=expediente&propiedad=${property.clave}`} className="button">
-              Continuar al expediente
+              {language === "en" ? "Continue to record" : "Continuar al expediente"}
             </Link>
           </div>
         </AccessSection>
@@ -184,10 +194,10 @@ export default async function AltaPage({
       {step === "expediente" ? (
         <>
           <AccessSection
-            title="Registro de ALTA de Propiedades"
+            title={language === "en" ? "Property onboarding record" : "Registro de ALTA de Propiedades"}
             action={
               <Link href={`/remax-demo/alta?step=condiciones&propiedad=${property.clave}`} className="button">
-                Ir a Condiciones de Operacion
+                {language === "en" ? "Go to operating conditions" : "Ir a Condiciones de Operacion"}
               </Link>
             }
           >
@@ -225,8 +235,8 @@ export default async function AltaPage({
               <label className="remax-field"><span>ID REMAX</span><input value={property.ids.remax} readOnly /></label>
               <label className="remax-field"><span>Clave Catastral</span><input value={property.ids.catastral} readOnly /></label>
               <div className="remax-field">
-                <span>Status Propiedad</span>
-                <StatusBadge value={property.estatus} tone="success" />
+                <span>{language === "en" ? "Property status" : "Status Propiedad"}</span>
+                <StatusBadge value={translatePropertyStatus(language, property.estatus)} tone="success" />
               </div>
               <label className="remax-field"><span>Alta / Baja</span><input value={property.altaBaja} readOnly /></label>
               <label className="remax-field"><span>Estatus de visita en recorrido</span><input value={property.visitaRecorrido} readOnly /></label>
@@ -235,7 +245,7 @@ export default async function AltaPage({
             </div>
           </AccessSection>
 
-          <AccessSection title="Caracteristicas de la propiedad" accent="red">
+          <AccessSection title={language === "en" ? "Property characteristics" : "Caracteristicas de la propiedad"} accent="red">
             <div className="remax-form-grid remax-form-grid-6">
               <label className="remax-field"><span>Sup. Terreno m2</span><input value={String(property.caracteristicas.supTerreno)} readOnly /></label>
               <label className="remax-field"><span>Sup. Const. m2</span><input value={String(property.caracteristicas.supConstruccion)} readOnly /></label>
@@ -258,9 +268,9 @@ export default async function AltaPage({
               <div className="remax-chip-list">
                 {property.caracteristicas.servicios.map((service) => (
                   <span key={service} className="remax-chip">
-                    {service}
-                  </span>
-                ))}
+                  {service}
+                </span>
+              ))}
               </div>
               <DataTable
                 rows={property.caracteristicas.superficiesValores}
@@ -268,8 +278,8 @@ export default async function AltaPage({
                 columns={[
                   { key: "concepto", label: "Superficies m2 y valores", render: (row) => row.concepto },
                   { key: "metros", label: "Sup. m2", align: "right", render: (row) => row.metros.toFixed(2) },
-                  { key: "valor", label: "Valor $", align: "right", render: (row) => formatCurrencyMXN(row.valor) },
-                  { key: "total", label: "Total", align: "right", render: (row) => formatCurrencyMXN(row.total) }
+                  { key: "valor", label: language === "en" ? "Value $" : "Valor $", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
+                  { key: "total", label: t("Total"), align: "right", render: (row) => formatCurrencyMXN(row.total, language) }
                 ]}
               />
             </div>
@@ -280,10 +290,10 @@ export default async function AltaPage({
       {step === "condiciones" ? (
         <>
           <AccessSection
-            title="Registro de condiciones de operacion renta"
+            title={language === "en" ? "Lease operating conditions" : "Registro de condiciones de operacion renta"}
             action={
               <Link href={`/remax-demo/alta?step=valores&propiedad=${property.clave}`} className="button">
-                Ir a Valor de Propiedad
+                {language === "en" ? "Go to property value" : "Ir a Valor de Propiedad"}
               </Link>
             }
           >
@@ -294,19 +304,19 @@ export default async function AltaPage({
               <label className="remax-field"><span>Monto</span><input value={formatCurrencyMXN(property.condicionesOperacion.monto)} readOnly /></label>
               <label className="remax-field remax-field-span-2"><span>Politica vigente</span><input value={property.condicionesOperacion.politicaVigente} readOnly /></label>
               <div className="remax-field">
-                <span>Aplica excepcion</span>
-                <YesNoBadge value={property.condicionesOperacion.aplicaExcepcion} />
+                <span>{language === "en" ? "Exception applies" : "Aplica excepcion"}</span>
+                <YesNoBadge value={property.condicionesOperacion.aplicaExcepcion} language={language} />
               </div>
               <div className="remax-field">
-                <span>Datos confirmados</span>
-                <YesNoBadge value={property.condicionesOperacion.datosConfirmados} />
+                <span>{language === "en" ? "Data confirmed" : "Datos confirmados"}</span>
+                <YesNoBadge value={property.condicionesOperacion.datosConfirmados} language={language} />
               </div>
               <label className="remax-field remax-field-span-4"><span>Comentarios</span><textarea value={property.condicionesOperacion.comentarios} readOnly /></label>
             </div>
           </AccessSection>
 
           {property.condicionesRenta ? (
-            <AccessSection title="Edicion de condiciones de renta" accent="red">
+            <AccessSection title={language === "en" ? "Lease conditions" : "Edicion de condiciones de renta"} accent="red">
               <div className="remax-form-grid remax-form-grid-4">
                 <label className="remax-field"><span>Confirmar anos de renta</span><input value={String(property.condicionesRenta.anos)} readOnly /></label>
                 <label className="remax-field"><span>Forma de pago</span><input value={property.condicionesRenta.formaPago} readOnly /></label>
@@ -315,17 +325,17 @@ export default async function AltaPage({
                 <div className="remax-checklist">
                   <span>Controles principales</span>
                   <div className="remax-check-grid">
-                    <div><YesNoBadge value={property.condicionesRenta.rentaAdelantada} /> Renta adelantada</div>
-                    <div><YesNoBadge value={property.condicionesRenta.rentaDeposito} /> Renta deposito</div>
-                    <div><YesNoBadge value={property.condicionesRenta.aplicaFianza} /> Aplica fianza</div>
-                    <div><YesNoBadge value={property.condicionesRenta.fiadorSolidario} /> Fiador solidario</div>
-                    <div><YesNoBadge value={property.condicionesRenta.fiadorBienRaiz} /> Fiador con bien raiz</div>
-                    <div><YesNoBadge value={property.condicionesRenta.aplicaMantenimiento} /> Aplica mantenimiento</div>
-                    <div><YesNoBadge value={property.condicionesRenta.contratoTransaccion} /> Contrato de transaccion</div>
-                    <div><YesNoBadge value={property.condicionesRenta.contratoIntermediacion} /> Contrato de intermediacion</div>
-                    <div><YesNoBadge value={property.condicionesRenta.seguroDanios} /> Seguro de danos materiales</div>
-                    <div><YesNoBadge value={property.condicionesRenta.seguroResponsabilidadCivil} /> Seguro de responsabilidad civil</div>
-                    <div><YesNoBadge value={property.condicionesRenta.investigacion} /> Investigacion</div>
+                    <div><YesNoBadge value={property.condicionesRenta.rentaAdelantada} language={language} /> {language === "en" ? "Advance rent" : "Renta adelantada"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.rentaDeposito} language={language} /> {language === "en" ? "Deposit rent" : "Renta deposito"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.aplicaFianza} language={language} /> {language === "en" ? "Bond applies" : "Aplica fianza"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.fiadorSolidario} language={language} /> {language === "en" ? "Solid guarantor" : "Fiador solidario"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.fiadorBienRaiz} language={language} /> {language === "en" ? "Property guarantor" : "Fiador con bien raiz"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.aplicaMantenimiento} language={language} /> {language === "en" ? "Maintenance applies" : "Aplica mantenimiento"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.contratoTransaccion} language={language} /> {language === "en" ? "Transaction contract" : "Contrato de transaccion"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.contratoIntermediacion} language={language} /> {language === "en" ? "Intermediation contract" : "Contrato de intermediacion"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.seguroDanios} language={language} /> {language === "en" ? "Property damage insurance" : "Seguro de danos materiales"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.seguroResponsabilidadCivil} language={language} /> {language === "en" ? "Liability insurance" : "Seguro de responsabilidad civil"}</div>
+                    <div><YesNoBadge value={property.condicionesRenta.investigacion} language={language} /> {language === "en" ? "Investigation" : "Investigacion"}</div>
                   </div>
                 </div>
                 <label className="remax-field"><span>Afianzadora</span><input value={property.condicionesRenta.afianzadora} readOnly /></label>
@@ -346,21 +356,21 @@ export default async function AltaPage({
 
       {step === "valores" ? (
         <AccessSection
-          title="Registro de Valores de Propiedades"
+          title={language === "en" ? "Property values" : "Registro de Valores de Propiedades"}
           action={
             <Link href={`/remax-demo/alta?step=asesores&propiedad=${property.clave}`} className="button">
-              Ir a Asesores Alta
+              {language === "en" ? "Go to onboarding agents" : "Ir a Asesores Alta"}
             </Link>
           }
         >
           <div className="remax-mini-summary">
             <div>
-              <span>Precio actual</span>
-              <strong>{formatCurrencyMXN(getCurrentValue(property))}</strong>
+              <span>{language === "en" ? "Current price" : "Precio actual"}</span>
+              <strong>{formatCurrencyMXN(getCurrentValue(property), language)}</strong>
             </div>
             <div>
-              <span>Status</span>
-              <strong>{property.estatus}</strong>
+              <span>{language === "en" ? "Status" : "Status"}</span>
+              <strong>{translatePropertyStatus(language, property.estatus)}</strong>
             </div>
           </div>
           <DataTable
@@ -368,7 +378,7 @@ export default async function AltaPage({
             getRowId={(row) => row.id}
             columns={[
               { key: "clave", label: "Clave Propiedad", render: (row) => row.propiedadClave },
-              { key: "valor", label: "Valor Inicial", align: "right", render: (row) => formatCurrencyMXN(row.valor) },
+              { key: "valor", label: language === "en" ? "Initial value" : "Valor Inicial", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
               { key: "fecha", label: "Fecha", render: (row) => row.fecha },
               { key: "moneda", label: "Moneda", render: (row) => row.moneda },
               { key: "posicion", label: "Posicion", render: (row) => row.posicion || "-" },
@@ -381,10 +391,10 @@ export default async function AltaPage({
 
       {step === "asesores" ? (
         <AccessSection
-          title="Registro de ASESOR(ES) de lado ALTA de la Propiedad"
+          title={language === "en" ? "Onboarding agents for the property" : "Registro de ASESOR(ES) de lado ALTA de la Propiedad"}
           action={
             <Link href={`/remax-demo/alta?step=propietarios&propiedad=${property.clave}`} className="button">
-              Ir a Registro de Propietarios
+              {language === "en" ? "Go to owners record" : "Ir a Registro de Propietarios"}
             </Link>
           }
         >
@@ -405,21 +415,25 @@ export default async function AltaPage({
                 label: "Participacion en ALTA %",
                 render: (row) => formatCompactPercent(row.participacionPorcentaje)
               },
-              { key: "monto", label: "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto) },
+              { key: "monto", label: language === "en" ? "Amount $" : "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto, language) },
               { key: "alta", label: "ALTA", render: (row) => row.tipoIntervencion }
             ]}
           />
 
           <div className="remax-role-callout">
-            <strong>Nuevo modelo multirol por propiedad</strong>
+            <strong>{language === "en" ? "New multi-role model by property" : "Nuevo modelo multirol por propiedad"}</strong>
             <p>
-              En la nueva plataforma un asesor puede existir en mas de un contexto sobre la misma propiedad.
+              {language === "en"
+                ? "In the new platform an agent can exist in more than one context on the same property. "
+                : "En la nueva plataforma un asesor puede existir en mas de un contexto sobre la misma propiedad. "}
               {` `}
               {roleMatrix.length > 0
                 ? roleMatrix
                     .map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`)
                     .join(" · ")
-                : "Esta propiedad aun no tiene multirol, pero el modelo ya lo soporta."}
+                : language === "en"
+                  ? "This property does not yet show multi-role participation, but the model already supports it."
+                  : "Esta propiedad aun no tiene multirol, pero el modelo ya lo soporta."}
             </p>
           </div>
         </AccessSection>
@@ -427,10 +441,10 @@ export default async function AltaPage({
 
       {step === "propietarios" ? (
         <AccessSection
-          title="Registro de PROPIETARIOS"
+          title={language === "en" ? "Owners record" : "Registro de PROPIETARIOS"}
           action={
             <Link href={`/remax-demo/alta?step=ficha&propiedad=${property.clave}`} className="button">
-              Ir a Ficha Tecnica
+              {language === "en" ? "Go to technical sheet" : "Ir a Ficha Tecnica"}
             </Link>
           }
         >
@@ -445,7 +459,7 @@ export default async function AltaPage({
               {
                 key: "principal",
                 label: "Principal",
-                render: (row) => <YesNoBadge value={row.principal} />
+                render: (row) => <YesNoBadge value={row.principal} language={language} />
               }
             ]}
           />
@@ -454,7 +468,7 @@ export default async function AltaPage({
 
       {step === "ficha" ? (
         <>
-          <AccessSection title="Ficha Tecnica" accent="red">
+          <AccessSection title={language === "en" ? "Technical sheet" : "Ficha Tecnica"} accent="red">
             <div className="remax-form-grid remax-form-grid-5">
               <label className="remax-field"><span>Estilo</span><input value={property.fichaTecnica.residencial.estilo} readOnly /></label>
               <label className="remax-field"><span>Proyecto</span><input value={property.fichaTecnica.residencial.proyecto} readOnly /></label>
@@ -486,12 +500,12 @@ export default async function AltaPage({
             </div>
           </AccessSection>
 
-          <AccessSection title="Modulo comercial" accent="blue">
+          <AccessSection title={language === "en" ? "Commercial module" : "Modulo comercial"} accent="blue">
             <div className="remax-form-grid remax-form-grid-4">
               <label className="remax-field"><span>Categoria</span><input value={property.fichaTecnica.comercial.categoria} readOnly /></label>
               <label className="remax-field"><span>Clasificacion</span><input value={property.fichaTecnica.comercial.clasificacion} readOnly /></label>
-              <div className="remax-field"><span>Vigilancia</span><YesNoBadge value={property.fichaTecnica.comercial.vigilancia} /></div>
-              <div className="remax-field"><span>Telefonos</span><YesNoBadge value={property.fichaTecnica.comercial.telefonos} /></div>
+              <div className="remax-field"><span>{language === "en" ? "Security" : "Vigilancia"}</span><YesNoBadge value={property.fichaTecnica.comercial.vigilancia} language={language} /></div>
+              <div className="remax-field"><span>{language === "en" ? "Phones" : "Telefonos"}</span><YesNoBadge value={property.fichaTecnica.comercial.telefonos} language={language} /></div>
               <label className="remax-field"><span>Lineas</span><input value={property.fichaTecnica.comercial.lineas} readOnly /></label>
               <label className="remax-field"><span>Iluminacion</span><input value={property.fichaTecnica.comercial.iluminacion} readOnly /></label>
               <label className="remax-field"><span>Banos</span><input value={String(property.fichaTecnica.comercial.banios)} readOnly /></label>

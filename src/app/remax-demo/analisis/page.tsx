@@ -5,6 +5,8 @@ import { AccessSection } from "@/remax-demo/components/access-section";
 import { PriorityBadge } from "@/remax-demo/components/priority-badge";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { SentimentBadge } from "@/remax-demo/components/sentiment-badge";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
+import { rt } from "@/remax-demo/i18n";
 import {
   getAdvisorById,
   getSentimentActionQueue,
@@ -18,7 +20,9 @@ function getInsightHref(propertyClave?: string) {
     : "/remax-demo/pipeline";
 }
 
-export default function AnalisisInteligentePage() {
+export default async function AnalisisInteligentePage() {
+  const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const summary = getSentimentSummary();
   const insights = getSentimentInsights();
   const queue = getSentimentActionQueue();
@@ -26,15 +30,19 @@ export default function AnalisisInteligentePage() {
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title="Analisis inteligente"
-        description="Clasificacion asistida con modelos de Hugging Face para priorizar leads, detectar riesgo comercial y mejorar el seguimiento sobre notas de asesores, comentarios de clientes e interacciones operativas."
+        title={t("Analisis inteligente")}
+        description={
+          language === "en"
+            ? "Assisted classification with Hugging Face models to prioritize leads, detect commercial risk and improve follow-up across agent notes, client comments and operational interactions."
+            : "Clasificacion asistida con modelos de Hugging Face para priorizar leads, detectar riesgo comercial y mejorar el seguimiento sobre notas de asesores, comentarios de clientes e interacciones operativas."
+        }
         actions={
           <>
             <Link href="/remax-demo/pipeline" className="button">
-              Abrir pipeline
+              {language === "en" ? "Open pipeline" : "Abrir pipeline"}
             </Link>
             <Link href="/remax-demo/comunicados" className="button button-secondary">
-              Ver comunicados
+              {language === "en" ? "View communications" : "Ver comunicados"}
             </Link>
           </>
         }
@@ -42,40 +50,40 @@ export default function AnalisisInteligentePage() {
 
       <div className="remax-summary-strip">
         <div>
-          <span>Positivo</span>
+          <span>{language === "en" ? "Positive" : "Positivo"}</span>
           <strong>{summary.positive}</strong>
         </div>
         <div>
-          <span>Neutro</span>
+          <span>{language === "en" ? "Neutral" : "Neutro"}</span>
           <strong>{summary.neutral}</strong>
         </div>
         <div>
-          <span>Sensible / en riesgo</span>
+          <span>{language === "en" ? "Sensitive / at risk" : "Sensible / en riesgo"}</span>
           <strong>{summary.risk}</strong>
         </div>
         <div>
-          <span>Prioridad alta</span>
+          <span>{language === "en" ? "High priority" : "Prioridad alta"}</span>
           <strong>{summary.highPriority}</strong>
         </div>
         <div>
-          <span>Notas leidas</span>
+          <span>{language === "en" ? "Notes read" : "Notas leidas"}</span>
           <strong>{summary.total}</strong>
         </div>
       </div>
 
-      <AccessSection title="Capa inteligente aplicada al seguimiento" accent="blue">
+      <AccessSection title={language === "en" ? "Intelligent layer applied to follow-up" : "Capa inteligente aplicada al seguimiento"} accent="blue">
         <div className="remax-note-box">
-          <strong>Lectura comercial, no IA generica</strong>
+          <strong>{language === "en" ? "Commercial reading, not generic AI" : "Lectura comercial, no IA generica"}</strong>
           <p>
-            El analisis de sentimiento funciona como una ayuda concreta para priorizar leads, detectar riesgo
-            comercial y ordenar el seguimiento del equipo. La lectura convierte notas, comentarios y observaciones en
-            prioridad sugerida y accion operativa inmediata.
+            {language === "en"
+              ? "Sentiment analysis works as a practical aid to prioritize leads, detect commercial risk and organize team follow-up. It turns notes, comments and observations into suggested priority and immediate operational action."
+              : "El analisis de sentimiento funciona como una ayuda concreta para priorizar leads, detectar riesgo comercial y ordenar el seguimiento del equipo. La lectura convierte notas, comentarios y observaciones en prioridad sugerida y accion operativa inmediata."}
           </p>
         </div>
       </AccessSection>
 
       <div className="remax-two-columns">
-        <AccessSection title="Lectura de notas y seguimientos">
+        <AccessSection title={language === "en" ? "Reading notes and follow-up" : "Lectura de notas y seguimientos"}>
           <div className="remax-intelligence-list">
             {insights.map((item) => {
               const advisor = getAdvisorById(item.advisorId);
@@ -91,14 +99,14 @@ export default function AnalisisInteligentePage() {
                   </div>
 
                   <div className="remax-insight-badges">
-                    <SentimentBadge sentiment={item.sentiment} />
-                    <PriorityBadge priority={item.priority} />
+                    <SentimentBadge sentiment={item.sentiment} language={language} />
+                    <PriorityBadge priority={item.priority} language={language} />
                     <span className="remax-recommendation-pill">{item.suggestedAction}</span>
                   </div>
 
                   <p>{item.note}</p>
                   <div className="remax-insight-followup">
-                    <span>Proximo seguimiento</span>
+                    <span>{language === "en" ? "Next follow-up" : "Proximo seguimiento"}</span>
                     <strong>{item.nextFollowUp}</strong>
                   </div>
 
@@ -106,7 +114,7 @@ export default function AnalisisInteligentePage() {
                     <small>
                       {advisor?.nombre ?? item.advisorId} · {item.commercialSignal}
                     </small>
-                    <Link href={getInsightHref(item.propertyClave)}>Abrir contexto</Link>
+                    <Link href={getInsightHref(item.propertyClave)}>{language === "en" ? "Open context" : "Abrir contexto"}</Link>
                   </div>
                 </article>
               );
@@ -115,49 +123,57 @@ export default function AnalisisInteligentePage() {
         </AccessSection>
 
         <div className="remax-dashboard-side">
-          <AccessSection title="Priorizacion sugerida" accent="red">
+          <AccessSection title={language === "en" ? "Suggested prioritization" : "Priorizacion sugerida"} accent="red">
             <DataTable
               rows={queue.slice(0, 5)}
               getRowId={(row) => row.id}
               columns={[
                 {
                   key: "lead",
-                  label: "Lead / propiedad",
+                  label: language === "en" ? "Lead / property" : "Lead / propiedad",
                   render: (row) => (
                     <Link href={getInsightHref(row.propertyClave)}>
                       <strong>{row.clientName}</strong>
                     </Link>
                   )
                 },
-                { key: "sentimiento", label: "Sentimiento", render: (row) => <SentimentBadge sentiment={row.sentiment} /> },
-                { key: "prioridad", label: "Prioridad", render: (row) => <PriorityBadge priority={row.priority} /> },
-                { key: "accion", label: "Accion sugerida", render: (row) => row.suggestedAction },
-                { key: "seguimiento", label: "Proximo seguimiento", render: (row) => row.nextFollowUp }
+                {
+                  key: "sentimiento",
+                  label: language === "en" ? "Sentiment" : "Sentimiento",
+                  render: (row) => <SentimentBadge sentiment={row.sentiment} language={language} />
+                },
+                {
+                  key: "prioridad",
+                  label: language === "en" ? "Priority" : "Prioridad",
+                  render: (row) => <PriorityBadge priority={row.priority} language={language} />
+                },
+                { key: "accion", label: language === "en" ? "Suggested action" : "Accion sugerida", render: (row) => row.suggestedAction },
+                { key: "seguimiento", label: language === "en" ? "Next follow-up" : "Proximo seguimiento", render: (row) => row.nextFollowUp }
               ]}
             />
           </AccessSection>
 
-          <AccessSection title="Uso comercial recomendado" accent="gold">
+          <AccessSection title={language === "en" ? "Recommended commercial use" : "Uso comercial recomendado"} accent="gold">
             <div className="remax-detail-list">
               <article className="remax-detail-card">
-                <span>Priorizacion</span>
-                <strong>Ordenar la carga comercial</strong>
-                <p>La lectura de sentimiento ayuda a decidir que casos atender primero sin perder contexto del negocio.</p>
+                <span>{language === "en" ? "Prioritization" : "Priorizacion"}</span>
+                <strong>{language === "en" ? "Sort the commercial workload" : "Ordenar la carga comercial"}</strong>
+                <p>{language === "en" ? "Sentiment reading helps decide which cases to address first without losing business context." : "La lectura de sentimiento ayuda a decidir que casos atender primero sin perder contexto del negocio."}</p>
               </article>
               <article className="remax-detail-card">
-                <span>Riesgo</span>
-                <strong>Detectar alertas tempranas</strong>
-                <p>Los comentarios sensibles o en riesgo se escalan antes de que afecten cierres o permanencia en cartera.</p>
+                <span>{language === "en" ? "Risk" : "Riesgo"}</span>
+                <strong>{language === "en" ? "Detect early alerts" : "Detectar alertas tempranas"}</strong>
+                <p>{language === "en" ? "Sensitive or at-risk comments are escalated before they affect closings or portfolio retention." : "Los comentarios sensibles o en riesgo se escalan antes de que afecten cierres o permanencia en cartera."}</p>
               </article>
               <article className="remax-detail-card">
-                <span>Seguimiento</span>
-                <strong>Accion sugerida inmediata</strong>
-                <p>Seguimiento inmediato, recontacto en 48h u oportunidad fria segun la senal comercial detectada.</p>
+                <span>{language === "en" ? "Follow-up" : "Seguimiento"}</span>
+                <strong>{language === "en" ? "Immediate recommended action" : "Accion sugerida inmediata"}</strong>
+                <p>{language === "en" ? "Immediate follow-up, recontact in 48h or cold opportunity depending on the commercial signal detected." : "Seguimiento inmediato, recontacto en 48h u oportunidad fria segun la senal comercial detectada."}</p>
               </article>
               <article className="remax-detail-card">
-                <span>Direccion</span>
-                <strong>Lectura ejecutiva del pipeline</strong>
-                <p>Direccion y coordinacion comercial pueden ver rapidamente donde hay friccion o aceleracion real.</p>
+                <span>{language === "en" ? "Leadership" : "Direccion"}</span>
+                <strong>{language === "en" ? "Executive pipeline reading" : "Lectura ejecutiva del pipeline"}</strong>
+                <p>{language === "en" ? "Leadership and commercial coordination can quickly see where there is friction or real acceleration." : "Direccion y coordinacion comercial pueden ver rapidamente donde hay friccion o aceleracion real."}</p>
               </article>
             </div>
           </AccessSection>

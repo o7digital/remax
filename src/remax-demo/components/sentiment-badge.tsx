@@ -1,3 +1,4 @@
+import { translateSentiment, type RemaxLanguage } from "@/remax-demo/i18n";
 import type { RemaxSentimentLabel } from "@/remax-demo/types";
 
 function getSentimentClassName(sentiment: RemaxSentimentLabel) {
@@ -11,6 +12,12 @@ function getSentimentClassName(sentiment: RemaxSentimentLabel) {
   }
 }
 
-export function SentimentBadge({ sentiment }: { sentiment: RemaxSentimentLabel }) {
-  return <span className={getSentimentClassName(sentiment)}>{sentiment}</span>;
+export function SentimentBadge({
+  sentiment,
+  language = "es"
+}: {
+  sentiment: RemaxSentimentLabel;
+  language?: RemaxLanguage;
+}) {
+  return <span className={getSentimentClassName(sentiment)}>{translateSentiment(language, sentiment)}</span>;
 }

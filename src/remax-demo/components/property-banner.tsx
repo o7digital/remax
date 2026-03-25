@@ -1,5 +1,6 @@
 import { StatusBadge } from "@/components/status-badge";
 import { formatPropertyAddress } from "@/remax-demo/formatters";
+import { translatePropertyStatus, type RemaxLanguage } from "@/remax-demo/i18n";
 import type { RemaxProperty } from "@/remax-demo/types";
 
 function getTone(status: RemaxProperty["estatus"]) {
@@ -16,22 +17,24 @@ function getTone(status: RemaxProperty["estatus"]) {
 
 export function PropertyBanner({
   property,
-  title
+  title,
+  language = "es"
 }: {
   property: RemaxProperty;
   title: string;
+  language?: RemaxLanguage;
 }) {
   return (
     <div className="remax-property-banner">
       <div>
         <p className="remax-view-title">{title}</p>
         <div className="remax-property-line">
-          <strong>Propiedad:</strong>
+          <strong>{language === "en" ? "Property:" : "Propiedad:"}</strong>
           <span>{property.clave}</span>
           <span>{formatPropertyAddress(property)}</span>
         </div>
       </div>
-      <StatusBadge value={property.estatus} tone={getTone(property.estatus)} />
+      <StatusBadge value={translatePropertyStatus(language, property.estatus)} tone={getTone(property.estatus)} />
     </div>
   );
 }

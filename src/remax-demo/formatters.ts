@@ -1,7 +1,12 @@
+import type { RemaxLanguage } from "@/remax-demo/i18n";
 import type { RemaxProperty } from "@/remax-demo/types";
 
-export function formatCurrencyMXN(value: number): string {
-  return new Intl.NumberFormat("es-MX", {
+function getLocale(language: RemaxLanguage = "es") {
+  return language === "en" ? "en-US" : "es-MX";
+}
+
+export function formatCurrencyMXN(value: number, language: RemaxLanguage = "es"): string {
+  return new Intl.NumberFormat(getLocale(language), {
     style: "currency",
     currency: "MXN",
     minimumFractionDigits: 2,
@@ -9,25 +14,25 @@ export function formatCurrencyMXN(value: number): string {
   }).format(value);
 }
 
-export function formatDateLong(value: string): string {
-  return new Intl.DateTimeFormat("es-MX", {
+export function formatDateLong(value: string, language: RemaxLanguage = "es"): string {
+  return new Intl.DateTimeFormat(getLocale(language), {
     day: "2-digit",
     month: "long",
     year: "numeric"
   }).format(new Date(`${value}T00:00:00`));
 }
 
-export function formatDateShort(value: string): string {
-  return new Intl.DateTimeFormat("es-MX", {
+export function formatDateShort(value: string, language: RemaxLanguage = "es"): string {
+  return new Intl.DateTimeFormat(getLocale(language), {
     day: "2-digit",
     month: "2-digit",
     year: "numeric"
   }).format(new Date(`${value}T00:00:00`));
 }
 
-export function formatPercent(value: number | null): string {
+export function formatPercent(value: number | null, language: RemaxLanguage = "es"): string {
   if (value === null) {
-    return "No aplica";
+    return language === "en" ? "N/A" : "No aplica";
   }
 
   return `${(value * 100).toFixed(value * 100 % 1 === 0 ? 0 : 1)}%`;

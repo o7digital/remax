@@ -178,6 +178,41 @@
   box-shadow: 0 6px 18px rgba(77, 102, 136, 0.06);
 }
 
+.remax-language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid var(--remax-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 18px rgba(77, 103, 140, 0.08);
+}
+
+.remax-language-button {
+  min-width: 46px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5a6f8c;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.remax-language-button.active {
+  background: linear-gradient(180deg, #dce8f8, #c7d8f0);
+  color: #274162;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
 .remax-toolbar-ribbon {
   display: flex;
   flex-wrap: wrap;
@@ -1936,10 +1971,24 @@
 }
 
 .remax-sidebar {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   padding: 24px 18px 32px;
   background:
     radial-gradient(circle at top, rgba(95, 136, 195, 0.24), transparent 26%),
     linear-gradient(180deg, #16202f 0%, #1d2a3f 100%);
+}
+
+.remax-sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.remax-sidebar::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  background-clip: padding-box;
 }
 
 .remax-brand-panel,
@@ -2625,6 +2674,8 @@
   .remax-sidebar {
     position: static;
     height: auto;
+    max-height: 52svh;
+    overflow-y: auto;
     border-right: 0;
     border-bottom: 1px solid var(--remax-line);
   }
@@ -2669,6 +2720,10 @@
 }
 
 @media (max-width: 780px) {
+  .remax-sidebar {
+    max-height: 46svh;
+  }
+
   .remax-toolbar,
   .remax-page-header,
   .remax-property-banner,

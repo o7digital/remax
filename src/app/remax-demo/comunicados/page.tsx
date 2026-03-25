@@ -7,6 +7,7 @@ import { AccessSection } from "@/remax-demo/components/access-section";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { remaxDemoCommunications } from "@/remax-demo/data";
 import { getSingleSearchParam } from "@/remax-demo/formatters";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
 import { getCommunicationById, getCommunicationsByType, getPropertyByClave } from "@/remax-demo/stats";
 
 function getTone(status: string) {
@@ -26,6 +27,7 @@ export default async function ComunicadosPage({
 }: {
   searchParams: Promise<{ comunicado?: string | string[] }>;
 }) {
+  const language = await getRemaxLanguage();
   const params = await searchParams;
   const selectedId = getSingleSearchParam(params.comunicado) ?? "com-cancel-rtr-2280";
   const communication = getCommunicationById(selectedId) ?? remaxDemoCommunications[0];
@@ -34,15 +36,15 @@ export default async function ComunicadosPage({
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title="Comunicados"
-        description="Pantalla dedicada a los comunicados de alta, baja y cancelacion. El objetivo es mostrar un registro centralizado, mas claro y listo para automatizacion."
+        title={language === "en" ? "Communications" : "Comunicados"}
+        description={language === "en" ? "Screen dedicated to onboarding, closing and cancellation communications. The goal is to show a centralized record that is clearer and ready for automation." : "Pantalla dedicada a los comunicados de alta, baja y cancelacion. El objetivo es mostrar un registro centralizado, mas claro y listo para automatizacion."}
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo/cancelacion?step=comunicado&propiedad=RTR-2280" className="button">
-              Comunicado cancelacion
+              {language === "en" ? "Cancellation communication" : "Comunicado cancelacion"}
             </Link>
             <Link href="/remax-demo/alta?step=asesores&propiedad=IBR-OP277" className="button button-secondary">
-              Volver a operacion
+              {language === "en" ? "Back to operations" : "Volver a operacion"}
             </Link>
           </div>
         }
@@ -50,49 +52,49 @@ export default async function ComunicadosPage({
 
       <div className="remax-summary-strip">
         <div>
-          <span>ALTA</span>
+          <span>{language === "en" ? "ONBOARDING" : "ALTA"}</span>
           <strong>{getCommunicationsByType("ALTA").length}</strong>
         </div>
         <div>
-          <span>BAJA</span>
+          <span>{language === "en" ? "CLOSING" : "BAJA"}</span>
           <strong>{getCommunicationsByType("BAJA").length}</strong>
         </div>
         <div>
-          <span>CANCELACION</span>
+          <span>{language === "en" ? "CANCELLATION" : "CANCELACION"}</span>
           <strong>{getCommunicationsByType("CANCELACION").length}</strong>
         </div>
       </div>
 
       <div className="remax-two-columns">
-        <AccessSection title="Bitacora de comunicados">
+        <AccessSection title={language === "en" ? "Communications log" : "Bitacora de comunicados"}>
           <DataTable
             rows={remaxDemoCommunications}
             getRowId={(row) => row.id}
             columns={[
               {
                 key: "asunto",
-                label: "Asunto",
+                label: language === "en" ? "Subject" : "Asunto",
                 render: (row) => (
                   <Link href={`/remax-demo/comunicados?comunicado=${row.id}`}>
                     <strong>{row.asunto}</strong>
                   </Link>
                 )
               },
-              { key: "tipo", label: "Tipo", render: (row) => row.tipo },
-              { key: "propiedad", label: "Propiedad", render: (row) => row.propiedadClave },
-              { key: "fecha", label: "Fecha", render: (row) => row.fecha },
-              { key: "destinatarios", label: "Destinatarios", render: (row) => `${row.destinatarios.length} contactos` },
+              { key: "tipo", label: language === "en" ? "Type" : "Tipo", render: (row) => row.tipo },
+              { key: "propiedad", label: language === "en" ? "Property" : "Propiedad", render: (row) => row.propiedadClave },
+              { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.fecha },
+              { key: "destinatarios", label: language === "en" ? "Recipients" : "Destinatarios", render: (row) => `${row.destinatarios.length} ${language === "en" ? "contacts" : "contactos"}` },
               {
                 key: "estado",
-                label: "Estado",
+                label: language === "en" ? "Status" : "Estado",
                 render: (row) => <StatusBadge value={row.estado} tone={getTone(row.estado)} />
               }
             ]}
           />
         </AccessSection>
 
-        <AccessSection title="Preview del comunicado" accent="red">
-          <CommunicationsPreview communication={communication} property={property} />
+        <AccessSection title={language === "en" ? "Communication preview" : "Preview del comunicado"} accent="red">
+          <CommunicationsPreview communication={communication} property={property} language={language} />
         </AccessSection>
       </div>
     </div>

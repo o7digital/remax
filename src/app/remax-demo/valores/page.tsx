@@ -9,6 +9,7 @@ import {
   formatCurrencyMXN,
   getSingleSearchParam
 } from "@/remax-demo/formatters";
+import { getRemaxLanguage } from "@/remax-demo/get-language";
 import { getAllValueHistory, getCurrentValue, getPropertyByClave, getPropertyValueHistory } from "@/remax-demo/stats";
 
 export default async function ValoresPage({
@@ -16,6 +17,7 @@ export default async function ValoresPage({
 }: {
   searchParams: Promise<{ propiedad?: string | string[] }>;
 }) {
+  const language = await getRemaxLanguage();
   const params = await searchParams;
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "CBR-1748";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("CBR-1748");
@@ -29,34 +31,34 @@ export default async function ValoresPage({
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title="Valores de propiedad"
-        description="Modulo de valores de la nueva plataforma. Prioriza la tabla operativa con fecha, moneda, posicion, motivo de cambio y motivo para minuta."
+        title={language === "en" ? "Property values" : "Valores de propiedad"}
+        description={language === "en" ? "Values module of the new platform. It prioritizes the operating table with date, currency, position, change reason and minute reference reason." : "Modulo de valores de la nueva plataforma. Prioriza la tabla operativa con fecha, moneda, posicion, motivo de cambio y motivo para minuta."}
         actions={
           <div className="remax-header-actions">
             <Link href={`/remax-demo/alta?step=valores&propiedad=${property.clave}`} className="button">
-              Ir a flujo Alta
+              {language === "en" ? "Go to onboarding flow" : "Ir a flujo Alta"}
             </Link>
             <Link href={`/remax-demo/baja?step=valores&propiedad=CBR-1748`} className="button button-secondary">
-              Ir a flujo Baja
+              {language === "en" ? "Go to closing flow" : "Ir a flujo Baja"}
             </Link>
           </div>
         }
       />
 
-      <PropertyBanner property={property} title="Registro / revision de valores" />
+      <PropertyBanner property={property} title={language === "en" ? "Value record / review" : "Registro / revision de valores"} language={language} />
 
-      <AccessSection title="Registro de Valores de Propiedades">
+      <AccessSection title={language === "en" ? "Property values record" : "Registro de Valores de Propiedades"}>
         <div className="remax-mini-summary">
           <div>
-            <span>Valor actual</span>
-            <strong>{formatCurrencyMXN(getCurrentValue(property))}</strong>
+            <span>{language === "en" ? "Current value" : "Valor actual"}</span>
+            <strong>{formatCurrencyMXN(getCurrentValue(property), language)}</strong>
           </div>
           <div>
-            <span>Eventos de valor</span>
+            <span>{language === "en" ? "Value events" : "Eventos de valor"}</span>
             <strong>{events.length}</strong>
           </div>
           <div>
-            <span>Propiedad</span>
+            <span>{language === "en" ? "Property" : "Propiedad"}</span>
             <strong>{property.clave}</strong>
           </div>
         </div>
@@ -64,39 +66,39 @@ export default async function ValoresPage({
           rows={events}
           getRowId={(row) => row.id}
           columns={[
-            { key: "clave", label: "Clave Propiedad", render: (row) => row.propiedadClave },
-            { key: "valor", label: "Valor Inicial", align: "right", render: (row) => formatCurrencyMXN(row.valor) },
-            { key: "fecha", label: "Fecha", render: (row) => row.fecha },
-            { key: "moneda", label: "Moneda", render: (row) => row.moneda },
-            { key: "posicion", label: "Posicion", render: (row) => row.posicion || "-" },
-            { key: "motivo", label: "Motivo de cambio", render: (row) => row.motivoCambio },
-            { key: "minuta", label: "Motivo de cambio para senalar en Minuta", render: (row) => row.motivoMinuta }
+            { key: "clave", label: language === "en" ? "Property key" : "Clave Propiedad", render: (row) => row.propiedadClave },
+            { key: "valor", label: language === "en" ? "Initial value" : "Valor Inicial", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
+            { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.fecha },
+            { key: "moneda", label: language === "en" ? "Currency" : "Moneda", render: (row) => row.moneda },
+            { key: "posicion", label: language === "en" ? "Position" : "Posicion", render: (row) => row.posicion || "-" },
+            { key: "motivo", label: language === "en" ? "Change reason" : "Motivo de cambio", render: (row) => row.motivoCambio },
+            { key: "minuta", label: language === "en" ? "Minute reason" : "Motivo de cambio para senalar en Minuta", render: (row) => row.motivoMinuta }
           ]}
         />
       </AccessSection>
 
       <div className="remax-two-columns">
-        <AccessSection title="Timeline de la propiedad" accent="blue">
-          <ValueHistoryTimeline events={events} />
+        <AccessSection title={language === "en" ? "Property timeline" : "Timeline de la propiedad"} accent="blue">
+          <ValueHistoryTimeline events={events} language={language} />
         </AccessSection>
 
-        <AccessSection title="Bitacora global de valores" accent="red">
+        <AccessSection title={language === "en" ? "Global value log" : "Bitacora global de valores"} accent="red">
           <DataTable
             rows={getAllValueHistory()}
             getRowId={(row) => row.id}
             columns={[
               {
                 key: "propiedad",
-                label: "Propiedad",
+                label: language === "en" ? "Property" : "Propiedad",
                 render: (row) => (
                   <Link href={`/remax-demo/valores?propiedad=${row.propiedadClave}`}>
                     <strong>{row.propiedadClave}</strong>
                   </Link>
                 )
               },
-              { key: "fecha", label: "Fecha", render: (row) => row.fecha },
-              { key: "valor", label: "Valor", align: "right", render: (row) => formatCurrencyMXN(row.valor) },
-              { key: "motivo", label: "Motivo", render: (row) => row.motivoCambio }
+              { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.fecha },
+              { key: "valor", label: language === "en" ? "Value" : "Valor", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
+              { key: "motivo", label: language === "en" ? "Reason" : "Motivo", render: (row) => row.motivoCambio }
             ]}
           />
         </AccessSection>

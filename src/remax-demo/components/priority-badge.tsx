@@ -1,3 +1,4 @@
+import { translatePriority, type RemaxLanguage } from "@/remax-demo/i18n";
 import type { RemaxPriorityLevel } from "@/remax-demo/types";
 
 function getPriorityClassName(priority: RemaxPriorityLevel) {
@@ -11,6 +12,12 @@ function getPriorityClassName(priority: RemaxPriorityLevel) {
   }
 }
 
-export function PriorityBadge({ priority }: { priority: RemaxPriorityLevel }) {
-  return <span className={getPriorityClassName(priority)}>{priority}</span>;
+export function PriorityBadge({
+  priority,
+  language = "es"
+}: {
+  priority: RemaxPriorityLevel;
+  language?: RemaxLanguage;
+}) {
+  return <span className={getPriorityClassName(priority)}>{translatePriority(language, priority)}</span>;
 }
