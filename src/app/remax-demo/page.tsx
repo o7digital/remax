@@ -14,8 +14,10 @@ import {
   getSentimentCountsByPriority,
   getSentimentSummary
 } from "@/remax-demo/stats";
+import type { RemaxPriorityLevel } from "@/remax-demo/types";
 
 type SectionTone = "blue" | "red" | "gold";
+type MobileScreenStyle = "dashboard" | "agenda" | "property" | "prospect";
 
 interface DashboardAction {
   icon: string;
@@ -35,50 +37,141 @@ interface DashboardSection {
   cards: DashboardAction[];
 }
 
+interface OpenProcess {
+  type: string;
+  property: string;
+  stage: string;
+  owners: string[];
+  nextAction: string;
+  priority: RemaxPriorityLevel;
+  href: string;
+  status: string;
+}
+
+interface QuickAction {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+  tag: string;
+}
+
+interface MobileKpi {
+  label: string;
+  value: string;
+}
+
+interface MobileVisit {
+  time: string;
+  client: string;
+  property: string;
+  status: string;
+}
+
+interface MobileField {
+  label: string;
+  value: string;
+}
+
+interface MobileScreen {
+  title: string;
+  subtitle: string;
+  style: MobileScreenStyle;
+  kpis?: MobileKpi[];
+  visits?: MobileVisit[];
+  details?: MobileField[];
+  note?: string;
+  actions: string[];
+}
+
+function formatShortDate(date: string) {
+  const [year, month, day] = date.split("-");
+  const monthByNumber: Record<string, string> = {
+    "01": "ene",
+    "02": "feb",
+    "03": "mar",
+    "04": "abr",
+    "05": "may",
+    "06": "jun",
+    "07": "jul",
+    "08": "ago",
+    "09": "sep",
+    "10": "oct",
+    "11": "nov",
+    "12": "dic"
+  };
+
+  return `${day} ${monthByNumber[month] ?? month} ${year}`;
+}
+
+function getInitials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+function getActivityTone(category: string): SectionTone {
+  if (category.includes("CANCELACION")) {
+    return "red";
+  }
+
+  if (category.includes("BAJA")) {
+    return "gold";
+  }
+
+  if (category.includes("ALTA")) {
+    return "blue";
+  }
+
+  return "gold";
+}
+
 const dashboardSections: DashboardSection[] = [
   {
     title: "Operacion comercial",
-    description:
-      "Procesos centrales para alta, baja, cancelacion y seguimiento de visitas dentro de una operacion mas clara, elegante y accionable.",
+    description: "Flujos centrales para captar, cerrar, cancelar y mover visitas con una lectura mas clara.",
     accent: "red",
     cards: [
       {
         icon: "ALT",
         title: "Altas",
-        description: "Generacion de clave, expediente, condiciones de operacion, asesores y ficha tecnica.",
+        description: "Clave, expediente, condiciones, asesores y ficha tecnica en un solo recorrido.",
         href: "/remax-demo/alta?step=clave&propiedad=IBR-OP277",
         cta: "Abrir alta",
-        note: "Flujo continuo de captura y validacion.",
+        note: "Flujo continuo de captura.",
         pills: ["Clave", "Expediente", "Ficha tecnica"],
         tone: "blue"
       },
       {
         icon: "CIE",
         title: "Bajas / cierres",
-        description: "Cierre operativo con revision de valores, asesores involucrados y salida comercial.",
+        description: "Salida comercial con valores, responsables y comunicado listos para control interno.",
         href: "/remax-demo/baja?step=registro&propiedad=CBR-1748",
         cta: "Abrir cierre",
-        note: "Control de estatus y comunicado final.",
+        note: "Control de estatus final.",
         pills: ["Cierre", "Valores", "Comunicado"],
         tone: "red"
       },
       {
         icon: "CAN",
         title: "Cancelaciones",
-        description: "Registro de motivo, condicion de comision, responsables y trazabilidad del proceso.",
+        description: "Motivo, comision, responsables y trazabilidad de salida de cartera.",
         href: "/remax-demo/cancelacion?step=registro&propiedad=RTV-571",
         cta: "Abrir cancelacion",
-        note: "Seguimiento puntual hasta su salida de cartera.",
+        note: "Seguimiento hasta comunicado.",
         pills: ["Motivo", "Asesores", "Bitacora"],
         tone: "gold"
       },
       {
         icon: "VIS",
         title: "Visitas y recorridos",
-        description: "Agenda comercial, recorridos de campo y programacion operativa para seguimiento real.",
+        description: "Agenda de campo, visitas programadas y cobertura comercial del dia.",
         href: "/remax-demo/baja?step=busqueda&propiedad=CBR-1748",
         cta: "Ver agenda",
-        note: "Ideal para control comercial y coordinacion diaria.",
+        note: "Lectura diaria de actividad.",
         pills: ["Visitas", "Recorridos", "Agenda"],
         tone: "blue"
       }
@@ -86,47 +179,46 @@ const dashboardSections: DashboardSection[] = [
   },
   {
     title: "Gestion de cartera",
-    description:
-      "Control centralizado del inventario, historico de valores, propietarios y elementos operativos por inmueble.",
+    description: "Inventario, valores, propietarios y control operativo por inmueble en una base unica.",
     accent: "blue",
     cards: [
       {
         icon: "CAR",
         title: "Propiedades",
-        description: "Vista integral del expediente, ubicacion, origen, estatus y contexto comercial.",
+        description: "Expediente comercial, ubicacion, origen y estatus del inventario activo.",
         href: "/remax-demo/propiedades",
         cta: "Ver propiedades",
-        note: "Base limpia para inventario y operacion diaria.",
+        note: "Inventario siempre visible.",
         pills: ["Expediente", "Estatus", "Origen"],
         tone: "blue"
       },
       {
         icon: "VAL",
         title: "Valores",
-        description: "Historico comercial con motivo de cambio, posicion y referencia para minuta.",
+        description: "Historico de precio, posicion comercial y referencia para minuta.",
         href: "/remax-demo/valores?propiedad=CBR-1748",
         cta: "Ver valores",
-        note: "Lectura rapida del precio y su evolucion.",
+        note: "Evolucion comercial clara.",
         pills: ["Historico", "Precio", "Minuta"],
         tone: "gold"
       },
       {
         icon: "PRO",
         title: "Propietarios",
-        description: "Relacion de propietarios, copropiedad, datos de contacto y contexto por inmueble.",
+        description: "Relacion de propietarios, copropiedad y contacto vinculado a cada expediente.",
         href: "/remax-demo/propietarios?propiedad=IBR-OP277",
         cta: "Ver propietarios",
-        note: "Navegacion directa a ficha tecnica y expediente.",
+        note: "Contacto y contexto unificados.",
         pills: ["Contacto", "Copropiedad", "Ficha"],
         tone: "blue"
       },
       {
         icon: "LLV",
         title: "Control de llaves",
-        description: "Disponibilidad para visitas, recepcion, citas y seguimiento operativo por propiedad.",
+        description: "Recepcion, citas, disponibilidad y coordinacion de visitas por propiedad.",
         href: "/remax-demo/alta?step=expediente&propiedad=IBR-OP277",
         cta: "Abrir control",
-        note: "Permite coordinar recepcion y agenda comercial.",
+        note: "Operacion de campo sin friccion.",
         pills: ["Llaves", "Citas", "Recepcion"],
         tone: "red"
       }
@@ -134,47 +226,46 @@ const dashboardSections: DashboardSection[] = [
   },
   {
     title: "Equipo y seguimiento",
-    description:
-      "Operacion alineada entre asesores, staff administrativo, guardias y control de comisiones en un solo entorno.",
+    description: "Asesores, guardias, recorridos y comisiones alineados en un mismo entorno operativo.",
     accent: "gold",
     cards: [
       {
         icon: "ASE",
         title: "Asesores",
-        description: "Clase A y M, participacion por contexto y visibilidad del equipo comercial completo.",
+        description: "Clase A y M, participacion por contexto y visibilidad del equipo comercial.",
         href: "/remax-demo/asesores",
         cta: "Ver asesores",
-        note: "Pedro Leyva participa como Director General y Asesor A.",
+        note: "Direccion y equipo en la misma vista.",
         pills: ["Clase A/M", "Participacion", "Equipo"],
         tone: "blue"
       },
       {
         icon: "GRD",
         title: "Guardias",
-        description: "Cobertura comercial, continuidad de atencion y coordinacion de recepcion.",
+        description: "Cobertura comercial y continuidad de atencion con foco en recepcion y respuesta.",
         href: "/remax-demo/asesores",
         cta: "Ver guardias",
-        note: "Organizacion operativa para turnos y seguimiento.",
+        note: "Cobertura del dia.",
         pills: ["Cobertura", "Recepcion", "Seguimiento"],
         tone: "gold"
       },
       {
         icon: "COM",
         title: "Comisiones",
-        description: "Esquemas por politica o monto, visibles para la operacion y el equipo administrativo.",
+        description: "Politica, monto y control interno visibles para asesores y administracion.",
         href: "/remax-demo/alta?step=condiciones&propiedad=IBR-OP277",
         cta: "Ver comisiones",
-        note: "Mayor claridad para asesores A, M y staff.",
+        note: "Mas claridad para todo el equipo.",
         pills: ["Politica", "Monto", "Control"],
         tone: "red"
       },
       {
         icon: "REC",
         title: "Recorridos",
-        description: "Seguimiento de campo para visitas, cierres y acompanamiento comercial por zona.",
+        description: "Seguimiento de campo para visitas, cierres y cobertura por zona.",
         href: "/remax-demo/baja?step=busqueda&propiedad=CBR-1748",
         cta: "Ver recorridos",
-        note: "Conecta agenda, cartera y contacto comercial.",
+        note: "Campo y coordinacion conectados.",
         pills: ["Campo", "Zona", "Cobertura"],
         tone: "blue"
       }
@@ -182,47 +273,46 @@ const dashboardSections: DashboardSection[] = [
   },
   {
     title: "Control y reportes",
-    description:
-      "Trazabilidad ejecutiva para comunicados, minutas, cartera y roadmap de una arquitectura mas rapida y escalable.",
+    description: "Comunicados, minutas, reporte ejecutivo y arquitectura del producto en una sola lectura.",
     accent: "blue",
     cards: [
       {
         icon: "MSG",
         title: "Comunicados",
-        description: "Bitacora centralizada de altas, bajas y cancelaciones con vista previa y estado.",
+        description: "Bitacora de altas, bajas y cancelaciones con vista previa y estado.",
         href: "/remax-demo/comunicados",
         cta: "Ver comunicados",
-        note: "Todo el equipo opera sobre el mismo historial.",
+        note: "Historial centralizado.",
         pills: ["Alta", "Baja", "Cancelacion"],
         tone: "red"
       },
       {
         icon: "MIN",
         title: "Minutas",
-        description: "Cambios comerciales listos para minuta con referencias directas a valores y cierres.",
+        description: "Cambios comerciales vinculados a valores, cierres y salida administrativa.",
         href: "/remax-demo/valores?propiedad=CBR-1748",
         cta: "Ver minutas",
-        note: "Menos friccion para el cierre administrativo.",
+        note: "Menos friccion documental.",
         pills: ["Cambios", "Motivos", "Versiones"],
         tone: "gold"
       },
       {
         icon: "RPT",
         title: "Reporte de cartera",
-        description: "Lectura ejecutiva del inventario, procesos abiertos y actividad reciente del equipo.",
+        description: "Inventario, procesos abiertos, actividad y estado comercial del mes.",
         href: "/remax-demo",
         cta: "Ver reporte",
-        note: "Vista premium para direccion y coordinacion operativa.",
+        note: "Vista para direccion.",
         pills: ["KPIs", "Inventario", "Actividad"],
         tone: "blue"
       },
       {
         icon: "WEB",
         title: "Arquitectura web",
-        description: "Roadmap del producto con Astro, Supabase, Railway y evolucion futura a wrapper movil.",
+        description: "Astro, Supabase, Railway y evolucion futura a app movil conectada.",
         href: "/remax-demo/arquitectura",
         cta: "Ver arquitectura",
-        note: "Base preparada para crecer sin perder claridad operativa.",
+        note: "Base preparada para crecer.",
         pills: ["Astro", "Supabase", "Railway"],
         tone: "red"
       }
@@ -230,35 +320,44 @@ const dashboardSections: DashboardSection[] = [
   }
 ];
 
+const benefitStrip = [
+  "Mas claridad operativa",
+  "Seguimiento comercial mas agil",
+  "Mejor visibilidad para direccion",
+  "Base preparada para crecer"
+];
+
 const benefitCards = [
   {
     icon: "OPS",
     title: "Operacion centralizada",
-    copy: "Propiedades, asesores, propietarios, visitas y cierres viven en un solo entorno operativo."
+    copy: "Propiedades, asesores, propietarios, visitas y cierres trabajan sobre la misma base operativa."
   },
   {
     icon: "DIR",
-    title: "Pilotaje ejecutivo",
-    copy: "Direccion y coordinacion comercial ven actividad, prioridades, pipeline y alertas desde una vista unica."
+    title: "Lectura ejecutiva",
+    copy: "Direccion y coordinacion comercial ven pipeline, actividad y alertas en una vista unica."
   },
   {
     icon: "MOV",
-    title: "Roadmap movil real",
-    copy: "La web resuelve administracion y control ahora, mientras la etapa movil acelera el trabajo del asesor en campo."
+    title: "Roadmap movil concreto",
+    copy: "La etapa web resuelve control hoy y la etapa movil acelera al asesor en campo."
   },
   {
     icon: "INT",
     title: "Capa inteligente util",
-    copy: "Hugging Face se usa para priorizar seguimientos y detectar riesgo comercial, no como un recurso cosmetico."
+    copy: "Hugging Face ayuda a priorizar seguimientos y detectar riesgo comercial real."
   }
 ];
 
-const openProcesses = [
+const openProcesses: OpenProcess[] = [
   {
     type: "Alta",
     property: "IBR-OP277",
     stage: "Expediente, condiciones y ficha tecnica",
-    owner: "Pedro Leyva y Patricia Romo",
+    owners: ["Pedro Leyva", "Patricia Romo"],
+    nextAction: "Validar condiciones de renta y liberar ficha comercial",
+    priority: "alta",
     href: "/remax-demo/alta?step=expediente&propiedad=IBR-OP277",
     status: "En captura"
   },
@@ -266,7 +365,9 @@ const openProcesses = [
     type: "Baja / cierre",
     property: "CBR-1748",
     stage: "Revision de valores y comunicado de salida",
-    owner: "Julieta Mora y Erika Valles",
+    owners: ["Julieta Mora", "Erika Valles"],
+    nextAction: "Confirmar ultimo valor y emitir comunicado interno",
+    priority: "alta",
     href: "/remax-demo/baja?step=valores&propiedad=CBR-1748",
     status: "En revision"
   },
@@ -274,7 +375,9 @@ const openProcesses = [
     type: "Cancelacion",
     property: "RTV-571",
     stage: "Registro, asesores y condicion de comision",
-    owner: "Patricia Romo y Sofia Campos",
+    owners: ["Patricia Romo", "Sofia Campos"],
+    nextAction: "Validar cancelacion y confirmar salida operativa",
+    priority: "media",
     href: "/remax-demo/cancelacion?step=asesores&propiedad=RTV-571",
     status: "Listo para comunicado"
   },
@@ -282,36 +385,46 @@ const openProcesses = [
     type: "Seguimiento comercial",
     property: "ICV-441",
     stage: "Visitas, propietarios y control de agenda",
-    owner: "Gabriela Perez y Diego Ruiz",
+    owners: ["Gabriela Perez", "Diego Ruiz"],
+    nextAction: "Actualizar visitas activas y feedback del cliente",
+    priority: "media",
     href: "/remax-demo/propietarios?propiedad=ICV-441",
     status: "En seguimiento"
   }
 ];
 
-const quickActions = [
+const quickActions: QuickAction[] = [
   {
+    icon: "KAN",
     title: "Ver pipeline operativo",
-    description: "Visualizar oportunidades en Kanban y Lista con prioridad, sentimiento y referencia comercial.",
-    href: "/remax-demo/pipeline"
+    description: "Kanban y Lista con prioridad, sentimiento y referencia comercial.",
+    href: "/remax-demo/pipeline",
+    tag: "Pipeline"
   },
   {
+    icon: "IA",
     title: "Abrir analisis inteligente",
-    description: "Priorizar seguimientos con lectura asistida sobre notas y comentarios comerciales.",
-    href: "/remax-demo/analisis"
+    description: "Lectura asistida para priorizar seguimientos y detectar riesgo comercial.",
+    href: "/remax-demo/analisis",
+    tag: "Hugging Face"
   },
   {
+    icon: "ALT",
     title: "Nueva alta",
     description: "Abrir un expediente desde clave hasta ficha tecnica.",
-    href: "/remax-demo/alta?step=clave&propiedad=IBR-OP277"
+    href: "/remax-demo/alta?step=clave&propiedad=IBR-OP277",
+    tag: "Operacion"
   },
   {
+    icon: "APP",
     title: "Ver roadmap movil",
-    description: "Presentar la evolucion a app para asesores en campo.",
-    href: "/remax-demo#roadmap-producto"
+    description: "Presentar la etapa 2 para asesores en campo.",
+    href: "/remax-demo#roadmap-producto",
+    tag: "Mobile"
   }
 ];
 
-const mobileScreens = [
+const mobileScreens: MobileScreen[] = [
   {
     title: "Dashboard del asesor",
     subtitle: "Buenos dias, Carlos",
@@ -321,17 +434,19 @@ const mobileScreens = [
       { label: "Propiedades activas", value: "12" },
       { label: "Seguimientos pendientes", value: "7" }
     ],
+    note: "Enfoque del dia: 2 visitas activas y 1 cierre por destrabar.",
     actions: ["Registrar visita", "Ver agenda", "Subir evidencia", "Contactar cliente"]
   },
   {
     title: "Agenda de visitas",
-    subtitle: "Viernes 25 de marzo",
+    subtitle: "Agenda de hoy",
     style: "agenda",
     visits: [
-      "09:30 · Mariana Fuentes · ICV-441 · Confirmada",
-      "12:00 · Grupo Laureles · IBR-OP277 · Ruta lista",
-      "16:30 · Parques Santa Maria · CBR-1748 · En seguimiento"
+      { time: "09:30", client: "Mariana Fuentes", property: "ICV-441", status: "Confirmada" },
+      { time: "12:00", client: "Grupo Laureles", property: "IBR-OP277", status: "Ruta lista" },
+      { time: "16:30", client: "Parques Santa Maria", property: "CBR-1748", status: "En seguimiento" }
     ],
+    note: "Ruta optimizada para cubrir zona poniente y cierre de campo antes de las 18:00.",
     actions: ["Iniciar ruta", "Marcar llegada"]
   },
   {
@@ -339,11 +454,13 @@ const mobileScreens = [
     subtitle: "IBR-OP277 · El Zapote del Valle",
     style: "property",
     details: [
-      "Precio referencia: MXN 605,253.60",
-      "Propietario: Oscar Ivan Olivares",
-      "Asesor asignado: Pedro Leyva",
-      "Estado: Alta iniciada"
+      { label: "Precio", value: "MXN 605,253.60" },
+      { label: "Direccion", value: "Camino viejo a los Laureles 195" },
+      { label: "Propietario", value: "Oscar Ivan Olivares" },
+      { label: "Asesor asignado", value: "Pedro Leyva" },
+      { label: "Estado", value: "Alta iniciada" }
     ],
+    note: "Cliente interesado en agendar visita de seguimiento y revisar acceso para citas.",
     actions: ["Llamar", "WhatsApp", "Abrir mapa", "Registrar visita"]
   },
   {
@@ -351,11 +468,12 @@ const mobileScreens = [
     subtitle: "Mariana Fuentes",
     style: "prospect",
     details: [
-      "Origen: Referido digital",
-      "Interes: Casa familiar zona poniente",
-      "Ultima interaccion: WhatsApp hace 2h",
-      "Proximo recordatorio: Hoy 16:30"
+      { label: "Origen", value: "Referido digital" },
+      { label: "Interes", value: "Casa familiar zona poniente" },
+      { label: "Ultima interaccion", value: "WhatsApp hace 2h" },
+      { label: "Proximo recordatorio", value: "Hoy 16:30" }
     ],
+    note: "Prospecto activo; valora rapidez en respuesta y comparativo de precio por zona.",
     actions: ["Llamada", "WhatsApp", "Correo", "Actualizar estatus"]
   }
 ];
@@ -369,19 +487,33 @@ export default function RemaxMenuOperacionPage() {
   const followUpAlerts = getSentimentActionQueue();
   const valueHistory = getAllValueHistory();
   const monthlyCommunications = remaxDemoCommunications.filter((item) => item.fecha.startsWith("2026-03")).length;
+  const monthlyValueEvents = valueHistory.filter((item) => item.fecha.startsWith("2026-03")).length;
+  const monthlyActivityTotal = monthlyCommunications + monthlyValueEvents;
 
   const totalStaff = remaxDemoAdvisors.length;
   const adminCount = remaxDemoAdvisors.filter((advisor) => advisor.tipoPersonal === "administrativo").length;
   const receptionCount = remaxDemoAdvisors.filter((advisor) => advisor.tipoPersonal === "recepcion").length;
+
   const criticalOpportunities = pipelineItems
     .filter((item) => item.priority === "alta" || item.sentiment === "sensible / en riesgo")
     .slice(0, 4);
   const pendingClosures = pipelineItems
     .filter((item) => item.stage === "Negociacion" || item.stage === "Cierre")
     .slice(0, 4);
+
+  const totalProperties = menuStats.active + menuStats.closed + menuStats.cancelled;
+  const hotOpportunities = pipelineItems.filter(
+    (item) => item.priority === "alta" && item.stage !== "Cancelado"
+  ).length;
+  const urgentFollowUps = followUpAlerts.filter((item) => item.priority === "alta").length;
+  const closeProbability = Math.round((pendingClosures.length / Math.max(pipelineSummary.active, 1)) * 100);
+
   const stageOverview = [
     "Nuevo lead",
+    "Contactado",
+    "Evaluacion",
     "Alta iniciada",
+    "Publicado",
     "Visitas",
     "Negociacion",
     "Cierre",
@@ -411,6 +543,99 @@ export default function RemaxMenuOperacionPage() {
       label: "Equipo operativo",
       value: String(totalStaff),
       note: "Direccion, administracion, recepcion y asesores clase A y M."
+    }
+  ];
+
+  const executiveKpis = [
+    {
+      label: "Propiedades activas",
+      value: String(menuStats.active),
+      note: "Inventario listo para comercializacion."
+    },
+    {
+      label: "Procesos abiertos",
+      value: String(openProcesses.length),
+      note: "Altas, cierres y seguimiento en curso."
+    },
+    {
+      label: "Seguimientos criticos",
+      value: String(urgentFollowUps),
+      note: "Casos que requieren accion inmediata."
+    },
+    {
+      label: "Cierres pendientes",
+      value: String(pendingClosures.length),
+      note: "Operaciones cercanas a cierre."
+    },
+    {
+      label: "Actividad comercial del mes",
+      value: String(monthlyActivityTotal),
+      note: "Valores y comunicados con movimiento real."
+    },
+    {
+      label: "Equipo operativo en accion",
+      value: String(totalStaff),
+      note: "Direccion, staff, recepcion y asesores activos."
+    }
+  ];
+
+  const inventoryMix = [
+    {
+      label: "Activas",
+      total: menuStats.active,
+      share: Math.round((menuStats.active / Math.max(totalProperties, 1)) * 100),
+      tone: "blue" as SectionTone
+    },
+    {
+      label: "Cerradas",
+      total: menuStats.closed,
+      share: Math.round((menuStats.closed / Math.max(totalProperties, 1)) * 100),
+      tone: "gold" as SectionTone
+    },
+    {
+      label: "Canceladas",
+      total: menuStats.cancelled,
+      share: Math.round((menuStats.cancelled / Math.max(totalProperties, 1)) * 100),
+      tone: "red" as SectionTone
+    }
+  ];
+
+  const riskInsight = followUpAlerts.find((item) => item.sentiment === "sensible / en riesgo") ?? followUpAlerts[0];
+  const cancelProcess = openProcesses.find((process) => process.type === "Cancelacion");
+  const closureProcess = pendingClosures[0];
+  const staleVisit = pipelineItems.find((item) => item.stage === "Visitas");
+  const priceSensitiveLead = followUpAlerts.find((item) => item.priority === "alta") ?? followUpAlerts[0];
+
+  const executiveAlerts = [
+    {
+      title: "Cliente sensible por precio",
+      detail: `${riskInsight?.clientName ?? "Lead prioritario"} requiere ajuste comercial y contacto puntual.`,
+      priority: "alta" as RemaxPriorityLevel,
+      href: "/remax-demo/analisis"
+    },
+    {
+      title: "Cancelacion pendiente de validacion",
+      detail: `${cancelProcess?.property ?? "RTV-571"} necesita confirmacion de salida y comunicado final.`,
+      priority: "alta" as RemaxPriorityLevel,
+      href: cancelProcess?.href ?? "/remax-demo/cancelacion?step=registro&propiedad=RTV-571"
+    },
+    {
+      title: "Cierre esperando comunicado",
+      detail: `${closureProcess?.itemLabel ?? "CBR-1748"} avanza a cierre y debe pasar a circuito administrativo.`,
+      priority: "media" as RemaxPriorityLevel,
+      href: "/remax-demo/pipeline"
+    },
+    {
+      title: "Seguimiento vencido",
+      detail: `${priceSensitiveLead?.clientName ?? "Prospecto activo"} necesita recontacto antes del final del dia.`,
+      priority: "alta" as RemaxPriorityLevel,
+      href: "/remax-demo/analisis"
+    },
+    {
+      title: "Propiedad con visitas activas sin actualizacion",
+      detail: `${staleVisit?.itemLabel ?? "ICV-441"} sigue en visitas y requiere feedback comercial inmediato.`,
+      priority: "media" as RemaxPriorityLevel,
+      href: "/remax-demo/pipeline"
     }
   ];
 
@@ -468,6 +693,9 @@ export default function RemaxMenuOperacionPage() {
           <div className="remax-executive-topline">
             <span>Vista ejecutiva</span>
             <strong>Direccion, administracion y coordinacion comercial</strong>
+            <p className="remax-executive-caption">
+              Lectura sintetica del inventario, actividad, prioridades y capacidad de cierre desde una sola vista.
+            </p>
           </div>
           <div className="remax-executive-grid">
             <article className="remax-executive-item">
@@ -506,6 +734,12 @@ export default function RemaxMenuOperacionPage() {
         ))}
       </div>
 
+      <div className="remax-benefit-strip">
+        {benefitStrip.map((item) => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+
       <AccessSection title="Por que esta plataforma" accent="blue">
         <div className="remax-benefits-grid">
           {benefitCards.map((benefit) => (
@@ -518,110 +752,152 @@ export default function RemaxMenuOperacionPage() {
         </div>
       </AccessSection>
 
-      <AccessSection title="Plataforma ejecutiva" accent="red">
-        <p className="remax-section-copy">
-          Una vista pensada para pilotar la oficina: KPIs globales, oportunidades criticas, cierres pendientes,
-          alertas de seguimiento, resumen del pipeline y estado operativo del equipo.
-        </p>
-        <div className="remax-executive-cards">
-          <article className="remax-executive-card">
-            <div className="remax-executive-card-header">
-              <span>Resumen del pipeline</span>
-              <strong>{pipelineSummary.total} oportunidades</strong>
+      <AccessSection
+        title="Plataforma ejecutiva"
+        accent="red"
+        action={<span className="remax-section-badge">Direccion y coordinacion</span>}
+      >
+        <div className="remax-executive-command">
+          <div className="remax-executive-command-header">
+            <div className="remax-executive-command-copy">
+              <span>Plataforma ejecutiva</span>
+              <strong>Lectura de direccion para supervisar inventario, procesos abiertos, actividad comercial y seguimiento prioritario desde una sola vista.</strong>
+              <p>
+                Un cockpit de pilotaje inmobiliario con foco en operacion, ritmo comercial, alertas y capacidad de
+                respuesta del equipo.
+              </p>
             </div>
-            <div className="remax-stage-overview">
-              {stageOverview.map((item) => (
-                <div key={item.stage} className="remax-stage-row">
-                  <span>{item.stage}</span>
-                  <strong>{item.total}</strong>
+            <div className="remax-executive-command-status">
+              <span>Corte operativo</span>
+              <strong>25 de marzo de 2026</strong>
+              <p>Operacion estable con actividad comercial alta, seguimiento prioritario visible y cierres por destrabar.</p>
+            </div>
+          </div>
+
+          <div className="remax-executive-kpi-grid">
+            {executiveKpis.map((kpi) => (
+              <article key={kpi.label} className="remax-executive-kpi">
+                <span>{kpi.label}</span>
+                <strong>{kpi.value}</strong>
+                <p>{kpi.note}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="remax-executive-command-grid">
+            <article className="remax-command-card">
+              <div className="remax-command-card-header">
+                <span>Estado general del inventario</span>
+                <strong>{totalProperties} propiedades monitoreadas</strong>
+              </div>
+              <div className="remax-inventory-stack">
+                {inventoryMix.map((item) => (
+                  <div key={item.label} className="remax-inventory-row">
+                    <div className="remax-inventory-copy">
+                      <strong>{item.label}</strong>
+                      <span>{item.total} propiedades</span>
+                    </div>
+                    <div className={`remax-inventory-meter remax-inventory-meter-${item.tone}`}>
+                      <span style={{ width: `${item.share}%` }} />
+                    </div>
+                    <strong className="remax-inventory-share">{item.share}%</strong>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article className="remax-command-card">
+              <div className="remax-command-card-header">
+                <span>Procesos criticos del dia</span>
+                <strong>{openProcesses.length} frentes abiertos</strong>
+              </div>
+              <div className="remax-executive-process-list">
+                {openProcesses.map((process) => (
+                  <Link key={`${process.type}-${process.property}`} href={process.href} className="remax-executive-process-card">
+                    <div className="remax-executive-process-topline">
+                      <span>{process.type}</span>
+                      <PriorityBadge priority={process.priority} />
+                    </div>
+                    <strong>{process.property}</strong>
+                    <p>{process.stage}</p>
+                    <div className="remax-executive-process-next">
+                      <span>Proxima accion</span>
+                      <strong>{process.nextAction}</strong>
+                    </div>
+                    <div className="remax-executive-process-owners">
+                      <div className="remax-owner-avatar-row">
+                        {process.owners.map((owner) => (
+                          <span key={owner} className="remax-owner-avatar">
+                            {getInitials(owner)}
+                          </span>
+                        ))}
+                      </div>
+                      <small>{process.owners.join(" · ")}</small>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </article>
+
+            <article className="remax-command-card">
+              <div className="remax-command-card-header">
+                <span>Resumen del pipeline comercial</span>
+                <strong>{pipelineSummary.total} oportunidades activas y monitorizadas</strong>
+              </div>
+              <div className="remax-stage-overview remax-stage-overview-dense">
+                {stageOverview.map((item) => (
+                  <div key={item.stage} className="remax-stage-row">
+                    <span>{item.stage}</span>
+                    <strong>{item.total}</strong>
+                  </div>
+                ))}
+              </div>
+              <div className="remax-pipeline-summary-cards">
+                <div className="remax-pipeline-summary-card">
+                  <span>Oportunidades calientes</span>
+                  <strong>{hotOpportunities}</strong>
                 </div>
-              ))}
-            </div>
-          </article>
-
-          <article className="remax-executive-card">
-            <div className="remax-executive-card-header">
-              <span>Oportunidades criticas</span>
-              <strong>{criticalOpportunities.length} focos comerciales</strong>
-            </div>
-            <div className="remax-executive-list">
-              {criticalOpportunities.map((item) => (
-                <Link key={item.id} href="/remax-demo/pipeline" className="remax-mini-opportunity">
-                  <div>
-                    <strong>{item.itemLabel}</strong>
-                    <p>{item.nextAction}</p>
-                  </div>
-                  <div className="remax-mini-opportunity-badges">
-                    <SentimentBadge sentiment={item.sentiment} />
-                    <PriorityBadge priority={item.priority} />
-                  </div>
+                <div className="remax-pipeline-summary-card">
+                  <span>Seguimientos urgentes</span>
+                  <strong>{urgentFollowUps}</strong>
+                </div>
+                <div className="remax-pipeline-summary-card">
+                  <span>Probabilidad de cierre</span>
+                  <strong>{closeProbability}%</strong>
+                </div>
+              </div>
+              <div className="remax-inline-actions">
+                <Link href="/remax-demo/pipeline?view=kanban" className="button button-secondary">
+                  Ver Kanban
                 </Link>
-              ))}
-            </div>
-          </article>
-
-          <article className="remax-executive-card">
-            <div className="remax-executive-card-header">
-              <span>Cierres pendientes</span>
-              <strong>{pendingClosures.length} operaciones</strong>
-            </div>
-            <div className="remax-executive-list">
-              {pendingClosures.map((item) => (
-                <Link key={item.id} href="/remax-demo/pipeline" className="remax-mini-opportunity">
-                  <div>
-                    <strong>{item.itemLabel}</strong>
-                    <p>{item.commercialReference}</p>
-                  </div>
-                  <small>{item.stage}</small>
+                <Link href="/remax-demo/pipeline?view=list" className="button button-secondary">
+                  Ver Lista
                 </Link>
-              ))}
-            </div>
-          </article>
+              </div>
+            </article>
 
-          <article className="remax-executive-card">
-            <div className="remax-executive-card-header">
-              <span>Alertas de seguimiento</span>
-              <strong>{followUpAlerts.length} siguientes pasos</strong>
-            </div>
-            <div className="remax-executive-list">
-              {followUpAlerts.slice(0, 4).map((item) => (
-                <Link key={item.id} href="/remax-demo/analisis" className="remax-mini-opportunity">
-                  <div>
-                    <strong>{item.clientName}</strong>
-                    <p>{item.nextFollowUp}</p>
-                  </div>
-                  <div className="remax-mini-opportunity-badges">
-                    <PriorityBadge priority={item.priority} />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </article>
+            <article className="remax-command-card">
+              <div className="remax-command-card-header">
+                <span>Alertas y seguimiento prioritario</span>
+                <strong>Alertas ejecutivas</strong>
+              </div>
+              <div className="remax-alert-list">
+                {executiveAlerts.map((alert) => (
+                  <Link key={alert.title} href={alert.href} className="remax-alert-card">
+                    <div className="remax-alert-card-topline">
+                      <strong>{alert.title}</strong>
+                      <PriorityBadge priority={alert.priority} />
+                    </div>
+                    <p>{alert.detail}</p>
+                  </Link>
+                ))}
+              </div>
+            </article>
+          </div>
 
-          <article className="remax-executive-card">
-            <div className="remax-executive-card-header">
-              <span>Estado operativo del equipo</span>
-              <strong>{totalStaff} personas activas</strong>
-            </div>
-            <div className="remax-team-grid">
-              <div className="remax-team-chip">
-                <span>Asesores A</span>
-                <strong>{menuStats.advisorsA}</strong>
-              </div>
-              <div className="remax-team-chip">
-                <span>Asesores M</span>
-                <strong>{menuStats.advisorsM}</strong>
-              </div>
-              <div className="remax-team-chip">
-                <span>Administracion</span>
-                <strong>{adminCount}</strong>
-              </div>
-              <div className="remax-team-chip">
-                <span>Recepcion</span>
-                <strong>{receptionCount}</strong>
-              </div>
-            </div>
-          </article>
+          <p className="remax-executive-closing">
+            Disenada para direccion, coordinacion y control comercial con una lectura mas clara, rapida y accionable.
+          </p>
         </div>
       </AccessSection>
 
@@ -662,15 +938,15 @@ export default function RemaxMenuOperacionPage() {
 
       <AccessSection title="Capa comercial avanzada" accent="gold">
         <p className="remax-section-copy">
-          Dos diferenciadores modernos para convertir la plataforma en una herramienta de direccion comercial: una
-          capa inteligente con Hugging Face y un pipeline operativo con lectura visual tipo CRM inmobiliario.
+          Dos diferenciadores para convertir la plataforma en una herramienta de direccion comercial: una capa
+          inteligente con Hugging Face y un pipeline operativo con lectura visual tipo CRM inmobiliario.
         </p>
         <div className="remax-advanced-grid">
           <article className="remax-feature-panel">
             <div className="remax-feature-panel-header">
               <span className="remax-feature-icon">IA</span>
               <div>
-                <strong>Análisis inteligente</strong>
+                <strong>Analisis inteligente</strong>
                 <p>
                   Clasificacion asistida con Hugging Face para leer notas de asesores, comentarios de clientes y
                   senales comerciales con el fin de priorizar seguimientos, detectar oportunidades sensibles y mejorar
@@ -743,130 +1019,205 @@ export default function RemaxMenuOperacionPage() {
         </div>
       </AccessSection>
 
-      <div id="roadmap-producto">
-        <AccessSection title="Hoja de ruta del producto" accent="blue">
-          <div className="remax-roadmap-grid">
-            <article className="remax-context-card remax-roadmap-card">
-              <span>Etapa 1</span>
-              <strong>Plataforma Web Operativa</strong>
-              <p>
-                Pensada para direccion, administracion, coordinacion comercial y operacion interna. Esta etapa
-                centraliza la gestion de propiedades, propietarios, asesores, visitas, cierres, cancelaciones,
-                comisiones y control operativo en una interfaz web moderna, clara y escalable.
-              </p>
-              <ul className="remax-feature-list">
-                <li>Gestion centralizada</li>
-                <li>Flujo operativo mas claro</li>
-                <li>Mayor control administrativo</li>
-                <li>Base lista para crecimiento futuro</li>
-              </ul>
-            </article>
+      <AccessSection title="Hoja de ruta del producto" accent="blue">
+        <div className="remax-roadmap-grid">
+          <article className="remax-context-card remax-roadmap-card">
+            <span>Etapa 1</span>
+            <strong>Plataforma Web Operativa</strong>
+            <p>
+              Pensada para direccion, administracion, coordinacion comercial y operacion interna. Esta etapa
+              centraliza la gestion de propiedades, propietarios, asesores, visitas, cierres, cancelaciones,
+              comisiones y control operativo en una interfaz web moderna, clara y escalable.
+            </p>
+            <ul className="remax-feature-list">
+              <li>Gestion centralizada</li>
+              <li>Flujo operativo mas claro</li>
+              <li>Mayor control administrativo</li>
+              <li>Base lista para crecimiento futuro</li>
+            </ul>
+          </article>
 
-            <article className="remax-context-card remax-roadmap-card">
-              <span>Etapa 2</span>
-              <strong>App movil para asesores en campo</strong>
-              <p>
-                Evolucion natural de la plataforma hacia una experiencia movil para iPhone y Android, enfocada en
-                asesores fuera de oficina. El objetivo es permitir seguimiento comercial mas agil, registro de
-                visitas, contacto rapido con clientes y actualizacion de operaciones en tiempo real mediante un
-                wrapper conectado a la misma base del sistema.
-              </p>
-              <ul className="remax-feature-list">
-                <li>Dashboard del asesor</li>
-                <li>Agenda de visitas</li>
-                <li>Ficha de propiedad</li>
-                <li>Seguimiento de prospectos</li>
-                <li>Registro rapido de visitas</li>
-                <li>Llamada, WhatsApp y ubicacion</li>
-                <li>Carga de fotos y notas</li>
-                <li>Recordatorios y notificaciones</li>
-              </ul>
-            </article>
-          </div>
+          <article className="remax-context-card remax-roadmap-card">
+            <span>Etapa 2</span>
+            <strong>App movil para asesores en campo</strong>
+            <p>
+              Evolucion natural de la plataforma hacia una experiencia movil para iPhone y Android, conectada a la
+              misma base operativa para consulta, seguimiento, visitas, comunicacion y actualizacion rapida de
+              operaciones en campo.
+            </p>
+            <ul className="remax-feature-list">
+              <li>Dashboard del asesor</li>
+              <li>Agenda de visitas</li>
+              <li>Ficha de propiedad</li>
+              <li>Seguimiento de prospectos</li>
+              <li>Registro rapido de visitas</li>
+              <li>Llamada, WhatsApp y ubicacion</li>
+              <li>Carga de fotos y notas</li>
+              <li>Recordatorios y notificaciones</li>
+            </ul>
+          </article>
+        </div>
 
-          <div className="remax-roadmap-summary">
-            <span>Subtexto final</span>
-            <strong>Una sola plataforma, dos niveles de uso</strong>
-            <ol className="remax-roadmap-list">
-              <li>Operacion web para administracion y control</li>
-              <li>App movil para productividad comercial en campo</li>
-            </ol>
-          </div>
-        </AccessSection>
-      </div>
-
-      <AccessSection title="Mockup movil para asesores en campo" accent="gold">
-        <p className="remax-section-copy">
-          Una vista clara de la etapa 2: app para asesores con enfoque en visitas, seguimiento comercial,
-          comunicacion rapida y actualizacion de operaciones desde campo.
-        </p>
-        <div className="remax-mobile-grid">
-          {mobileScreens.map((screen) => (
-            <article key={screen.title} className="remax-phone-mock">
-              <div className="remax-phone-notch" />
-              <div className="remax-phone-screen">
-                <div className="remax-phone-topline">
-                  <span>{screen.title}</span>
-                  <strong>{screen.subtitle}</strong>
-                </div>
-
-                {screen.kpis ? (
-                  <div className="remax-phone-kpi-grid">
-                    {screen.kpis.map((kpi) => (
-                      <div key={kpi.label} className="remax-phone-kpi">
-                        <span>{kpi.label}</span>
-                        <strong>{kpi.value}</strong>
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-
-                {screen.visits ? (
-                  <div className="remax-phone-list">
-                    {screen.visits.map((visit) => (
-                      <div key={visit} className="remax-phone-list-item">
-                        {visit}
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-
-                {screen.style === "property" ? <div className="remax-phone-photo">IBR-OP277</div> : null}
-
-                {screen.details ? (
-                  <div className="remax-phone-list">
-                    {screen.details.map((detail) => (
-                      <div key={detail} className="remax-phone-list-item">
-                        {detail}
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-
-                <div className="remax-phone-actions">
-                  {screen.actions.map((action) => (
-                    <span key={action} className="remax-phone-action">
-                      {action}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </article>
-          ))}
+        <div className="remax-roadmap-summary">
+          <span>Subtexto final</span>
+          <strong>Una sola plataforma, dos niveles de uso</strong>
+          <ol className="remax-roadmap-list">
+            <li>Operacion web para administracion y control</li>
+            <li>Experiencia movil para productividad comercial en campo</li>
+          </ol>
         </div>
       </AccessSection>
+
+      <div id="roadmap-producto">
+        <AccessSection
+          title="Etapa 2 — App movil para asesores en campo"
+          accent="gold"
+          action={<span className="remax-section-badge">iPhone y Android via wrapper</span>}
+        >
+          <div className="remax-mobile-stage">
+            <div className="remax-mobile-stage-copy">
+              <span>Productividad comercial movil</span>
+              <strong>Version movil enfocada en productividad comercial para asesores fuera de oficina.</strong>
+              <p>
+                Disenada para iPhone y Android mediante wrapper, conectada a la misma base operativa para consulta,
+                seguimiento, visitas, comunicacion y actualizacion rapida de operaciones en campo.
+              </p>
+
+              <div className="remax-mobile-stage-summary">
+                <span>Una sola plataforma, dos niveles de uso</span>
+                <ol className="remax-roadmap-list">
+                  <li>Operacion web para administracion y control</li>
+                  <li>Experiencia movil para productividad comercial en campo</li>
+                </ol>
+              </div>
+
+              <div className="remax-mobile-stage-pills">
+                <span>Consulta rapida</span>
+                <span>Seguimiento comercial</span>
+                <span>Visitas y ubicacion</span>
+                <span>Operacion desde el telefono</span>
+              </div>
+            </div>
+
+            <div className="remax-mobile-grid">
+              {mobileScreens.map((screen) => (
+                <article key={screen.title} className={`remax-phone-mock remax-phone-mock-${screen.style}`}>
+                  <div className="remax-phone-shell">
+                    <div className="remax-phone-notch" />
+                    <div className="remax-phone-screen">
+                      <div className="remax-phone-statusbar">
+                        <span>9:41</span>
+                        <small>5G · 92%</small>
+                      </div>
+
+                      <div className="remax-phone-topline">
+                        <span>{screen.title}</span>
+                        <strong>{screen.subtitle}</strong>
+                      </div>
+
+                      {screen.style === "dashboard" ? (
+                        <div className="remax-phone-hero-card">
+                          <strong>Jornada comercial en curso</strong>
+                          <p>{screen.note}</p>
+                        </div>
+                      ) : null}
+
+                      {screen.kpis ? (
+                        <div className="remax-phone-kpi-grid">
+                          {screen.kpis.map((kpi) => (
+                            <div key={kpi.label} className="remax-phone-kpi">
+                              <span>{kpi.label}</span>
+                              <strong>{kpi.value}</strong>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {screen.visits ? (
+                        <div className="remax-phone-visit-list">
+                          {screen.visits.map((visit) => (
+                            <div key={`${visit.time}-${visit.client}`} className="remax-phone-visit-card">
+                              <div>
+                                <span>{visit.time}</span>
+                                <strong>{visit.client}</strong>
+                              </div>
+                              <div>
+                                <span>{visit.property}</span>
+                                <strong>{visit.status}</strong>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {screen.style === "agenda" ? (
+                        <div className="remax-phone-route-card">
+                          <span>Ruta activa</span>
+                          <strong>Zona poniente lista para cobertura</strong>
+                        </div>
+                      ) : null}
+
+                      {screen.style === "property" ? <div className="remax-phone-photo">Residencial poniente</div> : null}
+
+                      {screen.details ? (
+                        <div className="remax-phone-detail-stack">
+                          {screen.details.map((detail) => (
+                            <div key={detail.label} className="remax-phone-detail-card">
+                              <span>{detail.label}</span>
+                              <strong>{detail.value}</strong>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {screen.note ? <div className="remax-phone-note">{screen.note}</div> : null}
+
+                      <div className="remax-phone-actions">
+                        {screen.actions.map((action) => (
+                          <span key={action} className="remax-phone-action">
+                            {action}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="remax-phone-bottomnav">
+                        <span className="active">Inicio</span>
+                        <span>Agenda</span>
+                        <span>Prospectos</span>
+                        <span>Mas</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <p className="remax-mobile-footnote">
+            Pensado para asesores en movimiento: visitas, seguimiento, contacto y operacion rapida desde el telefono.
+          </p>
+        </AccessSection>
+      </div>
 
       <div className="remax-dashboard-lower">
         <AccessSection title="Actividad reciente" accent="blue">
           <div className="remax-activity-list">
             {recentActivities.map((item) => (
-              <Link key={`${item.date}-${item.title}`} href={item.href} className="remax-activity-item">
-                <div className="remax-activity-meta">
-                  <span>{item.category}</span>
-                  <strong>{item.title}</strong>
+              <Link
+                key={`${item.date}-${item.title}`}
+                href={item.href}
+                className={`remax-activity-item remax-activity-item-${getActivityTone(item.category)}`}
+              >
+                <div className="remax-activity-topline">
+                  <span className={`remax-activity-tag remax-activity-tag-${getActivityTone(item.category)}`}>
+                    {item.category}
+                  </span>
+                  <time>{formatShortDate(item.date)}</time>
                 </div>
-                <p>{item.detail}</p>
-                <time>{item.date}</time>
+                <div className="remax-activity-meta">
+                  <strong>{item.title}</strong>
+                  <p>{item.detail}</p>
+                </div>
               </Link>
             ))}
           </div>
@@ -877,11 +1228,27 @@ export default function RemaxMenuOperacionPage() {
             <div className="remax-process-list">
               {openProcesses.map((process) => (
                 <Link key={`${process.type}-${process.property}`} href={process.href} className="remax-process-card">
-                  <span>{process.type}</span>
+                  <div className="remax-process-topline">
+                    <span>{process.type}</span>
+                    <PriorityBadge priority={process.priority} />
+                  </div>
                   <strong>{process.property}</strong>
                   <p>{process.stage}</p>
+                  <div className="remax-process-next">
+                    <span>Proxima accion</span>
+                    <strong>{process.nextAction}</strong>
+                  </div>
                   <div className="remax-process-meta">
-                    <small>{process.owner}</small>
+                    <div className="remax-process-owners">
+                      <div className="remax-owner-avatar-row">
+                        {process.owners.map((owner) => (
+                          <span key={owner} className="remax-owner-avatar">
+                            {getInitials(owner)}
+                          </span>
+                        ))}
+                      </div>
+                      <small>{process.owners.join(" · ")}</small>
+                    </div>
                     <em>{process.status}</em>
                   </div>
                 </Link>
@@ -893,6 +1260,10 @@ export default function RemaxMenuOperacionPage() {
             <div className="remax-quick-actions">
               {quickActions.map((action) => (
                 <Link key={action.title} href={action.href} className="remax-quick-action">
+                  <div className="remax-quick-action-topline">
+                    <span className="remax-action-icon">{action.icon}</span>
+                    <span className="remax-quick-action-tag">{action.tag}</span>
+                  </div>
                   <strong>{action.title}</strong>
                   <p>{action.description}</p>
                 </Link>

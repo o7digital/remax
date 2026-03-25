@@ -1935,6 +1935,688 @@
   line-height: 1.6;
 }
 
+.remax-sidebar {
+  padding: 24px 18px 32px;
+  background:
+    radial-gradient(circle at top, rgba(95, 136, 195, 0.24), transparent 26%),
+    linear-gradient(180deg, #16202f 0%, #1d2a3f 100%);
+}
+
+.remax-brand-panel,
+.remax-side-note {
+  border-radius: 22px;
+}
+
+.remax-brand-panel {
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.remax-nav-links {
+  gap: 8px;
+}
+
+.remax-nav-link {
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: 16px;
+  transition:
+    160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.remax-nav-link:hover {
+  transform: translateX(2px);
+}
+
+.remax-nav-link.active {
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
+}
+
+.remax-side-note {
+  padding: 18px;
+  margin-top: 20px;
+}
+
+.remax-content {
+  padding: 32px;
+}
+
+.remax-page-stack {
+  gap: 24px;
+}
+
+.remax-premium-hero-copy {
+  padding: 34px 34px 30px;
+}
+
+.remax-hero-actions {
+  margin-top: 28px;
+}
+
+.remax-hero-benefits {
+  margin-top: 24px;
+}
+
+.remax-executive-panel {
+  padding: 30px;
+}
+
+.remax-executive-caption {
+  margin: 12px 0 0;
+  color: rgba(247, 251, 255, 0.74);
+  line-height: 1.7;
+}
+
+.remax-benefit-card,
+.remax-executive-card,
+.remax-feature-panel {
+  padding: 24px;
+}
+
+.remax-mobile-grid {
+  gap: 22px;
+}
+
+.remax-phone-mock {
+  background:
+    linear-gradient(180deg, #fefefe, #dfe7f3),
+    #ffffff;
+  box-shadow:
+    0 24px 56px rgba(63, 83, 111, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.remax-phone-shell {
+  padding: 10px;
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, #16202f, #2c3950),
+    #1a2433;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+}
+
+.remax-phone-screen {
+  min-height: 560px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top right, rgba(95, 136, 195, 0.18), transparent 28%),
+    linear-gradient(180deg, rgba(223, 234, 249, 0.24), rgba(255, 255, 255, 0)),
+    #f8fbff;
+}
+
+.remax-phone-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6a7d97;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.remax-phone-statusbar small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.remax-phone-hero-card,
+.remax-phone-route-card,
+.remax-phone-note {
+  padding: 14px;
+  border: 1px solid rgba(198, 213, 236, 0.82);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.96));
+  box-shadow: 0 12px 24px rgba(77, 103, 140, 0.08);
+}
+
+.remax-phone-hero-card strong,
+.remax-phone-route-card strong {
+  display: block;
+  color: #254061;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+}
+
+.remax-phone-route-card span {
+  display: block;
+  color: #6a7d97;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.remax-phone-kpi {
+  padding: 14px;
+  box-shadow: 0 10px 22px rgba(77, 103, 140, 0.07);
+}
+
+.remax-phone-photo {
+  min-height: 154px;
+  border-radius: 22px;
+}
+
+.remax-phone-visit-list,
+.remax-phone-detail-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.remax-phone-visit-card,
+.remax-phone-detail-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(200, 212, 227, 0.76);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(77, 103, 140, 0.07);
+}
+
+.remax-phone-visit-card {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-phone-visit-card span,
+.remax-phone-detail-card span {
+  display: block;
+  color: #70839d;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.remax-phone-visit-card strong,
+.remax-phone-detail-card strong {
+  display: block;
+  margin-top: 4px;
+  color: #254061;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+.remax-phone-note {
+  color: #48607e;
+  line-height: 1.6;
+}
+
+.remax-phone-action {
+  min-height: 44px;
+  border-radius: 14px;
+}
+
+.remax-phone-bottomnav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid rgba(200, 212, 227, 0.72);
+}
+
+.remax-phone-bottomnav span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  border-radius: 12px;
+  color: #6a7d97;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.remax-phone-bottomnav span.active {
+  background: linear-gradient(180deg, #d9e6f8, #bfd3f0);
+  color: #274162;
+}
+
+.remax-kpi-grid {
+  gap: 18px;
+}
+
+.remax-kpi-card {
+  padding: 24px 24px 22px;
+}
+
+.remax-section-copy {
+  margin: 0 0 20px;
+  max-width: 880px;
+}
+
+.remax-action-card {
+  gap: 14px;
+  padding: 22px;
+}
+
+.remax-activity-item,
+.remax-process-card,
+.remax-quick-action {
+  padding: 20px 22px;
+}
+
+.remax-activity-item {
+  gap: 12px;
+}
+
+.remax-activity-topline,
+.remax-process-topline,
+.remax-quick-action-topline,
+.remax-alert-card-topline,
+.remax-executive-process-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.remax-activity-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.remax-activity-tag-blue {
+  background: #e7f0fb;
+  border-color: #cbdcf0;
+  color: #355173;
+}
+
+.remax-activity-tag-red {
+  background: #fde8e7;
+  border-color: #f4c0bc;
+  color: #bf4138;
+}
+
+.remax-activity-tag-gold {
+  background: #fff3d7;
+  border-color: #efd59b;
+  color: #936915;
+}
+
+.remax-activity-item-blue {
+  background: linear-gradient(180deg, rgba(235, 243, 252, 0.92), rgba(255, 255, 255, 0.98));
+}
+
+.remax-activity-item-red {
+  background: linear-gradient(180deg, rgba(253, 237, 236, 0.88), rgba(255, 255, 255, 0.98));
+}
+
+.remax-activity-item-gold {
+  background: linear-gradient(180deg, rgba(255, 247, 228, 0.9), rgba(255, 255, 255, 0.98));
+}
+
+.remax-process-next,
+.remax-executive-process-next {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.remax-process-next span,
+.remax-executive-process-next span,
+.remax-quick-action-tag {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.remax-process-next strong,
+.remax-executive-process-next strong {
+  display: block;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+}
+
+.remax-process-meta {
+  gap: 14px;
+}
+
+.remax-process-owners,
+.remax-executive-process-owners {
+  display: grid;
+  gap: 8px;
+}
+
+.remax-owner-avatar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.remax-owner-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #dce8f8, #c3d6f1);
+  color: #274162;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+.remax-quick-action {
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 249, 253, 0.96));
+}
+
+.remax-quick-action-topline {
+  align-items: flex-start;
+}
+
+.remax-quick-action-tag {
+  padding: 8px 10px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.remax-benefit-strip,
+.remax-mobile-stage-pills,
+.remax-executive-kpi-grid,
+.remax-executive-command-grid,
+.remax-pipeline-summary-cards,
+.remax-alert-list,
+.remax-executive-process-list,
+.remax-inventory-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.remax-benefit-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.remax-benefit-strip span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(200, 212, 227, 0.76);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #355173;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(77, 103, 140, 0.08);
+}
+
+.remax-executive-command {
+  display: grid;
+  gap: 22px;
+}
+
+.remax-executive-command-header {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 18px;
+}
+
+.remax-executive-command-copy,
+.remax-executive-command-status,
+.remax-executive-kpi,
+.remax-command-card,
+.remax-mobile-stage-copy {
+  padding: 24px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+  box-shadow: 0 18px 40px rgba(77, 103, 140, 0.12);
+}
+
+.remax-executive-command-copy,
+.remax-mobile-stage-copy {
+  background:
+    radial-gradient(circle at top right, rgba(95, 136, 195, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+}
+
+.remax-executive-command-copy span,
+.remax-executive-command-status span,
+.remax-executive-kpi span,
+.remax-command-card-header span,
+.remax-mobile-stage-copy > span,
+.remax-mobile-stage-summary span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-executive-command-copy strong,
+.remax-mobile-stage-copy strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 34px;
+  letter-spacing: -0.05em;
+  line-height: 1.08;
+}
+
+.remax-executive-command-copy p,
+.remax-executive-command-status p,
+.remax-executive-kpi p,
+.remax-alert-card p,
+.remax-mobile-stage-copy p {
+  margin: 12px 0 0;
+  color: var(--remax-muted);
+  line-height: 1.7;
+}
+
+.remax-executive-command-status strong,
+.remax-executive-kpi strong,
+.remax-command-card-header strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.remax-executive-command-status {
+  background:
+    linear-gradient(180deg, rgba(26, 36, 51, 0.98), rgba(38, 53, 76, 0.96)),
+    #1a2433;
+  color: #f7fbff;
+}
+
+.remax-executive-command-status span,
+.remax-executive-command-status p {
+  color: rgba(247, 251, 255, 0.78);
+}
+
+.remax-executive-command-status strong {
+  color: #ffffff;
+}
+
+.remax-executive-kpi-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.remax-executive-kpi strong {
+  font-size: 32px;
+}
+
+.remax-executive-command-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-command-card {
+  display: grid;
+  gap: 18px;
+}
+
+.remax-command-card-header {
+  display: grid;
+  gap: 4px;
+}
+
+.remax-stage-overview-dense {
+  gap: 12px;
+}
+
+.remax-inventory-row {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.remax-inventory-copy strong,
+.remax-alert-card strong,
+.remax-executive-process-card strong {
+  display: block;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}
+
+.remax-inventory-copy span {
+  display: block;
+  margin-top: 4px;
+  color: var(--remax-muted);
+  font-size: 13px;
+}
+
+.remax-inventory-meter {
+  height: 10px;
+  border-radius: 999px;
+  background: #e8eef7;
+  overflow: hidden;
+}
+
+.remax-inventory-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.remax-inventory-meter-blue span {
+  background: linear-gradient(90deg, #7ea4db, #4872af);
+}
+
+.remax-inventory-meter-gold span {
+  background: linear-gradient(90deg, #efcf7d, #d9b04d);
+}
+
+.remax-inventory-meter-red span {
+  background: linear-gradient(90deg, #f08b84, #d7433f);
+}
+
+.remax-inventory-share {
+  font-size: 15px;
+  color: #274162;
+}
+
+.remax-executive-process-list,
+.remax-alert-list {
+  grid-template-columns: 1fr;
+}
+
+.remax-executive-process-card,
+.remax-alert-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 20px;
+  background: #fbfdff;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.remax-executive-process-card:hover,
+.remax-alert-card:hover {
+  border-color: #97b2d5;
+  box-shadow: 0 18px 34px rgba(71, 100, 138, 0.12);
+  transform: translateY(-2px);
+}
+
+.remax-pipeline-summary-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.remax-pipeline-summary-card {
+  padding: 16px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 18px;
+  background: rgba(248, 251, 255, 0.96);
+}
+
+.remax-pipeline-summary-card span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-pipeline-summary-card strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.remax-executive-closing,
+.remax-mobile-footnote {
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #48607e;
+  line-height: 1.7;
+}
+
+.remax-mobile-stage {
+  display: grid;
+  gap: 22px;
+}
+
+.remax-mobile-stage-summary {
+  padding: 18px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.remax-mobile-stage-pills {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.remax-mobile-stage-pills span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #355173;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 @media (max-width: 1220px) {
   .remax-shell {
     grid-template-columns: 1fr;
@@ -2047,5 +2729,45 @@
 
   .remax-mini-opportunity-badges {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1220px) {
+  .remax-benefit-strip,
+  .remax-executive-command-header,
+  .remax-executive-kpi-grid,
+  .remax-executive-command-grid,
+  .remax-mobile-stage-pills,
+  .remax-pipeline-summary-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .remax-content {
+    padding: 16px;
+  }
+
+  .remax-executive-command-copy,
+  .remax-executive-command-status,
+  .remax-executive-kpi,
+  .remax-command-card,
+  .remax-mobile-stage-copy {
+    padding: 16px;
+  }
+
+  .remax-activity-topline,
+  .remax-process-topline,
+  .remax-process-meta,
+  .remax-quick-action-topline,
+  .remax-alert-card-topline,
+  .remax-executive-process-topline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .remax-phone-visit-card,
+  .remax-inventory-row {
+    grid-template-columns: 1fr;
   }
 }
