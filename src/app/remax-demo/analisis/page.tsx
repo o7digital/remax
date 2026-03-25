@@ -92,7 +92,7 @@ export default async function AnalisisInteligentePage() {
                 <article key={item.id} className="remax-insight-card">
                   <div className="remax-insight-topline">
                     <div>
-                      <span>{item.sourceLabel}</span>
+                      <span>{t(item.sourceLabel)}</span>
                       <strong>{item.clientName}</strong>
                     </div>
                     <time>{item.createdAt}</time>
@@ -101,18 +101,18 @@ export default async function AnalisisInteligentePage() {
                   <div className="remax-insight-badges">
                     <SentimentBadge sentiment={item.sentiment} language={language} />
                     <PriorityBadge priority={item.priority} language={language} />
-                    <span className="remax-recommendation-pill">{item.suggestedAction}</span>
+                    <span className="remax-recommendation-pill">{t(item.suggestedAction)}</span>
                   </div>
 
-                  <p>{item.note}</p>
+                  <p>{t(item.note)}</p>
                   <div className="remax-insight-followup">
                     <span>{language === "en" ? "Next follow-up" : "Proximo seguimiento"}</span>
-                    <strong>{item.nextFollowUp}</strong>
+                    <strong>{t(item.nextFollowUp)}</strong>
                   </div>
 
                   <div className="remax-insight-footer">
                     <small>
-                      {advisor?.nombre ?? item.advisorId} · {item.commercialSignal}
+                      {advisor?.nombre ?? item.advisorId} · {t(item.commercialSignal)}
                     </small>
                     <Link href={getInsightHref(item.propertyClave)}>{language === "en" ? "Open context" : "Abrir contexto"}</Link>
                   </div>
@@ -147,8 +147,8 @@ export default async function AnalisisInteligentePage() {
                   label: language === "en" ? "Priority" : "Prioridad",
                   render: (row) => <PriorityBadge priority={row.priority} language={language} />
                 },
-                { key: "accion", label: language === "en" ? "Suggested action" : "Accion sugerida", render: (row) => row.suggestedAction },
-                { key: "seguimiento", label: language === "en" ? "Next follow-up" : "Proximo seguimiento", render: (row) => row.nextFollowUp }
+                { key: "accion", label: language === "en" ? "Suggested action" : "Accion sugerida", render: (row) => t(row.suggestedAction) },
+                { key: "seguimiento", label: language === "en" ? "Next follow-up" : "Proximo seguimiento", render: (row) => t(row.nextFollowUp) }
               ]}
             />
           </AccessSection>

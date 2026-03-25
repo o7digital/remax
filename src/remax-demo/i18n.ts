@@ -366,7 +366,6 @@ Object.assign(copy, {
     es: "Pensado para asesores en movimiento: visitas, seguimiento, contacto y operacion rapida desde el telefono.",
     en: "Built for agents on the move: visits, follow-up, contact and fast operations from the phone."
   },
-  "Plataforma ejecutiva": { es: "Plataforma ejecutiva", en: "Executive Platform" },
   "Un cockpit de pilotaje inmobiliario con foco en operacion, ritmo comercial, alertas y capacidad de respuesta del equipo.": {
     es: "Un cockpit de pilotaje inmobiliario con foco en operacion, ritmo comercial, alertas y capacidad de respuesta del equipo.",
     en: "A real estate command cockpit focused on operations, commercial pace, alerts and team responsiveness."
@@ -417,7 +416,406 @@ Object.assign(copy, {
   "Revision de valores": { es: "Revision de valores", en: "Value review" },
   "Asesores de baja": { es: "Asesores de baja", en: "Closing agents" },
   "Registro de cancelacion": { es: "Registro de cancelacion", en: "Cancellation record" },
-  "Asesores de cancelacion": { es: "Asesores de cancelacion", en: "Cancellation agents" }
+  "Asesores de cancelacion": { es: "Asesores de cancelacion", en: "Cancellation agents" },
+  "Comunicado de baja": { es: "Comunicado de baja", en: "Offboarding communication" },
+  "Comunicado de cancelacion": { es: "Comunicado de cancelacion", en: "Cancellation communication" },
+  "Total pipeline": { es: "Pipeline total", en: "Total pipeline" },
+  "View analysis": { es: "Ver analisis", en: "View analysis" },
+  "Switch to List": { es: "Cambiar a Lista", en: "Switch to List" },
+  "Switch to Kanban": { es: "Cambiar a Kanban", en: "Switch to Kanban" },
+  "Kanban y Lista con prioridad, sentimiento y referencia comercial.": {
+    es: "Kanban y Lista con prioridad, sentimiento y referencia comercial.",
+    en: "Kanban and List with priority, sentiment and commercial reference."
+  },
+  "Lectura asistida para priorizar seguimientos y detectar riesgo comercial.": {
+    es: "Lectura asistida para priorizar seguimientos y detectar riesgo comercial.",
+    en: "Assisted reading to prioritize follow-ups and detect commercial risk."
+  },
+  "Busca casa en zona poniente": { es: "Busca casa en zona poniente", en: "Looking for a home in the west zone" },
+  "Propietarios alineados con salida comercial": { es: "Propietarios alineados con salida comercial", en: "Owners aligned with the commercial launch" },
+  "Requiere 1,200 m2 y 20 cajones": { es: "Requiere 1,200 m2 y 20 cajones", en: "Requires 1,200 m2 and 20 parking spaces" },
+  "Expediente y condiciones en captura": { es: "Expediente y condiciones en captura", en: "Record and conditions in capture" },
+  "Publicacion activa con respuesta irregular": { es: "Publicacion activa con respuesta irregular", en: "Active listing with irregular response" },
+  "Dos visitas confirmadas para esta semana": { es: "Dos visitas confirmadas para esta semana", en: "Two visits confirmed for this week" },
+  "Condiciones economicas en revision final": { es: "Condiciones economicas en revision final", en: "Financial terms under final review" },
+  "Firma operativa y comisiones por validar": { es: "Firma operativa y comisiones por validar", en: "Operational signature and commissions pending validation" },
+  "Salida de cartera con observacion de servicio": { es: "Salida de cartera con observacion de servicio", en: "Portfolio exit with service observation" },
+  "Llamar hoy 16:30 para calificar requerimientos": { es: "Llamar hoy 16:30 para calificar requerimientos", en: "Call today at 4:30 PM to qualify requirements" },
+  "Confirmar calendario de publicaciones en 48h": { es: "Confirmar calendario de publicaciones en 48h", en: "Confirm publication schedule within 48h" },
+  "Cruzar inventario y enviar shortlist comercial": { es: "Cruzar inventario y enviar shortlist comercial", en: "Cross-check inventory and send commercial shortlist" },
+  "Cerrar propietarios y ficha tecnica hoy": { es: "Cerrar propietarios y ficha tecnica hoy", en: "Complete owners and technical sheet today" },
+  "Revisar copy y relanzar material visual": { es: "Revisar copy y relanzar material visual", en: "Review copy and relaunch visual assets" },
+  "Coordinar acceso, llaves y ruta comercial": { es: "Coordinar acceso, llaves y ruta comercial", en: "Coordinate access, keys and commercial route" },
+  "Alinear mantenimiento y vigencia antes del viernes": { es: "Alinear mantenimiento y vigencia antes del viernes", en: "Align maintenance and term before Friday" },
+  "Confirmar minuta y liberar comunicado interno": { es: "Confirmar minuta y liberar comunicado interno", en: "Confirm minutes and release internal communication" },
+  "Cerrar seguimiento y documentar aprendizajes": { es: "Cerrar seguimiento y documentar aprendizajes", en: "Close follow-up and document learnings" },
+  "Campana activa 12 dias": { es: "Campana activa 12 dias", en: "Campaign active for 12 days" },
+  "Caso archivado": { es: "Caso archivado", en: "Archived case" },
+  "Ingreso estimado MXN 96k": { es: "Ingreso estimado MXN 96k", en: "Estimated revenue MXN 96k" },
+  "Presupuesto MXN 7.2M": { es: "Presupuesto MXN 7.2M", en: "Budget MXN 7.2M" },
+  "Referencia IBR-OP277": { es: "Referencia IBR-OP277", en: "Reference IBR-OP277" },
+  "Renta anual MXN 110k": { es: "Renta anual MXN 110k", en: "Annual lease MXN 110k" },
+  "Renta objetivo MXN 185k": { es: "Renta objetivo MXN 185k", en: "Target lease MXN 185k" },
+  "Salida MXN 5.8M": { es: "Salida MXN 5.8M", en: "Listing price MXN 5.8M" },
+  "Valor actual MXN 585k": { es: "Valor actual MXN 585k", en: "Current value MXN 585k" },
+  "Mariana Fuentes · Bosque Verde": { es: "Mariana Fuentes · Bosque Verde", en: "Mariana Fuentes · Bosque Verde" },
+  "ICV-441": { es: "ICV-441", en: "ICV-441" },
+  "Lead corporativo · Arboledas Oficinas": { es: "Lead corporativo · Arboledas Oficinas", en: "Corporate lead · Arboledas Offices" },
+  "IBR-OP277": { es: "IBR-OP277", en: "IBR-OP277" },
+  "RTR-2280": { es: "RTR-2280", en: "RTR-2280" },
+  "CBR-1748": { es: "CBR-1748", en: "CBR-1748" },
+  "OHR-1182": { es: "OHR-1182", en: "OHR-1182" },
+  "Puerta de Hierro Offices": { es: "Puerta de Hierro Offices", en: "Puerta de Hierro Offices" },
+  "RTV-571": { es: "RTV-571", en: "RTV-571" },
+  "IBR-OP277 · Alta iniciada": { es: "IBR-OP277 · Alta iniciada", en: "IBR-OP277 · Onboarding started" },
+  "CBR-1748 · Cierre en revision": { es: "CBR-1748 · Cierre en revision", en: "CBR-1748 · Closing under review" },
+  "RTV-571 · Cancelacion documentada": { es: "RTV-571 · Cancelacion documentada", en: "RTV-571 · Cancellation documented" },
+  "RTR-2280 · Seguimiento comercial": { es: "RTR-2280 · Seguimiento comercial", en: "RTR-2280 · Commercial follow-up" },
+  "ICV-441 · Publicacion lista": { es: "ICV-441 · Publicacion lista", en: "ICV-441 · Listing ready" },
+  "OHR-1182 · Seguimiento post cierre": { es: "OHR-1182 · Seguimiento post cierre", en: "OHR-1182 · Post-closing follow-up" },
+  "Lead comprador · Bosque Verde": { es: "Lead comprador · Bosque Verde", en: "Buyer lead · Bosque Verde" },
+  "Hoy 17:00": { es: "Hoy 17:00", en: "Today 5:00 PM" },
+  "26/03/2026 · 11:30": { es: "26/03/2026 · 11:30", en: "03/26/2026 · 11:30 AM" },
+  "Hoy 14:00": { es: "Hoy 14:00", en: "Today 2:00 PM" },
+  "29/03/2026 · Revisar reactivacion": { es: "29/03/2026 · Revisar reactivacion", en: "03/29/2026 · Review reactivation" },
+  "26/03/2026 · 09:00": { es: "26/03/2026 · 09:00", en: "03/26/2026 · 09:00 AM" },
+  "05/04/2026 · Seguimiento relacional": { es: "05/04/2026 · Seguimiento relacional", en: "04/05/2026 · Relationship follow-up" },
+  "Hoy 12:30": { es: "Hoy 12:30", en: "Today 12:30 PM" },
+  "Cliente receptivo, pide propuesta final esta semana y valora rapidez en la formalizacion.": {
+    es: "Cliente receptivo, pide propuesta final esta semana y valora rapidez en la formalizacion.",
+    en: "Responsive client, asks for the final proposal this week and values speed in formalization."
+  },
+  "El cliente confirma interes, pero solicita claridad final sobre mantenimiento y entrega.": {
+    es: "El cliente confirma interes, pero solicita claridad final sobre mantenimiento y entrega.",
+    en: "The client confirms interest but asks for final clarity on maintenance and handover."
+  },
+  "La propietaria percibe seguimiento lento y ya esta evaluando otras alternativas externas.": {
+    es: "La propietaria percibe seguimiento lento y ya esta evaluando otras alternativas externas.",
+    en: "The owner perceives slow follow-up and is already evaluating other external options."
+  },
+  "Responden de forma esporadica y piden pausar conversaciones hasta nuevo aviso.": {
+    es: "Responden de forma esporadica y piden pausar conversaciones hasta nuevo aviso.",
+    en: "They respond sporadically and ask to pause conversations until further notice."
+  },
+  "Los propietarios validan fotos, precio de salida y piden acelerar la promocion en portales.": {
+    es: "Los propietarios validan fotos, precio de salida y piden acelerar la promocion en portales.",
+    en: "The owners approve the photos, listing price and ask to accelerate portal promotion."
+  },
+  "El cliente agradece el cierre, pero no abre aun nuevas necesidades de expansion.": {
+    es: "El cliente agradece el cierre, pero no abre aun nuevas necesidades de expansion.",
+    en: "The client appreciates the closing but is not yet opening new expansion needs."
+  },
+  "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.": {
+    es: "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.",
+    en: "Requests a visit this week, shares budget and responds quickly over WhatsApp."
+  },
+  "seguimiento inmediato": { es: "seguimiento inmediato", en: "immediate follow-up" },
+  "recontactar en 48h": { es: "recontactar en 48h", en: "recontact in 48h" },
+  "oportunidad fria": { es: "oportunidad fria", en: "cold opportunity" },
+  "Ventana comercial activa y buena disposicion para avanzar.": {
+    es: "Ventana comercial activa y buena disposicion para avanzar.",
+    en: "Active commercial window and strong willingness to move forward."
+  },
+  "Hay intencion de cierre si se despejan dos puntos operativos.": {
+    es: "Hay intencion de cierre si se despejan dos puntos operativos.",
+    en: "There is closing intent if two operational points are cleared."
+  },
+  "Riesgo comercial elevado por perdida de confianza en el seguimiento.": {
+    es: "Riesgo comercial elevado por perdida de confianza en el seguimiento.",
+    en: "High commercial risk due to loss of confidence in the follow-up."
+  },
+  "Interes bajo y riesgo de salida si no hay nuevo detonador comercial.": {
+    es: "Interes bajo y riesgo de salida si no hay nuevo detonador comercial.",
+    en: "Low interest and exit risk if there is no new commercial trigger."
+  },
+  "Buen momento para empujar visibilidad y activar agenda de visitas.": {
+    es: "Buen momento para empujar visibilidad y activar agenda de visitas.",
+    en: "Good moment to push visibility and activate the visit schedule."
+  },
+  "Relacion sana, aunque sin urgencia comercial inmediata.": {
+    es: "Relacion sana, aunque sin urgencia comercial inmediata.",
+    en: "Healthy relationship, though without immediate commercial urgency."
+  },
+  "Lead caliente con buena velocidad de respuesta y agenda disponible.": {
+    es: "Lead caliente con buena velocidad de respuesta y agenda disponible.",
+    en: "Hot lead with strong response speed and schedule availability."
+  },
+  "Ajuste comercial": { es: "Ajuste comercial", en: "Commercial adjustment" },
+  "Ajuste final": { es: "Ajuste final", en: "Final adjustment" },
+  "Ajuste por mercado": { es: "Ajuste por mercado", en: "Market adjustment" },
+  "Ajuste por open house": { es: "Ajuste por open house", en: "Open house adjustment" },
+  "Alta inicial": { es: "Alta inicial", en: "Initial onboarding" },
+  "Cambio de precio": { es: "Cambio de precio", en: "Price change" },
+  "Paquete de cierre": { es: "Paquete de cierre", en: "Closing package" },
+  Pesos: { es: "Pesos", en: "Pesos" },
+  Ultimo: { es: "Ultimo", en: "Latest" },
+  Baja: { es: "Baja", en: "Offboarding" },
+  Bodega: { es: "Bodega", en: "Warehouse" },
+  Casa: { es: "Casa", en: "House" },
+  Oficina: { es: "Oficina", en: "Office" },
+  "Director General / Asesor A": { es: "Director General / Asesor A", en: "General Manager / Class A Agent" },
+  "Apoyo comercial": { es: "Apoyo comercial", en: "Commercial support" },
+  "Backoffice de captacion": { es: "Backoffice de captacion", en: "Lead capture back office" },
+  "Captacion residencial": { es: "Captacion residencial", en: "Residential acquisition" },
+  "Cierres y negociacion": { es: "Cierres y negociacion", en: "Closings and negotiation" },
+  "Control de comisiones": { es: "Control de comisiones", en: "Commission control" },
+  "Control de visitas": { es: "Control de visitas", en: "Visit control" },
+  "Coordinacion operativa": { es: "Coordinacion operativa", en: "Operations coordination" },
+  "Expedientes y contratos": { es: "Expedientes y contratos", en: "Records and contracts" },
+  "Industrial y logistica": { es: "Industrial y logistica", en: "Industrial and logistics" },
+  "Inventario y llaves": { es: "Inventario y llaves", en: "Inventory and keys" },
+  "Prospeccion zona sur": { es: "Prospeccion zona sur", en: "South zone prospecting" },
+  "Recepcion y agenda comercial": { es: "Recepcion y agenda comercial", en: "Front desk and commercial schedule" },
+  "Rentas corporativas": { es: "Rentas corporativas", en: "Corporate leases" },
+  "Rentas residenciales": { es: "Rentas residenciales", en: "Residential leases" },
+  "Residencial alto valor": { es: "Residencial alto valor", en: "High-value residential" },
+  "Seguimiento de inventario": { es: "Seguimiento de inventario", en: "Inventory follow-up" },
+  "La oficina OHR-1182 se cierra por firma de contrato anual.": {
+    es: "La oficina OHR-1182 se cierra por firma de contrato anual.",
+    en: "Office OHR-1182 is closed due to annual contract signing."
+  },
+  "La propiedad CBR-1748 pasa a cerrada y se activa el circuito de comisiones.": {
+    es: "La propiedad CBR-1748 pasa a cerrada y se activa el circuito de comisiones.",
+    en: "Property CBR-1748 moves to closed and the commission workflow is activated."
+  },
+  "Nueva captacion residencial lista para salida comercial y ficha tecnica.": {
+    es: "Nueva captacion residencial lista para salida comercial y ficha tecnica.",
+    en: "New residential acquisition ready for commercial launch and technical sheet."
+  },
+  "Se documenta la cancelacion de RTV-571 con motivo registrado por inventario.": {
+    es: "Se documenta la cancelacion de RTV-571 con motivo registrado por inventario.",
+    en: "The cancellation of RTV-571 is documented with the reason logged by inventory."
+  },
+  "Se informa el alta de la propiedad IBR-OP277 y la apertura del expediente operativo.": {
+    es: "Se informa el alta de la propiedad IBR-OP277 y la apertura del expediente operativo.",
+    en: "The onboarding of property IBR-OP277 and the opening of the operational record are reported."
+  },
+  "Se informa la cancelacion de RTR-2280 en Ciudad del Sol, Zapopan.": {
+    es: "Se informa la cancelacion de RTR-2280 en Ciudad del Sol, Zapopan.",
+    en: "The cancellation of RTR-2280 in Ciudad del Sol, Zapopan is reported."
+  },
+  "Brenda Noemi Ramirez Cardenas | Inventario": { es: "Brenda Noemi Ramirez Cardenas | Inventario", en: "Brenda Noemi Ramirez Cardenas | Inventory" },
+  "Erika Valles | Control de comisiones": { es: "Erika Valles | Control de comisiones", en: "Erika Valles | Commission control" },
+  "Gabriela Perez | Recepcion": { es: "Gabriela Perez | Recepcion", en: "Gabriela Perez | Front desk" },
+  "Patricia Romo | Coordinacion operativa": { es: "Patricia Romo | Coordinacion operativa", en: "Patricia Romo | Operations coordination" },
+  Disponible: { es: "Disponible", en: "Available" },
+  Personal: { es: "Personal", en: "Direct" },
+  Portal: { es: "Portal", en: "Portal" },
+  Referido: { es: "Referido", en: "Referral" },
+  Citas: { es: "Citas", en: "Appointments" },
+  Programada: { es: "Programada", en: "Scheduled" },
+  Precio: { es: "Precio", en: "Price" },
+  Exclusiva: { es: "Exclusiva", en: "Exclusive" },
+  Opcion: { es: "Opcion", en: "Option" },
+  Coop: { es: "Coop", en: "Co-op" },
+  Otro: { es: "Otro", en: "Other" },
+  Residencial: { es: "Residencial", en: "Residential" },
+  Comercial: { es: "Comercial", en: "Commercial" },
+  Departamento: { es: "Departamento", en: "Apartment" },
+  Local: { es: "Local", en: "Retail unit" },
+  Venta: { es: "Venta", en: "Sale" },
+  Habitacional: { es: "Habitacional", en: "Residential" },
+  Regular: { es: "Regular", en: "Regular" },
+  Irregular: { es: "Irregular", en: "Irregular" },
+  Plano: { es: "Plano", en: "Flat" },
+  "En recepcion": { es: "En recepcion", en: "At front desk" },
+  Recepcion: { es: "Recepcion", en: "Front desk" },
+  Visitada: { es: "Visitada", en: "Visited" },
+  "Por visitar": { es: "Por visitar", en: "To visit" },
+  "Categoria: Exclusiva, Opcion, Coop, Otro": {
+    es: "Categoria: Exclusiva, Opcion, Coop, Otro",
+    en: "Category: Exclusive, Option, Co-op, Other"
+  },
+  "Giro: Residencial, Comercial, Industrial": {
+    es: "Giro: Residencial, Comercial, Industrial",
+    en: "Segment: Residential, Commercial, Industrial"
+  },
+  "Tipo de Propiedad": { es: "Tipo de Propiedad", en: "Property type" },
+  "Operacion: Venta o Renta": { es: "Operacion: Venta o Renta", en: "Operation: Sale or Lease" },
+  Domicilio: { es: "Domicilio", en: "Address" },
+  Calle: { es: "Calle", en: "Street" },
+  "No Ext": { es: "No Ext", en: "Ext. No." },
+  "No Int": { es: "No Int", en: "Int. No." },
+  Piso: { es: "Piso", en: "Floor" },
+  "Entre calles": { es: "Entre calles", en: "Cross streets" },
+  Colonia: { es: "Colonia", en: "Neighborhood" },
+  Coto: { es: "Coto", en: "Gated area" },
+  Fraccionamiento: { es: "Fraccionamiento", en: "Subdivision" },
+  Municipio: { es: "Municipio", en: "Municipality" },
+  Entidad: { es: "Entidad", en: "State" },
+  "Coordenadas Guia Roji": { es: "Coordenadas Guia Roji", en: "Map coordinates" },
+  "Condicion Visitas": { es: "Condicion Visitas", en: "Visit condition" },
+  "Caja No.": { es: "Caja No.", en: "Box No." },
+  "Disponibilidad para Visitas": { es: "Disponibilidad para Visitas", en: "Visit availability" },
+  "Estatus Llaves": { es: "Estatus Llaves", en: "Key status" },
+  "Tel Citas": { es: "Tel Citas", en: "Appointments phone" },
+  "Contacto para Citas": { es: "Contacto para Citas", en: "Appointments contact" },
+  "Fecha aviso": { es: "Fecha aviso", en: "Notice date" },
+  "Fecha Contrato": { es: "Fecha Contrato", en: "Contract date" },
+  "Inicio Promo": { es: "Inicio Promo", en: "Promotion start" },
+  "ID AMPI": { es: "ID AMPI", en: "AMPI ID" },
+  "ID REMAX": { es: "ID REMAX", en: "REMAX ID" },
+  "Clave Catastral": { es: "Clave Catastral", en: "Cadastral key" },
+  "Status Propiedad": { es: "Status Propiedad", en: "Property status" },
+  "Alta / Baja": { es: "Alta / Baja", en: "Onboarding / Offboarding" },
+  "Estatus de visita en recorrido": { es: "Estatus de visita en recorrido", en: "Visit status on route" },
+  "Como llegar / ligas": { es: "Como llegar / ligas", en: "Directions / links" },
+  "Caracteristicas de la propiedad": { es: "Caracteristicas de la propiedad", en: "Property characteristics" },
+  "Sup. Terreno m2": { es: "Sup. Terreno m2", en: "Lot area m2" },
+  "Sup. Const. m2": { es: "Sup. Const. m2", en: "Built area m2" },
+  Frente: { es: "Frente", en: "Frontage" },
+  Fondo: { es: "Fondo", en: "Depth" },
+  Jardin: { es: "Jardin", en: "Garden" },
+  "Estac. Descubiertos": { es: "Estac. Descubiertos", en: "Open parking" },
+  Nivel: { es: "Nivel", en: "Level" },
+  "Pisos totales": { es: "Pisos totales", en: "Total floors" },
+  "Exterior / Interior": { es: "Exterior / Interior", en: "Exterior / Interior" },
+  "Forma terreno": { es: "Forma terreno", en: "Lot shape" },
+  Inclinacion: { es: "Inclinacion", en: "Slope" },
+  "Uso de suelo": { es: "Uso de suelo", en: "Land use" },
+  Descripcion: { es: "Descripcion", en: "Description" },
+  Categoria: { es: "Categoria", en: "Category" },
+  Notas: { es: "Notas", en: "Notes" },
+  "Superficies m2 y valores": { es: "Superficies m2 y valores", en: "Areas m2 and values" },
+  "Sup. m2": { es: "Sup. m2", en: "Area m2" },
+  "Areas Principales": { es: "Areas Principales", en: "Primary areas" },
+  "Areas Sec": { es: "Areas Sec", en: "Secondary areas" },
+  "Otras Areas": { es: "Otras Areas", en: "Other areas" },
+  Construccion: { es: "Construccion", en: "Construction" },
+  "Areas Instal Esp": { es: "Areas Instal Esp", en: "Special installed areas" },
+  TOTAL: { es: "TOTAL", en: "TOTAL" },
+  Transportes: { es: "Transportes", en: "Transit" },
+  Parques: { es: "Parques", en: "Parks" },
+  Comercios: { es: "Comercios", en: "Retail" },
+  Bancos: { es: "Bancos", en: "Banks" },
+  Escuelas: { es: "Escuelas", en: "Schools" },
+  Iglesias: { es: "Iglesias", en: "Churches" },
+  Hospitales: { es: "Hospitales", en: "Hospitals" },
+  "Clave propiedad": { es: "Clave propiedad", en: "Property key" },
+  "Politica / Monto": { es: "Politica / Monto", en: "Policy / Amount" },
+  Porcentaje: { es: "Porcentaje", en: "Percentage" },
+  Monto: { es: "Monto", en: "Amount" },
+  "Politica vigente": { es: "Politica vigente", en: "Current policy" },
+  Comentarios: { es: "Comentarios", en: "Comments" },
+  "Confirmar anos de renta": { es: "Confirmar anos de renta", en: "Confirm lease years" },
+  "Forma de pago": { es: "Forma de pago", en: "Payment method" },
+  Vigencia: { es: "Vigencia", en: "Term" },
+  "Herramienta juridica": { es: "Herramienta juridica", en: "Legal tool" },
+  "Controles principales": { es: "Controles principales", en: "Main controls" },
+  Afianzadora: { es: "Afianzadora", en: "Bonding company" },
+  "Monto de la fianza": { es: "Monto de la fianza", en: "Bond amount" },
+  Investigador: { es: "Investigador", en: "Investigator" },
+  "Costo de investigacion": { es: "Costo de investigacion", en: "Investigation cost" },
+  Abogado: { es: "Abogado", en: "Lawyer" },
+  Notario: { es: "Notario", en: "Notary" },
+  Empresa: { es: "Empresa", en: "Company" },
+  "Monto de mantenimiento": { es: "Monto de mantenimiento", en: "Maintenance amount" },
+  "Periodo de mantenimiento": { es: "Periodo de mantenimiento", en: "Maintenance period" },
+  Observaciones: { es: "Observaciones", en: "Observations" },
+  "Valor Inicial": { es: "Valor Inicial", en: "Initial value" },
+  Fecha: { es: "Fecha", en: "Date" },
+  Moneda: { es: "Moneda", en: "Currency" },
+  Posicion: { es: "Posicion", en: "Position" },
+  "Motivo de cambio": { es: "Motivo de cambio", en: "Change reason" },
+  "Motivo de cambio para senalar en minuta": {
+    es: "Motivo de cambio para senalar en minuta",
+    en: "Minute reason"
+  },
+  "Motivo de cambio para senalar en Minuta": {
+    es: "Motivo de cambio para senalar en Minuta",
+    en: "Minute reason"
+  },
+  "Nivel Asesor A/N": { es: "Nivel Asesor A/N", en: "Agent level A/M" },
+  "Com por % / $": { es: "Com por % / $", en: "Commission by % / $" },
+  "Participacion en ALTA %": { es: "Participacion en ALTA %", en: "Onboarding participation %" },
+  Principal: { es: "Principal", en: "Primary" },
+  Estilo: { es: "Estilo", en: "Style" },
+  Proyecto: { es: "Proyecto", en: "Project" },
+  Acabados: { es: "Acabados", en: "Finishes" },
+  Conservacion: { es: "Conservacion", en: "Condition" },
+  Fachada: { es: "Fachada", en: "Facade" },
+  Ventanas: { es: "Ventanas", en: "Windows" },
+  Cristales: { es: "Cristales", en: "Glass" },
+  Carpinteria: { es: "Carpinteria", en: "Carpentry" },
+  Puertas: { es: "Puertas", en: "Doors" },
+  Espacio: { es: "Espacio", en: "Space" },
+  Banos: { es: "Banos", en: "Bathrooms" },
+  "Modulo comercial": { es: "Modulo comercial", en: "Commercial module" },
+  Clasificacion: { es: "Clasificacion", en: "Classification" },
+  Vigilancia: { es: "Vigilancia", en: "Security" },
+  Telefonos: { es: "Telefonos", en: "Phones" },
+  Lineas: { es: "Lineas", en: "Lines" },
+  Iluminacion: { es: "Iluminacion", en: "Lighting" },
+  Estacionamiento: { es: "Estacionamiento", en: "Parking" },
+  "Registro de Cancelacion / Baja de Propiedad": {
+    es: "Registro de Cancelacion / Baja de Propiedad",
+    en: "Cancellation / offboarding property record"
+  },
+  "Registro de BAJA de Propiedad": { es: "Registro de BAJA de Propiedad", en: "Property offboarding record" },
+  "Condiciones visitas": { es: "Condiciones visitas", en: "Visit conditions" },
+  "Fecha baja": { es: "Fecha baja", en: "Offboarding date" },
+  "Condicion de cierre": { es: "Condicion de cierre", en: "Closing condition" },
+  "Tipo de cierre": { es: "Tipo de cierre", en: "Closing type" },
+  "Persona que registra": { es: "Persona que registra", en: "Recorded by" },
+  "Revision de Valores de Propiedades": { es: "Revision de Valores de Propiedades", en: "Property value review" },
+  "Clave Propiedad": { es: "Clave Propiedad", en: "Property key" },
+  "Asesores involucrados en baja / cierre": {
+    es: "Asesores involucrados en baja / cierre",
+    en: "Agents involved in closing / offboarding"
+  },
+  "Nivel A / M": { es: "Nivel A / M", en: "Level A / M" },
+  "Tipo de intervencion": { es: "Tipo de intervencion", en: "Intervention type" },
+  "Participacion %": { es: "Participacion %", en: "Participation %" },
+  "Ventaja del nuevo modelo operativo": {
+    es: "Ventaja del nuevo modelo operativo",
+    en: "Advantage of the new operating model"
+  },
+  "Baja por Cancelacion": { es: "Baja por Cancelacion", en: "Offboarding by cancellation" },
+  "Fecha aviso a recepcion": { es: "Fecha aviso a recepcion", en: "Front desk notice date" },
+  "Fecha Cancelacion": { es: "Fecha Cancelacion", en: "Cancellation date" },
+  "Fecha Cancelación": { es: "Fecha Cancelación", en: "Cancellation date" },
+  "Motivo Cancelacion": { es: "Motivo Cancelacion", en: "Cancellation reason" },
+  "Motivo Cancelación": { es: "Motivo Cancelación", en: "Cancellation reason" },
+  "Asesor multirol sobre la misma propiedad": {
+    es: "Asesor multirol sobre la misma propiedad",
+    en: "Multi-role agent on the same property"
+  },
+  politica: { es: "politica", en: "policy" },
+  monto: { es: "monto", en: "amount" },
+  Mensual: { es: "Mensual", en: "Monthly" },
+  "Politica de renta vigente": { es: "Politica de renta vigente", en: "Current lease policy" },
+  "Monto fijo de colocacion": { es: "Monto fijo de colocacion", en: "Fixed placement fee" },
+  "Monto de colocacion": { es: "Monto de colocacion", en: "Placement fee" },
+  "Venta residencial 6%": { es: "Venta residencial 6%", en: "Residential sale 6%" },
+  "Venta residencial premium 6%": { es: "Venta residencial premium 6%", en: "Premium residential sale 6%" },
+  "Convenio interno": { es: "Convenio interno", en: "Internal agreement" },
+  Convenio: { es: "Convenio", en: "Agreement" },
+  "Contrato privado": { es: "Contrato privado", en: "Private contract" },
+  "Bodega con patios de maniobra y frente operativo": {
+    es: "Bodega con patios de maniobra y frente operativo",
+    en: "Warehouse with maneuver yards and active frontage"
+  },
+  Medianero: { es: "Medianero", en: "Party wall" },
+  Lote: { es: "Lote", en: "Lot" },
+  "Bodega en renta": { es: "Bodega en renta", en: "Warehouse for lease" },
+  "Bodega operativa": { es: "Bodega operativa", en: "Operational warehouse" },
+  "33 cajones": { es: "33 cajones", en: "33 spaces" },
+  "33 cajones descubiertos": { es: "33 cajones descubiertos", en: "33 open spaces" },
+  "No aplica": { es: "No aplica", en: "Not applicable" },
+  Cerrada: { es: "Cerrada", en: "Closed" },
+  "Cliente retira la propiedad del mercado.": {
+    es: "Cliente retira la propiedad del mercado.",
+    en: "Client withdraws the property from the market."
+  },
+  "El propietario decide detener la comercializacion.": {
+    es: "El propietario decide detener la comercializacion.",
+    en: "The owner decides to stop commercialization."
+  },
+  "Contrato firmado a 36 meses": { es: "Contrato firmado a 36 meses", en: "Contract signed for 36 months" },
+  "Renta anual firmada con mantenimiento incluido": {
+    es: "Renta anual firmada con mantenimiento incluido",
+    en: "Annual lease signed with maintenance included"
+  }
 });
 
 export function normalizeRemaxLanguage(value?: string | null): RemaxLanguage {
@@ -474,6 +872,16 @@ export function translatePipelineStage(language: RemaxLanguage, stage: string): 
   };
 
   return map[stage]?.[language] ?? stage;
+}
+
+export function translateRoleContext(language: RemaxLanguage, context: string): string {
+  const map: Record<string, { es: string; en: string }> = {
+    Alta: { es: "Alta", en: "Onboarding" },
+    "Baja / cierre": { es: "Baja / cierre", en: "Closing / Offboarding" },
+    Cancelacion: { es: "Cancelacion", en: "Cancellation" }
+  };
+
+  return map[context]?.[language] ?? rt(language, context);
 }
 
 export function translatePriority(language: RemaxLanguage, priority: RemaxPriorityLevel): string {

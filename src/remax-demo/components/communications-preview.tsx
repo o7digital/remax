@@ -1,7 +1,9 @@
 import { StatusBadge } from "@/components/status-badge";
 import { formatDateLong, formatPropertyAddress } from "@/remax-demo/formatters";
 import {
+  rt,
   translateCommunicationStatus,
+  translateCommunicationType,
   type RemaxLanguage
 } from "@/remax-demo/i18n";
 import type { RemaxCommunication, RemaxProperty } from "@/remax-demo/types";
@@ -23,12 +25,13 @@ export function CommunicationsPreview({
   property?: RemaxProperty;
   language?: RemaxLanguage;
 }) {
+  const t = (value: string) => rt(language, value);
   return (
     <article className="remax-communication-preview">
       <div className="remax-communication-header">
         <div>
           <p className="remax-eyebrow">{language === "en" ? "Preview" : "Vista previa"}</p>
-          <h3>{communication.asunto}</h3>
+          <h3>{language === "en" ? `${translateCommunicationType(language, communication.tipo)} · ${communication.propiedadClave}` : communication.asunto}</h3>
         </div>
         <StatusBadge value={translateCommunicationStatus(language, communication.estado)} tone={getTone(communication.estado)} />
       </div>
@@ -36,7 +39,7 @@ export function CommunicationsPreview({
       <div className="info-grid">
         <div className="info-item">
           <span>{language === "en" ? "Type" : "Tipo"}</span>
-          <strong>{communication.tipo}</strong>
+          <strong>{translateCommunicationType(language, communication.tipo)}</strong>
         </div>
         <div className="info-item">
           <span>{language === "en" ? "Date" : "Fecha"}</span>
@@ -58,12 +61,12 @@ export function CommunicationsPreview({
 
       <div className="remax-message-box">
         <p className="muted">{language === "en" ? "Recorded summary" : "Resumen registrado"}</p>
-        <p>{communication.resumen}</p>
+        <p>{t(communication.resumen)}</p>
       </div>
 
       <div className="remax-message-box">
         <p className="muted">{language === "en" ? "Signature" : "Firma"}</p>
-        <p>{communication.firma}</p>
+        <p>{t(communication.firma)}</p>
       </div>
 
       <div className="remax-message-box">

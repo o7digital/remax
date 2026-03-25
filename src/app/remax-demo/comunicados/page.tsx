@@ -8,6 +8,7 @@ import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { remaxDemoCommunications } from "@/remax-demo/data";
 import { getSingleSearchParam } from "@/remax-demo/formatters";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
+import { translateCommunicationStatus, translateCommunicationType } from "@/remax-demo/i18n";
 import { getCommunicationById, getCommunicationsByType, getPropertyByClave } from "@/remax-demo/stats";
 
 function getTone(status: string) {
@@ -76,18 +77,18 @@ export default async function ComunicadosPage({
                 label: language === "en" ? "Subject" : "Asunto",
                 render: (row) => (
                   <Link href={`/remax-demo/comunicados?comunicado=${row.id}`}>
-                    <strong>{row.asunto}</strong>
+                    <strong>{language === "en" ? `${translateCommunicationType(language, row.tipo)} · ${row.propiedadClave}` : row.asunto}</strong>
                   </Link>
                 )
               },
-              { key: "tipo", label: language === "en" ? "Type" : "Tipo", render: (row) => row.tipo },
+              { key: "tipo", label: language === "en" ? "Type" : "Tipo", render: (row) => translateCommunicationType(language, row.tipo) },
               { key: "propiedad", label: language === "en" ? "Property" : "Propiedad", render: (row) => row.propiedadClave },
               { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.fecha },
               { key: "destinatarios", label: language === "en" ? "Recipients" : "Destinatarios", render: (row) => `${row.destinatarios.length} ${language === "en" ? "contacts" : "contactos"}` },
               {
                 key: "estado",
                 label: language === "en" ? "Status" : "Estado",
-                render: (row) => <StatusBadge value={row.estado} tone={getTone(row.estado)} />
+                render: (row) => <StatusBadge value={translateCommunicationStatus(language, row.estado)} tone={getTone(row.estado)} />
               }
             ]}
           />

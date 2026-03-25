@@ -14,7 +14,8 @@ import {
 } from "@/remax-demo/formatters";
 import {
   rt,
-  translatePropertyStatus
+  translatePropertyStatus,
+  translateRoleContext
 } from "@/remax-demo/i18n";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
 import {
@@ -43,6 +44,7 @@ export default async function BajaPage({
   const step = getSingleSearchParam(params.step) ?? "busqueda";
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
+  const maybeT = (value?: string | null) => (value ? t(value) : "");
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "CBR-1748";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("CBR-1748");
 
@@ -102,18 +104,18 @@ export default async function BajaPage({
             columns={[
               {
                 key: "clave",
-                label: "Clave Propiedad",
+                label: t("Clave Propiedad"),
                 render: (row) => (
                   <Link href={`/remax-demo/baja?step=registro&propiedad=${row.clave}`}>
                     <strong>{row.clave}</strong>
                   </Link>
                 )
               },
-              { key: "colonia", label: "Colonia", render: (row) => row.colonia },
-              { key: "domicilio", label: "Domicilio", render: (row) => row.domicilio },
-              { key: "coto", label: "Coto", render: (row) => row.coto },
-              { key: "fracc", label: "Fraccionamiento", render: (row) => row.fraccionamiento },
-              { key: "asesor", label: "Asesor", render: (row) => row.asesor },
+              { key: "colonia", label: t("Colonia"), render: (row) => row.colonia },
+              { key: "domicilio", label: t("Domicilio"), render: (row) => row.domicilio },
+              { key: "coto", label: t("Coto"), render: (row) => row.coto },
+              { key: "fracc", label: t("Fraccionamiento"), render: (row) => row.fraccionamiento },
+              { key: "asesor", label: language === "en" ? "Agent" : "Asesor", render: (row) => row.asesor },
               { key: "precio", label: language === "en" ? "Price" : "Precio", align: "right", render: (row) => formatCurrencyMXN(row.precio, language) },
               {
                 key: "estatus",
@@ -140,30 +142,30 @@ export default async function BajaPage({
           }
         >
           <div className="remax-form-grid remax-form-grid-6">
-            <label className="remax-field"><span>Reg.</span><input value={String(property.folio)} readOnly /></label>
-            <label className="remax-field"><span>Clave</span><input value={property.clave} readOnly /></label>
-            <label className="remax-field"><span>Status Propiedad</span><input value={property.estatus} readOnly /></label>
-            <label className="remax-field"><span>Alta / Baja</span><input value={property.altaBaja} readOnly /></label>
-            <label className="remax-field"><span>Giro</span><input value={property.giro} readOnly /></label>
-            <label className="remax-field"><span>Tipo</span><input value={property.tipo} readOnly /></label>
-            <label className="remax-field remax-field-span-3"><span>Calle</span><input value={property.address.calle} readOnly /></label>
-            <label className="remax-field"><span>No Ext</span><input value={property.address.noExt} readOnly /></label>
-            <label className="remax-field"><span>Piso</span><input value={property.address.piso ?? ""} readOnly /></label>
-            <label className="remax-field"><span>No Int</span><input value={property.address.noInt} readOnly /></label>
-            <label className="remax-field"><span>Colonia</span><input value={property.address.colonia} readOnly /></label>
-            <label className="remax-field"><span>Municipio</span><input value={property.address.municipio} readOnly /></label>
+            <label className="remax-field"><span>{t("Registro")}</span><input value={String(property.folio)} readOnly /></label>
+            <label className="remax-field"><span>{language === "en" ? "Key" : "Clave"}</span><input value={property.clave} readOnly /></label>
+            <label className="remax-field"><span>{t("Status Propiedad")}</span><input value={translatePropertyStatus(language, property.estatus)} readOnly /></label>
+            <label className="remax-field"><span>{t("Alta / Baja")}</span><input value={t(property.altaBaja)} readOnly /></label>
+            <label className="remax-field"><span>{language === "en" ? "Segment" : "Giro"}</span><input value={t(property.giro)} readOnly /></label>
+            <label className="remax-field"><span>{language === "en" ? "Type" : "Tipo"}</span><input value={t(property.tipo)} readOnly /></label>
+            <label className="remax-field remax-field-span-3"><span>{t("Calle")}</span><input value={property.address.calle} readOnly /></label>
+            <label className="remax-field"><span>{t("No Ext")}</span><input value={property.address.noExt} readOnly /></label>
+            <label className="remax-field"><span>{t("Piso")}</span><input value={property.address.piso ?? ""} readOnly /></label>
+            <label className="remax-field"><span>{t("No Int")}</span><input value={property.address.noInt} readOnly /></label>
+            <label className="remax-field"><span>{t("Colonia")}</span><input value={property.address.colonia} readOnly /></label>
+            <label className="remax-field"><span>{t("Municipio")}</span><input value={property.address.municipio} readOnly /></label>
             <label className="remax-field"><span>C.P.</span><input value={property.address.cp} readOnly /></label>
-            <label className="remax-field"><span>Entidad</span><input value={property.address.entidad} readOnly /></label>
-            <label className="remax-field"><span>Fecha ALTA</span><input value={property.fechas.alta} readOnly /></label>
-            <label className="remax-field"><span>Fecha aviso</span><input value={property.fechas.aviso} readOnly /></label>
-            <label className="remax-field"><span>Fecha baja</span><input value={property.baja?.fechaBaja ?? ""} readOnly /></label>
-            <label className="remax-field"><span>Condiciones visitas</span><input value={property.agenda.condicionesVisitas} readOnly /></label>
-            <label className="remax-field"><span>Tel Citas</span><input value={property.agenda.telCitas} readOnly /></label>
-            <label className="remax-field remax-field-span-2"><span>Contacto para Citas</span><input value={property.agenda.contactoCitas} readOnly /></label>
-            <label className="remax-field remax-field-span-2"><span>Condicion de cierre</span><input value={property.baja?.condicionCierre ?? ""} readOnly /></label>
-            <label className="remax-field"><span>Tipo de cierre</span><input value={property.baja?.tipoCierre ?? ""} readOnly /></label>
-            <label className="remax-field"><span>Persona que registra</span><input value={property.baja?.personaRegistra ?? ""} readOnly /></label>
-            <label className="remax-field remax-field-span-4"><span>Comentarios</span><textarea value={property.baja?.comentarios ?? ""} readOnly /></label>
+            <label className="remax-field"><span>{t("Entidad")}</span><input value={property.address.entidad} readOnly /></label>
+            <label className="remax-field"><span>{language === "en" ? "Onboarding date" : "Fecha ALTA"}</span><input value={property.fechas.alta} readOnly /></label>
+            <label className="remax-field"><span>{t("Fecha aviso")}</span><input value={property.fechas.aviso} readOnly /></label>
+            <label className="remax-field"><span>{t("Fecha baja")}</span><input value={property.baja?.fechaBaja ?? ""} readOnly /></label>
+            <label className="remax-field"><span>{t("Condiciones visitas")}</span><input value={t(property.agenda.condicionesVisitas)} readOnly /></label>
+            <label className="remax-field"><span>{t("Tel Citas")}</span><input value={property.agenda.telCitas} readOnly /></label>
+            <label className="remax-field remax-field-span-2"><span>{t("Contacto para Citas")}</span><input value={property.agenda.contactoCitas} readOnly /></label>
+            <label className="remax-field remax-field-span-2"><span>{t("Condicion de cierre")}</span><input value={maybeT(property.baja?.condicionCierre)} readOnly /></label>
+            <label className="remax-field"><span>{t("Tipo de cierre")}</span><input value={maybeT(property.baja?.tipoCierre)} readOnly /></label>
+            <label className="remax-field"><span>{t("Persona que registra")}</span><input value={property.baja?.personaRegistra ?? ""} readOnly /></label>
+            <label className="remax-field remax-field-span-4"><span>{t("Comentarios")}</span><textarea value={property.baja?.comentarios ?? ""} readOnly /></label>
           </div>
         </AccessSection>
       ) : null}
@@ -184,20 +186,20 @@ export default async function BajaPage({
             </div>
             <div>
               <span>{language === "en" ? "Condition" : "Condicion"}</span>
-              <strong>{property.baja?.condicionCierre ?? "N/A"}</strong>
+              <strong>{property.baja?.condicionCierre ? t(property.baja.condicionCierre) : "N/A"}</strong>
             </div>
           </div>
           <DataTable
             rows={property.historialValores}
             getRowId={(row) => row.id}
             columns={[
-              { key: "reg", label: "Clave Propiedad", render: (row) => row.propiedadClave },
+              { key: "reg", label: t("Clave Propiedad"), render: (row) => row.propiedadClave },
               { key: "valor", label: language === "en" ? "Value" : "Valor", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
-              { key: "fecha", label: "Fecha", render: (row) => row.fecha },
-              { key: "moneda", label: "Moneda", render: (row) => row.moneda },
-              { key: "posicion", label: "Posicion", render: (row) => row.posicion || "-" },
-              { key: "motivo", label: "Motivo de cambio", render: (row) => row.motivoCambio },
-              { key: "minuta", label: "Motivo de cambio para senalar en Minuta", render: (row) => row.motivoMinuta }
+              { key: "fecha", label: t("Fecha"), render: (row) => row.fecha },
+              { key: "moneda", label: t("Moneda"), render: (row) => t(row.moneda) },
+              { key: "posicion", label: t("Posicion"), render: (row) => row.posicion ? t(row.posicion) : "-" },
+              { key: "motivo", label: t("Motivo de cambio"), render: (row) => t(row.motivoCambio) },
+              { key: "minuta", label: t("Motivo de cambio para senalar en Minuta"), render: (row) => t(row.motivoMinuta) }
             ]}
           />
         </AccessSection>
@@ -218,14 +220,14 @@ export default async function BajaPage({
             columns={[
               {
                 key: "asesor",
-                label: "Asesor",
+                label: language === "en" ? "Agent" : "Asesor",
                 render: (row) => getAdvisorById(row.advisorId)?.nombre ?? row.advisorId
               },
-              { key: "nivel", label: "Nivel A / M", render: (row) => row.nivel },
-              { key: "tipo", label: "Tipo de intervencion", render: (row) => row.tipoIntervencion },
+              { key: "nivel", label: t("Nivel A / M"), render: (row) => row.nivel },
+              { key: "tipo", label: t("Tipo de intervencion"), render: (row) => t(row.tipoIntervencion) },
               {
                 key: "participacion",
-                label: "Participacion %",
+                label: t("Participacion %"),
                 render: (row) => formatCompactPercent(row.participacionPorcentaje)
               },
               { key: "monto", label: language === "en" ? "Amount $" : "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto, language) }
@@ -233,10 +235,12 @@ export default async function BajaPage({
           />
 
           <div className="remax-role-callout">
-            <strong>{language === "en" ? "Advantage of the new operating model" : "Ventaja del nuevo modelo operativo"}</strong>
+            <strong>{t("Ventaja del nuevo modelo operativo")}</strong>
             <p>
               {roleMatrix.length > 0
-                ? roleMatrix.map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`).join(" · ")
+                ? roleMatrix
+                    .map((item) => `${item.advisor.nombre}: ${item.roles.map((role) => translateRoleContext(language, role)).join(", ")}`)
+                    .join(" · ")
                 : language === "en"
                   ? "This closing does not repeat agents between onboarding and offboarding, but the model already supports it."
                   : "Este cierre no repite asesores entre alta y baja, pero el modelo ya lo soporta."}

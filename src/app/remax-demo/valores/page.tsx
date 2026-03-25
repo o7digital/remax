@@ -10,6 +10,7 @@ import {
   getSingleSearchParam
 } from "@/remax-demo/formatters";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
+import { rt } from "@/remax-demo/i18n";
 import { getAllValueHistory, getCurrentValue, getPropertyByClave, getPropertyValueHistory } from "@/remax-demo/stats";
 
 export default async function ValoresPage({
@@ -18,6 +19,7 @@ export default async function ValoresPage({
   searchParams: Promise<{ propiedad?: string | string[] }>;
 }) {
   const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const params = await searchParams;
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "CBR-1748";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("CBR-1748");
@@ -69,10 +71,10 @@ export default async function ValoresPage({
             { key: "clave", label: language === "en" ? "Property key" : "Clave Propiedad", render: (row) => row.propiedadClave },
             { key: "valor", label: language === "en" ? "Initial value" : "Valor Inicial", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
             { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.fecha },
-            { key: "moneda", label: language === "en" ? "Currency" : "Moneda", render: (row) => row.moneda },
-            { key: "posicion", label: language === "en" ? "Position" : "Posicion", render: (row) => row.posicion || "-" },
-            { key: "motivo", label: language === "en" ? "Change reason" : "Motivo de cambio", render: (row) => row.motivoCambio },
-            { key: "minuta", label: language === "en" ? "Minute reason" : "Motivo de cambio para senalar en Minuta", render: (row) => row.motivoMinuta }
+            { key: "moneda", label: language === "en" ? "Currency" : "Moneda", render: (row) => t(row.moneda) },
+            { key: "posicion", label: language === "en" ? "Position" : "Posicion", render: (row) => row.posicion ? t(row.posicion) : "-" },
+            { key: "motivo", label: language === "en" ? "Change reason" : "Motivo de cambio", render: (row) => t(row.motivoCambio) },
+            { key: "minuta", label: language === "en" ? "Minute reason" : "Motivo de cambio para senalar en Minuta", render: (row) => t(row.motivoMinuta) }
           ]}
         />
       </AccessSection>
@@ -98,7 +100,7 @@ export default async function ValoresPage({
               },
               { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.fecha },
               { key: "valor", label: language === "en" ? "Value" : "Valor", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
-              { key: "motivo", label: language === "en" ? "Reason" : "Motivo", render: (row) => row.motivoCambio }
+              { key: "motivo", label: language === "en" ? "Reason" : "Motivo", render: (row) => t(row.motivoCambio) }
             ]}
           />
         </AccessSection>

@@ -7,6 +7,7 @@ import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { SentimentBadge } from "@/remax-demo/components/sentiment-badge";
 import { getSingleSearchParam } from "@/remax-demo/formatters";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
+import { rt, translatePipelineStage } from "@/remax-demo/i18n";
 import {
   getAdvisorById,
   getPipelineColumns,
@@ -31,6 +32,7 @@ export default async function PipelineOperativoPage({
   searchParams: Promise<{ view?: string | string[] }>;
 }) {
   const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const params = await searchParams;
   const view = (getSingleSearchParam(params.view) ?? "kanban") === "list" ? "list" : "kanban";
   const summary = getPipelineSummary();
@@ -43,7 +45,7 @@ export default async function PipelineOperativoPage({
   return (
     <div className="remax-page-stack">
       <RemaxPageHeader
-        title={language === "en" ? "Operational Pipeline" : "Pipeline operativo"}
+        title={t("Pipeline operativo")}
         description={
           language === "en"
             ? "Commercial follow-up in Kanban and List views to manage leads, onboarding, publishing, visits, negotiation, closings and cancellations in a more modern and actionable experience."
@@ -52,12 +54,10 @@ export default async function PipelineOperativoPage({
         actions={
           <>
             <Link href="/remax-demo/analisis" className="button">
-              {language === "en" ? "View analysis" : "Ver analisis"}
+              {t("View analysis")}
             </Link>
             <Link href={getViewLink(view === "kanban" ? "list" : "kanban")} className="button button-secondary">
-              {language === "en"
-                ? `Switch to ${view === "kanban" ? "List" : "Kanban"}`
-                : `Cambiar a ${view === "kanban" ? "Lista" : "Kanban"}`}
+              {view === "kanban" ? t("Switch to List") : t("Switch to Kanban")}
             </Link>
           </>
         }
@@ -69,7 +69,7 @@ export default async function PipelineOperativoPage({
           <strong>{summary.active}</strong>
         </div>
         <div>
-          <span>{language === "en" ? "Total pipeline" : "Total pipeline"}</span>
+          <span>{t("Total pipeline")}</span>
           <strong>{summary.total}</strong>
         </div>
         <div>
@@ -107,7 +107,7 @@ export default async function PipelineOperativoPage({
                 <section key={column.stage} className="remax-pipeline-column">
                   <div className="remax-pipeline-column-header">
                     <span>{column.items.length} {language === "en" ? "opportunities" : "oportunidades"}</span>
-                    <strong>{column.stage}</strong>
+                    <strong>{translatePipelineStage(language, column.stage)}</strong>
                   </div>
                   <div className="remax-pipeline-card-stack">
                     {column.items.map((item) => {
@@ -119,19 +119,19 @@ export default async function PipelineOperativoPage({
                             <span>{advisor?.nombre ?? item.advisorId}</span>
                             <time>{item.updatedAt}</time>
                           </div>
-                          <strong>{item.itemLabel}</strong>
-                          <p>{item.status}</p>
+                    <strong>{t(item.itemLabel)}</strong>
+                          <p>{t(item.status)}</p>
                           <div className="remax-pipeline-card-meta">
                             <SentimentBadge sentiment={item.sentiment} language={language} />
                             <PriorityBadge priority={item.priority} language={language} />
                           </div>
                           <div className="remax-pipeline-reference">
                             <span>{language === "en" ? "Commercial reference" : "Referencia comercial"}</span>
-                            <strong>{item.commercialReference}</strong>
+                            <strong>{t(item.commercialReference)}</strong>
                           </div>
                           <div className="remax-pipeline-next-action">
                             <span>{language === "en" ? "Next action" : "Proxima accion"}</span>
-                            <p>{item.nextAction}</p>
+                            <p>{t(item.nextAction)}</p>
                           </div>
                         </Link>
                       );
@@ -150,16 +150,16 @@ export default async function PipelineOperativoPage({
                 key: "oportunidad",
                 label: language === "en" ? "Property / client" : "Propiedad / cliente",
                 render: (row) => (
-                  <Link href={getPipelineHref(row)}>
-                    <strong>{row.itemLabel}</strong>
-                  </Link>
+                    <Link href={getPipelineHref(row)}>
+                      <strong>{t(row.itemLabel)}</strong>
+                    </Link>
                 )
               },
-              { key: "etapa", label: language === "en" ? "Stage" : "Etapa", render: (row) => row.stage },
+              { key: "etapa", label: language === "en" ? "Stage" : "Etapa", render: (row) => translatePipelineStage(language, row.stage) },
               { key: "asesor", label: language === "en" ? "Agent" : "Asesor", render: (row) => getAdvisorById(row.advisorId)?.nombre ?? row.advisorId },
-              { key: "referencia", label: language === "en" ? "Value / reference" : "Valor / referencia", render: (row) => row.commercialReference },
-              { key: "estado", label: language === "en" ? "Status" : "Estado", render: (row) => row.status },
-              { key: "accion", label: language === "en" ? "Next action" : "Proxima accion", render: (row) => row.nextAction },
+              { key: "referencia", label: language === "en" ? "Value / reference" : "Valor / referencia", render: (row) => t(row.commercialReference) },
+              { key: "estado", label: language === "en" ? "Status" : "Estado", render: (row) => t(row.status) },
+              { key: "accion", label: language === "en" ? "Next action" : "Proxima accion", render: (row) => t(row.nextAction) },
               { key: "sentimiento", label: language === "en" ? "Sentiment" : "Sentimiento", render: (row) => <SentimentBadge sentiment={row.sentiment} language={language} /> },
               { key: "prioridad", label: language === "en" ? "Priority" : "Prioridad", render: (row) => <PriorityBadge priority={row.priority} language={language} /> },
               { key: "fecha", label: language === "en" ? "Date" : "Fecha", render: (row) => row.updatedAt }
@@ -173,9 +173,9 @@ export default async function PipelineOperativoPage({
           <div className="remax-process-list">
             {topActions.map((item) => (
               <Link key={item.id} href={getPipelineHref(item)} className="remax-process-card">
-                <span>{item.stage}</span>
-                <strong>{item.itemLabel}</strong>
-                <p>{item.nextAction}</p>
+                <span>{translatePipelineStage(language, item.stage)}</span>
+                <strong>{t(item.itemLabel)}</strong>
+                <p>{t(item.nextAction)}</p>
                 <div className="remax-pipeline-card-meta">
                   <SentimentBadge sentiment={item.sentiment} language={language} />
                   <PriorityBadge priority={item.priority} language={language} />

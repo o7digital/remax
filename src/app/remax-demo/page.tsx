@@ -109,15 +109,15 @@ function getInitials(name: string) {
 }
 
 function getActivityTone(category: string): SectionTone {
-  if (category.includes("CANCELACION")) {
+  if (category.includes("CANCELACION") || category.includes("CANCELLATION")) {
     return "red";
   }
 
-  if (category.includes("BAJA")) {
+  if (category.includes("BAJA") || category.includes("OFFBOARDING")) {
     return "gold";
   }
 
-  if (category.includes("ALTA")) {
+  if (category.includes("ALTA") || category.includes("ONBOARDING")) {
     return "blue";
   }
 
@@ -618,7 +618,7 @@ export default async function RemaxMenuOperacionPage() {
     },
     {
       title: "Cierre esperando comunicado",
-      detail: `${closureProcess?.itemLabel ?? "CBR-1748"} avanza a cierre y debe pasar a circuito administrativo.`,
+      detail: `${t(closureProcess?.itemLabel ?? "CBR-1748")} ${language === "en" ? "is moving toward closing and should enter the administrative circuit." : "avanza a cierre y debe pasar a circuito administrativo."}`,
       priority: "media" as RemaxPriorityLevel,
       href: "/remax-demo/pipeline"
     },
@@ -630,7 +630,7 @@ export default async function RemaxMenuOperacionPage() {
     },
     {
       title: "Propiedad con visitas activas sin actualizacion",
-      detail: `${staleVisit?.itemLabel ?? "ICV-441"} sigue en visitas y requiere feedback comercial inmediato.`,
+      detail: `${t(staleVisit?.itemLabel ?? "ICV-441")} ${language === "en" ? "remains in visits and needs immediate commercial feedback." : "sigue en visitas y requiere feedback comercial inmediato."}`,
       priority: "media" as RemaxPriorityLevel,
       href: "/remax-demo/pipeline"
     }
@@ -968,13 +968,13 @@ export default async function RemaxMenuOperacionPage() {
                 <Link key={item.id} href="/remax-demo/analisis" className="remax-feature-preview-card">
                   <div className="remax-feature-preview-topline">
                     <strong>{item.clientName}</strong>
-                    <span>{item.nextFollowUp}</span>
+                    <span>{t(item.nextFollowUp)}</span>
                   </div>
-                  <p>{item.note}</p>
+                  <p>{t(item.note)}</p>
                   <div className="remax-feature-preview-badges">
                     <SentimentBadge sentiment={item.sentiment} language={language} />
                     <PriorityBadge priority={item.priority} language={language} />
-                    <span className="remax-recommendation-pill">{item.suggestedAction}</span>
+                    <span className="remax-recommendation-pill">{t(item.suggestedAction)}</span>
                   </div>
                 </Link>
               ))}
@@ -1007,15 +1007,15 @@ export default async function RemaxMenuOperacionPage() {
               {pipelineItems.slice(0, 5).map((item) => (
                 <Link key={item.id} href="/remax-demo/pipeline" className="remax-mini-board-card">
                   <div className="remax-feature-preview-topline">
-                    <strong>{item.itemLabel}</strong>
+                    <strong>{t(item.itemLabel)}</strong>
                     <span>{translatePipelineStage(language, item.stage)}</span>
                   </div>
-                  <p>{item.nextAction}</p>
+                  <p>{t(item.nextAction)}</p>
                   <div className="remax-feature-preview-badges">
                     <SentimentBadge sentiment={item.sentiment} language={language} />
                     <PriorityBadge priority={item.priority} language={language} />
                   </div>
-                  <small>{item.commercialReference}</small>
+                  <small>{t(item.commercialReference)}</small>
                 </Link>
               ))}
             </div>

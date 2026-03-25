@@ -14,7 +14,9 @@ import {
 } from "@/remax-demo/formatters";
 import {
   rt,
+  translateOperation,
   translatePropertyStatus,
+  translateRoleContext,
   type RemaxLanguage
 } from "@/remax-demo/i18n";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
@@ -60,6 +62,7 @@ export default async function AltaPage({
   const step = getSingleSearchParam(params.step) ?? "clave";
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
+  const maybeT = (value?: string | null) => (value ? t(value) : "");
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "IBR-OP277";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("IBR-OP277");
 
@@ -115,12 +118,12 @@ export default async function AltaPage({
         >
           <div className="remax-form-grid remax-form-grid-3">
             <label className="remax-field">
-              <span>Categoria: Exclusiva, Opcion, Coop, Otro</span>
+              <span>{t("Categoria: Exclusiva, Opcion, Coop, Otro")}</span>
               <div className="remax-field-with-code">
                 <select defaultValue={property.categoria}>
                   {remaxCategoryOptions.map((option) => (
                     <option key={option.code} value={option.label}>
-                      {option.label}
+                      {t(option.label)}
                     </option>
                   ))}
                 </select>
@@ -128,12 +131,12 @@ export default async function AltaPage({
               </div>
             </label>
             <label className="remax-field">
-              <span>Giro: Residencial, Comercial, Industrial</span>
+              <span>{t("Giro: Residencial, Comercial, Industrial")}</span>
               <div className="remax-field-with-code">
                 <select defaultValue={property.giro}>
                   {remaxGiroOptions.map((option) => (
                     <option key={option.code} value={option.label}>
-                      {option.label}
+                      {t(option.label)}
                     </option>
                   ))}
                 </select>
@@ -145,12 +148,12 @@ export default async function AltaPage({
               <strong>{generatedKey}</strong>
             </div>
             <label className="remax-field">
-              <span>Tipo de Propiedad</span>
+              <span>{t("Tipo de Propiedad")}</span>
               <div className="remax-field-with-code">
                 <select defaultValue={property.tipo}>
                   {remaxTipoOptions.map((option) => (
                     <option key={option.code} value={option.label}>
-                      {option.label}
+                      {t(option.label)}
                     </option>
                   ))}
                 </select>
@@ -158,12 +161,12 @@ export default async function AltaPage({
               </div>
             </label>
             <label className="remax-field">
-              <span>Operacion: Venta o Renta</span>
+              <span>{t("Operacion: Venta o Renta")}</span>
               <div className="remax-field-with-code">
                 <select defaultValue={property.operacion}>
                   {remaxOperacionOptions.map((option) => (
                     <option key={option.code} value={option.label}>
-                      {option.label}
+                      {option.label === "Venta" || option.label === "Renta" ? translateOperation(language, option.label) : t(option.label)}
                     </option>
                   ))}
                 </select>
@@ -202,82 +205,82 @@ export default async function AltaPage({
             }
           >
             <div className="remax-form-grid remax-form-grid-6">
-              <label className="remax-field"><span>Reg.</span><input value={String(property.folio)} readOnly /></label>
-              <label className="remax-field"><span>Clave</span><input value={property.clave} readOnly /></label>
-              <label className="remax-field"><span>Exclusiva, Opcion, Coop</span><input value={property.exclusividad} readOnly /></label>
-              <label className="remax-field"><span>Giro</span><input value={property.giro} readOnly /></label>
-              <label className="remax-field"><span>Tipo</span><input value={property.tipo} readOnly /></label>
-              <label className="remax-field"><span>Operacion</span><input value={property.operacion} readOnly /></label>
-              <label className="remax-field remax-field-span-3"><span>Calle</span><input value={property.address.calle} readOnly /></label>
-              <label className="remax-field"><span>No Ext</span><input value={property.address.noExt} readOnly /></label>
-              <label className="remax-field"><span>No Int</span><input value={property.address.noInt} readOnly /></label>
-              <label className="remax-field"><span>Piso</span><input value={property.address.piso ?? ""} readOnly /></label>
-              <label className="remax-field remax-field-span-2"><span>Entre calles</span><input value={property.address.entreCalles ?? ""} readOnly /></label>
-              <label className="remax-field"><span>Colonia</span><input value={property.address.colonia} readOnly /></label>
-              <label className="remax-field"><span>Coto</span><input value={property.address.coto ?? ""} readOnly /></label>
-              <label className="remax-field"><span>Fraccionamiento</span><input value={property.address.fraccionamiento ?? ""} readOnly /></label>
-              <label className="remax-field"><span>Municipio</span><input value={property.address.municipio} readOnly /></label>
+              <label className="remax-field"><span>{t("Registro")}</span><input value={String(property.folio)} readOnly /></label>
+              <label className="remax-field"><span>{language === "en" ? "Key" : "Clave"}</span><input value={property.clave} readOnly /></label>
+              <label className="remax-field"><span>{language === "en" ? "Exclusive / option / co-op" : "Exclusiva, Opcion, Coop"}</span><input value={t(property.exclusividad)} readOnly /></label>
+              <label className="remax-field"><span>{language === "en" ? "Segment" : "Giro"}</span><input value={t(property.giro)} readOnly /></label>
+              <label className="remax-field"><span>{language === "en" ? "Type" : "Tipo"}</span><input value={t(property.tipo)} readOnly /></label>
+              <label className="remax-field"><span>{language === "en" ? "Operation" : "Operacion"}</span><input value={translateOperation(language, property.operacion)} readOnly /></label>
+              <label className="remax-field remax-field-span-3"><span>{t("Calle")}</span><input value={property.address.calle} readOnly /></label>
+              <label className="remax-field"><span>{t("No Ext")}</span><input value={property.address.noExt} readOnly /></label>
+              <label className="remax-field"><span>{t("No Int")}</span><input value={property.address.noInt} readOnly /></label>
+              <label className="remax-field"><span>{t("Piso")}</span><input value={property.address.piso ?? ""} readOnly /></label>
+              <label className="remax-field remax-field-span-2"><span>{t("Entre calles")}</span><input value={property.address.entreCalles ?? ""} readOnly /></label>
+              <label className="remax-field"><span>{t("Colonia")}</span><input value={property.address.colonia} readOnly /></label>
+              <label className="remax-field"><span>{t("Coto")}</span><input value={property.address.coto ?? ""} readOnly /></label>
+              <label className="remax-field"><span>{t("Fraccionamiento")}</span><input value={property.address.fraccionamiento ?? ""} readOnly /></label>
+              <label className="remax-field"><span>{t("Municipio")}</span><input value={property.address.municipio} readOnly /></label>
               <label className="remax-field"><span>C.P.</span><input value={property.address.cp} readOnly /></label>
-              <label className="remax-field"><span>Entidad</span><input value={property.address.entidad} readOnly /></label>
-              <label className="remax-field"><span>Coordenadas Guia Roji</span><input value={property.address.coordenadasGuiaRoji ?? ""} readOnly /></label>
-              <label className="remax-field"><span>Condicion Visitas</span><input value={property.agenda.condicionesVisitas} readOnly /></label>
-              <label className="remax-field"><span>Caja No.</span><input value={property.agenda.cajaNo} readOnly /></label>
-              <label className="remax-field"><span>Disponibilidad para Visitas</span><input value={property.agenda.disponibilidadVisitas} readOnly /></label>
-              <label className="remax-field"><span>Estatus Llaves</span><input value={property.agenda.estatusLlaves} readOnly /></label>
-              <label className="remax-field"><span>Tel Citas</span><input value={property.agenda.telCitas} readOnly /></label>
-              <label className="remax-field remax-field-span-2"><span>Contacto para Citas</span><input value={property.agenda.contactoCitas} readOnly /></label>
-              <label className="remax-field"><span>Origen</span><input value={property.agenda.origen} readOnly /></label>
-              <label className="remax-field"><span>Fecha ALTA</span><input value={property.fechas.alta} readOnly /></label>
-              <label className="remax-field"><span>Fecha aviso</span><input value={property.fechas.aviso} readOnly /></label>
-              <label className="remax-field"><span>Fecha Contrato</span><input value={property.fechas.contrato} readOnly /></label>
-              <label className="remax-field"><span>Inicio Promo</span><input value={property.fechas.inicioPromo} readOnly /></label>
-              <label className="remax-field"><span>ID AMPI</span><input value={property.ids.ampi} readOnly /></label>
-              <label className="remax-field"><span>ID REMAX</span><input value={property.ids.remax} readOnly /></label>
-              <label className="remax-field"><span>Clave Catastral</span><input value={property.ids.catastral} readOnly /></label>
+              <label className="remax-field"><span>{t("Entidad")}</span><input value={property.address.entidad} readOnly /></label>
+              <label className="remax-field"><span>{t("Coordenadas Guia Roji")}</span><input value={property.address.coordenadasGuiaRoji ?? ""} readOnly /></label>
+              <label className="remax-field"><span>{t("Condicion Visitas")}</span><input value={t(property.agenda.condicionesVisitas)} readOnly /></label>
+              <label className="remax-field"><span>{t("Caja No.")}</span><input value={property.agenda.cajaNo} readOnly /></label>
+              <label className="remax-field"><span>{t("Disponibilidad para Visitas")}</span><input value={t(property.agenda.disponibilidadVisitas)} readOnly /></label>
+              <label className="remax-field"><span>{t("Estatus Llaves")}</span><input value={maybeT(property.agenda.estatusLlaves)} readOnly /></label>
+              <label className="remax-field"><span>{t("Tel Citas")}</span><input value={property.agenda.telCitas} readOnly /></label>
+              <label className="remax-field remax-field-span-2"><span>{t("Contacto para Citas")}</span><input value={property.agenda.contactoCitas} readOnly /></label>
+              <label className="remax-field"><span>{t("Origen")}</span><input value={t(property.agenda.origen)} readOnly /></label>
+              <label className="remax-field"><span>{language === "en" ? "Onboarding date" : "Fecha ALTA"}</span><input value={property.fechas.alta} readOnly /></label>
+              <label className="remax-field"><span>{t("Fecha aviso")}</span><input value={property.fechas.aviso} readOnly /></label>
+              <label className="remax-field"><span>{t("Fecha Contrato")}</span><input value={property.fechas.contrato} readOnly /></label>
+              <label className="remax-field"><span>{t("Inicio Promo")}</span><input value={property.fechas.inicioPromo} readOnly /></label>
+              <label className="remax-field"><span>{t("ID AMPI")}</span><input value={property.ids.ampi} readOnly /></label>
+              <label className="remax-field"><span>{t("ID REMAX")}</span><input value={property.ids.remax} readOnly /></label>
+              <label className="remax-field"><span>{t("Clave Catastral")}</span><input value={property.ids.catastral} readOnly /></label>
               <div className="remax-field">
-                <span>{language === "en" ? "Property status" : "Status Propiedad"}</span>
+                <span>{t("Status Propiedad")}</span>
                 <StatusBadge value={translatePropertyStatus(language, property.estatus)} tone="success" />
               </div>
-              <label className="remax-field"><span>Alta / Baja</span><input value={property.altaBaja} readOnly /></label>
-              <label className="remax-field"><span>Estatus de visita en recorrido</span><input value={property.visitaRecorrido} readOnly /></label>
-              <label className="remax-field remax-field-span-3"><span>Como llegar / ligas</span><input value={property.comoLlegar.ligasA} readOnly /></label>
-              <label className="remax-field remax-field-span-3"><span>Comentarios</span><textarea value={property.comoLlegar.comentarios} readOnly /></label>
+              <label className="remax-field"><span>{t("Alta / Baja")}</span><input value={t(property.altaBaja)} readOnly /></label>
+              <label className="remax-field"><span>{t("Estatus de visita en recorrido")}</span><input value={maybeT(property.visitaRecorrido)} readOnly /></label>
+              <label className="remax-field remax-field-span-3"><span>{t("Como llegar / ligas")}</span><input value={property.comoLlegar.ligasA} readOnly /></label>
+              <label className="remax-field remax-field-span-3"><span>{t("Comentarios")}</span><textarea value={property.comoLlegar.comentarios} readOnly /></label>
             </div>
           </AccessSection>
 
           <AccessSection title={language === "en" ? "Property characteristics" : "Caracteristicas de la propiedad"} accent="red">
             <div className="remax-form-grid remax-form-grid-6">
-              <label className="remax-field"><span>Sup. Terreno m2</span><input value={String(property.caracteristicas.supTerreno)} readOnly /></label>
-              <label className="remax-field"><span>Sup. Const. m2</span><input value={String(property.caracteristicas.supConstruccion)} readOnly /></label>
-              <label className="remax-field"><span>Frente</span><input value={String(property.caracteristicas.frente)} readOnly /></label>
-              <label className="remax-field"><span>Fondo</span><input value={String(property.caracteristicas.fondo)} readOnly /></label>
-              <label className="remax-field"><span>Jardin</span><input value={property.caracteristicas.jardin ? "Si" : "No"} readOnly /></label>
-              <label className="remax-field"><span>Estac. Descubiertos</span><input value={String(property.caracteristicas.estacionamientosDescubiertos)} readOnly /></label>
-              <label className="remax-field"><span>Nivel</span><input value={property.caracteristicas.nivel} readOnly /></label>
-              <label className="remax-field"><span>Pisos totales</span><input value={String(property.caracteristicas.pisosTotales)} readOnly /></label>
-              <label className="remax-field"><span>Exterior / Interior</span><input value={property.caracteristicas.exteriorInterior} readOnly /></label>
-              <label className="remax-field"><span>Forma terreno</span><input value={property.caracteristicas.formaTerreno} readOnly /></label>
-              <label className="remax-field"><span>Inclinacion</span><input value={property.caracteristicas.inclinacion} readOnly /></label>
-              <label className="remax-field"><span>Uso de suelo</span><input value={property.caracteristicas.usoSuelo} readOnly /></label>
-              <label className="remax-field remax-field-span-3"><span>Descripcion</span><input value={property.caracteristicas.descripcion} readOnly /></label>
-              <label className="remax-field"><span>Categoria</span><input value={property.caracteristicas.categoria} readOnly /></label>
-              <label className="remax-field remax-field-span-2"><span>Notas</span><textarea value={property.caracteristicas.notas} readOnly /></label>
+              <label className="remax-field"><span>{t("Sup. Terreno m2")}</span><input value={String(property.caracteristicas.supTerreno)} readOnly /></label>
+              <label className="remax-field"><span>{t("Sup. Const. m2")}</span><input value={String(property.caracteristicas.supConstruccion)} readOnly /></label>
+              <label className="remax-field"><span>{t("Frente")}</span><input value={String(property.caracteristicas.frente)} readOnly /></label>
+              <label className="remax-field"><span>{t("Fondo")}</span><input value={String(property.caracteristicas.fondo)} readOnly /></label>
+              <label className="remax-field"><span>{t("Jardin")}</span><input value={language === "en" ? (property.caracteristicas.jardin ? "Yes" : "No") : property.caracteristicas.jardin ? "Si" : "No"} readOnly /></label>
+              <label className="remax-field"><span>{t("Estac. Descubiertos")}</span><input value={String(property.caracteristicas.estacionamientosDescubiertos)} readOnly /></label>
+              <label className="remax-field"><span>{t("Nivel")}</span><input value={property.caracteristicas.nivel} readOnly /></label>
+              <label className="remax-field"><span>{t("Pisos totales")}</span><input value={String(property.caracteristicas.pisosTotales)} readOnly /></label>
+              <label className="remax-field"><span>{t("Exterior / Interior")}</span><input value={property.caracteristicas.exteriorInterior} readOnly /></label>
+              <label className="remax-field"><span>{t("Forma terreno")}</span><input value={t(property.caracteristicas.formaTerreno)} readOnly /></label>
+              <label className="remax-field"><span>{t("Inclinacion")}</span><input value={t(property.caracteristicas.inclinacion)} readOnly /></label>
+              <label className="remax-field"><span>{t("Uso de suelo")}</span><input value={t(property.caracteristicas.usoSuelo)} readOnly /></label>
+              <label className="remax-field remax-field-span-3"><span>{t("Descripcion")}</span><input value={maybeT(property.caracteristicas.descripcion)} readOnly /></label>
+              <label className="remax-field"><span>{t("Categoria")}</span><input value={t(property.caracteristicas.categoria)} readOnly /></label>
+              <label className="remax-field remax-field-span-2"><span>{t("Notas")}</span><textarea value={property.caracteristicas.notas} readOnly /></label>
             </div>
 
             <div className="remax-subgrid">
               <div className="remax-chip-list">
                 {property.caracteristicas.servicios.map((service) => (
                   <span key={service} className="remax-chip">
-                  {service}
-                </span>
-              ))}
+                    {t(service)}
+                  </span>
+                ))}
               </div>
               <DataTable
                 rows={property.caracteristicas.superficiesValores}
                 getRowId={(row) => row.concepto}
                 columns={[
-                  { key: "concepto", label: "Superficies m2 y valores", render: (row) => row.concepto },
-                  { key: "metros", label: "Sup. m2", align: "right", render: (row) => row.metros.toFixed(2) },
+                  { key: "concepto", label: t("Superficies m2 y valores"), render: (row) => t(row.concepto) },
+                  { key: "metros", label: t("Sup. m2"), align: "right", render: (row) => row.metros.toFixed(2) },
                   { key: "valor", label: language === "en" ? "Value $" : "Valor $", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
                   { key: "total", label: t("Total"), align: "right", render: (row) => formatCurrencyMXN(row.total, language) }
                 ]}
@@ -298,11 +301,11 @@ export default async function AltaPage({
             }
           >
             <div className="remax-form-grid remax-form-grid-4">
-              <label className="remax-field"><span>Clave propiedad</span><input value={property.clave} readOnly /></label>
-              <label className="remax-field"><span>Politica / Monto</span><input value={property.condicionesOperacion.modoComision} readOnly /></label>
-              <label className="remax-field"><span>Porcentaje</span><input value={formatCompactPercent(property.condicionesOperacion.porcentaje)} readOnly /></label>
-              <label className="remax-field"><span>Monto</span><input value={formatCurrencyMXN(property.condicionesOperacion.monto)} readOnly /></label>
-              <label className="remax-field remax-field-span-2"><span>Politica vigente</span><input value={property.condicionesOperacion.politicaVigente} readOnly /></label>
+              <label className="remax-field"><span>{t("Clave propiedad")}</span><input value={property.clave} readOnly /></label>
+              <label className="remax-field"><span>{t("Politica / Monto")}</span><input value={t(property.condicionesOperacion.modoComision)} readOnly /></label>
+              <label className="remax-field"><span>{t("Porcentaje")}</span><input value={formatCompactPercent(property.condicionesOperacion.porcentaje)} readOnly /></label>
+              <label className="remax-field"><span>{t("Monto")}</span><input value={formatCurrencyMXN(property.condicionesOperacion.monto, language)} readOnly /></label>
+              <label className="remax-field remax-field-span-2"><span>{t("Politica vigente")}</span><input value={t(property.condicionesOperacion.politicaVigente)} readOnly /></label>
               <div className="remax-field">
                 <span>{language === "en" ? "Exception applies" : "Aplica excepcion"}</span>
                 <YesNoBadge value={property.condicionesOperacion.aplicaExcepcion} language={language} />
@@ -311,19 +314,19 @@ export default async function AltaPage({
                 <span>{language === "en" ? "Data confirmed" : "Datos confirmados"}</span>
                 <YesNoBadge value={property.condicionesOperacion.datosConfirmados} language={language} />
               </div>
-              <label className="remax-field remax-field-span-4"><span>Comentarios</span><textarea value={property.condicionesOperacion.comentarios} readOnly /></label>
+              <label className="remax-field remax-field-span-4"><span>{t("Comentarios")}</span><textarea value={property.condicionesOperacion.comentarios} readOnly /></label>
             </div>
           </AccessSection>
 
           {property.condicionesRenta ? (
             <AccessSection title={language === "en" ? "Lease conditions" : "Edicion de condiciones de renta"} accent="red">
               <div className="remax-form-grid remax-form-grid-4">
-                <label className="remax-field"><span>Confirmar anos de renta</span><input value={String(property.condicionesRenta.anos)} readOnly /></label>
-                <label className="remax-field"><span>Forma de pago</span><input value={property.condicionesRenta.formaPago} readOnly /></label>
-                <label className="remax-field"><span>Vigencia</span><input value={property.condicionesRenta.vigencia} readOnly /></label>
-                <label className="remax-field"><span>Herramienta juridica</span><input value={property.condicionesRenta.herramientaJuridica} readOnly /></label>
+                <label className="remax-field"><span>{t("Confirmar anos de renta")}</span><input value={String(property.condicionesRenta.anos)} readOnly /></label>
+                <label className="remax-field"><span>{t("Forma de pago")}</span><input value={t(property.condicionesRenta.formaPago)} readOnly /></label>
+                <label className="remax-field"><span>{t("Vigencia")}</span><input value={t(property.condicionesRenta.vigencia)} readOnly /></label>
+                <label className="remax-field"><span>{t("Herramienta juridica")}</span><input value={t(property.condicionesRenta.herramientaJuridica)} readOnly /></label>
                 <div className="remax-checklist">
-                  <span>Controles principales</span>
+                  <span>{t("Controles principales")}</span>
                   <div className="remax-check-grid">
                     <div><YesNoBadge value={property.condicionesRenta.rentaAdelantada} language={language} /> {language === "en" ? "Advance rent" : "Renta adelantada"}</div>
                     <div><YesNoBadge value={property.condicionesRenta.rentaDeposito} language={language} /> {language === "en" ? "Deposit rent" : "Renta deposito"}</div>
@@ -338,16 +341,16 @@ export default async function AltaPage({
                     <div><YesNoBadge value={property.condicionesRenta.investigacion} language={language} /> {language === "en" ? "Investigation" : "Investigacion"}</div>
                   </div>
                 </div>
-                <label className="remax-field"><span>Afianzadora</span><input value={property.condicionesRenta.afianzadora} readOnly /></label>
-                <label className="remax-field"><span>Monto de la fianza</span><input value={formatCurrencyMXN(property.condicionesRenta.montoFianza)} readOnly /></label>
-                <label className="remax-field"><span>Investigador</span><input value={property.condicionesRenta.investigador} readOnly /></label>
-                <label className="remax-field"><span>Costo de investigacion</span><input value={formatCurrencyMXN(property.condicionesRenta.costoInvestigacion)} readOnly /></label>
-                <label className="remax-field"><span>Abogado</span><input value={property.condicionesRenta.abogado} readOnly /></label>
-                <label className="remax-field"><span>Notario</span><input value={property.condicionesRenta.notario} readOnly /></label>
-                <label className="remax-field"><span>Empresa</span><input value={property.condicionesRenta.empresa} readOnly /></label>
-                <label className="remax-field"><span>Monto de mantenimiento</span><input value={formatCurrencyMXN(property.condicionesRenta.montoMantenimiento)} readOnly /></label>
-                <label className="remax-field"><span>Periodo de mantenimiento</span><input value={property.condicionesRenta.periodoMantenimiento} readOnly /></label>
-                <label className="remax-field remax-field-span-4"><span>Observaciones</span><textarea value={property.condicionesRenta.observaciones} readOnly /></label>
+                <label className="remax-field"><span>{t("Afianzadora")}</span><input value={property.condicionesRenta.afianzadora} readOnly /></label>
+                <label className="remax-field"><span>{t("Monto de la fianza")}</span><input value={formatCurrencyMXN(property.condicionesRenta.montoFianza, language)} readOnly /></label>
+                <label className="remax-field"><span>{t("Investigador")}</span><input value={property.condicionesRenta.investigador} readOnly /></label>
+                <label className="remax-field"><span>{t("Costo de investigacion")}</span><input value={formatCurrencyMXN(property.condicionesRenta.costoInvestigacion, language)} readOnly /></label>
+                <label className="remax-field"><span>{t("Abogado")}</span><input value={property.condicionesRenta.abogado} readOnly /></label>
+                <label className="remax-field"><span>{t("Notario")}</span><input value={property.condicionesRenta.notario} readOnly /></label>
+                <label className="remax-field"><span>{t("Empresa")}</span><input value={property.condicionesRenta.empresa} readOnly /></label>
+                <label className="remax-field"><span>{t("Monto de mantenimiento")}</span><input value={formatCurrencyMXN(property.condicionesRenta.montoMantenimiento, language)} readOnly /></label>
+                <label className="remax-field"><span>{t("Periodo de mantenimiento")}</span><input value={t(property.condicionesRenta.periodoMantenimiento)} readOnly /></label>
+                <label className="remax-field remax-field-span-4"><span>{t("Observaciones")}</span><textarea value={property.condicionesRenta.observaciones} readOnly /></label>
               </div>
             </AccessSection>
           ) : null}
@@ -377,13 +380,13 @@ export default async function AltaPage({
             rows={property.historialValores}
             getRowId={(row) => row.id}
             columns={[
-              { key: "clave", label: "Clave Propiedad", render: (row) => row.propiedadClave },
+              { key: "clave", label: t("Clave Propiedad"), render: (row) => row.propiedadClave },
               { key: "valor", label: language === "en" ? "Initial value" : "Valor Inicial", align: "right", render: (row) => formatCurrencyMXN(row.valor, language) },
-              { key: "fecha", label: "Fecha", render: (row) => row.fecha },
-              { key: "moneda", label: "Moneda", render: (row) => row.moneda },
-              { key: "posicion", label: "Posicion", render: (row) => row.posicion || "-" },
-              { key: "motivo", label: "Motivo de cambio", render: (row) => row.motivoCambio },
-              { key: "minuta", label: "Motivo de cambio para senalar en minuta", render: (row) => row.motivoMinuta }
+              { key: "fecha", label: t("Fecha"), render: (row) => row.fecha },
+              { key: "moneda", label: t("Moneda"), render: (row) => t(row.moneda) },
+              { key: "posicion", label: t("Posicion"), render: (row) => row.posicion ? t(row.posicion) : "-" },
+              { key: "motivo", label: t("Motivo de cambio"), render: (row) => t(row.motivoCambio) },
+              { key: "minuta", label: t("Motivo de cambio para senalar en minuta"), render: (row) => t(row.motivoMinuta) }
             ]}
           />
         </AccessSection>
@@ -402,21 +405,21 @@ export default async function AltaPage({
             rows={property.asesoresAlta}
             getRowId={(row) => `${row.advisorId}-${row.contexto}`}
             columns={[
-              { key: "clave", label: "Clave Propiedad", render: () => property.clave },
+              { key: "clave", label: t("Clave Propiedad"), render: () => property.clave },
               {
                 key: "asesor",
-                label: "Asesor",
+                label: language === "en" ? "Agent" : "Asesor",
                 render: (row) => getAdvisorById(row.advisorId)?.nombre ?? row.advisorId
               },
-              { key: "nivel", label: "Nivel Asesor A/N", render: (row) => row.nivel },
-              { key: "comision", label: "Com por % / $", render: (row) => row.comisionTipo },
+              { key: "nivel", label: t("Nivel Asesor A/N"), render: (row) => row.nivel },
+              { key: "comision", label: t("Com por % / $"), render: (row) => row.comisionTipo },
               {
                 key: "participacion",
-                label: "Participacion en ALTA %",
+                label: t("Participacion en ALTA %"),
                 render: (row) => formatCompactPercent(row.participacionPorcentaje)
               },
               { key: "monto", label: language === "en" ? "Amount $" : "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto, language) },
-              { key: "alta", label: "ALTA", render: (row) => row.tipoIntervencion }
+              { key: "alta", label: language === "en" ? "ONBOARDING" : "ALTA", render: (row) => t(row.tipoIntervencion) }
             ]}
           />
 
@@ -429,7 +432,7 @@ export default async function AltaPage({
               {` `}
               {roleMatrix.length > 0
                 ? roleMatrix
-                    .map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`)
+                    .map((item) => `${item.advisor.nombre}: ${item.roles.map((role) => translateRoleContext(language, role)).join(", ")}`)
                     .join(" · ")
                 : language === "en"
                   ? "This property does not yet show multi-role participation, but the model already supports it."
@@ -452,13 +455,13 @@ export default async function AltaPage({
             rows={property.propietarios}
             getRowId={(row) => row.id}
             columns={[
-              { key: "clave", label: "Clave de la propiedad", render: () => property.clave },
-              { key: "nombre", label: "Nombre(s)", render: (row) => row.nombre },
-              { key: "telefono", label: "Telefono", render: (row) => row.telefono },
-              { key: "correo", label: "Correo", render: (row) => row.correo },
+              { key: "clave", label: language === "en" ? "Property key" : "Clave de la propiedad", render: () => property.clave },
+              { key: "nombre", label: t("Nombre(s)"), render: (row) => row.nombre },
+              { key: "telefono", label: language === "en" ? "Phone" : "Telefono", render: (row) => row.telefono },
+              { key: "correo", label: language === "en" ? "Email" : "Correo", render: (row) => row.correo },
               {
                 key: "principal",
-                label: "Principal",
+                label: t("Principal"),
                 render: (row) => <YesNoBadge value={row.principal} language={language} />
               }
             ]}
@@ -470,25 +473,25 @@ export default async function AltaPage({
         <>
           <AccessSection title={language === "en" ? "Technical sheet" : "Ficha Tecnica"} accent="red">
             <div className="remax-form-grid remax-form-grid-5">
-              <label className="remax-field"><span>Estilo</span><input value={property.fichaTecnica.residencial.estilo} readOnly /></label>
-              <label className="remax-field"><span>Proyecto</span><input value={property.fichaTecnica.residencial.proyecto} readOnly /></label>
-              <label className="remax-field"><span>Acabados</span><input value={property.fichaTecnica.residencial.acabados} readOnly /></label>
-              <label className="remax-field"><span>Conservacion</span><input value={property.fichaTecnica.residencial.conservacion} readOnly /></label>
-              <label className="remax-field"><span>Fachada</span><input value={property.fichaTecnica.residencial.fachada} readOnly /></label>
-              <label className="remax-field"><span>Ventanas</span><input value={property.fichaTecnica.residencial.ventanas} readOnly /></label>
-              <label className="remax-field"><span>Cristales</span><input value={property.fichaTecnica.residencial.cristales} readOnly /></label>
-              <label className="remax-field"><span>Carpinteria</span><input value={property.fichaTecnica.residencial.carpinteria} readOnly /></label>
-              <label className="remax-field"><span>Puertas</span><input value={property.fichaTecnica.residencial.puertas} readOnly /></label>
-              <label className="remax-field"><span>Otro</span><input value={property.fichaTecnica.residencial.otro} readOnly /></label>
+              <label className="remax-field"><span>{t("Estilo")}</span><input value={property.fichaTecnica.residencial.estilo} readOnly /></label>
+              <label className="remax-field"><span>{t("Proyecto")}</span><input value={property.fichaTecnica.residencial.proyecto} readOnly /></label>
+              <label className="remax-field"><span>{t("Acabados")}</span><input value={property.fichaTecnica.residencial.acabados} readOnly /></label>
+              <label className="remax-field"><span>{t("Conservacion")}</span><input value={property.fichaTecnica.residencial.conservacion} readOnly /></label>
+              <label className="remax-field"><span>{t("Fachada")}</span><input value={property.fichaTecnica.residencial.fachada} readOnly /></label>
+              <label className="remax-field"><span>{t("Ventanas")}</span><input value={property.fichaTecnica.residencial.ventanas} readOnly /></label>
+              <label className="remax-field"><span>{t("Cristales")}</span><input value={property.fichaTecnica.residencial.cristales} readOnly /></label>
+              <label className="remax-field"><span>{t("Carpinteria")}</span><input value={property.fichaTecnica.residencial.carpinteria} readOnly /></label>
+              <label className="remax-field"><span>{t("Puertas")}</span><input value={property.fichaTecnica.residencial.puertas} readOnly /></label>
+              <label className="remax-field"><span>{t("Otro")}</span><input value={property.fichaTecnica.residencial.otro} readOnly /></label>
             </div>
             <DataTable
               rows={property.fichaTecnica.residencial.espacios}
               getRowId={(row) => row.nombre}
               columns={[
-                { key: "nombre", label: "Espacio", render: (row) => row.nombre },
-                { key: "nivel", label: "Nivel", render: (row) => row.nivel },
-                { key: "banos", label: "Banos", render: (row) => String(row.banos) },
-                { key: "acabados", label: "Acabados", render: (row) => row.acabados }
+                { key: "nombre", label: t("Espacio"), render: (row) => row.nombre },
+                { key: "nivel", label: t("Nivel"), render: (row) => row.nivel },
+                { key: "banos", label: t("Banos"), render: (row) => String(row.banos) },
+                { key: "acabados", label: t("Acabados"), render: (row) => row.acabados }
               ]}
             />
             <div className="remax-chip-list">
@@ -502,15 +505,15 @@ export default async function AltaPage({
 
           <AccessSection title={language === "en" ? "Commercial module" : "Modulo comercial"} accent="blue">
             <div className="remax-form-grid remax-form-grid-4">
-              <label className="remax-field"><span>Categoria</span><input value={property.fichaTecnica.comercial.categoria} readOnly /></label>
-              <label className="remax-field"><span>Clasificacion</span><input value={property.fichaTecnica.comercial.clasificacion} readOnly /></label>
+              <label className="remax-field"><span>{t("Categoria")}</span><input value={t(property.fichaTecnica.comercial.categoria)} readOnly /></label>
+              <label className="remax-field"><span>{t("Clasificacion")}</span><input value={maybeT(property.fichaTecnica.comercial.clasificacion)} readOnly /></label>
               <div className="remax-field"><span>{language === "en" ? "Security" : "Vigilancia"}</span><YesNoBadge value={property.fichaTecnica.comercial.vigilancia} language={language} /></div>
               <div className="remax-field"><span>{language === "en" ? "Phones" : "Telefonos"}</span><YesNoBadge value={property.fichaTecnica.comercial.telefonos} language={language} /></div>
-              <label className="remax-field"><span>Lineas</span><input value={property.fichaTecnica.comercial.lineas} readOnly /></label>
-              <label className="remax-field"><span>Iluminacion</span><input value={property.fichaTecnica.comercial.iluminacion} readOnly /></label>
-              <label className="remax-field"><span>Banos</span><input value={String(property.fichaTecnica.comercial.banios)} readOnly /></label>
-              <label className="remax-field"><span>Estacionamiento</span><input value={property.fichaTecnica.comercial.estacionamiento} readOnly /></label>
-              <label className="remax-field remax-field-span-4"><span>Observaciones</span><textarea value={property.fichaTecnica.comercial.observaciones} readOnly /></label>
+              <label className="remax-field"><span>{t("Lineas")}</span><input value={property.fichaTecnica.comercial.lineas} readOnly /></label>
+              <label className="remax-field"><span>{t("Iluminacion")}</span><input value={property.fichaTecnica.comercial.iluminacion} readOnly /></label>
+              <label className="remax-field"><span>{t("Banos")}</span><input value={String(property.fichaTecnica.comercial.banios)} readOnly /></label>
+              <label className="remax-field"><span>{t("Estacionamiento")}</span><input value={maybeT(property.fichaTecnica.comercial.estacionamiento)} readOnly /></label>
+              <label className="remax-field remax-field-span-4"><span>{t("Observaciones")}</span><textarea value={property.fichaTecnica.comercial.observaciones} readOnly /></label>
             </div>
           </AccessSection>
         </>

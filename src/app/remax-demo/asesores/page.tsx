@@ -5,7 +5,7 @@ import { AccessSection } from "@/remax-demo/components/access-section";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { formatPercent, getSingleSearchParam } from "@/remax-demo/formatters";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
-import { translateOperation, translateStaffType } from "@/remax-demo/i18n";
+import { rt, translateOperation, translatePropertyStatus, translateRoleContext, translateStaffType } from "@/remax-demo/i18n";
 import {
   getAdviserSummaryRows,
   getAdvisorById,
@@ -18,6 +18,7 @@ export default async function AsesoresPage({
   searchParams: Promise<{ asesor?: string | string[] }>;
 }) {
   const language = await getRemaxLanguage();
+  const t = (value: string) => rt(language, value);
   const params = await searchParams;
   const selectedId = getSingleSearchParam(params.asesor) ?? "pedro-leyva";
   const selectedAdvisor = getAdvisorById(selectedId) ?? getAdvisorById("pedro-leyva");
@@ -63,7 +64,7 @@ export default async function AsesoresPage({
               )
             },
             { key: "clase", label: language === "en" ? "Class" : "Clase", render: (row) => row.advisor.clase ?? "Staff" },
-            { key: "rol", label: language === "en" ? "Primary role" : "Rol principal", render: (row) => row.advisor.rol },
+            { key: "rol", label: language === "en" ? "Primary role" : "Rol principal", render: (row) => t(row.advisor.rol) },
             { key: "comision", label: language === "en" ? "Base commission" : "Comision base", render: (row) => formatPercent(row.advisor.comisionRate, language) },
             { key: "alta", label: language === "en" ? "Onboarding" : "Alta", render: (row) => String(row.alta.length) },
             { key: "baja", label: language === "en" ? "Closing" : "Baja", render: (row) => String(row.baja.length) },
@@ -78,7 +79,7 @@ export default async function AsesoresPage({
           <label className="remax-field"><span>{language === "en" ? "Name" : "Nombre"}</span><input value={selectedAdvisor.nombre} readOnly /></label>
           <label className="remax-field"><span>{language === "en" ? "Class" : "Clase"}</span><input value={selectedAdvisor.clase ?? "Staff"} readOnly /></label>
           <label className="remax-field"><span>{language === "en" ? "Staff type" : "Tipo personal"}</span><input value={translateStaffType(language, selectedAdvisor.tipoPersonal)} readOnly /></label>
-          <label className="remax-field"><span>{language === "en" ? "Role" : "Rol"}</span><input value={selectedAdvisor.rol} readOnly /></label>
+          <label className="remax-field"><span>{language === "en" ? "Role" : "Rol"}</span><input value={t(selectedAdvisor.rol)} readOnly /></label>
         </div>
 
         <div className="remax-summary-strip">
@@ -115,16 +116,16 @@ export default async function AsesoresPage({
                 </Link>
               )
             },
-            { key: "estatus", label: language === "en" ? "Status" : "Estatus", render: (row) => row.estatus },
+            { key: "estatus", label: language === "en" ? "Status" : "Estatus", render: (row) => translatePropertyStatus(language, row.estatus) },
             { key: "operacion", label: language === "en" ? "Operation" : "Operacion", render: (row) => translateOperation(language, row.operacion) },
-            { key: "tipo", label: language === "en" ? "Type" : "Tipo", render: (row) => row.tipo },
+            { key: "tipo", label: language === "en" ? "Type" : "Tipo", render: (row) => t(row.tipo) },
             {
               key: "roles",
               label: language === "en" ? "Roles for this agent" : "Roles de este asesor",
               render: (row) =>
                 getPropertyRoleMatrix(row)
                   .find((item) => item.advisor.id === selectedAdvisor.id)
-                  ?.roles.join(", ") ?? "-"
+                  ?.roles.map((role) => translateRoleContext(language, role)).join(", ") ?? "-"
             }
           ]}
         />

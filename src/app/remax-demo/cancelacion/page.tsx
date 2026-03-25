@@ -13,7 +13,8 @@ import {
 } from "@/remax-demo/formatters";
 import {
   rt,
-  translatePropertyStatus
+  translatePropertyStatus,
+  translateRoleContext
 } from "@/remax-demo/i18n";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
 import {
@@ -41,6 +42,7 @@ export default async function CancelacionPage({
   const step = getSingleSearchParam(params.step) ?? "busqueda";
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
+  const maybeT = (value?: string | null) => (value ? t(value) : "");
   const selectedKey = getSingleSearchParam(params.propiedad) ?? "RTV-571";
   const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("RTV-571");
 
@@ -99,16 +101,16 @@ export default async function CancelacionPage({
             columns={[
               {
                 key: "clave",
-                label: "Clave Propiedad",
+                label: t("Clave Propiedad"),
                 render: (row) => (
                   <Link href={`/remax-demo/cancelacion?step=registro&propiedad=${row.clave}`}>
                     <strong>{row.clave}</strong>
                   </Link>
                 )
               },
-              { key: "colonia", label: "Colonia", render: (row) => row.address.colonia },
-              { key: "domicilio", label: "Domicilio", render: (row) => `${row.address.calle} ${row.address.noExt}` },
-              { key: "asesor", label: "Asesor", render: (row) => getAdvisorById(row.asesoresAlta[0]?.advisorId ?? "")?.nombre ?? "" },
+              { key: "colonia", label: t("Colonia"), render: (row) => row.address.colonia },
+              { key: "domicilio", label: t("Domicilio"), render: (row) => `${row.address.calle} ${row.address.noExt}` },
+              { key: "asesor", label: language === "en" ? "Agent" : "Asesor", render: (row) => getAdvisorById(row.asesoresAlta[0]?.advisorId ?? "")?.nombre ?? "" },
               { key: "precio", label: language === "en" ? "Price" : "Precio", align: "right", render: (row) => formatCurrencyMXN(getCurrentValue(row), language) },
               { key: "status", label: language === "en" ? "Property status" : "Status Propiedad", render: () => translatePropertyStatus(language, "Cancelada") }
             ]}
@@ -126,19 +128,19 @@ export default async function CancelacionPage({
           }
         >
           <div className="remax-form-grid remax-form-grid-4">
-            <label className="remax-field"><span>Clave Propiedad</span><input value={property.clave} readOnly /></label>
-            <label className="remax-field"><span>Baja por Cancelacion</span><input value={property.cancelacion?.bajaPor ?? ""} readOnly /></label>
-            <label className="remax-field"><span>Fecha aviso a recepcion</span><input value={property.cancelacion?.fechaAvisoRecepcion ?? ""} readOnly /></label>
+            <label className="remax-field"><span>{t("Clave Propiedad")}</span><input value={property.clave} readOnly /></label>
+            <label className="remax-field"><span>{t("Baja por Cancelacion")}</span><input value={maybeT(property.cancelacion?.bajaPor)} readOnly /></label>
+            <label className="remax-field"><span>{t("Fecha aviso a recepcion")}</span><input value={property.cancelacion?.fechaAvisoRecepcion ?? ""} readOnly /></label>
             <div className="remax-cancel-box remax-field-span-3">
-              <div className="remax-cancel-box-title">{language === "en" ? "CANCELLATION" : "CANCELACIÓN"}</div>
+              <div className="remax-cancel-box-title">{language === "en" ? "CANCELLATION" : "CANCELACION"}</div>
               <div className="remax-form-grid remax-form-grid-3">
-                <label className="remax-field"><span>Fecha Cancelación</span><input value={property.cancelacion?.fechaCancelacion ?? ""} readOnly /></label>
+                <label className="remax-field"><span>{t("Fecha Cancelacion")}</span><input value={property.cancelacion?.fechaCancelacion ?? ""} readOnly /></label>
                 <label className="remax-field remax-field-span-2"><span>{language === "en" ? "Does commission apply in case of cancellation? (Yes/No)" : "En caso de cancelación aplica comisión? (Sí/No)"}</span><input value={language === "en" ? (property.cancelacion?.aplicaComision ? "Yes" : "No") : property.cancelacion?.aplicaComision ? "Sí" : "No"} readOnly /></label>
-                <label className="remax-field remax-field-span-3"><span>Motivo Cancelación</span><input value={property.cancelacion?.motivo ?? ""} readOnly /></label>
+                <label className="remax-field remax-field-span-3"><span>{t("Motivo Cancelacion")}</span><input value={maybeT(property.cancelacion?.motivo)} readOnly /></label>
               </div>
             </div>
-            <label className="remax-field"><span>Persona que registra</span><input value={property.cancelacion?.personaRegistra ?? ""} readOnly /></label>
-            <label className="remax-field remax-field-span-4"><span>Comentarios</span><textarea value={property.cancelacion?.comentarios ?? ""} readOnly /></label>
+            <label className="remax-field"><span>{t("Persona que registra")}</span><input value={property.cancelacion?.personaRegistra ?? ""} readOnly /></label>
+            <label className="remax-field remax-field-span-4"><span>{t("Comentarios")}</span><textarea value={property.cancelacion?.comentarios ?? ""} readOnly /></label>
           </div>
         </AccessSection>
       ) : null}
@@ -158,14 +160,14 @@ export default async function CancelacionPage({
             columns={[
               {
                 key: "asesor",
-                label: "Asesor",
+                label: language === "en" ? "Agent" : "Asesor",
                 render: (row) => getAdvisorById(row.advisorId)?.nombre ?? row.advisorId
               },
-              { key: "nivel", label: "Nivel", render: (row) => row.nivel },
-              { key: "tipo", label: "Tipo de intervencion", render: (row) => row.tipoIntervencion },
+              { key: "nivel", label: t("Nivel"), render: (row) => row.nivel },
+              { key: "tipo", label: t("Tipo de intervencion"), render: (row) => t(row.tipoIntervencion) },
               {
                 key: "participacion",
-                label: "Participacion %",
+                label: t("Participacion %"),
                 render: (row) => formatCompactPercent(row.participacionPorcentaje)
               },
               { key: "monto", label: language === "en" ? "Amount $" : "Monto $", align: "right", render: (row) => formatCurrencyMXN(row.monto, language) }
@@ -173,10 +175,12 @@ export default async function CancelacionPage({
           />
 
           <div className="remax-role-callout">
-            <strong>{language === "en" ? "Multi-role agent on the same property" : "Asesor multirol sobre la misma propiedad"}</strong>
+            <strong>{t("Asesor multirol sobre la misma propiedad")}</strong>
             <p>
               {roleMatrix.length > 0
-                ? roleMatrix.map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`).join(" · ")
+                ? roleMatrix
+                    .map((item) => `${item.advisor.nombre}: ${item.roles.map((role) => translateRoleContext(language, role)).join(", ")}`)
+                    .join(" · ")
                 : language === "en"
                   ? "The model allows the same agent to be registered in onboarding and cancellation without duplicating records."
                   : "El modelo permite registrar el mismo asesor en alta y cancelacion sin duplicar expedientes."}
