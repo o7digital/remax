@@ -71,7 +71,7 @@ export default async function AltaPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Alta de propiedad"
-        description="Remake modernizado del flujo Access de alta: primero se genera la clave, luego se construye el expediente operativo y finalmente se completan condiciones, valores, asesores, propietarios y ficha tecnica."
+        description="Flujo operativo de alta de la nueva plataforma: primero se genera la clave, luego se construye el expediente operativo y finalmente se completan condiciones, valores, asesores, propietarios y ficha tecnica."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">
@@ -161,7 +161,7 @@ export default async function AltaPage({
               </div>
             </label>
             <div className="remax-note-box">
-              <strong>Logica de clave recuperada desde Access</strong>
+              <strong>Logica de clave integrada al nuevo sistema</strong>
               <p>
                 {property.giroCode} + {property.tipoCode} + {property.operacionCode} define el tipo de expediente;
                 {` `}
@@ -411,7 +411,7 @@ export default async function AltaPage({
           />
 
           <div className="remax-role-callout">
-            <strong>Correccion del bug actual de Access</strong>
+            <strong>Nuevo modelo multirol por propiedad</strong>
             <p>
               En la nueva plataforma un asesor puede existir en mas de un contexto sobre la misma propiedad.
               {` `}

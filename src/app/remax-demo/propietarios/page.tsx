@@ -24,7 +24,7 @@ export default async function PropietariosPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Propietarios"
-        description="Pantalla inspirada en el modulo Access de propietarios: multiples propietarios por inmueble, telefono, correo y navegacion directa hacia ficha tecnica."
+        description="Modulo de propietarios de la nueva plataforma: multiples propietarios por inmueble, telefono, correo y navegacion directa hacia ficha tecnica."
         actions={
           <div className="remax-header-actions">
             <Link href={`/remax-demo/alta?step=propietarios&propiedad=${property.clave}`} className="button">

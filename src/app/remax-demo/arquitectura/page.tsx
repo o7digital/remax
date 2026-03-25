@@ -28,7 +28,7 @@ export default function ArquitecturaPage() {
             <li>Astro como capa de interfaz para rendimiento y composicion clara.</li>
             <li>Supabase para auth, base de datos y modelo relacional por propiedad, asesor y comunicado.</li>
             <li>Railway para jobs, servicios internos y despliegue backend.</li>
-            <li>Historico real, trazabilidad multiusuario y mejor control de roles que Access.</li>
+            <li>Historico real, trazabilidad multiusuario y mejor control de roles para una operacion escalable.</li>
           </ul>
         </AccessSection>
 
@@ -45,19 +45,19 @@ export default function ArquitecturaPage() {
       <AccessSection title="Traduccion de problema a solucion">
         <div className="remax-context-grid">
           <article className="remax-context-card">
-            <span>Sistema actual</span>
-            <strong>Access + Outlook</strong>
-            <p>Opera, pero con pantallas fragmentadas, limitacion para roles multiples y mantenimiento complicado.</p>
+            <span>Modelo operativo anterior</span>
+            <strong>Flujo fragmentado</strong>
+            <p>Opera, pero con pantallas separadas, limitacion para roles multiples y mantenimiento complicado.</p>
           </article>
           <article className="remax-context-card">
             <span>Propuesta</span>
-            <strong>Access modernizado</strong>
+            <strong>Plataforma inmobiliaria en Astro</strong>
             <p>Se preserva la logica real del negocio, pero con mejor UX, historico limpio y trazabilidad centralizada.</p>
           </article>
           <article className="remax-context-card">
             <span>Beneficio</span>
-            <strong>Cliente se reconoce</strong>
-            <p>La demo hace visible el sistema actual, pero mejorado, sin convertirlo en un ERP abstracto.</p>
+            <strong>Base lista para crecer</strong>
+            <p>La demo posiciona una plataforma mas clara, mas rapida y preparada para reporting, automatizacion y mobile.</p>
           </article>
         </div>
       </AccessSection>

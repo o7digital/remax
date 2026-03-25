@@ -35,7 +35,7 @@ export default async function ComunicadosPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Comunicados"
-        description="Pantalla dedicada a los comunicados de alta, baja y cancelacion. El objetivo es enseñar el reemplazo de Access + Outlook manual por un registro centralizado."
+        description="Pantalla dedicada a los comunicados de alta, baja y cancelacion. El objetivo es mostrar un registro centralizado, mas claro y listo para automatizacion."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo/cancelacion?step=comunicado&propiedad=RTR-2280" className="button">

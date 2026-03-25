@@ -30,7 +30,7 @@ export default async function ValoresPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Valores de propiedad"
-        description="Pantalla inspirada en los modulos de valores de Access. Prioriza la tabla operativa con fecha, moneda, posicion, motivo de cambio y motivo para minuta."
+        description="Modulo de valores de la nueva plataforma. Prioriza la tabla operativa con fecha, moneda, posicion, motivo de cambio y motivo para minuta."
         actions={
           <div className="remax-header-actions">
             <Link href={`/remax-demo/alta?step=valores&propiedad=${property.clave}`} className="button">

@@ -65,7 +65,7 @@ function getFormTabs(pathname: string, step: string | null) {
   }
 
   if (pathname === "/remax-demo/comunicados") {
-    return ["Menu Operación", "Outlook", "Comunicado"];
+    return ["Menu Operación", "Centro de mensajes", "Comunicado"];
   }
 
   return ["Menu Operación", "Arquitectura propuesta"];
@@ -90,7 +90,7 @@ export function RemaxDemoShell({
             <span className="remax-brand-mark">RE/MAX</span>
             <span className="remax-brand-sub">ACTIVA</span>
           </div>
-          <p>Access-to-modern-app remake</p>
+          <p>Nueva plataforma operativa inmobiliaria</p>
         </div>
 
         {navigationSections.map((section) => (
@@ -134,11 +134,11 @@ export function RemaxDemoShell({
         <header className="remax-toolbar">
           <div className="remax-toolbar-ribbon">
             <span className="remax-toolbar-chip">REMAX ACTIVA V1.0</span>
-            <span className="remax-toolbar-copy">Menú Operación modernizado</span>
+            <span className="remax-toolbar-copy">Sistema inmobiliario moderno desarrollado en Astro</span>
           </div>
           <div className="remax-toolbar-meta">
             <strong>martes, 24 de marzo de 2026</strong>
-            <p>Demo de preventa basada en Access</p>
+            <p>Demo funcional del nuevo sistema de gestion inmobiliaria</p>
           </div>
         </header>
         <main className="remax-content">{children}</main>

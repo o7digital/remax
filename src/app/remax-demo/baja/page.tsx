@@ -51,7 +51,7 @@ export default async function BajaPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Baja / cierre de propiedad"
-        description="Flujo de baja inspirado en Access: busqueda de propiedad, cambio de estatus, revision de valores, asesores involucrados y comunicado generado."
+        description="Flujo de baja de la nueva plataforma: busqueda de propiedad, cambio de estatus, revision de valores, asesores involucrados y comunicado generado."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">
@@ -224,7 +224,7 @@ export default async function BajaPage({
           />
 
           <div className="remax-role-callout">
-            <strong>Mejora frente a Access</strong>
+            <strong>Ventaja del nuevo modelo operativo</strong>
             <p>
               {roleMatrix.length > 0
                 ? roleMatrix.map((item) => `${item.advisor.nombre}: ${item.roles.join(", ")}`).join(" · ")

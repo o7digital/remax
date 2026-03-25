@@ -1554,7 +1554,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       tipoCierre: "Cerrada",
       condicionCierre: "Renta anual firmada con mantenimiento incluido",
       personaRegistra: "Patricia Romo",
-      comentarios: "Ejemplo claro del bug de Access resuelto con multirol.",
+      comentarios: "Ejemplo claro del nuevo modelo multirol aplicado al cierre.",
       comunicadoId: "com-baja-ohr-1182"
     }
   }

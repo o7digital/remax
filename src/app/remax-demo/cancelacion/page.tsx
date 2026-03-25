@@ -48,7 +48,7 @@ export default async function CancelacionPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Cancelacion de propiedad"
-        description="Flujo inspirado en las pantallas Access de cancelacion: seleccion de propiedad, motivo de cancelacion, comision si/no, persona que registra, asesores de cancelacion y comunicado."
+        description="Flujo de cancelacion de la nueva plataforma: seleccion de propiedad, motivo de cancelacion, comision si/no, persona que registra, asesores de cancelacion y comunicado."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">

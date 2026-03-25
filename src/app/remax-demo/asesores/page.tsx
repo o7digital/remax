@@ -32,7 +32,7 @@ export default async function AsesoresPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Asesores"
-        description="Vista inspirada en los registros de asesores de Access: tabla principal por contexto, nivel A/M, participacion y propiedades vinculadas. Pedro Leyva se muestra como Director General y ademas Asesor A."
+        description="Vista de asesores de la nueva plataforma: tabla principal por contexto, nivel A/M, participacion y propiedades vinculadas. Pedro Leyva se muestra como Director General y ademas Asesor A."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo/alta?step=asesores&propiedad=IBR-OP277" className="button">

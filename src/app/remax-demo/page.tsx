@@ -65,7 +65,7 @@ export default function RemaxMenuOperacionPage() {
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Menú Operación"
-        description="Centro de operaciones inspirado directamente en REMAX Access: alta de propiedad, baja / cierre, cancelacion, valores, asesores, propietarios y comunicados. La prioridad es representar el flujo real, no un ERP generico."
+        description="Centro de operaciones disenado para reflejar el flujo real de trabajo inmobiliario: alta de propiedad, baja o cierre, cancelacion, valores, asesores, propietarios y comunicados. La prioridad es ofrecer una operacion mas clara, moderna y escalable."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo/alta" className="button">
@@ -222,9 +222,9 @@ export default function RemaxMenuOperacionPage() {
           <p>4 administrativos, 1 recepcion y el resto asesores repartidos entre clase A y clase M.</p>
         </article>
         <article className="remax-context-card">
-          <span>Operacion actual</span>
-          <strong>Microsoft Access</strong>
-          <p>Alta, baja, cancelacion, valores, asesores, propietarios, ficha tecnica y comunicados desde Outlook.</p>
+          <span>Modelo operativo anterior</span>
+          <strong>Sistema rigido y fragmentado</strong>
+          <p>Alta, baja, cancelacion, valores, asesores, propietarios, ficha tecnica y comunicados con poca claridad visual.</p>
         </article>
         <article className="remax-context-card">
           <span>Bug funcional resuelto</span>

@@ -2,8 +2,8 @@ export function ProblemVsSolution() {
   return (
     <div className="remax-comparison-grid">
       <article className="remax-comparison-column remax-comparison-column-problem">
-        <span className="remax-comparison-label">Sistema actual</span>
-        <h3>Microsoft Access</h3>
+        <span className="remax-comparison-label">Sistema anterior</span>
+        <h3>Modelo operativo rigido</h3>
         <ul className="remax-feature-list">
           <li>Estructura limitada para manejar multiples roles del mismo asesor.</li>
           <li>Dependencia operativa de procesos manuales y comunicados fuera de sistema.</li>
@@ -14,7 +14,7 @@ export function ProblemVsSolution() {
 
       <article className="remax-comparison-column remax-comparison-column-solution">
         <span className="remax-comparison-label">Nueva plataforma</span>
-        <h3>Astro + Supabase + Railway</h3>
+        <h3>Sistema inmobiliario moderno desarrollado en Astro</h3>
         <ul className="remax-feature-list">
           <li>Roles multiples por propiedad con arrays separados para alta, baja y cancelacion.</li>
           <li>Historico completo de valores y comunicados centralizados.</li>
