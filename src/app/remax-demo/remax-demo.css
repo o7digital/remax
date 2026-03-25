@@ -227,6 +227,221 @@
   gap: 18px;
 }
 
+.remax-kpi-grid,
+.remax-dashboard-grid,
+.remax-dashboard-lower,
+.remax-dashboard-side,
+.remax-action-grid,
+.remax-activity-list,
+.remax-process-list,
+.remax-quick-actions,
+.remax-process-meta,
+.remax-action-pills {
+  display: grid;
+  gap: 16px;
+}
+
+.remax-kpi-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.remax-kpi-card {
+  padding: 18px 20px;
+  border: 1px solid var(--remax-line);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+  box-shadow: var(--remax-shadow);
+}
+
+.remax-kpi-card span,
+.remax-section-badge,
+.remax-action-topline span,
+.remax-process-card span,
+.remax-activity-meta span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-kpi-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 34px;
+  letter-spacing: -0.05em;
+}
+
+.remax-kpi-card p,
+.remax-section-copy,
+.remax-action-card p,
+.remax-activity-item p,
+.remax-process-card p,
+.remax-quick-action p {
+  margin: 10px 0 0;
+  color: var(--remax-muted);
+  line-height: 1.6;
+}
+
+.remax-dashboard-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-dashboard-lower {
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: start;
+}
+
+.remax-dashboard-side {
+  grid-template-columns: 1fr;
+}
+
+.remax-action-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-section-badge {
+  padding: 7px 10px;
+  border: 1px solid rgba(66, 91, 126, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.remax-section-copy {
+  margin: 0 0 16px;
+}
+
+.remax-action-card,
+.remax-activity-item,
+.remax-process-card,
+.remax-quick-action {
+  border: 1px solid var(--remax-line);
+  border-radius: 18px;
+  background: var(--remax-surface-soft);
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.remax-action-card {
+  display: grid;
+  gap: 12px;
+  min-height: 100%;
+  padding: 18px;
+}
+
+.remax-action-card:hover,
+.remax-activity-item:hover,
+.remax-process-card:hover,
+.remax-quick-action:hover {
+  border-color: #97b2d5;
+  box-shadow: 0 18px 34px rgba(71, 100, 138, 0.12);
+  transform: translateY(-2px);
+}
+
+.remax-action-card-blue {
+  background: linear-gradient(180deg, rgba(223, 234, 249, 0.72), rgba(255, 255, 255, 0.96));
+}
+
+.remax-action-card-red {
+  background: linear-gradient(180deg, rgba(251, 230, 228, 0.68), rgba(255, 255, 255, 0.96));
+}
+
+.remax-action-card-gold {
+  background: linear-gradient(180deg, rgba(251, 241, 212, 0.72), rgba(255, 255, 255, 0.96));
+}
+
+.remax-action-topline {
+  display: grid;
+  gap: 8px;
+}
+
+.remax-activity-meta {
+  display: grid;
+  gap: 8px;
+}
+
+.remax-action-topline strong,
+.remax-activity-meta strong,
+.remax-process-card strong,
+.remax-quick-action strong {
+  font-size: 22px;
+  letter-spacing: -0.04em;
+}
+
+.remax-action-pills {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.remax-action-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(93, 119, 153, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #3e597b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.remax-action-cta {
+  display: inline-flex;
+  align-items: center;
+  color: #254061;
+  font-weight: 700;
+}
+
+.remax-activity-item,
+.remax-process-card,
+.remax-quick-action {
+  padding: 16px 18px;
+}
+
+.remax-activity-item {
+  display: grid;
+  gap: 8px;
+}
+
+.remax-activity-item time,
+.remax-process-meta small,
+.remax-process-meta em {
+  color: var(--remax-muted);
+  font-size: 13px;
+}
+
+.remax-process-list,
+.remax-quick-actions,
+.remax-activity-list {
+  grid-template-columns: 1fr;
+}
+
+.remax-process-card {
+  display: grid;
+  gap: 10px;
+}
+
+.remax-process-meta {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.remax-process-meta em {
+  font-style: normal;
+  color: #254061;
+  font-weight: 700;
+}
+
+.remax-quick-action {
+  display: grid;
+  gap: 6px;
+}
+
 .remax-page-header,
 .remax-card,
 .remax-property-banner,
@@ -988,8 +1203,12 @@
   }
 
   .remax-summary-strip,
+  .remax-kpi-grid,
   .remax-menu-hero,
   .remax-operation-layout,
+  .remax-dashboard-grid,
+  .remax-dashboard-lower,
+  .remax-dashboard-side,
   .remax-two-columns,
   .remax-context-grid,
   .remax-detail-list,
@@ -1001,6 +1220,7 @@
     grid-template-columns: 1fr;
   }
 
+  .remax-action-grid,
   .remax-access-button-grid-wide {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1027,6 +1247,8 @@
     padding: 16px;
   }
 
+  .remax-action-grid,
+  .remax-action-pills,
   .remax-check-grid,
   .remax-launch-grid,
   .remax-detail-list {

@@ -8,7 +8,7 @@ import "./remax-demo.css";
 
 export const metadata: Metadata = {
   title: "RE/MAX Demo",
-  description: "Demo comercial y de producto para la migracion de RE/MAX Activa"
+  description: "Plataforma operativa inmobiliaria de RE/MAX Activa desarrollada en Astro"
 };
 
 export default function RemaxDemoLayout({ children }: { children: ReactNode }) {

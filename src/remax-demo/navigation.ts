@@ -2,17 +2,21 @@ import type { NavSection } from "@/lib/nav";
 
 export const remaxDemoNavigation: NavSection[] = [
   {
-    title: "Procesos",
+    title: "Inicio",
+    items: [{ label: "Plataforma ejecutiva", href: "/remax-demo" }]
+  },
+  {
+    title: "Operacion",
     items: [
-      { label: "Menu Operacion", href: "/remax-demo" },
       { label: "Alta", href: "/remax-demo/alta" },
-      { label: "Baja", href: "/remax-demo/baja" },
+      { label: "Bajas / cierres", href: "/remax-demo/baja" },
       { label: "Cancelacion", href: "/remax-demo/cancelacion" }
     ]
   },
   {
-    title: "Consultas",
+    title: "Gestion",
     items: [
+      { label: "Propiedades", href: "/remax-demo/propiedades" },
       { label: "Valores", href: "/remax-demo/valores" },
       { label: "Asesores", href: "/remax-demo/asesores" },
       { label: "Propietarios", href: "/remax-demo/propietarios" },
@@ -20,7 +24,7 @@ export const remaxDemoNavigation: NavSection[] = [
     ]
   },
   {
-    title: "Propuesta",
-    items: [{ label: "Arquitectura propuesta", href: "/remax-demo/arquitectura" }]
+    title: "Roadmap",
+    items: [{ label: "Arquitectura Astro", href: "/remax-demo/arquitectura" }]
   }
 ];

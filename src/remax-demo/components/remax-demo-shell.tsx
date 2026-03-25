@@ -12,63 +12,63 @@ function isActive(pathname: string, href: string) {
 
 function getFormTabs(pathname: string, step: string | null) {
   if (pathname === "/remax-demo") {
-    return ["Menu Operación"];
+    return ["Dashboard ejecutivo"];
   }
 
   if (pathname === "/remax-demo/alta") {
     const labelByStep = {
-      clave: "F-GenClaveProp",
-      expediente: "F-PROPIEDADESN",
-      condiciones: "F-CONDICIONESRENTA",
-      valores: "F-VALORESN",
-      asesores: "F-AsesoresALTA1",
-      propietarios: "F-PropietariosALTA1",
-      ficha: "F-Ficha Técnica"
+      clave: "Generacion de clave",
+      expediente: "Expediente",
+      condiciones: "Condiciones",
+      valores: "Valores",
+      asesores: "Asesores",
+      propietarios: "Propietarios",
+      ficha: "Ficha tecnica"
     } as const;
 
-    return ["Menu Operación", "F-Master", labelByStep[(step ?? "clave") as keyof typeof labelByStep] ?? "F-Master"];
+    return ["Plataforma RE/MAX", "Alta de propiedad", labelByStep[(step ?? "clave") as keyof typeof labelByStep] ?? "Alta de propiedad"];
   }
 
   if (pathname === "/remax-demo/baja") {
     const labelByStep = {
-      busqueda: "F-PROPIEDADESNCANCEL",
-      registro: "F-Baja",
-      valores: "F-VALORESB",
-      asesores: "F-AsesoresBaja",
-      comunicado: "Comunicado BAJA"
+      busqueda: "Busqueda",
+      registro: "Registro",
+      valores: "Valores",
+      asesores: "Asesores",
+      comunicado: "Comunicado"
     } as const;
 
-    return ["Menu Operación", "F-Master", labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? "F-Baja"];
+    return ["Plataforma RE/MAX", "Bajas y cierres", labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? "Bajas y cierres"];
   }
 
   if (pathname === "/remax-demo/cancelacion") {
     const labelByStep = {
-      busqueda: "F-PROPIEDADESNCANCEL",
-      registro: "F-BajaCancel",
-      asesores: "F-AsesoresCancel",
-      comunicado: "Comunicado CANCELACIÓN"
+      busqueda: "Busqueda",
+      registro: "Registro",
+      asesores: "Asesores",
+      comunicado: "Comunicado"
     } as const;
 
-    return ["Menu Operación", "F-Master", labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? "F-BajaCancel"];
+    return ["Plataforma RE/MAX", "Cancelaciones", labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? "Cancelaciones"];
   }
 
   if (pathname === "/remax-demo/valores") {
-    return ["Menu Operación", "F-Master", "F-VALORESN"];
+    return ["Plataforma RE/MAX", "Gestion de cartera", "Valores"];
   }
 
   if (pathname === "/remax-demo/propietarios") {
-    return ["Menu Operación", "F-Master", "F-PropietariosALTA1"];
+    return ["Plataforma RE/MAX", "Gestion de cartera", "Propietarios"];
   }
 
   if (pathname === "/remax-demo/asesores") {
-    return ["Menu Operación", "F-Master", "F-AsesoresALTA1"];
+    return ["Plataforma RE/MAX", "Equipo", "Asesores"];
   }
 
   if (pathname === "/remax-demo/comunicados") {
-    return ["Menu Operación", "Centro de mensajes", "Comunicado"];
+    return ["Plataforma RE/MAX", "Control", "Comunicados"];
   }
 
-  return ["Menu Operación", "Arquitectura propuesta"];
+  return ["Plataforma RE/MAX", "Arquitectura Astro"];
 }
 
 export function RemaxDemoShell({
@@ -90,7 +90,7 @@ export function RemaxDemoShell({
             <span className="remax-brand-mark">RE/MAX</span>
             <span className="remax-brand-sub">ACTIVA</span>
           </div>
-          <p>Nueva plataforma operativa inmobiliaria</p>
+          <p>RE/MAX Activa | Plataforma Operativa Inmobiliaria</p>
         </div>
 
         {navigationSections.map((section) => (
@@ -111,15 +111,15 @@ export function RemaxDemoShell({
         ))}
 
         <div className="remax-side-note">
-          <span>Contexto</span>
-          <strong>35 empleados</strong>
-          <p>4 administrativos, 1 recepcion y el resto asesores clase A y M.</p>
+          <span>Arquitectura web moderna</span>
+          <strong>Astro, Supabase y Railway</strong>
+          <p>Interfaz mas rapida, datos centralizados y base preparada para evolucionar a nuevas funciones.</p>
         </div>
 
         <div className="remax-side-note">
-          <span>Punto critico</span>
-          <strong>Roles multiples</strong>
-          <p>La nueva demo muestra alta, baja y cancelacion sin romper el expediente.</p>
+          <span>Gestion centralizada</span>
+          <strong>Propiedades, asesores y cierres</strong>
+          <p>Operacion comercial, cartera, propietarios, visitas y comunicados en una sola plataforma.</p>
         </div>
       </aside>
 
@@ -133,12 +133,12 @@ export function RemaxDemoShell({
         </div>
         <header className="remax-toolbar">
           <div className="remax-toolbar-ribbon">
-            <span className="remax-toolbar-chip">REMAX ACTIVA V1.0</span>
-            <span className="remax-toolbar-copy">Sistema inmobiliario moderno desarrollado en Astro</span>
+            <span className="remax-toolbar-chip">RE/MAX ACTIVA</span>
+            <span className="remax-toolbar-copy">Plataforma disenada para la operacion inmobiliaria real</span>
           </div>
           <div className="remax-toolbar-meta">
             <strong>martes, 24 de marzo de 2026</strong>
-            <p>Demo funcional del nuevo sistema de gestion inmobiliaria</p>
+            <p>Gestion centralizada de propiedades, asesores, propietarios, visitas y cierres</p>
           </div>
         </header>
         <main className="remax-content">{children}</main>

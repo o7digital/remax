@@ -8,11 +8,11 @@ export default function ArquitecturaPage() {
     <div className="remax-page-stack">
       <RemaxPageHeader
         title="Arquitectura propuesta"
-        description="Esta seccion viene al final de la demo: primero se valida que el flujo REMAX actual esta bien representado, y despues se presenta la migracion hacia una plataforma moderna."
+        description="Esta seccion complementa la demo operativa con la arquitectura de producto: una plataforma web moderna, mas rapida y escalable para la operacion inmobiliaria."
         actions={
           <div className="remax-header-actions">
             <Link href="/remax-demo" className="button button-secondary">
-              Volver a Menu Operacion
+              Volver a plataforma
             </Link>
             <Link href="/remax-demo/alta" className="button">
               Abrir demo operativa
