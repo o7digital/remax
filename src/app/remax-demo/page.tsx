@@ -4,7 +4,12 @@ import { remaxDemoCommunications } from "@/remax-demo/data";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { formatCurrencyMXN } from "@/remax-demo/formatters";
-import { getAllValueHistory, getMenuStats } from "@/remax-demo/stats";
+import {
+  getAllValueHistory,
+  getMenuStats,
+  getPipelineSummary,
+  getSentimentSummary
+} from "@/remax-demo/stats";
 
 type SectionTone = "blue" | "red" | "gold";
 
@@ -246,6 +251,16 @@ const quickActions = [
     href: "/remax-demo/alta?step=clave&propiedad=IBR-OP277"
   },
   {
+    title: "Pipeline operativo",
+    description: "Visualizar oportunidades en Kanban y Lista con prioridad comercial.",
+    href: "/remax-demo/pipeline"
+  },
+  {
+    title: "Analisis inteligente",
+    description: "Priorizar seguimientos con lectura asistida sobre notas y comentarios.",
+    href: "/remax-demo/analisis"
+  },
+  {
     title: "Revisar cierres",
     description: "Validar valores, asesores y comunicado de baja.",
     href: "/remax-demo/baja?step=registro&propiedad=CBR-1748"
@@ -264,8 +279,33 @@ const quickActions = [
 
 export default function RemaxMenuOperacionPage() {
   const menuStats = getMenuStats();
+  const pipelineSummary = getPipelineSummary();
+  const sentimentSummary = getSentimentSummary();
   const valueHistory = getAllValueHistory();
   const monthlyCommunications = remaxDemoCommunications.filter((item) => item.fecha.startsWith("2026-03")).length;
+
+  const advancedModules = [
+    {
+      title: "Analisis inteligente",
+      href: "/remax-demo/analisis",
+      note: `${sentimentSummary.risk} casos sensibles y ${sentimentSummary.highPriority} seguimientos de prioridad alta`,
+      description:
+        "Clasificacion asistida con Hugging Face para leer notas de asesores, comentarios de clientes y senales comerciales sin vender IA generica.",
+      cta: "Abrir analisis",
+      pills: ["positivo", "neutro", "sensible / en riesgo"],
+      tone: "gold" as const
+    },
+    {
+      title: "Pipeline operativo",
+      href: "/remax-demo/pipeline",
+      note: `${pipelineSummary.active} oportunidades activas con vista Kanban y Lista`,
+      description:
+        "Seguimiento comercial mas moderno y administrable, con etapas inmobiliarias, proxima accion, sentimiento y prioridad visibles para direccion y equipo.",
+      cta: "Abrir pipeline",
+      pills: ["Kanban", "Lista", "Prioridad"],
+      tone: "blue" as const
+    }
+  ];
 
   const kpis = [
     {
@@ -370,6 +410,32 @@ export default function RemaxMenuOperacionPage() {
           </AccessSection>
         ))}
       </div>
+
+      <AccessSection title="Capa comercial avanzada" accent="gold">
+        <p className="remax-section-copy">
+          Dos mejoras enfocadas en priorizacion comercial y seguimiento moderno: inteligencia aplicada a notas y un
+          pipeline visual pensado para la operacion inmobiliaria real.
+        </p>
+        <div className="remax-action-grid">
+          {advancedModules.map((module) => (
+            <Link key={module.title} href={module.href} className={`remax-action-card remax-action-card-${module.tone}`}>
+              <div className="remax-action-topline">
+                <span>{module.note}</span>
+                <strong>{module.title}</strong>
+              </div>
+              <p>{module.description}</p>
+              <div className="remax-action-pills">
+                {module.pills.map((pill) => (
+                  <span key={pill} className="remax-action-pill">
+                    {pill}
+                  </span>
+                ))}
+              </div>
+              <span className="remax-action-cta">{module.cta}</span>
+            </Link>
+          ))}
+        </div>
+      </AccessSection>
 
       <div className="remax-dashboard-lower">
         <AccessSection title="Actividad reciente" accent="blue">

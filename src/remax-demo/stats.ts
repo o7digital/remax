@@ -1,15 +1,23 @@
 import {
   remaxDemoAdvisors,
   remaxDemoCommunications,
-  remaxDemoProperties
+  remaxDemoPipelineItems,
+  remaxDemoProperties,
+  remaxDemoSentimentInsights,
+  remaxPipelineStages
 } from "@/remax-demo/data";
 import type {
   RemaxAdvisor,
   RemaxAdvisorAssignment,
   RemaxCommunication,
   RemaxCommunicationType,
+  RemaxPipelineItem,
+  RemaxPipelineStage,
+  RemaxPriorityLevel,
   RemaxProperty,
   RemaxPropertyStatus,
+  RemaxSentimentInsight,
+  RemaxSentimentLabel,
   RemaxValueHistory
 } from "@/remax-demo/types";
 
@@ -179,4 +187,72 @@ export function getSearchableProperties() {
     precio: getCurrentValue(property),
     estatus: property.estatus
   }));
+}
+
+export function getSentimentInsights(): RemaxSentimentInsight[] {
+  return [...remaxDemoSentimentInsights].sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+}
+
+export function getSentimentSummary() {
+  const insights = getSentimentInsights();
+
+  return {
+    total: insights.length,
+    positive: insights.filter((item) => item.sentiment === "positivo").length,
+    neutral: insights.filter((item) => item.sentiment === "neutro").length,
+    risk: insights.filter((item) => item.sentiment === "sensible / en riesgo").length,
+    highPriority: insights.filter((item) => item.priority === "alta").length
+  };
+}
+
+export function getSentimentCountsByPriority() {
+  return {
+    alta: remaxDemoSentimentInsights.filter((item) => item.priority === "alta").length,
+    media: remaxDemoSentimentInsights.filter((item) => item.priority === "media").length,
+    baja: remaxDemoSentimentInsights.filter((item) => item.priority === "baja").length
+  };
+}
+
+export function getSentimentActionQueue() {
+  const priorityRank: Record<RemaxPriorityLevel, number> = { alta: 0, media: 1, baja: 2 };
+  const sentimentRank: Record<RemaxSentimentLabel, number> = {
+    "sensible / en riesgo": 0,
+    positivo: 1,
+    neutro: 2
+  };
+
+  return getSentimentInsights().sort((left, right) => {
+    const priorityDelta = priorityRank[left.priority] - priorityRank[right.priority];
+    if (priorityDelta !== 0) {
+      return priorityDelta;
+    }
+
+    return sentimentRank[left.sentiment] - sentimentRank[right.sentiment];
+  });
+}
+
+export function getPipelineItems(): RemaxPipelineItem[] {
+  return [...remaxDemoPipelineItems].sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+}
+
+export function getPipelineStages(): readonly RemaxPipelineStage[] {
+  return remaxPipelineStages;
+}
+
+export function getPipelineColumns() {
+  return remaxPipelineStages.map((stage) => ({
+    stage,
+    items: remaxDemoPipelineItems.filter((item) => item.stage === stage)
+  }));
+}
+
+export function getPipelineSummary() {
+  const items = remaxDemoPipelineItems;
+
+  return {
+    total: items.length,
+    active: items.filter((item) => item.stage !== "Cancelado").length,
+    highPriority: items.filter((item) => item.priority === "alta").length,
+    risk: items.filter((item) => item.sentiment === "sensible / en riesgo").length
+  };
 }

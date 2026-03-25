@@ -233,10 +233,14 @@
 .remax-dashboard-side,
 .remax-action-grid,
 .remax-activity-list,
+.remax-intelligence-list,
 .remax-process-list,
 .remax-quick-actions,
 .remax-process-meta,
-.remax-action-pills {
+.remax-action-pills,
+.remax-pipeline-card-stack,
+.remax-insight-badges,
+.remax-pipeline-card-meta {
   display: grid;
   gap: 16px;
 }
@@ -314,8 +318,11 @@
 
 .remax-action-card,
 .remax-activity-item,
+.remax-insight-card,
 .remax-process-card,
-.remax-quick-action {
+.remax-quick-action,
+.remax-pipeline-card,
+.remax-pipeline-column {
   border: 1px solid var(--remax-line);
   border-radius: 18px;
   background: var(--remax-surface-soft);
@@ -335,8 +342,10 @@
 
 .remax-action-card:hover,
 .remax-activity-item:hover,
+.remax-insight-card:hover,
 .remax-process-card:hover,
-.remax-quick-action:hover {
+.remax-quick-action:hover,
+.remax-pipeline-card:hover {
   border-color: #97b2d5;
   box-shadow: 0 18px 34px rgba(71, 100, 138, 0.12);
   transform: translateY(-2px);
@@ -364,12 +373,58 @@
   gap: 8px;
 }
 
+.remax-insight-card,
+.remax-pipeline-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.remax-insight-topline,
+.remax-insight-footer,
+.remax-pipeline-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.remax-insight-topline strong,
+.remax-pipeline-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.remax-insight-topline time,
+.remax-pipeline-card-top time,
+.remax-insight-footer small {
+  color: var(--remax-muted);
+  font-size: 13px;
+}
+
 .remax-action-topline strong,
 .remax-activity-meta strong,
 .remax-process-card strong,
 .remax-quick-action strong {
   font-size: 22px;
   letter-spacing: -0.04em;
+}
+
+.remax-insight-badges,
+.remax-pipeline-card-meta {
+  grid-template-columns: repeat(3, max-content);
+  align-items: center;
+  gap: 10px;
+}
+
+.remax-insight-footer {
+  align-items: center;
+}
+
+.remax-insight-footer a {
+  color: #254061;
+  font-weight: 700;
 }
 
 .remax-action-pills {
@@ -388,6 +443,82 @@
   color: #3e597b;
   font-size: 12px;
   font-weight: 700;
+}
+
+.remax-recommendation-pill,
+.remax-sentiment-badge,
+.remax-priority-badge,
+.remax-view-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.remax-recommendation-pill {
+  background: #eef4fb;
+  border-color: #d1def0;
+  color: #355173;
+}
+
+.remax-sentiment-positive {
+  background: #e2f4ea;
+  border-color: #b2ddc1;
+  color: #1f7a45;
+}
+
+.remax-sentiment-neutral {
+  background: #edf3fb;
+  border-color: #c7d8ee;
+  color: #3a5c87;
+}
+
+.remax-sentiment-risk {
+  background: #fde8e7;
+  border-color: #f4c0bc;
+  color: #bf4138;
+}
+
+.remax-priority-high {
+  background: #fde8e7;
+  border-color: #f4c0bc;
+  color: #bf4138;
+}
+
+.remax-priority-medium {
+  background: #fff3d7;
+  border-color: #efd59b;
+  color: #936915;
+}
+
+.remax-priority-low {
+  background: #e9f0fb;
+  border-color: #cad8ed;
+  color: #406182;
+}
+
+.remax-view-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.remax-view-link {
+  background: #f3f7fd;
+  border-color: #d4deec;
+  color: #48607e;
+  text-decoration: none;
+}
+
+.remax-view-link.active {
+  background: linear-gradient(180deg, #dce8f8, #c7d8f0);
+  border-color: #a7bddc;
+  color: #274162;
 }
 
 .remax-action-cta {
@@ -440,6 +571,61 @@
 .remax-quick-action {
   display: grid;
   gap: 6px;
+}
+
+.remax-pipeline-board-wrap {
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.remax-pipeline-board {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(260px, 1fr));
+  gap: 14px;
+  min-width: 2400px;
+}
+
+.remax-pipeline-column {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(238, 244, 251, 0.94));
+}
+
+.remax-pipeline-column-header {
+  display: grid;
+  gap: 8px;
+}
+
+.remax-pipeline-column-header strong {
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.remax-pipeline-column-header span,
+.remax-pipeline-next-action span {
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-pipeline-card-top span {
+  color: var(--remax-muted);
+  font-size: 13px;
+}
+
+.remax-pipeline-next-action {
+  display: grid;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--remax-line);
+}
+
+.remax-pipeline-next-action p {
+  margin: 0;
+  color: #274162;
+  line-height: 1.5;
 }
 
 .remax-page-header,
@@ -721,6 +907,7 @@
 .remax-menu-grid,
 .remax-two-columns,
 .remax-context-grid,
+.remax-roadmap-grid,
 .remax-detail-list {
   display: grid;
   gap: 16px;
@@ -738,13 +925,60 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.remax-roadmap-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
 .remax-card {
   overflow: hidden;
 }
 
 .remax-context-card,
+.remax-roadmap-summary,
 .remax-detail-card {
   padding: 16px;
+}
+
+.remax-roadmap-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+}
+
+.remax-roadmap-card .remax-feature-list {
+  margin-top: 14px;
+}
+
+.remax-roadmap-summary {
+  border: 1px solid var(--remax-line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(223, 234, 249, 0.58), rgba(255, 255, 255, 0.94));
+}
+
+.remax-roadmap-summary span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-roadmap-summary strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+
+.remax-roadmap-list {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding-left: 20px;
+  color: var(--remax-text);
+}
+
+.remax-roadmap-list li {
+  line-height: 1.6;
 }
 
 .remax-section-title {
@@ -1211,6 +1445,7 @@
   .remax-dashboard-side,
   .remax-two-columns,
   .remax-context-grid,
+  .remax-roadmap-grid,
   .remax-detail-list,
   .remax-form-grid-3,
   .remax-form-grid-4,
@@ -1221,6 +1456,7 @@
   }
 
   .remax-action-grid,
+  .remax-insight-badges,
   .remax-access-button-grid-wide {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1231,6 +1467,9 @@
   .remax-page-header,
   .remax-property-banner,
   .remax-search-header,
+  .remax-insight-topline,
+  .remax-insight-footer,
+  .remax-pipeline-card-top,
   .remax-timeline-topline,
   .remax-timeline-values,
   .remax-communication-header {
@@ -1249,6 +1488,8 @@
 
   .remax-action-grid,
   .remax-action-pills,
+  .remax-insight-badges,
+  .remax-pipeline-card-meta,
   .remax-check-grid,
   .remax-launch-grid,
   .remax-detail-list {

@@ -1,7 +1,9 @@
 import type {
   RemaxAdvisor,
   RemaxCommunication,
+  RemaxPipelineItem,
   RemaxProperty,
+  RemaxSentimentInsight,
   RemaxSelectOption
 } from "@/remax-demo/types";
 
@@ -292,6 +294,228 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     resumen: "La oficina OHR-1182 se cierra por firma de contrato anual.",
     remitente: "Inventario REMAX Activa",
     firma: "Patricia Romo | Coordinacion operativa"
+  }
+];
+
+export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
+  {
+    id: "insight-ibr-op277",
+    sourceLabel: "IBR-OP277 · Alta iniciada",
+    advisorId: "pedro-leyva",
+    propertyClave: "IBR-OP277",
+    clientName: "Grupo Laureles Logistica",
+    createdAt: "2026-03-24",
+    note: "Cliente receptivo, pide propuesta final esta semana y valora rapidez en la formalizacion.",
+    sentiment: "positivo",
+    priority: "alta",
+    suggestedAction: "seguimiento inmediato",
+    commercialSignal: "Ventana comercial activa y buena disposicion para avanzar."
+  },
+  {
+    id: "insight-cbr-1748",
+    sourceLabel: "CBR-1748 · Cierre en revision",
+    advisorId: "julieta-mora",
+    propertyClave: "CBR-1748",
+    clientName: "Parques de Santa Maria",
+    createdAt: "2026-03-22",
+    note: "El cliente confirma interes, pero solicita claridad final sobre mantenimiento y entrega.",
+    sentiment: "neutro",
+    priority: "media",
+    suggestedAction: "recontactar en 48h",
+    commercialSignal: "Hay intencion de cierre si se despejan dos puntos operativos."
+  },
+  {
+    id: "insight-rtv-571",
+    sourceLabel: "RTV-571 · Cancelacion documentada",
+    advisorId: "sofia-campos",
+    propertyClave: "RTV-571",
+    clientName: "Lupita Fonseca",
+    createdAt: "2026-03-24",
+    note: "La propietaria percibe seguimiento lento y ya esta evaluando otras alternativas externas.",
+    sentiment: "sensible / en riesgo",
+    priority: "alta",
+    suggestedAction: "seguimiento inmediato",
+    commercialSignal: "Riesgo comercial elevado por perdida de confianza en el seguimiento."
+  },
+  {
+    id: "insight-rtr-2280",
+    sourceLabel: "RTR-2280 · Seguimiento comercial",
+    advisorId: "ricardo-salinas",
+    propertyClave: "RTR-2280",
+    clientName: "Ciudad del Sol Inversiones",
+    createdAt: "2026-03-23",
+    note: "Responden de forma esporadica y piden pausar conversaciones hasta nuevo aviso.",
+    sentiment: "sensible / en riesgo",
+    priority: "media",
+    suggestedAction: "oportunidad fria",
+    commercialSignal: "Interes bajo y riesgo de salida si no hay nuevo detonador comercial."
+  },
+  {
+    id: "insight-icv-441",
+    sourceLabel: "ICV-441 · Publicacion lista",
+    advisorId: "alejandra-rios",
+    propertyClave: "ICV-441",
+    clientName: "Familia Cardenas Vega",
+    createdAt: "2026-03-21",
+    note: "Los propietarios validan fotos, precio de salida y piden acelerar la promocion en portales.",
+    sentiment: "positivo",
+    priority: "media",
+    suggestedAction: "recontactar en 48h",
+    commercialSignal: "Buen momento para empujar visibilidad y activar agenda de visitas."
+  },
+  {
+    id: "insight-ohr-1182",
+    sourceLabel: "OHR-1182 · Seguimiento post cierre",
+    advisorId: "mariana-cisneros",
+    propertyClave: "OHR-1182",
+    clientName: "Operadora Ejecutiva PH",
+    createdAt: "2026-03-20",
+    note: "El cliente agradece el cierre, pero no abre aun nuevas necesidades de expansion.",
+    sentiment: "neutro",
+    priority: "baja",
+    suggestedAction: "oportunidad fria",
+    commercialSignal: "Relacion sana, aunque sin urgencia comercial inmediata."
+  },
+  {
+    id: "insight-lead-verde",
+    sourceLabel: "Lead comprador · Bosque Verde",
+    advisorId: "karla-soto",
+    clientName: "Mariana Fuentes",
+    createdAt: "2026-03-25",
+    note: "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.",
+    sentiment: "positivo",
+    priority: "alta",
+    suggestedAction: "seguimiento inmediato",
+    commercialSignal: "Lead caliente con buena velocidad de respuesta y agenda disponible."
+  }
+];
+
+export const remaxPipelineStages = [
+  "Nuevo lead",
+  "Contactado",
+  "Evaluacion",
+  "Alta iniciada",
+  "Publicado",
+  "Visitas",
+  "Negociacion",
+  "Cierre",
+  "Cancelado"
+] as const;
+
+export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
+  {
+    id: "pipe-001",
+    stage: "Nuevo lead",
+    itemLabel: "Mariana Fuentes · Bosque Verde",
+    advisorId: "karla-soto",
+    clientName: "Mariana Fuentes",
+    status: "Busca casa en zona poniente",
+    nextAction: "Llamar hoy 16:30 para calificar requerimientos",
+    sentiment: "positivo",
+    priority: "alta",
+    updatedAt: "2026-03-25"
+  },
+  {
+    id: "pipe-002",
+    stage: "Contactado",
+    itemLabel: "ICV-441",
+    advisorId: "alejandra-rios",
+    propertyClave: "ICV-441",
+    clientName: "Familia Cardenas Vega",
+    status: "Propietarios alineados con salida comercial",
+    nextAction: "Confirmar calendario de publicaciones en 48h",
+    sentiment: "neutro",
+    priority: "media",
+    updatedAt: "2026-03-24"
+  },
+  {
+    id: "pipe-003",
+    stage: "Evaluacion",
+    itemLabel: "Lead corporativo · Arboledas Oficinas",
+    advisorId: "mariana-cisneros",
+    clientName: "Grupo Insignia",
+    status: "Requiere 1,200 m2 y 20 cajones",
+    nextAction: "Cruzar inventario y enviar shortlist comercial",
+    sentiment: "positivo",
+    priority: "alta",
+    updatedAt: "2026-03-24"
+  },
+  {
+    id: "pipe-004",
+    stage: "Alta iniciada",
+    itemLabel: "IBR-OP277",
+    advisorId: "pedro-leyva",
+    propertyClave: "IBR-OP277",
+    clientName: "Grupo Laureles Logistica",
+    status: "Expediente y condiciones en captura",
+    nextAction: "Cerrar propietarios y ficha tecnica hoy",
+    sentiment: "positivo",
+    priority: "alta",
+    updatedAt: "2026-03-24"
+  },
+  {
+    id: "pipe-005",
+    stage: "Publicado",
+    itemLabel: "RTR-2280",
+    advisorId: "ricardo-salinas",
+    propertyClave: "RTR-2280",
+    clientName: "Ciudad del Sol Inversiones",
+    status: "Publicacion activa con respuesta irregular",
+    nextAction: "Revisar copy y relanzar material visual",
+    sentiment: "sensible / en riesgo",
+    priority: "media",
+    updatedAt: "2026-03-23"
+  },
+  {
+    id: "pipe-006",
+    stage: "Visitas",
+    itemLabel: "CBR-1748",
+    advisorId: "julieta-mora",
+    propertyClave: "CBR-1748",
+    clientName: "Parques de Santa Maria",
+    status: "Dos visitas confirmadas para esta semana",
+    nextAction: "Coordinar acceso, llaves y ruta comercial",
+    sentiment: "positivo",
+    priority: "alta",
+    updatedAt: "2026-03-22"
+  },
+  {
+    id: "pipe-007",
+    stage: "Negociacion",
+    itemLabel: "OHR-1182",
+    advisorId: "mariana-cisneros",
+    propertyClave: "OHR-1182",
+    clientName: "Operadora Ejecutiva PH",
+    status: "Condiciones economicas en revision final",
+    nextAction: "Alinear mantenimiento y vigencia antes del viernes",
+    sentiment: "sensible / en riesgo",
+    priority: "alta",
+    updatedAt: "2026-03-21"
+  },
+  {
+    id: "pipe-008",
+    stage: "Cierre",
+    itemLabel: "Puerta de Hierro Offices",
+    advisorId: "pedro-leyva",
+    clientName: "Consejo Directivo PH",
+    status: "Firma operativa y comisiones por validar",
+    nextAction: "Confirmar minuta y liberar comunicado interno",
+    sentiment: "neutro",
+    priority: "media",
+    updatedAt: "2026-03-20"
+  },
+  {
+    id: "pipe-009",
+    stage: "Cancelado",
+    itemLabel: "RTV-571",
+    advisorId: "sofia-campos",
+    propertyClave: "RTV-571",
+    clientName: "Lupita Fonseca",
+    status: "Salida de cartera con observacion de servicio",
+    nextAction: "Cerrar seguimiento y documentar aprendizajes",
+    sentiment: "sensible / en riesgo",
+    priority: "baja",
+    updatedAt: "2026-03-24"
   }
 ];
 

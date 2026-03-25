@@ -68,6 +68,14 @@ function getFormTabs(pathname: string, step: string | null) {
     return ["Plataforma RE/MAX", "Control", "Comunicados"];
   }
 
+  if (pathname === "/remax-demo/analisis") {
+    return ["Plataforma RE/MAX", "Inteligencia comercial", "Analisis inteligente"];
+  }
+
+  if (pathname === "/remax-demo/pipeline") {
+    return ["Plataforma RE/MAX", "Inteligencia comercial", "Pipeline operativo"];
+  }
+
   return ["Plataforma RE/MAX", "Arquitectura Astro"];
 }
 

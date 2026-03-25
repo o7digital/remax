@@ -6,6 +6,20 @@ export type RemaxCommunicationType = "ALTA" | "BAJA" | "CANCELACION";
 export type RemaxCommunicationStatus = "enviado" | "borrador" | "archivado";
 export type RemaxCommissionMode = "politica" | "monto";
 export type RemaxRoleContext = "Alta" | "Baja / cierre" | "Cancelacion";
+export type RemaxSentimentLabel = "positivo" | "neutro" | "sensible / en riesgo";
+export type RemaxPriorityLevel = "alta" | "media" | "baja";
+export type RemaxSuggestedAction = "seguimiento inmediato" | "recontactar en 48h" | "oportunidad fria";
+export type RemaxPipelineView = "kanban" | "list";
+export type RemaxPipelineStage =
+  | "Nuevo lead"
+  | "Contactado"
+  | "Evaluacion"
+  | "Alta iniciada"
+  | "Publicado"
+  | "Visitas"
+  | "Negociacion"
+  | "Cierre"
+  | "Cancelado";
 
 export interface RemaxSelectOption {
   label: string;
@@ -63,6 +77,34 @@ export interface RemaxCommunication {
   resumen: string;
   remitente: string;
   firma: string;
+}
+
+export interface RemaxSentimentInsight {
+  id: string;
+  sourceLabel: string;
+  advisorId: string;
+  propertyClave?: string;
+  clientName: string;
+  createdAt: string;
+  note: string;
+  sentiment: RemaxSentimentLabel;
+  priority: RemaxPriorityLevel;
+  suggestedAction: RemaxSuggestedAction;
+  commercialSignal: string;
+}
+
+export interface RemaxPipelineItem {
+  id: string;
+  stage: RemaxPipelineStage;
+  itemLabel: string;
+  advisorId: string;
+  propertyClave?: string;
+  clientName?: string;
+  status: string;
+  nextAction: string;
+  sentiment: RemaxSentimentLabel;
+  priority: RemaxPriorityLevel;
+  updatedAt: string;
 }
 
 export interface RemaxPropertyAddress {

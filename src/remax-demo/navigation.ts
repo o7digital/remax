@@ -24,6 +24,13 @@ export const remaxDemoNavigation: NavSection[] = [
     ]
   },
   {
+    title: "Inteligencia",
+    items: [
+      { label: "Analisis inteligente", href: "/remax-demo/analisis" },
+      { label: "Pipeline operativo", href: "/remax-demo/pipeline" }
+    ]
+  },
+  {
     title: "Roadmap",
     items: [{ label: "Arquitectura Astro", href: "/remax-demo/arquitectura" }]
   }
