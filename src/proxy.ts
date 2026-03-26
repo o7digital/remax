@@ -9,10 +9,22 @@ import {
   sanitizeRemaxDemoNextPath
 } from "@/remax-demo/auth-config";
 
+const MAINTENANCE_MODE = true;
+const MAINTENANCE_PATH = "/maintenance";
+
 export function proxy(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+
+  if (MAINTENANCE_MODE) {
+    if (pathname === MAINTENANCE_PATH) {
+      return NextResponse.next();
+    }
+
+    return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
+  }
+
   const sessionToken = request.cookies.get(REMAX_DEMO_SESSION_COOKIE)?.value;
   const session = getRemaxDemoSessionByToken(sessionToken);
-  const { pathname, search } = request.nextUrl;
 
   if (pathname === REMAX_DEMO_LOGIN_PATH) {
     return session
@@ -30,5 +42,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/remax-demo/:path*"]
+  matcher: ["/((?!_next|favicon.ico|.*\\..*).*)"]
 };
