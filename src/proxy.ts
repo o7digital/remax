@@ -11,6 +11,7 @@ import {
 
 const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
+const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
 
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
@@ -36,6 +37,10 @@ export function proxy(request: NextRequest) {
     const loginUrl = new URL(REMAX_DEMO_LOGIN_PATH, request.url);
     loginUrl.searchParams.set("next", sanitizeRemaxDemoNextPath(`${pathname}${search}`));
     return NextResponse.redirect(loginUrl);
+  }
+
+  if (pathname.startsWith(REMAX_DEMO_ADMIN_PATH) && session?.role !== "direccion") {
+    return NextResponse.redirect(new URL(REMAX_DEMO_HOME_PATH, request.url));
   }
 
   return NextResponse.next();

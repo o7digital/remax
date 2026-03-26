@@ -935,8 +935,8 @@ export function translateStaffType(language: RemaxLanguage, type: RemaxStaffType
   return map[type][language];
 }
 
-export function getRemaxDemoNavigation(language: RemaxLanguage): NavSection[] {
-  return [
+export function getRemaxDemoNavigation(language: RemaxLanguage, includeAdmin = false): NavSection[] {
+  const sections: NavSection[] = [
     {
       title: rt(language, "Inicio"),
       items: [{ label: rt(language, "Plataforma ejecutiva"), href: "/remax-demo" }]
@@ -971,4 +971,13 @@ export function getRemaxDemoNavigation(language: RemaxLanguage): NavSection[] {
       items: [{ label: rt(language, "Arquitectura Astro"), href: "/remax-demo/arquitectura" }]
     }
   ];
+
+  if (includeAdmin) {
+    sections.splice(4, 0, {
+      title: rt(language, "Administracion"),
+      items: [{ label: rt(language, "Modulo admin"), href: "/remax-demo/admin" }]
+    });
+  }
+
+  return sections;
 }

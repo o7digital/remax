@@ -110,6 +110,40 @@
   box-shadow: 0 22px 44px rgba(71, 100, 138, 0.12);
 }
 
+:root[data-remax-theme="cobalt"] .remax-shell,
+:root[data-remax-theme="cobalt"] .remax-auth-shell {
+  --remax-bg: #edf3fb;
+  --remax-surface: #ffffff;
+  --remax-surface-soft: #f4f8fd;
+  --remax-surface-muted: #dce7f5;
+  --remax-line: #bccde0;
+  --remax-line-strong: #6c8fb4;
+  --remax-text: #13253b;
+  --remax-muted: #5c7088;
+  --remax-red: #c74d4a;
+  --remax-blue: #3e7cbf;
+  --remax-blue-strong: #2e629d;
+  --remax-gold: #cba24c;
+  --remax-shadow: 0 18px 48px rgba(46, 74, 111, 0.14);
+}
+
+:root[data-remax-theme="terracotta"] .remax-shell,
+:root[data-remax-theme="terracotta"] .remax-auth-shell {
+  --remax-bg: #f4eee8;
+  --remax-surface: #fffdfa;
+  --remax-surface-soft: #faf4ee;
+  --remax-surface-muted: #eadfd4;
+  --remax-line: #d8c5b6;
+  --remax-line-strong: #b78d73;
+  --remax-text: #2e2622;
+  --remax-muted: #76655b;
+  --remax-red: #c8644c;
+  --remax-blue: #8f7158;
+  --remax-blue-strong: #755b47;
+  --remax-gold: #c49d54;
+  --remax-shadow: 0 18px 48px rgba(87, 65, 52, 0.14);
+}
+
 .remax-auth-card-header span,
 .remax-auth-section-header span,
 .remax-auth-profile-card span,
@@ -2480,6 +2514,161 @@
   padding: 22px;
 }
 
+.remax-admin-kpi-grid,
+.remax-admin-theme-grid,
+.remax-admin-status-grid,
+.remax-admin-metric-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.remax-admin-kpi-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.remax-admin-kpi-card,
+.remax-admin-metric,
+.remax-admin-status-card {
+  padding: 18px;
+  border: 1px solid var(--remax-line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 247, 252, 0.95));
+  box-shadow: var(--remax-shadow);
+}
+
+.remax-admin-kpi-card span,
+.remax-admin-metric span,
+.remax-admin-status-card span,
+.remax-admin-preference-block > span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-admin-kpi-card strong,
+.remax-admin-metric strong,
+.remax-admin-status-card strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+}
+
+.remax-admin-kpi-card p,
+.remax-admin-status-card p,
+.remax-admin-theme-card p,
+.remax-admin-helper,
+.remax-admin-table-subline {
+  margin: 10px 0 0;
+  color: var(--remax-muted);
+  line-height: 1.6;
+}
+
+.remax-admin-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.remax-admin-helper {
+  margin: 0;
+}
+
+.remax-admin-helper-danger {
+  color: #a43a35;
+  font-weight: 700;
+}
+
+.remax-admin-form-actions,
+.remax-admin-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.remax-admin-preference-block {
+  display: grid;
+  gap: 12px;
+}
+
+.remax-admin-theme-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.remax-admin-theme-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--remax-line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fefefe, #f4f8fd);
+  text-align: left;
+  color: var(--remax-text);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.remax-admin-theme-card:hover,
+.remax-admin-theme-card.active {
+  border-color: var(--remax-line-strong);
+  box-shadow: 0 18px 34px rgba(71, 100, 138, 0.14);
+  transform: translateY(-1px);
+}
+
+.remax-admin-theme-card strong {
+  font-size: 16px;
+}
+
+.remax-admin-theme-swatches {
+  display: flex;
+  gap: 8px;
+}
+
+.remax-admin-theme-swatches span {
+  display: block;
+  width: 34px;
+  height: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+}
+
+.remax-admin-status-grid,
+.remax-admin-metric-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-admin-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.remax-admin-pill-base {
+  background: #edf3fb;
+  border-color: #c8d7eb;
+  color: #3b5879;
+}
+
+.remax-admin-pill-sandbox {
+  background: #fff0d9;
+  border-color: #efd59b;
+  color: #8a6815;
+}
+
+.remax-admin-table-subline {
+  margin: 4px 0 0;
+  font-size: 12px;
+}
+
 .remax-activity-item,
 .remax-process-card,
 .remax-quick-action {
@@ -2911,6 +3100,14 @@
     padding: 20px;
   }
 
+  .remax-admin-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .remax-admin-theme-grid {
+    grid-template-columns: 1fr;
+  }
+
   .remax-auth-stage {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -2964,7 +3161,9 @@
 
   .remax-action-grid,
   .remax-insight-badges,
-  .remax-access-button-grid-wide {
+  .remax-access-button-grid-wide,
+  .remax-admin-status-grid,
+  .remax-admin-metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -3036,7 +3235,11 @@
   .remax-pipeline-card-meta,
   .remax-check-grid,
   .remax-launch-grid,
-  .remax-detail-list {
+  .remax-detail-list,
+  .remax-admin-kpi-grid,
+  .remax-admin-status-grid,
+  .remax-admin-metric-grid,
+  .remax-admin-theme-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3052,6 +3255,14 @@
 }
 
 @media (max-width: 1220px) {
+  .remax-admin-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .remax-admin-theme-grid {
+    grid-template-columns: 1fr;
+  }
+
   .remax-benefit-strip,
   .remax-executive-command-header,
   .remax-executive-kpi-grid,

@@ -29,7 +29,7 @@ export const REMAX_DEMO_HOME_PATH = "/remax-demo";
 const demoAccounts: RemaxDemoAccount[] = [
   {
     id: "demo-direccion",
-    name: "Mariana Fuentes",
+    name: "Claire Dubois",
     email: "direccion.demo@remax-demo.test",
     password: "DemoDireccion26!",
     role: "direccion",
@@ -38,7 +38,7 @@ const demoAccounts: RemaxDemoAccount[] = [
   },
   {
     id: "demo-asesor",
-    name: "Luis Navarro",
+    name: "Julien Moreau",
     email: "asesor.demo@remax-demo.test",
     password: "DemoAsesor26!",
     role: "asesor",

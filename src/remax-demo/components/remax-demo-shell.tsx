@@ -16,6 +16,10 @@ import {
   rt,
   type RemaxLanguage
 } from "@/remax-demo/i18n";
+import {
+  isRemaxTheme,
+  REMAX_THEME_STORAGE_KEY
+} from "@/remax-demo/theme";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -99,6 +103,10 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Pipeline operativo")];
   }
 
+  if (pathname === "/remax-demo/admin") {
+    return [rt(language, "Plataforma REMAX"), rt(language, "Administracion"), rt(language, "Modulo admin")];
+  }
+
   return [rt(language, "Plataforma REMAX"), rt(language, "Arquitectura Astro")];
 }
 
@@ -122,7 +130,10 @@ export function RemaxDemoShell({
   const router = useRouter();
   const isLoginPage = pathname === REMAX_DEMO_LOGIN_PATH;
   const tabs = getFormTabs(pathname, searchParams.get("step"), currentLanguage);
-  const navigationSections = useMemo(() => getRemaxDemoNavigation(currentLanguage), [currentLanguage]);
+  const navigationSections = useMemo(
+    () => getRemaxDemoNavigation(currentLanguage, currentSession?.role === "direccion"),
+    [currentLanguage, currentSession?.role]
+  );
 
   useEffect(() => {
     const storedLanguage = window.localStorage.getItem(REMAX_LANGUAGE_STORAGE_KEY);
@@ -135,6 +146,16 @@ export function RemaxDemoShell({
 
     window.localStorage.setItem(REMAX_LANGUAGE_STORAGE_KEY, currentLanguage);
   }, [currentLanguage, router]);
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem(REMAX_THEME_STORAGE_KEY);
+    const theme = isRemaxTheme(storedTheme) ? storedTheme : "classic";
+
+    document.documentElement.dataset.remaxTheme = theme;
+    if (!storedTheme) {
+      window.localStorage.setItem(REMAX_THEME_STORAGE_KEY, theme);
+    }
+  }, []);
 
   function setLanguage(language: RemaxLanguage) {
     document.cookie = `${REMAX_LANGUAGE_COOKIE}=${language}; path=/; max-age=31536000; samesite=lax`;
