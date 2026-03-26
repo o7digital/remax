@@ -22,6 +22,7 @@
     linear-gradient(180deg, rgba(95, 136, 195, 0.06), rgba(238, 242, 247, 0)),
     var(--remax-bg);
   color: var(--remax-text);
+  color-scheme: light;
 }
 
 .remax-shell a {
@@ -29,6 +30,7 @@
 }
 
 .remax-auth-shell {
+  color-scheme: light;
   min-height: 100vh;
   padding: 32px;
   background:
@@ -109,6 +111,8 @@
 }
 
 .remax-auth-card-header span,
+.remax-auth-section-header span,
+.remax-auth-profile-card span,
 .remax-auth-account span,
 .remax-session-card span {
   display: block;
@@ -127,6 +131,8 @@
 }
 
 .remax-auth-card-header p,
+.remax-auth-section-header p,
+.remax-auth-helper,
 .remax-auth-note p,
 .remax-session-card p {
   margin: 10px 0 0;
@@ -135,9 +141,33 @@
 }
 
 .remax-auth-form,
-.remax-auth-account-list {
+.remax-auth-account-list,
+.remax-auth-profile-grid {
   display: grid;
   gap: 14px;
+}
+
+.remax-auth-profile-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-auth-profile-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 18px;
+  background: #fbfdff;
+}
+
+.remax-auth-profile-card p {
+  margin: 0;
+  color: var(--remax-muted);
+}
+
+.remax-auth-profile-card .button {
+  width: 100%;
+  margin-top: 6px;
 }
 
 .remax-auth-shell .button {
@@ -167,11 +197,31 @@
 }
 
 .remax-auth-note strong,
+.remax-auth-profile-card strong,
 .remax-auth-account strong,
 .remax-session-card strong {
   display: block;
   font-size: 20px;
   letter-spacing: -0.03em;
+}
+
+.remax-auth-form .remax-field input {
+  appearance: none;
+  color: var(--remax-text);
+  caret-color: var(--remax-text);
+  background: #f7f9fc;
+}
+
+.remax-auth-form .remax-field input::placeholder {
+  color: #91a3b8;
+  opacity: 1;
+}
+
+.remax-auth-form .remax-field input:-webkit-autofill,
+.remax-auth-form .remax-field input:-webkit-autofill:hover,
+.remax-auth-form .remax-field input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--remax-text);
+  box-shadow: 0 0 0 1000px #f7f9fc inset;
 }
 
 .remax-auth-account-list {
@@ -2866,6 +2916,7 @@
     min-height: auto;
   }
 
+  .remax-auth-profile-grid,
   .remax-auth-account-list {
     grid-template-columns: 1fr;
   }

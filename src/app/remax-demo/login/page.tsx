@@ -38,7 +38,41 @@ export default async function RemaxDemoLoginPage({
         </p>
       ) : null}
 
-      <form action={loginAction} className="remax-auth-form">
+      <div className="remax-auth-section-header">
+        <span>{language === "en" ? "Quick access" : "Acceso rapido"}</span>
+        <p>
+          {language === "en"
+            ? "Open the demo with one click, without exposing the passwords in the layout."
+            : "Abre la demo en un clic, sin mostrar los passwords dentro del layout."}
+        </p>
+      </div>
+
+      <div className="remax-auth-profile-grid">
+        {remaxDemoLoginAccounts.map((account) => (
+          <form key={account.id} action={loginAction} className="remax-auth-profile-card">
+            <input type="hidden" name="email" value={account.email} />
+            <input type="hidden" name="password" value={account.password} />
+            <input type="hidden" name="next" value={nextPath} />
+            <span>{account.roleLabel}</span>
+            <strong>{account.name}</strong>
+            <p>{account.email}</p>
+            <button type="submit" className="button button-secondary">
+              {language === "en" ? `Continue as ${account.roleLabel}` : `Entrar como ${account.roleLabel}`}
+            </button>
+          </form>
+        ))}
+      </div>
+
+      <div className="remax-auth-section-header">
+        <span>{language === "en" ? "Manual login" : "Ingreso manual"}</span>
+        <p>
+          {language === "en"
+            ? "If needed, you can still enter a demo user manually."
+            : "Si hace falta, tambien puedes ingresar un usuario demo manualmente."}
+        </p>
+      </div>
+
+      <form action={loginAction} className="remax-auth-form" autoComplete="off">
         <input type="hidden" name="next" value={nextPath} />
 
         <label className="remax-field">
@@ -46,8 +80,14 @@ export default async function RemaxDemoLoginPage({
           <input
             type="email"
             name="email"
-            placeholder={remaxDemoLoginAccounts[0]?.email}
-            autoComplete="username"
+            placeholder={language === "en" ? "demo@remax-demo.test" : "usuario@remax-demo.test"}
+            autoComplete="off"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            inputMode="email"
+            data-1p-ignore="true"
+            data-lpignore="true"
             required
           />
         </label>
@@ -57,8 +97,13 @@ export default async function RemaxDemoLoginPage({
           <input
             type="password"
             name="password"
-            placeholder={remaxDemoLoginAccounts[0]?.password}
-            autoComplete="current-password"
+            placeholder={language === "en" ? "Demo password" : "Password de demo"}
+            autoComplete="off"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            data-1p-ignore="true"
+            data-lpignore="true"
             required
           />
         </label>
@@ -67,6 +112,12 @@ export default async function RemaxDemoLoginPage({
           {language === "en" ? "Open demo" : "Abrir demo"}
         </button>
       </form>
+
+      <p className="remax-auth-helper">
+        {language === "en"
+          ? "If your browser password manager gets in the way, use the quick access cards above."
+          : "Si el gestor de passwords del navegador interfiere, usa las tarjetas de acceso rapido de arriba."}
+      </p>
 
       <div className="remax-auth-note">
         <strong>{remaxDemoNotice}</strong>
@@ -77,16 +128,6 @@ export default async function RemaxDemoLoginPage({
         </p>
       </div>
 
-      <div className="remax-auth-account-list">
-        {remaxDemoLoginAccounts.map((account) => (
-          <article key={account.id} className="remax-auth-account">
-            <span>{account.roleLabel}</span>
-            <strong>{account.name}</strong>
-            <p>{account.email}</p>
-            <code>{account.password}</code>
-          </article>
-        ))}
-      </div>
     </div>
   );
 }
