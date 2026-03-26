@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
+import { remaxDemoDefaults } from "@/remax-demo/data";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { PropertyBanner } from "@/remax-demo/components/property-banner";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
@@ -21,8 +22,8 @@ export default async function ValoresPage({
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
   const params = await searchParams;
-  const selectedKey = getSingleSearchParam(params.propiedad) ?? "CBR-1748";
-  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("CBR-1748");
+  const selectedKey = getSingleSearchParam(params.propiedad) ?? remaxDemoDefaults.bajaPropertyKey;
+  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave(remaxDemoDefaults.bajaPropertyKey);
 
   if (!property) {
     return null;
@@ -40,7 +41,7 @@ export default async function ValoresPage({
             <Link href={`/remax-demo/alta?step=valores&propiedad=${property.clave}`} className="button">
               {language === "en" ? "Go to onboarding flow" : "Ir a flujo Alta"}
             </Link>
-            <Link href={`/remax-demo/baja?step=valores&propiedad=CBR-1748`} className="button button-secondary">
+            <Link href={`/remax-demo/baja?step=valores&propiedad=${remaxDemoDefaults.bajaPropertyKey}`} className="button button-secondary">
               {language === "en" ? "Go to closing flow" : "Ir a flujo Baja"}
             </Link>
           </div>

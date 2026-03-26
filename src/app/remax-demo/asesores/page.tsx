@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
+import { remaxDemoDefaults } from "@/remax-demo/data";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
 import { formatPercent, getSingleSearchParam } from "@/remax-demo/formatters";
@@ -20,8 +21,8 @@ export default async function AsesoresPage({
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
   const params = await searchParams;
-  const selectedId = getSingleSearchParam(params.asesor) ?? "pedro-leyva";
-  const selectedAdvisor = getAdvisorById(selectedId) ?? getAdvisorById("pedro-leyva");
+  const selectedId = getSingleSearchParam(params.asesor) ?? remaxDemoDefaults.defaultAdvisorId;
+  const selectedAdvisor = getAdvisorById(selectedId) ?? getAdvisorById(remaxDemoDefaults.defaultAdvisorId);
   const advisorRows = getAdviserSummaryRows();
   const selectedRow = advisorRows.find((row) => row.advisor.id === selectedAdvisor?.id) ?? advisorRows[0];
 
@@ -36,13 +37,13 @@ export default async function AsesoresPage({
     <div className="remax-page-stack">
       <RemaxPageHeader
         title={language === "en" ? "Agents" : "Asesores"}
-        description={language === "en" ? "Agent view for the new platform: main table by context, A/M level, participation and linked properties. Pedro Leyva is shown as General Manager and also Class A Agent." : "Vista de asesores de la nueva plataforma: tabla principal por contexto, nivel A/M, participacion y propiedades vinculadas. Pedro Leyva se muestra como Director General y ademas Asesor A."}
+        description={language === "en" ? "Agent view for the new platform: main table by context, A/M level, participation and linked properties. Mariana Fuentes is shown as General Manager and also Class A Agent." : "Vista de asesores de la nueva plataforma: tabla principal por contexto, nivel A/M, participacion y propiedades vinculadas. Mariana Fuentes se muestra como Directora General y ademas Asesora A."}
         actions={
           <div className="remax-header-actions">
-            <Link href="/remax-demo/alta?step=asesores&propiedad=IBR-OP277" className="button">
+            <Link href={`/remax-demo/alta?step=asesores&propiedad=${remaxDemoDefaults.altaPropertyKey}`} className="button">
               {language === "en" ? "View onboarding agents" : "Ver asesores de alta"}
             </Link>
-            <Link href="/remax-demo/baja?step=asesores&propiedad=CBR-1748" className="button button-secondary">
+            <Link href={`/remax-demo/baja?step=asesores&propiedad=${remaxDemoDefaults.bajaPropertyKey}`} className="button button-secondary">
               {language === "en" ? "View closing agents" : "Ver asesores de baja"}
             </Link>
           </div>

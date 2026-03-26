@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
 import { StatusBadge } from "@/components/status-badge";
+import { remaxDemoDefaults } from "@/remax-demo/data";
 import { CommunicationsPreview } from "@/remax-demo/components/communications-preview";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { PropertyBanner } from "@/remax-demo/components/property-banner";
@@ -45,8 +46,8 @@ export default async function BajaPage({
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
   const maybeT = (value?: string | null) => (value ? t(value) : "");
-  const selectedKey = getSingleSearchParam(params.propiedad) ?? "CBR-1748";
-  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("CBR-1748");
+  const selectedKey = getSingleSearchParam(params.propiedad) ?? remaxDemoDefaults.bajaPropertyKey;
+  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave(remaxDemoDefaults.bajaPropertyKey);
 
   if (!property) {
     return null;

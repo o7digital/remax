@@ -4,6 +4,11 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, type ReactNode } from "react";
 
+import { remaxDemoNotice } from "@/remax-demo/data";
+import {
+  REMAX_DEMO_LOGIN_PATH,
+  type RemaxDemoSessionView
+} from "@/remax-demo/auth-config";
 import {
   getRemaxDemoNavigation,
   REMAX_LANGUAGE_COOKIE,
@@ -99,16 +104,23 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
 
 export function RemaxDemoShell({
   children,
+  currentDateLabel,
   currentLanguage,
+  currentSession,
+  logoutAction,
   shellTitle
 }: {
   children: ReactNode;
+  currentDateLabel: string;
   currentLanguage: RemaxLanguage;
+  currentSession: RemaxDemoSessionView | null;
+  logoutAction: () => Promise<void>;
   shellTitle: string;
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const isLoginPage = pathname === REMAX_DEMO_LOGIN_PATH;
   const tabs = getFormTabs(pathname, searchParams.get("step"), currentLanguage);
   const navigationSections = useMemo(() => getRemaxDemoNavigation(currentLanguage), [currentLanguage]);
 
@@ -130,6 +142,38 @@ export function RemaxDemoShell({
     router.refresh();
   }
 
+  if (isLoginPage) {
+    return (
+      <div className="remax-auth-shell">
+        <div className="remax-auth-stage">
+          <section className="remax-auth-brand">
+            <div className="remax-brand-lockup">
+              <span className="remax-brand-mark">REMAX</span>
+              <span className="remax-brand-sub">ACTIVA</span>
+            </div>
+            <strong>{shellTitle}</strong>
+            <p>
+              {rt(
+                currentLanguage,
+                "Operacion comercial, cartera, propietarios, visitas y comunicados en una sola plataforma."
+              )}
+            </p>
+            <div className="remax-auth-brand-note">
+              <span>{remaxDemoNotice}</span>
+              <p>
+                {currentLanguage === "en"
+                  ? "Login mock prepared for client tests with protected internal views."
+                  : "Login mock preparado para pruebas de cliente con vistas internas protegidas."}
+              </p>
+            </div>
+          </section>
+
+          <section className="remax-auth-content">{children}</section>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="remax-shell">
       <aside className="remax-sidebar">
@@ -140,6 +184,19 @@ export function RemaxDemoShell({
           </div>
           <p>{shellTitle}</p>
         </div>
+
+        {currentSession ? (
+          <div className="remax-session-card">
+            <span>{currentSession.roleLabel}</span>
+            <strong>{currentSession.name}</strong>
+            <p>{currentSession.email}</p>
+            <form action={logoutAction}>
+              <button type="submit" className="button button-secondary remax-logout-button">
+                {currentLanguage === "en" ? "Logout" : "Cerrar sesion"}
+              </button>
+            </form>
+          </div>
+        ) : null}
 
         {navigationSections.map((section) => (
           <div key={section.title} className="remax-nav-section">
@@ -169,6 +226,8 @@ export function RemaxDemoShell({
           <strong>{rt(currentLanguage, "Propiedades, asesores y cierres")}</strong>
           <p>{rt(currentLanguage, "Operacion comercial, cartera, propietarios, visitas y comunicados en una sola plataforma.")}</p>
         </div>
+
+        <div className="remax-demo-disclaimer">{remaxDemoNotice}</div>
       </aside>
 
       <div className="remax-main">
@@ -201,7 +260,7 @@ export function RemaxDemoShell({
             </button>
           </div>
           <div className="remax-toolbar-meta">
-            <strong>{rt(currentLanguage, "martes, 24 de marzo de 2026")}</strong>
+            <strong>{currentDateLabel}</strong>
             <p>{rt(currentLanguage, "Gestion centralizada de propiedades, asesores, propietarios, visitas y cierres")}</p>
           </div>
         </header>

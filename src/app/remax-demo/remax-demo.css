@@ -28,6 +28,179 @@
   color: inherit;
 }
 
+.remax-auth-shell {
+  min-height: 100vh;
+  padding: 32px;
+  background:
+    radial-gradient(circle at top left, rgba(215, 67, 63, 0.14), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(95, 136, 195, 0.16), transparent 30%),
+    linear-gradient(180deg, #f3f6fb 0%, #e9eef6 100%);
+  color: var(--remax-text);
+}
+
+.remax-auth-stage {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  min-height: calc(100vh - 64px);
+  border: 1px solid var(--remax-line);
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--remax-shadow);
+}
+
+.remax-auth-brand {
+  display: grid;
+  align-content: space-between;
+  gap: 20px;
+  padding: 36px;
+  background:
+    linear-gradient(180deg, rgba(22, 32, 47, 0.98), rgba(29, 42, 63, 0.96)),
+    #1c2637;
+  color: #f5f8fc;
+}
+
+.remax-auth-brand strong {
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.remax-auth-brand p {
+  margin: 0;
+  color: rgba(245, 248, 252, 0.8);
+  line-height: 1.7;
+}
+
+.remax-auth-brand-note {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.remax-auth-brand-note span {
+  display: block;
+  color: #d6e3f4;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.remax-auth-brand-note p {
+  margin-top: 10px;
+}
+
+.remax-auth-content {
+  display: grid;
+  place-items: center;
+  padding: 36px;
+}
+
+.remax-auth-card {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 540px);
+  padding: 28px;
+  border: 1px solid var(--remax-line);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+  box-shadow: 0 22px 44px rgba(71, 100, 138, 0.12);
+}
+
+.remax-auth-card-header span,
+.remax-auth-account span,
+.remax-session-card span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.remax-auth-card-header strong {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.remax-auth-card-header p,
+.remax-auth-note p,
+.remax-session-card p {
+  margin: 10px 0 0;
+  color: var(--remax-muted);
+  line-height: 1.6;
+}
+
+.remax-auth-form,
+.remax-auth-account-list {
+  display: grid;
+  gap: 14px;
+}
+
+.remax-auth-shell .button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid #9fb6d8;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #d9e6f8, #bdd2f0);
+  color: #274162;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.remax-auth-error {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(215, 67, 63, 0.18);
+  border-radius: 14px;
+  background: rgba(215, 67, 63, 0.08);
+  color: #8f2d2a;
+}
+
+.remax-auth-note {
+  padding: 16px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 18px;
+  background: #f8fbff;
+}
+
+.remax-auth-note strong,
+.remax-auth-account strong,
+.remax-session-card strong {
+  display: block;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.remax-auth-account-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.remax-auth-account,
+.remax-session-card {
+  padding: 16px;
+  border: 1px solid rgba(200, 212, 227, 0.72);
+  border-radius: 18px;
+  background: #fbfdff;
+}
+
+.remax-auth-account p {
+  margin: 8px 0 0;
+  color: var(--remax-muted);
+}
+
+.remax-auth-account code {
+  display: inline-flex;
+  margin-top: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef3fb;
+  color: #28405f;
+  font-size: 13px;
+}
+
 .remax-sidebar {
   position: sticky;
   top: 0;
@@ -119,6 +292,23 @@
 .remax-side-note {
   padding: 16px;
   margin-top: 18px;
+}
+
+.remax-session-card {
+  margin-bottom: 18px;
+}
+
+.remax-logout-button {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.remax-demo-disclaimer {
+  margin-top: 18px;
+  color: rgba(245, 248, 252, 0.62);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .remax-side-note span {
@@ -2667,6 +2857,19 @@
 }
 
 @media (max-width: 1220px) {
+  .remax-auth-shell {
+    padding: 20px;
+  }
+
+  .remax-auth-stage {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .remax-auth-account-list {
+    grid-template-columns: 1fr;
+  }
+
   .remax-shell {
     grid-template-columns: 1fr;
   }
@@ -2720,6 +2923,16 @@
 }
 
 @media (max-width: 780px) {
+  .remax-auth-shell {
+    padding: 12px;
+  }
+
+  .remax-auth-brand,
+  .remax-auth-content,
+  .remax-auth-card {
+    padding: 18px;
+  }
+
   .remax-sidebar {
     max-height: 46svh;
   }

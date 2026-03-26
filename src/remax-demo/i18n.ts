@@ -449,30 +449,31 @@ Object.assign(copy, {
   "Alinear mantenimiento y vigencia antes del viernes": { es: "Alinear mantenimiento y vigencia antes del viernes", en: "Align maintenance and term before Friday" },
   "Confirmar minuta y liberar comunicado interno": { es: "Confirmar minuta y liberar comunicado interno", en: "Confirm minutes and release internal communication" },
   "Cerrar seguimiento y documentar aprendizajes": { es: "Cerrar seguimiento y documentar aprendizajes", en: "Close follow-up and document learnings" },
-  "Campana activa 12 dias": { es: "Campana activa 12 dias", en: "Campaign active for 12 days" },
-  "Caso archivado": { es: "Caso archivado", en: "Archived case" },
-  "Ingreso estimado MXN 96k": { es: "Ingreso estimado MXN 96k", en: "Estimated revenue MXN 96k" },
+  "Campana activa 10 dias": { es: "Campana activa 10 dias", en: "Campaign active for 10 days" },
+  "Caso archivado demo": { es: "Caso archivado demo", en: "Archived demo case" },
+  "Ingreso estimado MXN 82k": { es: "Ingreso estimado MXN 82k", en: "Estimated revenue MXN 82k" },
   "Presupuesto MXN 7.2M": { es: "Presupuesto MXN 7.2M", en: "Budget MXN 7.2M" },
-  "Referencia IBR-OP277": { es: "Referencia IBR-OP277", en: "Reference IBR-OP277" },
-  "Renta anual MXN 110k": { es: "Renta anual MXN 110k", en: "Annual lease MXN 110k" },
+  "Referencia REM-1012": { es: "Referencia REM-1012", en: "Reference REM-1012" },
+  "Renta anual MXN 118k": { es: "Renta anual MXN 118k", en: "Annual lease MXN 118k" },
   "Renta objetivo MXN 185k": { es: "Renta objetivo MXN 185k", en: "Target lease MXN 185k" },
-  "Salida MXN 5.8M": { es: "Salida MXN 5.8M", en: "Listing price MXN 5.8M" },
-  "Valor actual MXN 585k": { es: "Valor actual MXN 585k", en: "Current value MXN 585k" },
+  "Salida MXN 8.35M": { es: "Salida MXN 8.35M", en: "Listing price MXN 8.35M" },
+  "Meta de cierre MXN 8.1M": { es: "Meta de cierre MXN 8.1M", en: "Closing target MXN 8.1M" },
   "Mariana Fuentes · Bosque Verde": { es: "Mariana Fuentes · Bosque Verde", en: "Mariana Fuentes · Bosque Verde" },
-  "ICV-441": { es: "ICV-441", en: "ICV-441" },
+  "Lead comprador · Vista Encino": { es: "Lead comprador · Vista Encino", en: "Buyer lead · Vista Encino" },
   "Lead corporativo · Arboledas Oficinas": { es: "Lead corporativo · Arboledas Oficinas", en: "Corporate lead · Arboledas Offices" },
-  "IBR-OP277": { es: "IBR-OP277", en: "IBR-OP277" },
-  "RTR-2280": { es: "RTR-2280", en: "RTR-2280" },
-  "CBR-1748": { es: "CBR-1748", en: "CBR-1748" },
-  "OHR-1182": { es: "OHR-1182", en: "OHR-1182" },
-  "Puerta de Hierro Offices": { es: "Puerta de Hierro Offices", en: "Puerta de Hierro Offices" },
-  "RTV-571": { es: "RTV-571", en: "RTV-571" },
-  "IBR-OP277 · Alta iniciada": { es: "IBR-OP277 · Alta iniciada", en: "IBR-OP277 · Onboarding started" },
-  "CBR-1748 · Cierre en revision": { es: "CBR-1748 · Cierre en revision", en: "CBR-1748 · Closing under review" },
-  "RTV-571 · Cancelacion documentada": { es: "RTV-571 · Cancelacion documentada", en: "RTV-571 · Cancellation documented" },
-  "RTR-2280 · Seguimiento comercial": { es: "RTR-2280 · Seguimiento comercial", en: "RTR-2280 · Commercial follow-up" },
-  "ICV-441 · Publicacion lista": { es: "ICV-441 · Publicacion lista", en: "ICV-441 · Listing ready" },
-  "OHR-1182 · Seguimiento post cierre": { es: "OHR-1182 · Seguimiento post cierre", en: "OHR-1182 · Post-closing follow-up" },
+  "REM-1012": { es: "REM-1012", en: "REM-1012" },
+  "REM-2044": { es: "REM-2044", en: "REM-2044" },
+  "REM-3308": { es: "REM-3308", en: "REM-3308" },
+  "REM-4417": { es: "REM-4417", en: "REM-4417" },
+  "REM-5521": { es: "REM-5521", en: "REM-5521" },
+  "REM-6684": { es: "REM-6684", en: "REM-6684" },
+  "Jardines Premier": { es: "Jardines Premier", en: "Jardines Premier" },
+  "REM-1012 · Alta iniciada": { es: "REM-1012 · Alta iniciada", en: "REM-1012 · Onboarding started" },
+  "REM-2044 · Cierre en revision": { es: "REM-2044 · Cierre en revision", en: "REM-2044 · Closing under review" },
+  "REM-3308 · Cancelacion documentada": { es: "REM-3308 · Cancelacion documentada", en: "REM-3308 · Cancellation documented" },
+  "REM-4417 · Seguimiento comercial": { es: "REM-4417 · Seguimiento comercial", en: "REM-4417 · Commercial follow-up" },
+  "REM-5521 · Publicacion lista": { es: "REM-5521 · Publicacion lista", en: "REM-5521 · Listing ready" },
+  "REM-6684 · Seguimiento post cierre": { es: "REM-6684 · Seguimiento post cierre", en: "REM-6684 · Post-closing follow-up" },
   "Lead comprador · Bosque Verde": { es: "Lead comprador · Bosque Verde", en: "Buyer lead · Bosque Verde" },
   "Hoy 17:00": { es: "Hoy 17:00", en: "Today 5:00 PM" },
   "26/03/2026 · 11:30": { es: "26/03/2026 · 11:30", en: "03/26/2026 · 11:30 AM" },
@@ -481,29 +482,29 @@ Object.assign(copy, {
   "26/03/2026 · 09:00": { es: "26/03/2026 · 09:00", en: "03/26/2026 · 09:00 AM" },
   "05/04/2026 · Seguimiento relacional": { es: "05/04/2026 · Seguimiento relacional", en: "04/05/2026 · Relationship follow-up" },
   "Hoy 12:30": { es: "Hoy 12:30", en: "Today 12:30 PM" },
-  "Cliente receptivo, pide propuesta final esta semana y valora rapidez en la formalizacion.": {
-    es: "Cliente receptivo, pide propuesta final esta semana y valora rapidez en la formalizacion.",
-    en: "Responsive client, asks for the final proposal this week and values speed in formalization."
+  "Cliente interesada, pero quiere revisar precio la proxima semana.": {
+    es: "Cliente interesada, pero quiere revisar precio la proxima semana.",
+    en: "Interested client, but wants to review pricing next week."
   },
-  "El cliente confirma interes, pero solicita claridad final sobre mantenimiento y entrega.": {
-    es: "El cliente confirma interes, pero solicita claridad final sobre mantenimiento y entrega.",
-    en: "The client confirms interest but asks for final clarity on maintenance and handover."
+  "Propietario abierto a negociar tiempos de cierre.": {
+    es: "Propietario abierto a negociar tiempos de cierre.",
+    en: "Owner open to negotiating closing timing."
   },
-  "La propietaria percibe seguimiento lento y ya esta evaluando otras alternativas externas.": {
-    es: "La propietaria percibe seguimiento lento y ya esta evaluando otras alternativas externas.",
-    en: "The owner perceives slow follow-up and is already evaluating other external options."
+  "Seguimiento pendiente despues de visita y el propietario ya considera pausar la venta.": {
+    es: "Seguimiento pendiente despues de visita y el propietario ya considera pausar la venta.",
+    en: "Follow-up is pending after the visit and the owner is already considering pausing the sale."
   },
-  "Responden de forma esporadica y piden pausar conversaciones hasta nuevo aviso.": {
-    es: "Responden de forma esporadica y piden pausar conversaciones hasta nuevo aviso.",
-    en: "They respond sporadically and ask to pause conversations until further notice."
+  "Responden lento y piden frenar publicaciones hasta validar estrategia familiar.": {
+    es: "Responden lento y piden frenar publicaciones hasta validar estrategia familiar.",
+    en: "They respond slowly and ask to pause listings until the family strategy is validated."
   },
-  "Los propietarios validan fotos, precio de salida y piden acelerar la promocion en portales.": {
-    es: "Los propietarios validan fotos, precio de salida y piden acelerar la promocion en portales.",
-    en: "The owners approve the photos, listing price and ask to accelerate portal promotion."
+  "Oportunidad con interes alto y respuesta rapida.": {
+    es: "Oportunidad con interes alto y respuesta rapida.",
+    en: "Opportunity with high interest and quick response."
   },
-  "El cliente agradece el cierre, pero no abre aun nuevas necesidades de expansion.": {
-    es: "El cliente agradece el cierre, pero no abre aun nuevas necesidades de expansion.",
-    en: "The client appreciates the closing but is not yet opening new expansion needs."
+  "Cliente satisfecho con el cierre demo, sin nuevas necesidades para este trimestre.": {
+    es: "Cliente satisfecho con el cierre demo, sin nuevas necesidades para este trimestre.",
+    en: "Client satisfied with the demo closing, with no new needs for this quarter."
   },
   "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.": {
     es: "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.",
@@ -512,13 +513,13 @@ Object.assign(copy, {
   "seguimiento inmediato": { es: "seguimiento inmediato", en: "immediate follow-up" },
   "recontactar en 48h": { es: "recontactar en 48h", en: "recontact in 48h" },
   "oportunidad fria": { es: "oportunidad fria", en: "cold opportunity" },
-  "Ventana comercial activa y buena disposicion para avanzar.": {
-    es: "Ventana comercial activa y buena disposicion para avanzar.",
-    en: "Active commercial window and strong willingness to move forward."
+  "Interes activo con decision condicionada al ajuste de propuesta.": {
+    es: "Interes activo con decision condicionada al ajuste de propuesta.",
+    en: "Active interest with a decision conditioned on adjusting the proposal."
   },
-  "Hay intencion de cierre si se despejan dos puntos operativos.": {
-    es: "Hay intencion de cierre si se despejan dos puntos operativos.",
-    en: "There is closing intent if two operational points are cleared."
+  "Buen escenario para cerrar si se define el calendario final.": {
+    es: "Buen escenario para cerrar si se define el calendario final.",
+    en: "Good scenario to close if the final schedule is defined."
   },
   "Riesgo comercial elevado por perdida de confianza en el seguimiento.": {
     es: "Riesgo comercial elevado por perdida de confianza en el seguimiento.",
@@ -543,61 +544,70 @@ Object.assign(copy, {
   "Ajuste comercial": { es: "Ajuste comercial", en: "Commercial adjustment" },
   "Ajuste final": { es: "Ajuste final", en: "Final adjustment" },
   "Ajuste por mercado": { es: "Ajuste por mercado", en: "Market adjustment" },
-  "Ajuste por open house": { es: "Ajuste por open house", en: "Open house adjustment" },
+  "Ajuste demo por estrategia comercial": {
+    es: "Ajuste demo por estrategia comercial",
+    en: "Demo adjustment for commercial strategy"
+  },
+  "Ajuste por open house demo": { es: "Ajuste por open house demo", en: "Demo open house adjustment" },
   "Alta inicial": { es: "Alta inicial", en: "Initial onboarding" },
   "Cambio de precio": { es: "Cambio de precio", en: "Price change" },
-  "Paquete de cierre": { es: "Paquete de cierre", en: "Closing package" },
+  "Paquete de cierre demo": { es: "Paquete de cierre demo", en: "Demo closing package" },
   Pesos: { es: "Pesos", en: "Pesos" },
   Ultimo: { es: "Ultimo", en: "Latest" },
   Baja: { es: "Baja", en: "Offboarding" },
   Bodega: { es: "Bodega", en: "Warehouse" },
   Casa: { es: "Casa", en: "House" },
   Oficina: { es: "Oficina", en: "Office" },
-  "Director General / Asesor A": { es: "Director General / Asesor A", en: "General Manager / Class A Agent" },
-  "Apoyo comercial": { es: "Apoyo comercial", en: "Commercial support" },
+  "Directora general / Asesora A": { es: "Directora general / Asesora A", en: "General Manager / Class A Agent" },
+  "Lider comercial corporativo": { es: "Lider comercial corporativo", en: "Corporate commercial lead" },
+  "Captacion residencial premium": { es: "Captacion residencial premium", en: "Premium residential acquisition" },
   "Backoffice de captacion": { es: "Backoffice de captacion", en: "Lead capture back office" },
-  "Captacion residencial": { es: "Captacion residencial", en: "Residential acquisition" },
   "Cierres y negociacion": { es: "Cierres y negociacion", en: "Closings and negotiation" },
   "Control de comisiones": { es: "Control de comisiones", en: "Commission control" },
-  "Control de visitas": { es: "Control de visitas", en: "Visit control" },
+  "Agenda y recorridos": { es: "Agenda y recorridos", en: "Scheduling and routes" },
   "Coordinacion operativa": { es: "Coordinacion operativa", en: "Operations coordination" },
   "Expedientes y contratos": { es: "Expedientes y contratos", en: "Records and contracts" },
-  "Industrial y logistica": { es: "Industrial y logistica", en: "Industrial and logistics" },
+  "Inventario residencial": { es: "Inventario residencial", en: "Residential inventory" },
   "Inventario y llaves": { es: "Inventario y llaves", en: "Inventory and keys" },
   "Prospeccion zona sur": { es: "Prospeccion zona sur", en: "South zone prospecting" },
   "Recepcion y agenda comercial": { es: "Recepcion y agenda comercial", en: "Front desk and commercial schedule" },
-  "Rentas corporativas": { es: "Rentas corporativas", en: "Corporate leases" },
   "Rentas residenciales": { es: "Rentas residenciales", en: "Residential leases" },
-  "Residencial alto valor": { es: "Residencial alto valor", en: "High-value residential" },
-  "Seguimiento de inventario": { es: "Seguimiento de inventario", en: "Inventory follow-up" },
-  "La oficina OHR-1182 se cierra por firma de contrato anual.": {
-    es: "La oficina OHR-1182 se cierra por firma de contrato anual.",
-    en: "Office OHR-1182 is closed due to annual contract signing."
+  "Seguimiento comercial": { es: "Seguimiento comercial", en: "Commercial follow-up" },
+  "Cobertura y visitas": { es: "Cobertura y visitas", en: "Coverage and visits" },
+  "Control de cartera": { es: "Control de cartera", en: "Portfolio control" },
+  "La oficina demo REM-6684 se marca como cerrada por firma del contrato ejecutivo.": {
+    es: "La oficina demo REM-6684 se marca como cerrada por firma del contrato ejecutivo.",
+    en: "Demo office REM-6684 is marked as closed due to the executive contract signing."
   },
-  "La propiedad CBR-1748 pasa a cerrada y se activa el circuito de comisiones.": {
-    es: "La propiedad CBR-1748 pasa a cerrada y se activa el circuito de comisiones.",
-    en: "Property CBR-1748 moves to closed and the commission workflow is activated."
+  "REM-2044 pasa a cerrada y se activa el circuito interno de comisiones demo.": {
+    es: "REM-2044 pasa a cerrada y se activa el circuito interno de comisiones demo.",
+    en: "REM-2044 moves to closed and activates the internal demo commission workflow."
   },
-  "Nueva captacion residencial lista para salida comercial y ficha tecnica.": {
-    es: "Nueva captacion residencial lista para salida comercial y ficha tecnica.",
-    en: "New residential acquisition ready for commercial launch and technical sheet."
+  "Nueva captacion residencial demo lista para publicacion y agenda de visitas.": {
+    es: "Nueva captacion residencial demo lista para publicacion y agenda de visitas.",
+    en: "New demo residential acquisition ready for publication and visit scheduling."
   },
-  "Se documenta la cancelacion de RTV-571 con motivo registrado por inventario.": {
-    es: "Se documenta la cancelacion de RTV-571 con motivo registrado por inventario.",
-    en: "The cancellation of RTV-571 is documented with the reason logged by inventory."
+  "Se documenta la cancelacion demo de REM-3308 con motivo registrado por operaciones.": {
+    es: "Se documenta la cancelacion demo de REM-3308 con motivo registrado por operaciones.",
+    en: "The demo cancellation of REM-3308 is documented with the reason logged by operations."
   },
-  "Se informa el alta de la propiedad IBR-OP277 y la apertura del expediente operativo.": {
-    es: "Se informa el alta de la propiedad IBR-OP277 y la apertura del expediente operativo.",
-    en: "The onboarding of property IBR-OP277 and the opening of the operational record are reported."
+  "Se informa el alta demo de REM-1012 y la apertura del expediente operativo.": {
+    es: "Se informa el alta demo de REM-1012 y la apertura del expediente operativo.",
+    en: "The demo onboarding of REM-1012 and the opening of the operational record are reported."
   },
-  "Se informa la cancelacion de RTR-2280 en Ciudad del Sol, Zapopan.": {
-    es: "Se informa la cancelacion de RTR-2280 en Ciudad del Sol, Zapopan.",
-    en: "The cancellation of RTR-2280 in Ciudad del Sol, Zapopan is reported."
+  "Se informa la salida de REM-4417 del inventario demo y el cierre administrativo del expediente.": {
+    es: "Se informa la salida de REM-4417 del inventario demo y el cierre administrativo del expediente.",
+    en: "The removal of REM-4417 from the demo inventory and the administrative close-out are reported."
   },
-  "Brenda Noemi Ramirez Cardenas | Inventario": { es: "Brenda Noemi Ramirez Cardenas | Inventario", en: "Brenda Noemi Ramirez Cardenas | Inventory" },
-  "Erika Valles | Control de comisiones": { es: "Erika Valles | Control de comisiones", en: "Erika Valles | Commission control" },
-  "Gabriela Perez | Recepcion": { es: "Gabriela Perez | Recepcion", en: "Gabriela Perez | Front desk" },
-  "Patricia Romo | Coordinacion operativa": { es: "Patricia Romo | Coordinacion operativa", en: "Patricia Romo | Operations coordination" },
+  "Erika Navarro | Control de comisiones": {
+    es: "Erika Navarro | Control de comisiones",
+    en: "Erika Navarro | Commission control"
+  },
+  "Gabriela Duarte | Recepcion": { es: "Gabriela Duarte | Recepcion", en: "Gabriela Duarte | Front desk" },
+  "Patricia Solis | Coordinacion operativa": {
+    es: "Patricia Solis | Coordinacion operativa",
+    en: "Patricia Solis | Operations coordination"
+  },
   Disponible: { es: "Disponible", en: "Available" },
   Personal: { es: "Personal", en: "Direct" },
   Portal: { es: "Portal", en: "Portal" },

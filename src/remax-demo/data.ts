@@ -34,14 +34,36 @@ export const remaxOperacionOptions: RemaxSelectOption[] = [
   { label: "Renta", code: "R" }
 ];
 
+export const remaxDemoNotice = "Entorno demo con informacion ficticia";
+
+export const remaxDemoDefaults = {
+  altaPropertyKey: "REM-1012",
+  bajaPropertyKey: "REM-2044",
+  cancelacionPropertyKey: "REM-3308",
+  featuredCancellationPropertyKey: "REM-4417",
+  ownersPropertyKey: "REM-5521",
+  officeClosurePropertyKey: "REM-6684",
+  featuredCommunicationId: "com-cancel-rem-4417",
+  defaultAdvisorId: "mariana-fuentes"
+} as const;
+
 export const remaxDemoAdvisors: RemaxAdvisor[] = [
   {
-    id: "pedro-leyva",
-    nombre: "Pedro Leyva",
+    id: "mariana-fuentes",
+    nombre: "Mariana Fuentes",
     clase: "A",
     tipoPersonal: "direccion",
-    rol: "Director General / Asesor A",
+    rol: "Directora general / Asesora A",
     comisionRate: 0.075,
+    activo: true
+  },
+  {
+    id: "carlos-herrera",
+    nombre: "Carlos Herrera",
+    clase: "A",
+    tipoPersonal: "asesor",
+    rol: "Lider comercial corporativo",
+    comisionRate: 0.07,
     activo: true
   },
   {
@@ -49,34 +71,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     nombre: "Alejandra Rios",
     clase: "A",
     tipoPersonal: "asesor",
-    rol: "Captacion residencial",
-    comisionRate: 0.07,
-    activo: true
-  },
-  {
-    id: "mariana-cisneros",
-    nombre: "Mariana Cisneros",
-    clase: "A",
-    tipoPersonal: "asesor",
-    rol: "Rentas corporativas",
-    comisionRate: 0.07,
-    activo: true
-  },
-  {
-    id: "andres-galvan",
-    nombre: "Andres Galvan",
-    clase: "A",
-    tipoPersonal: "asesor",
-    rol: "Industrial y logistica",
-    comisionRate: 0.0725,
-    activo: true
-  },
-  {
-    id: "daniela-ibarra",
-    nombre: "Daniela Ibarra",
-    clase: "A",
-    tipoPersonal: "asesor",
-    rol: "Residencial alto valor",
+    rol: "Captacion residencial premium",
     comisionRate: 0.07,
     activo: true
   },
@@ -90,6 +85,15 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
+    id: "andrea-lozano",
+    nombre: "Andrea Lozano",
+    clase: "A",
+    tipoPersonal: "asesor",
+    rol: "Inventario residencial",
+    comisionRate: 0.07,
+    activo: true
+  },
+  {
     id: "ricardo-salinas",
     nombre: "Ricardo Salinas",
     clase: "M",
@@ -99,26 +103,35 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "sofia-campos",
-    nombre: "Sofia Campos",
+    id: "sofia-cardenas",
+    nombre: "Sofia Cardenas",
     clase: "M",
     tipoPersonal: "asesor",
-    rol: "Apoyo comercial",
+    rol: "Seguimiento comercial",
     comisionRate: 0.045,
     activo: true
   },
   {
-    id: "valeria-ordonez",
-    nombre: "Valeria Ordonez",
+    id: "luis-navarro",
+    nombre: "Luis Navarro",
     clase: "M",
     tipoPersonal: "asesor",
-    rol: "Seguimiento de inventario",
+    rol: "Cobertura y visitas",
+    comisionRate: 0.045,
+    activo: true
+  },
+  {
+    id: "valeria-mendoza",
+    nombre: "Valeria Mendoza",
+    clase: "M",
+    tipoPersonal: "asesor",
+    rol: "Control de cartera",
     comisionRate: 0.0425,
     activo: true
   },
   {
-    id: "diego-ruiz",
-    nombre: "Diego Ruiz",
+    id: "diego-romero",
+    nombre: "Diego Romero",
     clase: "M",
     tipoPersonal: "asesor",
     rol: "Rentas residenciales",
@@ -126,17 +139,17 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "karla-soto",
-    nombre: "Karla Soto",
+    id: "karla-ortega",
+    nombre: "Karla Ortega",
     clase: "M",
     tipoPersonal: "asesor",
-    rol: "Control de visitas",
+    rol: "Agenda y recorridos",
     comisionRate: 0.04,
     activo: true
   },
   {
-    id: "tomas-herrera",
-    nombre: "Tomas Herrera",
+    id: "tomas-aguilar",
+    nombre: "Tomas Aguilar",
     clase: "M",
     tipoPersonal: "asesor",
     rol: "Inventario y llaves",
@@ -144,8 +157,8 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "patricia-romo",
-    nombre: "Patricia Romo",
+    id: "patricia-solis",
+    nombre: "Patricia Solis",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Coordinacion operativa",
@@ -153,8 +166,8 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "erika-valles",
-    nombre: "Erika Valles",
+    id: "erika-navarro",
+    nombre: "Erika Navarro",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Control de comisiones",
@@ -162,8 +175,8 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "leonel-arias",
-    nombre: "Leonel Arias",
+    id: "leonor-paz",
+    nombre: "Leonor Paz",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Backoffice de captacion",
@@ -171,8 +184,8 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "susana-montes",
-    nombre: "Susana Montes",
+    id: "susana-vega",
+    nombre: "Susana Vega",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Expedientes y contratos",
@@ -180,8 +193,8 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
     activo: true
   },
   {
-    id: "gabriela-perez",
-    nombre: "Gabriela Perez",
+    id: "gabriela-duarte",
+    nombre: "Gabriela Duarte",
     clase: null,
     tipoPersonal: "recepcion",
     rol: "Recepcion y agenda comercial",
@@ -224,116 +237,116 @@ const defaultCommercialSheet = {
 
 export const remaxDemoCommunications: RemaxCommunication[] = [
   {
-    id: "com-alta-ibr-op277",
+    id: "com-alta-rem-1012",
     tipo: "ALTA",
-    propiedadClave: "IBR-OP277",
+    propiedadClave: "REM-1012",
     fecha: "2026-03-21",
-    asunto: "COMUNICADO INTERNO: ALTA DE PROPIEDAD, IBR-OP277.",
-    destinatarios: ["todos@remax-activa.com.mx", "inventario@remax-activa.com.mx"],
+    asunto: "COMUNICADO INTERNO: ALTA DE PROPIEDAD, REM-1012.",
+    destinatarios: ["inventario@remax-demo.test", "recepcion@remax-demo.test"],
     estado: "enviado",
-    resumen: "Se informa el alta de la propiedad IBR-OP277 y la apertura del expediente operativo.",
-    remitente: "Inventario REMAX Activa",
-    firma: "Patricia Romo | Coordinacion operativa"
+    resumen: "Se informa el alta demo de REM-1012 y la apertura del expediente operativo.",
+    remitente: "Inventario REMAX Demo",
+    firma: "Patricia Solis | Coordinacion operativa"
   },
   {
-    id: "com-baja-cbr-1748",
+    id: "com-baja-rem-2044",
     tipo: "BAJA",
-    propiedadClave: "CBR-1748",
+    propiedadClave: "REM-2044",
     fecha: "2026-03-18",
-    asunto: "COMUNICADO INTERNO: BAJA / CIERRE DE PROPIEDAD, CBR-1748.",
-    destinatarios: ["todos@remax-activa.com.mx", "comisiones@remax-activa.com.mx"],
+    asunto: "COMUNICADO INTERNO: BAJA / CIERRE DE PROPIEDAD, REM-2044.",
+    destinatarios: ["comisiones@remax-demo.test", "operaciones@remax-demo.test"],
     estado: "enviado",
-    resumen: "La propiedad CBR-1748 pasa a cerrada y se activa el circuito de comisiones.",
-    remitente: "Inventario REMAX Activa",
-    firma: "Erika Valles | Control de comisiones"
+    resumen: "REM-2044 pasa a cerrada y se activa el circuito interno de comisiones demo.",
+    remitente: "Inventario REMAX Demo",
+    firma: "Erika Navarro | Control de comisiones"
   },
   {
-    id: "com-cancel-rtv-571",
+    id: "com-cancel-rem-3308",
     tipo: "CANCELACION",
-    propiedadClave: "RTV-571",
+    propiedadClave: "REM-3308",
     fecha: "2026-03-24",
-    asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, RTV-571.",
-    destinatarios: ["todos@remax-activa.com.mx", "direccion@remax-activa.com.mx"],
+    asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, REM-3308.",
+    destinatarios: ["direccion@remax-demo.test", "inventario@remax-demo.test"],
     estado: "borrador",
-    resumen: "Se documenta la cancelacion de RTV-571 con motivo registrado por inventario.",
-    remitente: "Inventario REMAX Activa",
-    firma: "Brenda Noemi Ramirez Cardenas | Inventario"
+    resumen: "Se documenta la cancelacion demo de REM-3308 con motivo registrado por operaciones.",
+    remitente: "Inventario REMAX Demo",
+    firma: "Patricia Solis | Coordinacion operativa"
   },
   {
-    id: "com-cancel-rtr-2280",
+    id: "com-cancel-rem-4417",
     tipo: "CANCELACION",
-    propiedadClave: "RTR-2280",
+    propiedadClave: "REM-4417",
     fecha: "2026-03-24",
-    asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, CIUDAD DEL SOL.",
-    destinatarios: ["todos@remax-activa.com.mx"],
+    asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, REM-4417.",
+    destinatarios: ["todos@remax-demo.test"],
     estado: "enviado",
-    resumen: "Se informa la cancelacion de RTR-2280 en Ciudad del Sol, Zapopan.",
-    remitente: "Inventario REMAX Activa",
-    firma: "Brenda Noemi Ramirez Cardenas | Inventario"
+    resumen: "Se informa la salida de REM-4417 del inventario demo y el cierre administrativo del expediente.",
+    remitente: "Inventario REMAX Demo",
+    firma: "Patricia Solis | Coordinacion operativa"
   },
   {
-    id: "com-alta-icv-441",
+    id: "com-alta-rem-5521",
     tipo: "ALTA",
-    propiedadClave: "ICV-441",
+    propiedadClave: "REM-5521",
     fecha: "2026-02-12",
-    asunto: "COMUNICADO INTERNO: ALTA DE PROPIEDAD, ICV-441.",
-    destinatarios: ["inventario@remax-activa.com.mx", "recepcion@remax-activa.com.mx"],
+    asunto: "COMUNICADO INTERNO: ALTA DE PROPIEDAD, REM-5521.",
+    destinatarios: ["inventario@remax-demo.test", "recepcion@remax-demo.test"],
     estado: "enviado",
-    resumen: "Nueva captacion residencial lista para salida comercial y ficha tecnica.",
-    remitente: "Inventario REMAX Activa",
-    firma: "Gabriela Perez | Recepcion"
+    resumen: "Nueva captacion residencial demo lista para publicacion y agenda de visitas.",
+    remitente: "Inventario REMAX Demo",
+    firma: "Gabriela Duarte | Recepcion"
   },
   {
-    id: "com-baja-ohr-1182",
+    id: "com-baja-rem-6684",
     tipo: "BAJA",
-    propiedadClave: "OHR-1182",
+    propiedadClave: "REM-6684",
     fecha: "2026-02-28",
-    asunto: "COMUNICADO INTERNO: BAJA DE PROPIEDAD, OHR-1182.",
-    destinatarios: ["comisiones@remax-activa.com.mx", "operaciones@remax-activa.com.mx"],
+    asunto: "COMUNICADO INTERNO: BAJA DE PROPIEDAD, REM-6684.",
+    destinatarios: ["comisiones@remax-demo.test", "operaciones@remax-demo.test"],
     estado: "archivado",
-    resumen: "La oficina OHR-1182 se cierra por firma de contrato anual.",
-    remitente: "Inventario REMAX Activa",
-    firma: "Patricia Romo | Coordinacion operativa"
+    resumen: "La oficina demo REM-6684 se marca como cerrada por firma del contrato ejecutivo.",
+    remitente: "Inventario REMAX Demo",
+    firma: "Patricia Solis | Coordinacion operativa"
   }
 ];
 
 export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
   {
-    id: "insight-ibr-op277",
-    sourceLabel: "IBR-OP277 · Alta iniciada",
-    advisorId: "pedro-leyva",
-    propertyClave: "IBR-OP277",
-    clientName: "Grupo Laureles Logistica",
+    id: "insight-rem-1012",
+    sourceLabel: "REM-1012 · Alta iniciada",
+    advisorId: "mariana-fuentes",
+    propertyClave: "REM-1012",
+    clientName: "Valentina Cruz",
     createdAt: "2026-03-24",
-    note: "Cliente receptivo, pide propuesta final esta semana y valora rapidez en la formalizacion.",
-    sentiment: "positivo",
+    note: "Cliente interesada, pero quiere revisar precio la proxima semana.",
+    sentiment: "neutro",
     priority: "alta",
     suggestedAction: "seguimiento inmediato",
     nextFollowUp: "Hoy 17:00",
-    commercialSignal: "Ventana comercial activa y buena disposicion para avanzar."
+    commercialSignal: "Interes activo con decision condicionada al ajuste de propuesta."
   },
   {
-    id: "insight-cbr-1748",
-    sourceLabel: "CBR-1748 · Cierre en revision",
+    id: "insight-rem-2044",
+    sourceLabel: "REM-2044 · Cierre en revision",
     advisorId: "julieta-mora",
-    propertyClave: "CBR-1748",
-    clientName: "Parques de Santa Maria",
+    propertyClave: "REM-2044",
+    clientName: "Fondo Arboleda",
     createdAt: "2026-03-22",
-    note: "El cliente confirma interes, pero solicita claridad final sobre mantenimiento y entrega.",
-    sentiment: "neutro",
+    note: "Propietario abierto a negociar tiempos de cierre.",
+    sentiment: "positivo",
     priority: "media",
     suggestedAction: "recontactar en 48h",
     nextFollowUp: "26/03/2026 · 11:30",
-    commercialSignal: "Hay intencion de cierre si se despejan dos puntos operativos."
+    commercialSignal: "Buen escenario para cerrar si se define el calendario final."
   },
   {
-    id: "insight-rtv-571",
-    sourceLabel: "RTV-571 · Cancelacion documentada",
-    advisorId: "sofia-campos",
-    propertyClave: "RTV-571",
-    clientName: "Lupita Fonseca",
+    id: "insight-rem-3308",
+    sourceLabel: "REM-3308 · Cancelacion documentada",
+    advisorId: "sofia-cardenas",
+    propertyClave: "REM-3308",
+    clientName: "Clara Montes",
     createdAt: "2026-03-24",
-    note: "La propietaria percibe seguimiento lento y ya esta evaluando otras alternativas externas.",
+    note: "Seguimiento pendiente despues de visita y el propietario ya considera pausar la venta.",
     sentiment: "sensible / en riesgo",
     priority: "alta",
     suggestedAction: "seguimiento inmediato",
@@ -341,13 +354,13 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     commercialSignal: "Riesgo comercial elevado por perdida de confianza en el seguimiento."
   },
   {
-    id: "insight-rtr-2280",
-    sourceLabel: "RTR-2280 · Seguimiento comercial",
+    id: "insight-rem-4417",
+    sourceLabel: "REM-4417 · Seguimiento comercial",
     advisorId: "ricardo-salinas",
-    propertyClave: "RTR-2280",
-    clientName: "Ciudad del Sol Inversiones",
+    propertyClave: "REM-4417",
+    clientName: "Altaria Patrimonial",
     createdAt: "2026-03-23",
-    note: "Responden de forma esporadica y piden pausar conversaciones hasta nuevo aviso.",
+    note: "Responden lento y piden frenar publicaciones hasta validar estrategia familiar.",
     sentiment: "sensible / en riesgo",
     priority: "media",
     suggestedAction: "oportunidad fria",
@@ -355,13 +368,13 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     commercialSignal: "Interes bajo y riesgo de salida si no hay nuevo detonador comercial."
   },
   {
-    id: "insight-icv-441",
-    sourceLabel: "ICV-441 · Publicacion lista",
+    id: "insight-rem-5521",
+    sourceLabel: "REM-5521 · Publicacion lista",
     advisorId: "alejandra-rios",
-    propertyClave: "ICV-441",
-    clientName: "Familia Cardenas Vega",
+    propertyClave: "REM-5521",
+    clientName: "Monica Rivas y Emilio Vargas",
     createdAt: "2026-03-21",
-    note: "Los propietarios validan fotos, precio de salida y piden acelerar la promocion en portales.",
+    note: "Oportunidad con interes alto y respuesta rapida.",
     sentiment: "positivo",
     priority: "media",
     suggestedAction: "recontactar en 48h",
@@ -369,13 +382,13 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     commercialSignal: "Buen momento para empujar visibilidad y activar agenda de visitas."
   },
   {
-    id: "insight-ohr-1182",
-    sourceLabel: "OHR-1182 · Seguimiento post cierre",
-    advisorId: "mariana-cisneros",
-    propertyClave: "OHR-1182",
-    clientName: "Operadora Ejecutiva PH",
+    id: "insight-rem-6684",
+    sourceLabel: "REM-6684 · Seguimiento post cierre",
+    advisorId: "carlos-herrera",
+    propertyClave: "REM-6684",
+    clientName: "Torre Central Advisory",
     createdAt: "2026-03-20",
-    note: "El cliente agradece el cierre, pero no abre aun nuevas necesidades de expansion.",
+    note: "Cliente satisfecho con el cierre demo, sin nuevas necesidades para este trimestre.",
     sentiment: "neutro",
     priority: "baja",
     suggestedAction: "oportunidad fria",
@@ -385,7 +398,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
   {
     id: "insight-lead-verde",
     sourceLabel: "Lead comprador · Bosque Verde",
-    advisorId: "karla-soto",
+    advisorId: "luis-navarro",
     clientName: "Mariana Fuentes",
     createdAt: "2026-03-25",
     note: "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.",
@@ -414,10 +427,10 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     id: "pipe-001",
     stage: "Nuevo lead",
     itemLabel: "Mariana Fuentes · Bosque Verde",
-    advisorId: "karla-soto",
+    advisorId: "luis-navarro",
     clientName: "Mariana Fuentes",
-    status: "Busca casa en zona poniente",
-    nextAction: "Llamar hoy 16:30 para calificar requerimientos",
+    status: "Busca casa en zona poniente y quiere visita esta semana",
+    nextAction: "Llamar hoy 16:30 para validar presupuesto y tiempos",
     sentiment: "positivo",
     priority: "alta",
     commercialReference: "Presupuesto MXN 7.2M",
@@ -426,24 +439,24 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
   {
     id: "pipe-002",
     stage: "Contactado",
-    itemLabel: "ICV-441",
+    itemLabel: "REM-5521",
     advisorId: "alejandra-rios",
-    propertyClave: "ICV-441",
-    clientName: "Familia Cardenas Vega",
-    status: "Propietarios alineados con salida comercial",
+    propertyClave: "REM-5521",
+    clientName: "Monica Rivas y Emilio Vargas",
+    status: "Propietarios alineados con lanzamiento comercial demo",
     nextAction: "Confirmar calendario de publicaciones en 48h",
     sentiment: "neutro",
     priority: "media",
-    commercialReference: "Salida MXN 5.8M",
+    commercialReference: "Salida MXN 8.35M",
     updatedAt: "2026-03-24"
   },
   {
     id: "pipe-003",
     stage: "Evaluacion",
     itemLabel: "Lead corporativo · Arboledas Oficinas",
-    advisorId: "mariana-cisneros",
-    clientName: "Grupo Insignia",
-    status: "Requiere 1,200 m2 y 20 cajones",
+    advisorId: "carlos-herrera",
+    clientName: "Grupo Horizonte",
+    status: "Requiere 900 m2 y 18 cajones",
     nextAction: "Cruzar inventario y enviar shortlist comercial",
     sentiment: "positivo",
     priority: "alta",
@@ -453,93 +466,92 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
   {
     id: "pipe-004",
     stage: "Alta iniciada",
-    itemLabel: "IBR-OP277",
-    advisorId: "pedro-leyva",
-    propertyClave: "IBR-OP277",
-    clientName: "Grupo Laureles Logistica",
+    itemLabel: "REM-1012",
+    advisorId: "mariana-fuentes",
+    propertyClave: "REM-1012",
+    clientName: "Grupo Bosque Verde",
     status: "Expediente y condiciones en captura",
     nextAction: "Cerrar propietarios y ficha tecnica hoy",
     sentiment: "positivo",
     priority: "alta",
-    commercialReference: "Referencia IBR-OP277",
+    commercialReference: "Referencia REM-1012",
     updatedAt: "2026-03-24"
   },
   {
     id: "pipe-005",
     stage: "Publicado",
-    itemLabel: "RTR-2280",
+    itemLabel: "REM-4417",
     advisorId: "ricardo-salinas",
-    propertyClave: "RTR-2280",
-    clientName: "Ciudad del Sol Inversiones",
+    propertyClave: "REM-4417",
+    clientName: "Altaria Patrimonial",
     status: "Publicacion activa con respuesta irregular",
-    nextAction: "Revisar copy y relanzar material visual",
+    nextAction: "Revisar material visual y relanzar anuncio",
     sentiment: "sensible / en riesgo",
     priority: "media",
-    commercialReference: "Campana activa 12 dias",
+    commercialReference: "Campana activa 10 dias",
     updatedAt: "2026-03-23"
   },
   {
     id: "pipe-006",
     stage: "Visitas",
-    itemLabel: "CBR-1748",
+    itemLabel: "Lead comprador · Vista Encino",
     advisorId: "julieta-mora",
-    propertyClave: "CBR-1748",
-    clientName: "Parques de Santa Maria",
+    clientName: "Paola Serrano",
     status: "Dos visitas confirmadas para esta semana",
-    nextAction: "Coordinar acceso, llaves y ruta comercial",
+    nextAction: "Coordinar acceso, llaves y feedback comercial",
     sentiment: "positivo",
     priority: "alta",
-    commercialReference: "Valor actual MXN 585k",
+    commercialReference: "Meta de cierre MXN 8.1M",
     updatedAt: "2026-03-22"
   },
   {
     id: "pipe-007",
     stage: "Negociacion",
-    itemLabel: "OHR-1182",
-    advisorId: "mariana-cisneros",
-    propertyClave: "OHR-1182",
-    clientName: "Operadora Ejecutiva PH",
+    itemLabel: "REM-6684",
+    advisorId: "carlos-herrera",
+    propertyClave: "REM-6684",
+    clientName: "Torre Central Advisory",
     status: "Condiciones economicas en revision final",
     nextAction: "Alinear mantenimiento y vigencia antes del viernes",
     sentiment: "sensible / en riesgo",
     priority: "alta",
-    commercialReference: "Renta anual MXN 110k",
+    commercialReference: "Renta anual MXN 118k",
     updatedAt: "2026-03-21"
   },
   {
     id: "pipe-008",
     stage: "Cierre",
-    itemLabel: "Puerta de Hierro Offices",
-    advisorId: "pedro-leyva",
-    clientName: "Consejo Directivo PH",
+    itemLabel: "Jardines Premier",
+    advisorId: "mariana-fuentes",
+    clientName: "Consejo Jardines",
     status: "Firma operativa y comisiones por validar",
     nextAction: "Confirmar minuta y liberar comunicado interno",
     sentiment: "neutro",
     priority: "media",
-    commercialReference: "Ingreso estimado MXN 96k",
+    commercialReference: "Ingreso estimado MXN 82k",
     updatedAt: "2026-03-20"
   },
   {
     id: "pipe-009",
     stage: "Cancelado",
-    itemLabel: "RTV-571",
-    advisorId: "sofia-campos",
-    propertyClave: "RTV-571",
-    clientName: "Lupita Fonseca",
+    itemLabel: "REM-3308",
+    advisorId: "sofia-cardenas",
+    propertyClave: "REM-3308",
+    clientName: "Clara Montes",
     status: "Salida de cartera con observacion de servicio",
     nextAction: "Cerrar seguimiento y documentar aprendizajes",
     sentiment: "sensible / en riesgo",
     priority: "baja",
-    commercialReference: "Caso archivado",
+    commercialReference: "Caso archivado demo",
     updatedAt: "2026-03-24"
   }
 ];
 
 export const remaxDemoProperties: RemaxProperty[] = [
   {
-    id: "prop-ibr-op277",
-    folio: 4280,
-    clave: "IBR-OP277",
+    id: "prop-rem-1012",
+    folio: 1012,
+    clave: "REM-1012",
     categoria: "Opcion",
     categoriaCode: "OP",
     giro: "Industrial",
@@ -551,31 +563,31 @@ export const remaxDemoProperties: RemaxProperty[] = [
     exclusividad: "Opcion",
     estatus: "Activa",
     altaBaja: "Alta",
-    descripcionCorta: "Camino viejo a los Laureles 195, 10-14, El Zapote del Valle",
+    descripcionCorta: "Circuito Bosque Verde 128, Nave 4, Parque Vista Encino",
     address: {
-      calle: "Camino viejo a los Laureles",
-      noExt: "195",
-      noInt: "10-14",
+      calle: "Circuito Bosque Verde",
+      noExt: "128",
+      noInt: "Nave 4",
       edificio: "",
       piso: "PB",
-      entreCalles: "Carretera a Chapala",
-      colonia: "El Zapote del Valle",
-      coto: "",
-      fraccionamiento: "",
-      municipio: "Tlajomulco de Zuniga",
-      cp: "45679",
+      entreCalles: "Av. Logistica y Blvd. Altaria",
+      colonia: "Vista Encino",
+      coto: "Parque industrial",
+      fraccionamiento: "Bosque Verde",
+      municipio: "Zapopan",
+      cp: "45130",
       entidad: "Jalisco",
-      coordenadasGuiaRoji: "124-C"
+      coordenadasGuiaRoji: "BV-12"
     },
     agenda: {
       condicionesVisitas: "Citas",
       cajaNo: "",
       disponibilidadVisitas: "Disponible",
-      estatusLlaves: "",
-      telCitas: "3314162474",
-      contactoCitas: "Pedro Leyva",
-      origen: "Personal",
-      origenDetalle: ""
+      estatusLlaves: "Control digital",
+      telCitas: "33 0000 1012",
+      contactoCitas: "Karla Ortega",
+      origen: "Referido",
+      origenDetalle: "Red de inversionistas demo"
     },
     fechas: {
       alta: "2026-03-21",
@@ -584,72 +596,72 @@ export const remaxDemoProperties: RemaxProperty[] = [
       inicioPromo: "2026-03-21"
     },
     referidos: {
-      idRef: "",
-      nombre: "",
-      empresa: ""
+      idRef: "REM-REF-12",
+      nombre: "Emilio Vargas",
+      empresa: "Bosque Verde Capital"
     },
     ids: {
-      ampi: "",
-      remax: "",
-      catastral: ""
+      ampi: "REM1012",
+      remax: "RMX-REM1012",
+      catastral: "DEMO-BV-1012"
     },
     visitaRecorrido: "Programada",
     comoLlegar: {
-      ligasA: "REMAX, Google Map, Google Earth, AMPI",
-      remax: "remax-activa.com.mx/ibr-op277",
-      googleMap: "maps.google.com/?q=Camino+viejo+a+los+Laureles+195",
-      googleEarth: "earth.google.com/ibr-op277",
-      ampi: "ampi.mx/ibr-op277",
-      fichaArchivo: "IBR-OP277-zde",
-      ftPdf: "IBR-OP277.pdf",
-      comentarios: "Expediente completo y listo para checklist."
+      ligasA: "REMAX Demo y mapa interno",
+      remax: "demo.remax.test/rem-1012",
+      googleMap: "maps.demo.test/rem-1012",
+      googleEarth: "earth.demo.test/rem-1012",
+      ampi: "ampi.demo.test/rem-1012",
+      fichaArchivo: "REM-1012-demo",
+      ftPdf: "REM-1012.pdf",
+      comentarios: "Expediente demo completo y listo para checklist."
     },
     caracteristicas: {
-      supTerreno: 564.97,
-      supConstruccion: 4483.36,
-      frente: 157,
-      fondo: 59.61,
+      supTerreno: 620,
+      supConstruccion: 4400,
+      frente: 34,
+      fondo: 110,
       frentes: 1,
       recamaras: 0,
       banos: 2,
       medioBanos: 0,
       jardin: false,
       estacionamientosCubiertos: 0,
-      estacionamientosDescubiertos: 33,
+      estacionamientosDescubiertos: 18,
       nivel: "PB",
       pisosTotales: 1,
       exteriorInterior: "Exterior",
-      noUnidades: 0,
-      vistaA: "",
+      noUnidades: 1,
+      vistaA: "Patio de maniobra",
       elevadores: 0,
-      edad: 0,
-      formaTerreno: "Irregular",
+      edad: 3,
+      formaTerreno: "Regular",
       inclinacion: "Plano",
-      ubicacion: "Medianero",
+      ubicacion: "Esquina",
       usoSuelo: "Industrial",
-      restricciones: "",
-      descripcion: "Bodega con patios de maniobra y frente operativo",
+      restricciones: "Reglamento de parque",
+      descripcion: "Bodega operativa con patio de maniobra y oficinas integradas.",
       categoria: "Industrial",
-      notas: "Uso de suelo vigente y accesos para transporte pesado.",
+      notas: "Material visual demo y checklist juridico completos.",
       servicios: ["Transportes", "Parques", "Comercios", "Bancos"],
       superficiesValores: [
-        { concepto: "Terreno", metros: 564.97, valor: 0, total: 0 },
-        { concepto: "Areas princip.", metros: 4483.36, valor: 135, total: 605253.6 },
-        { concepto: "Otras areas", metros: 0, valor: 0, total: 0 }
+        { concepto: "Terreno", metros: 620, valor: 0, total: 0 },
+        { concepto: "Nave principal", metros: 4400, valor: 42, total: 184800 },
+        { concepto: "Oficinas", metros: 180, valor: 15, total: 2700 }
       ]
     },
     condicionesOperacion: {
       modoComision: "politica",
       porcentaje: 100,
       monto: 0,
-      politicaVigente: "Politica de renta vigente",
+      politicaVigente: "Politica demo de renta vigente",
       aplicaExcepcion: false,
       politicaAnterior: "",
       datosConfirmados: true,
-      comentarios: "Registro de condiciones de operacion renta validado con cliente."
+      comentarios: "Registro demo validado con propietario y direccion comercial."
     },
     condicionesRenta: {
-      anos: 1,
+      anos: 2,
       formaPago: "Mensual",
       rentaAdelantada: true,
       rentaDeposito: true,
@@ -659,39 +671,48 @@ export const remaxDemoProperties: RemaxProperty[] = [
       fiadorSolidario: true,
       fiadorBienRaiz: false,
       contratoTransaccion: true,
-      vigencia: "12 meses",
+      vigencia: "24 meses",
       contratoIntermediacion: true,
       seguroDanios: true,
       seguroResponsabilidadCivil: true,
       investigacion: true,
-      costoInvestigacion: 2500,
-      investigador: "Control Activa",
+      costoInvestigacion: 2800,
+      investigador: "Control Demo",
       herramientaJuridica: "Convenio interno",
-      abogado: "Lic. Sofia Murillo",
+      abogado: "Lic. Nora Beltran",
       notario: "N/A",
-      empresa: "Remax Activa",
+      empresa: "REMAX Demo",
       aplicaMantenimiento: true,
-      montoMantenimiento: 12000,
+      montoMantenimiento: 12500,
       periodoMantenimiento: "Mensual",
-      observaciones: "Contrato con mantenimiento y validacion juridica previa."
+      observaciones: "Contrato demo con mantenimiento y validacion previa."
     },
     propietarios: [
       {
-        id: "owner-ibr-1",
-        nombre: "Oscar Ivan Olivares Barocio",
-        telefono: "3336161800",
-        correo: "oolivares@eventorno.com",
+        id: "owner-rem-1012-1",
+        nombre: "Clara Montes",
+        telefono: "33 0000 1112",
+        correo: "clara.montes@remax-demo.test",
         principal: true
       }
     ],
     asesoresAlta: [
       {
-        advisorId: "pedro-leyva",
+        advisorId: "mariana-fuentes",
         nivel: "A",
         comisionTipo: "%",
-        participacionPorcentaje: 100,
-        monto: 605253.6,
+        participacionPorcentaje: 70,
+        monto: 131250,
         tipoIntervencion: "Alta",
+        contexto: "Alta"
+      },
+      {
+        advisorId: "luis-navarro",
+        nivel: "M",
+        comisionTipo: "%",
+        participacionPorcentaje: 30,
+        monto: 56250,
+        tipoIntervencion: "Seguimiento inicial",
         contexto: "Alta"
       }
     ],
@@ -701,156 +722,168 @@ export const remaxDemoProperties: RemaxProperty[] = [
       residencial: {
         ...defaultResidentialSheet,
         estilo: "Industrial adaptable",
-        proyecto: "Operacion renta",
-        acabados: "Muros y piso reforzado",
-        conservacion: "Activa",
-        fachada: "Nave industrial",
+        proyecto: "Bosque Verde demo",
+        acabados: "Muros reforzados y piso pulido",
+        conservacion: "Muy buena",
+        fachada: "Nave contemporanea",
         ventanas: "Fijas",
         cristales: "Templado",
         carpinteria: "Metalica",
         puertas: "Cortina industrial",
-        otro: "Anden de carga",
-        amenidades: ["Jardin", "Lavanderia"],
+        otro: "Anden de carga y acceso trailer",
+        amenidades: ["Patio", "Oficinas", "Comedor"],
         espacios: [
           { nombre: "Oficina interna", nivel: "PB", banos: 1, acabados: "Yeso y pintura" },
           { nombre: "Area operativa", nivel: "PB", banos: 1, acabados: "Piso pulido" },
-          { nombre: "Patio", nivel: "PB", banos: 0, acabados: "Concreto" }
+          { nombre: "Patio de maniobras", nivel: "PB", banos: 0, acabados: "Concreto" }
         ]
       },
       comercial: {
         ...defaultCommercialSheet,
         categoria: "Industrial",
-        clasificacion: "Bodega en renta",
-        estacionamiento: "33 cajones descubiertos"
+        clasificacion: "Bodega operativa demo",
+        estacionamiento: "18 cajones descubiertos",
+        observaciones: "Espacio demo listo para operacion con acceso de proveedores."
       }
     },
     historialValores: [
       {
-        id: "vh-ibr-1",
-        propiedadClave: "IBR-OP277",
+        id: "vh-rem-1012-1",
+        propiedadClave: "REM-1012",
         fecha: "2026-03-21",
-        valor: 605253.6,
+        valor: 192000,
         moneda: "Pesos",
-        posicion: "Ultimo",
+        posicion: "",
         motivoCambio: "Alta inicial",
         motivoMinuta: "Alta de propiedad",
-        usuario: "Pedro Leyva"
+        usuario: "Mariana Fuentes"
+      },
+      {
+        id: "vh-rem-1012-2",
+        propiedadClave: "REM-1012",
+        fecha: "2026-03-24",
+        valor: 187500,
+        moneda: "Pesos",
+        posicion: "Ultimo",
+        motivoCambio: "Ajuste demo por estrategia comercial",
+        motivoMinuta: "Cambio de precio",
+        usuario: "Luis Navarro"
       }
     ]
   },
   {
-    id: "prop-cbr-1748",
-    folio: 2744,
-    clave: "CBR-1748",
+    id: "prop-rem-2044",
+    folio: 2044,
+    clave: "REM-2044",
     categoria: "Coop",
     categoriaCode: "CO",
     giro: "Comercial",
     giroCode: "C",
-    tipo: "Bodega",
-    tipoCode: "B",
+    tipo: "Local",
+    tipoCode: "L",
     operacion: "Renta",
     operacionCode: "R",
     exclusividad: "Coop",
     estatus: "Cerrada",
     altaBaja: "Baja",
-    descripcionCorta: "Privada de las Flores 300, Parques de Santa Maria",
+    descripcionCorta: "Boulevard Jardines Premier 2044, Local 3",
     address: {
-      calle: "Privada de las Flores",
-      noExt: "300",
-      noInt: "",
+      calle: "Boulevard Jardines Premier",
+      noExt: "2044",
+      noInt: "Local 3",
       edificio: "",
-      piso: "",
-      entreCalles: "",
-      colonia: "Parques de Santa Maria",
+      piso: "PB",
+      entreCalles: "Av. Central y Paseo Altaria",
+      colonia: "Jardines Premier",
       coto: "",
       fraccionamiento: "",
-      municipio: "San Pedro Tlaquepaque",
-      cp: "45600",
+      municipio: "Guadalajara",
+      cp: "44680",
       entidad: "Jalisco",
-      coordenadasGuiaRoji: ""
+      coordenadasGuiaRoji: "JP-20"
     },
     agenda: {
       condicionesVisitas: "Citas",
       cajaNo: "14",
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "Activas",
-      telCitas: "3338182001",
-      contactoCitas: "Alejandra Rios",
+      telCitas: "33 0000 2044",
+      contactoCitas: "Gabriela Duarte",
       origen: "Portal",
-      origenDetalle: "Cliente informe"
+      origenDetalle: "Campana demo"
     },
     fechas: {
-      alta: "2022-07-13",
-      aviso: "2022-07-13",
-      contrato: "2022-07-13",
-      inicioPromo: "2022-07-13"
+      alta: "2025-11-13",
+      aviso: "2025-11-13",
+      contrato: "2025-11-14",
+      inicioPromo: "2025-11-18"
     },
     referidos: {
-      idRef: "RF-119",
-      nombre: "Carlos Benitez",
-      empresa: "CBR Holdings"
+      idRef: "REM-REF-20",
+      nombre: "Paula Serrano",
+      empresa: "Premier Retail Demo"
     },
     ids: {
-      ampi: "CBR1748",
-      remax: "RMX-CBR1748",
-      catastral: "TLQ-0038-19"
+      ampi: "REM2044",
+      remax: "RMX-REM2044",
+      catastral: "DEMO-JP-2044"
     },
     visitaRecorrido: "Visitada",
     comoLlegar: {
-      ligasA: "Google Map y AMPI",
-      remax: "remax-activa.com.mx/cbr-1748",
-      googleMap: "maps.google.com/?q=Privada+de+las+Flores+300",
+      ligasA: "Mapa interno y AMPI demo",
+      remax: "demo.remax.test/rem-2044",
+      googleMap: "maps.demo.test/rem-2044",
       googleEarth: "",
-      ampi: "ampi.mx/cbr-1748",
-      fichaArchivo: "CBR-1748",
-      ftPdf: "CBR-1748.pdf",
-      comentarios: "Historial de valores revisado antes de cerrar."
+      ampi: "ampi.demo.test/rem-2044",
+      fichaArchivo: "REM-2044",
+      ftPdf: "REM-2044.pdf",
+      comentarios: "Historial de valores demo revisado antes del cierre."
     },
     caracteristicas: {
-      supTerreno: 900,
-      supConstruccion: 700,
-      frente: 22,
-      fondo: 38,
+      supTerreno: 420,
+      supConstruccion: 310,
+      frente: 16,
+      fondo: 25,
       frentes: 1,
       recamaras: 0,
       banos: 2,
       medioBanos: 1,
       jardin: false,
       estacionamientosCubiertos: 2,
-      estacionamientosDescubiertos: 8,
+      estacionamientosDescubiertos: 6,
       nivel: "PB",
       pisosTotales: 1,
       exteriorInterior: "Exterior",
       noUnidades: 1,
-      vistaA: "Avenida principal",
+      vistaA: "Corredor comercial",
       elevadores: 0,
-      edad: 8,
+      edad: 4,
       formaTerreno: "Regular",
       inclinacion: "Plano",
       ubicacion: "Esquina",
       usoSuelo: "Comercial",
-      restricciones: "",
-      descripcion: "Bodega comercial cerrada por firma de renta.",
+      restricciones: "Horarios de plaza",
+      descripcion: "Local comercial demo cerrado por firma anual.",
       categoria: "Comercial",
-      notas: "Se ajusto valor previo a la firma.",
+      notas: "Se ajusto valor previo a la firma final.",
       servicios: ["Transportes", "Comercios", "Bancos"],
       superficiesValores: [
-        { concepto: "Terreno", metros: 900, valor: 0, total: 0 },
-        { concepto: "Construccion", metros: 700, valor: 90, total: 63000 }
+        { concepto: "Terreno", metros: 420, valor: 0, total: 0 },
+        { concepto: "Local comercial", metros: 310, valor: 264.5, total: 81995 }
       ]
     },
     condicionesOperacion: {
       modoComision: "monto",
       porcentaje: 0,
-      monto: 70000,
-      politicaVigente: "Monto fijo de colocacion",
+      monto: 82000,
+      politicaVigente: "Monto fijo de colocacion demo",
       aplicaExcepcion: true,
-      politicaAnterior: "Politica anterior 2022",
+      politicaAnterior: "Politica demo anterior",
       datosConfirmados: true,
-      comentarios: "Cierre con excepcion autorizada por direccion."
+      comentarios: "Cierre demo con excepcion autorizada por direccion."
     },
     condicionesRenta: {
-      anos: 3,
+      anos: 2,
       formaPago: "Mensual",
       rentaAdelantada: false,
       rentaDeposito: true,
@@ -860,7 +893,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       fiadorSolidario: true,
       fiadorBienRaiz: false,
       contratoTransaccion: true,
-      vigencia: "36 meses",
+      vigencia: "24 meses",
       contratoIntermediacion: false,
       seguroDanios: true,
       seguroResponsabilidadCivil: true,
@@ -868,20 +901,20 @@ export const remaxDemoProperties: RemaxProperty[] = [
       costoInvestigacion: 0,
       investigador: "",
       herramientaJuridica: "Contrato privado",
-      abogado: "Lic. Andrea Ramos",
+      abogado: "Lic. Andrea Campos",
       notario: "",
-      empresa: "CBR Holdings",
+      empresa: "Premier Retail Demo",
       aplicaMantenimiento: false,
       montoMantenimiento: 0,
       periodoMantenimiento: "",
-      observaciones: "Contrato firmado y propiedad marcada como cerrada."
+      observaciones: "Contrato demo firmado y propiedad marcada como cerrada."
     },
     propietarios: [
       {
-        id: "owner-cbr-1",
-        nombre: "Carlos Benitez",
-        telefono: "3338910022",
-        correo: "cbenitez@cbrholdings.mx",
+        id: "owner-rem-2044-1",
+        nombre: "Paula Serrano",
+        telefono: "33 0000 2244",
+        correo: "paula.serrano@remax-demo.test",
         principal: true
       }
     ],
@@ -891,16 +924,16 @@ export const remaxDemoProperties: RemaxProperty[] = [
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 70,
-        monto: 66500,
+        monto: 57400,
         tipoIntervencion: "Alta",
         contexto: "Alta"
       },
       {
-        advisorId: "sofia-campos",
+        advisorId: "sofia-cardenas",
         nivel: "M",
         comisionTipo: "%",
         participacionPorcentaje: 30,
-        monto: 28500,
+        monto: 24600,
         tipoIntervencion: "Apoyo de alta",
         contexto: "Alta"
       }
@@ -911,17 +944,17 @@ export const remaxDemoProperties: RemaxProperty[] = [
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 60,
-        monto: 42000,
+        monto: 49200,
         tipoIntervencion: "Cierre",
         contexto: "Baja / cierre"
       },
       {
-        advisorId: "pedro-leyva",
+        advisorId: "mariana-fuentes",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 40,
-        monto: 28000,
-        tipoIntervencion: "Autorizacion cierre",
+        monto: 32800,
+        tipoIntervencion: "Validacion final",
         contexto: "Baja / cierre"
       }
     ],
@@ -931,15 +964,15 @@ export const remaxDemoProperties: RemaxProperty[] = [
       comercial: {
         ...defaultCommercialSheet,
         categoria: "Comercial",
-        clasificacion: "Bodega cerrada"
+        clasificacion: "Local comercial demo"
       }
     },
     historialValores: [
       {
-        id: "vh-cbr-1",
-        propiedadClave: "CBR-1748",
-        fecha: "2022-07-13",
-        valor: 95000,
+        id: "vh-rem-2044-1",
+        propiedadClave: "REM-2044",
+        fecha: "2025-11-13",
+        valor: 91000,
         moneda: "Pesos",
         posicion: "",
         motivoCambio: "Alta inicial",
@@ -947,10 +980,10 @@ export const remaxDemoProperties: RemaxProperty[] = [
         usuario: "Alejandra Rios"
       },
       {
-        id: "vh-cbr-2",
-        propiedadClave: "CBR-1748",
-        fecha: "2023-01-09",
-        valor: 70000,
+        id: "vh-rem-2044-2",
+        propiedadClave: "REM-2044",
+        fecha: "2026-01-09",
+        valor: 86000,
         moneda: "Pesos",
         posicion: "",
         motivoCambio: "Cambio de precio",
@@ -958,10 +991,10 @@ export const remaxDemoProperties: RemaxProperty[] = [
         usuario: "Alejandra Rios"
       },
       {
-        id: "vh-cbr-3",
-        propiedadClave: "CBR-1748",
-        fecha: "2023-01-23",
-        valor: 63000,
+        id: "vh-rem-2044-3",
+        propiedadClave: "REM-2044",
+        fecha: "2026-03-18",
+        valor: 82000,
         moneda: "Pesos",
         posicion: "Ultimo",
         motivoCambio: "Ajuste final",
@@ -972,16 +1005,16 @@ export const remaxDemoProperties: RemaxProperty[] = [
     baja: {
       fechaBaja: "2026-03-18",
       tipoCierre: "Cerrada",
-      condicionCierre: "Contrato firmado a 36 meses",
-      personaRegistra: "Erika Valles",
-      comentarios: "Propiedad lista para minuta y comisiones.",
-      comunicadoId: "com-baja-cbr-1748"
+      condicionCierre: "Contrato demo firmado a 24 meses",
+      personaRegistra: "Erika Navarro",
+      comentarios: "Listo para minuta interna y liberacion de comisiones demo.",
+      comunicadoId: "com-baja-rem-2044"
     }
   },
   {
-    id: "prop-rtv-571",
-    folio: 1,
-    clave: "RTV-571",
+    id: "prop-rem-3308",
+    folio: 3308,
+    clave: "REM-3308",
     categoria: "Exclusiva",
     categoriaCode: "EX",
     giro: "Residencial",
@@ -993,19 +1026,19 @@ export const remaxDemoProperties: RemaxProperty[] = [
     exclusividad: "Exclusiva",
     estatus: "Cancelada",
     altaBaja: "Baja",
-    descripcionCorta: "Pedro Salcido 27, Analco",
+    descripcionCorta: "Paseo Puerta del Sol 77, Puerta del Sol",
     address: {
-      calle: "Pedro Salcido",
-      noExt: "27",
+      calle: "Paseo Puerta del Sol",
+      noExt: "77",
       noInt: "",
       edificio: "",
       piso: "",
-      entreCalles: "Cuauhtemoc y Autlahual",
-      colonia: "Analco",
+      entreCalles: "Av. Sendero y Calle Horizonte",
+      colonia: "Puerta del Sol",
       coto: "",
       fraccionamiento: "",
       municipio: "Guadalajara",
-      cp: "44450",
+      cp: "44520",
       entidad: "Jalisco",
       coordenadasGuiaRoji: ""
     },
@@ -1014,16 +1047,16 @@ export const remaxDemoProperties: RemaxProperty[] = [
       cajaNo: "",
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "",
-      telCitas: "3310022001",
-      contactoCitas: "Lupita Fonseca",
+      telCitas: "33 0000 3308",
+      contactoCitas: "Clara Montes",
       origen: "Personal",
       origenDetalle: ""
     },
     fechas: {
-      alta: "2014-11-01",
-      aviso: "2014-11-01",
-      contrato: "2014-11-01",
-      inicioPromo: "2014-11-01"
+      alta: "2025-08-07",
+      aviso: "2025-08-07",
+      contrato: "2025-08-07",
+      inicioPromo: "2025-08-11"
     },
     referidos: {
       idRef: "",
@@ -1031,25 +1064,25 @@ export const remaxDemoProperties: RemaxProperty[] = [
       empresa: ""
     },
     ids: {
-      ampi: "",
-      remax: "",
-      catastral: ""
+      ampi: "REM3308",
+      remax: "RMX-REM3308",
+      catastral: "DEMO-PS-3308"
     },
     visitaRecorrido: "Por visitar",
     comoLlegar: {
-      ligasA: "",
-      remax: "",
-      googleMap: "",
+      ligasA: "Mapa interno",
+      remax: "demo.remax.test/rem-3308",
+      googleMap: "maps.demo.test/rem-3308",
       googleEarth: "",
       ampi: "",
-      fichaArchivo: "RTV-571",
-      ftPdf: "RTV-571.pdf",
-      comentarios: "Expediente de cancelacion con motivo documentado."
+      fichaArchivo: "REM-3308",
+      ftPdf: "REM-3308.pdf",
+      comentarios: "Expediente demo de cancelacion con motivo documentado."
     },
     caracteristicas: {
-      supTerreno: 320,
+      supTerreno: 340,
       supConstruccion: 0,
-      frente: 12,
+      frente: 13,
       fondo: 26,
       frentes: 1,
       recamaras: 0,
@@ -1062,7 +1095,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       pisosTotales: 0,
       exteriorInterior: "Exterior",
       noUnidades: 0,
-      vistaA: "",
+      vistaA: "Corredor residencial",
       elevadores: 0,
       edad: 0,
       formaTerreno: "Regular",
@@ -1070,19 +1103,17 @@ export const remaxDemoProperties: RemaxProperty[] = [
       ubicacion: "Medianero",
       usoSuelo: "Habitacional",
       restricciones: "",
-      descripcion: "Terreno urbano en zona tradicional.",
+      descripcion: "Terreno urbano demo listo para desarrollo habitacional.",
       categoria: "Residencial",
-      notas: "Cancelada por cambio de decision del propietario.",
+      notas: "Cancelada para replantear estrategia de venta.",
       servicios: ["Escuelas", "Comercios"],
-      superficiesValores: [
-        { concepto: "Terreno", metros: 320, valor: 16500, total: 5280000 }
-      ]
+      superficiesValores: [{ concepto: "Terreno", metros: 340, valor: 14000, total: 4760000 }]
     },
     condicionesOperacion: {
       modoComision: "politica",
       porcentaje: 6,
       monto: 0,
-      politicaVigente: "Venta residencial 6%",
+      politicaVigente: "Venta residencial demo 6%",
       aplicaExcepcion: false,
       politicaAnterior: "",
       datosConfirmados: true,
@@ -1090,20 +1121,20 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     propietarios: [
       {
-        id: "owner-rtv-1",
-        nombre: "Lupita Fonseca",
-        telefono: "3336688001",
-        correo: "lfonseca@gmail.com",
+        id: "owner-rem-3308-1",
+        nombre: "Clara Montes",
+        telefono: "33 0000 3301",
+        correo: "clara.montes@remax-demo.test",
         principal: true
       }
     ],
     asesoresAlta: [
       {
-        advisorId: "valeria-ordonez",
+        advisorId: "valeria-mendoza",
         nivel: "M",
         comisionTipo: "%",
         participacionPorcentaje: 100,
-        monto: 5280000,
+        monto: 4760000,
         tipoIntervencion: "Alta",
         contexto: "Alta"
       }
@@ -1111,20 +1142,20 @@ export const remaxDemoProperties: RemaxProperty[] = [
     asesoresBaja: [],
     asesoresCancelacion: [
       {
-        advisorId: "pedro-leyva",
+        advisorId: "mariana-fuentes",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 50,
-        monto: 2640000,
+        monto: 2380000,
         tipoIntervencion: "Cancelacion",
         contexto: "Cancelacion"
       },
       {
-        advisorId: "valeria-ordonez",
+        advisorId: "valeria-mendoza",
         nivel: "M",
         comisionTipo: "%",
         participacionPorcentaje: 50,
-        monto: 2640000,
+        monto: 2380000,
         tipoIntervencion: "Seguimiento cancelacion",
         contexto: "Cancelacion"
       }
@@ -1133,7 +1164,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       residencial: {
         ...defaultResidentialSheet,
         estilo: "Terreno",
-        proyecto: "Lote urbano",
+        proyecto: "Lote urbano demo",
         acabados: "Sin aplicar",
         conservacion: "No aplica",
         fachada: "No aplica",
@@ -1155,43 +1186,43 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     historialValores: [
       {
-        id: "vh-rtv-1",
-        propiedadClave: "RTV-571",
+        id: "vh-rem-3308-1",
+        propiedadClave: "REM-3308",
         fecha: "2025-08-07",
-        valor: 5350000,
+        valor: 4830000,
         moneda: "Pesos",
         posicion: "",
         motivoCambio: "Alta inicial",
         motivoMinuta: "Alta",
-        usuario: "Valeria Ordonez"
+        usuario: "Valeria Mendoza"
       },
       {
-        id: "vh-rtv-2",
-        propiedadClave: "RTV-571",
+        id: "vh-rem-3308-2",
+        propiedadClave: "REM-3308",
         fecha: "2026-02-14",
-        valor: 5280000,
+        valor: 4760000,
         moneda: "Pesos",
         posicion: "Ultimo",
         motivoCambio: "Ajuste por mercado",
         motivoMinuta: "Cambio de precio",
-        usuario: "Pedro Leyva"
+        usuario: "Mariana Fuentes"
       }
     ],
     cancelacion: {
-      fechaAvisoRecepcion: "2025-08-07",
+      fechaAvisoRecepcion: "2026-03-24",
       fechaCancelacion: "2026-04-08",
-      motivo: "El propietario decide detener la comercializacion.",
+      motivo: "El propietario decide pausar la venta para replantear estrategia familiar.",
       aplicaComision: true,
-      personaRegistra: "Brenda Noemi Ramirez Cardenas",
-      bajaPor: "Cierre",
-      comentarios: "Cancelacion con comision aplicable por gestion realizada.",
-      comunicadoId: "com-cancel-rtv-571"
+      personaRegistra: "Patricia Solis",
+      bajaPor: "Cancelacion",
+      comentarios: "Caso demo documentado con comision aplicable por gestion comercial.",
+      comunicadoId: "com-cancel-rem-3308"
     }
   },
   {
-    id: "prop-rtr-2280",
-    folio: 2280,
-    clave: "RTR-2280",
+    id: "prop-rem-4417",
+    folio: 4417,
+    clave: "REM-4417",
     categoria: "Exclusiva",
     categoriaCode: "EX",
     giro: "Residencial",
@@ -1203,20 +1234,20 @@ export const remaxDemoProperties: RemaxProperty[] = [
     exclusividad: "Exclusiva",
     estatus: "Cancelada",
     altaBaja: "Baja",
-    descripcionCorta: "Mixcoatl 1421, Ciudad del Sol",
+    descripcionCorta: "Paseo Residencial Altaria 4417, Residencial Altaria",
     address: {
-      calle: "Mixcoatl",
-      noExt: "1421",
+      calle: "Paseo Residencial Altaria",
+      noExt: "4417",
       noInt: "",
       edificio: "",
       piso: "",
-      entreCalles: "",
-      colonia: "Ciudad del Sol",
+      entreCalles: "Av. Encino y Sendero Verde",
+      colonia: "Residencial Altaria",
       coto: "",
       fraccionamiento: "",
-      municipio: "Zapopan",
-      cp: "45050",
-      entidad: "Jalisco",
+      municipio: "Monterrey",
+      cp: "64989",
+      entidad: "Nuevo Leon",
       coordenadasGuiaRoji: ""
     },
     agenda: {
@@ -1224,10 +1255,10 @@ export const remaxDemoProperties: RemaxProperty[] = [
       cajaNo: "",
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "",
-      telCitas: "3331182002",
-      contactoCitas: "Claudia Gilo Perez",
-      origen: "Personal",
-      origenDetalle: ""
+      telCitas: "81 0000 4417",
+      contactoCitas: "Valentina Cruz",
+      origen: "Referido",
+      origenDetalle: "Campana residencial demo"
     },
     fechas: {
       alta: "2025-09-02",
@@ -1236,34 +1267,34 @@ export const remaxDemoProperties: RemaxProperty[] = [
       inicioPromo: "2025-09-04"
     },
     referidos: {
-      idRef: "REF-339",
-      nombre: "Lupita Fonseca",
-      empresa: ""
+      idRef: "REM-REF-44",
+      nombre: "Roberto Mena",
+      empresa: "Altaria Patrimonial"
     },
     ids: {
-      ampi: "RTR2280",
-      remax: "RMX-RTR2280",
-      catastral: "ZAP-8820"
+      ampi: "REM4417",
+      remax: "RMX-REM4417",
+      catastral: "DEMO-ALT-4417"
     },
     visitaRecorrido: "Visitada",
     comoLlegar: {
-      ligasA: "Google Map",
-      remax: "remax-activa.com.mx/rtr-2280",
-      googleMap: "maps.google.com/?q=Mixcoatl+1421",
+      ligasA: "Google Map demo",
+      remax: "demo.remax.test/rem-4417",
+      googleMap: "maps.demo.test/rem-4417",
       googleEarth: "",
       ampi: "",
-      fichaArchivo: "RTR-2280",
-      ftPdf: "RTR-2280.pdf",
-      comentarios: "Comunicado enviado a todo el equipo."
+      fichaArchivo: "REM-4417",
+      ftPdf: "REM-4417.pdf",
+      comentarios: "Comunicado demo enviado a todo el equipo."
     },
     caracteristicas: {
-      supTerreno: 240,
-      supConstruccion: 310,
-      frente: 10,
-      fondo: 24,
+      supTerreno: 260,
+      supConstruccion: 340,
+      frente: 13,
+      fondo: 20,
       frentes: 1,
-      recamaras: 3,
-      banos: 2,
+      recamaras: 4,
+      banos: 3,
       medioBanos: 1,
       jardin: true,
       estacionamientosCubiertos: 2,
@@ -1272,70 +1303,79 @@ export const remaxDemoProperties: RemaxProperty[] = [
       pisosTotales: 2,
       exteriorInterior: "Exterior",
       noUnidades: 1,
-      vistaA: "Parque",
+      vistaA: "Parque interior",
       elevadores: 0,
-      edad: 12,
+      edad: 6,
       formaTerreno: "Regular",
       inclinacion: "Plano",
       ubicacion: "Medianero",
       usoSuelo: "Habitacional",
       restricciones: "",
-      descripcion: "Casa familiar en Ciudad del Sol.",
+      descripcion: "Casa familiar demo en entorno residencial premium.",
       categoria: "Residencial",
-      notas: "Cancelada por decision del propietario.",
+      notas: "Cancelada para relanzar mas adelante con nueva estrategia.",
       servicios: ["Parques", "Escuelas", "Comercios"],
       superficiesValores: [
-        { concepto: "Terreno", metros: 240, valor: 13000, total: 3120000 },
-        { concepto: "Construccion", metros: 310, valor: 9800, total: 3038000 }
+        { concepto: "Terreno", metros: 260, valor: 13000, total: 3380000 },
+        { concepto: "Construccion", metros: 340, valor: 8060, total: 2740400 }
       ]
     },
     condicionesOperacion: {
       modoComision: "politica",
       porcentaje: 6,
       monto: 0,
-      politicaVigente: "Venta residencial 6%",
+      politicaVigente: "Venta residencial demo 6%",
       aplicaExcepcion: false,
       politicaAnterior: "",
       datosConfirmados: true,
-      comentarios: "Operacion sin excepciones."
+      comentarios: "Operacion demo sin excepciones."
     },
     propietarios: [
       {
-        id: "owner-rtr-1",
-        nombre: "Lupita Fonseca",
-        telefono: "3311110098",
-        correo: "lupita.fonseca@gmail.com",
+        id: "owner-rem-4417-1",
+        nombre: "Valentina Cruz",
+        telefono: "81 0000 4411",
+        correo: "valentina.cruz@remax-demo.test",
         principal: true
       }
     ],
     asesoresAlta: [
       {
-        advisorId: "daniela-ibarra",
+        advisorId: "andrea-lozano",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 80,
-        monto: 4920000,
+        monto: 4896000,
         tipoIntervencion: "Alta",
+        contexto: "Alta"
+      },
+      {
+        advisorId: "ricardo-salinas",
+        nivel: "M",
+        comisionTipo: "%",
+        participacionPorcentaje: 20,
+        monto: 1224000,
+        tipoIntervencion: "Prospeccion",
         contexto: "Alta"
       }
     ],
     asesoresBaja: [],
     asesoresCancelacion: [
       {
-        advisorId: "daniela-ibarra",
+        advisorId: "andrea-lozano",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 50,
-        monto: 2460000,
+        monto: 3060000,
         tipoIntervencion: "Cancelacion",
         contexto: "Cancelacion"
       },
       {
-        advisorId: "pedro-leyva",
+        advisorId: "mariana-fuentes",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 50,
-        monto: 2460000,
+        monto: 3060000,
         tipoIntervencion: "Validacion direccion",
         contexto: "Cancelacion"
       }
@@ -1346,49 +1386,49 @@ export const remaxDemoProperties: RemaxProperty[] = [
         ...defaultCommercialSheet,
         categoria: "Residencial",
         clasificacion: "Casa",
-        banios: 3,
+        banios: 4,
         estacionamiento: "2 cajones"
       }
     },
     historialValores: [
       {
-        id: "vh-rtr-1",
-        propiedadClave: "RTR-2280",
+        id: "vh-rem-4417-1",
+        propiedadClave: "REM-4417",
         fecha: "2025-09-02",
-        valor: 5050000,
+        valor: 6280000,
         moneda: "Pesos",
         posicion: "",
         motivoCambio: "Alta inicial",
         motivoMinuta: "Alta",
-        usuario: "Daniela Ibarra"
+        usuario: "Andrea Lozano"
       },
       {
-        id: "vh-rtr-2",
-        propiedadClave: "RTR-2280",
+        id: "vh-rem-4417-2",
+        propiedadClave: "REM-4417",
         fecha: "2026-01-12",
-        valor: 4920000,
+        valor: 6120000,
         moneda: "Pesos",
         posicion: "Ultimo",
         motivoCambio: "Ajuste comercial",
         motivoMinuta: "Cambio de precio",
-        usuario: "Pedro Leyva"
+        usuario: "Mariana Fuentes"
       }
     ],
     cancelacion: {
       fechaAvisoRecepcion: "2026-03-24",
       fechaCancelacion: "2026-03-24",
-      motivo: "Cliente retira la propiedad del mercado.",
+      motivo: "Cliente retira la propiedad para replantear tiempos de salida.",
       aplicaComision: false,
-      personaRegistra: "Brenda Noemi Ramirez Cardenas",
+      personaRegistra: "Patricia Solis",
       bajaPor: "Cancelacion",
-      comentarios: "Comunicado ya enviado al equipo completo.",
-      comunicadoId: "com-cancel-rtr-2280"
+      comentarios: "Comunicado demo ya enviado al equipo completo.",
+      comunicadoId: "com-cancel-rem-4417"
     }
   },
   {
-    id: "prop-icv-441",
-    folio: 441,
-    clave: "ICV-441",
+    id: "prop-rem-5521",
+    folio: 5521,
+    clave: "REM-5521",
     categoria: "Exclusiva",
     categoriaCode: "EX",
     giro: "Residencial",
@@ -1400,31 +1440,31 @@ export const remaxDemoProperties: RemaxProperty[] = [
     exclusividad: "Exclusiva",
     estatus: "Activa",
     altaBaja: "Alta",
-    descripcionCorta: "Paseo del Vergel 441, La Rioja",
+    descripcionCorta: "Calle Vista Encino 52, Casa 1, Bosque Verde",
     address: {
-      calle: "Paseo del Vergel",
-      noExt: "441",
-      noInt: "",
+      calle: "Calle Vista Encino",
+      noExt: "52",
+      noInt: "Casa 1",
       edificio: "",
       piso: "",
-      entreCalles: "Camino a la Rioja",
-      colonia: "La Rioja",
-      coto: "Bosques",
-      fraccionamiento: "Privado",
+      entreCalles: "Paseo del Roble y Av. Jardines",
+      colonia: "Vista Encino",
+      coto: "Coto 5",
+      fraccionamiento: "Bosque Verde",
       municipio: "Monterrey",
-      cp: "64985",
+      cp: "64984",
       entidad: "Nuevo Leon",
-      coordenadasGuiaRoji: "201-B"
+      coordenadasGuiaRoji: "VE-55"
     },
     agenda: {
       condicionesVisitas: "Citas",
       cajaNo: "9",
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "En recepcion",
-      telCitas: "8181442200",
-      contactoCitas: "Gabriela Perez",
+      telCitas: "81 0000 5521",
+      contactoCitas: "Gabriela Duarte",
       origen: "Referido",
-      origenDetalle: "Cliente informe"
+      origenDetalle: "Cliente demo"
     },
     fechas: {
       alta: "2026-02-12",
@@ -1433,31 +1473,31 @@ export const remaxDemoProperties: RemaxProperty[] = [
       inicioPromo: "2026-02-16"
     },
     referidos: {
-      idRef: "RF-ICV44",
-      nombre: "Cliente Informe",
-      empresa: "REMAX Activa"
+      idRef: "REM-REF-55",
+      nombre: "Marco Villa",
+      empresa: "REMAX Demo"
     },
     ids: {
-      ampi: "ICV441",
-      remax: "RMX-ICV441",
-      catastral: "MTY-552299"
+      ampi: "REM5521",
+      remax: "RMX-REM5521",
+      catastral: "DEMO-VE-5521"
     },
     visitaRecorrido: "Programada",
     comoLlegar: {
-      ligasA: "REMAX y Google Map",
-      remax: "remax-activa.com.mx/icv-441",
-      googleMap: "maps.google.com/?q=Paseo+del+Vergel+441",
+      ligasA: "REMAX Demo y Google Map",
+      remax: "demo.remax.test/rem-5521",
+      googleMap: "maps.demo.test/rem-5521",
       googleEarth: "",
       ampi: "",
-      fichaArchivo: "ICV-441",
-      ftPdf: "ICV-441.pdf",
-      comentarios: "Ficha residencial premium con dos propietarios."
+      fichaArchivo: "REM-5521",
+      ftPdf: "REM-5521.pdf",
+      comentarios: "Ficha residencial premium demo con dos propietarios."
     },
     caracteristicas: {
-      supTerreno: 280,
-      supConstruccion: 360,
+      supTerreno: 290,
+      supConstruccion: 365,
       frente: 14,
-      fondo: 20,
+      fondo: 21,
       frentes: 1,
       recamaras: 4,
       banos: 4,
@@ -1471,44 +1511,44 @@ export const remaxDemoProperties: RemaxProperty[] = [
       noUnidades: 1,
       vistaA: "Parque interior",
       elevadores: 0,
-      edad: 5,
+      edad: 4,
       formaTerreno: "Regular",
       inclinacion: "Plano",
       ubicacion: "Esquina",
       usoSuelo: "Habitacional",
       restricciones: "Reglamento condominio",
-      descripcion: "Residencia de alto valor con jardin y acabados premium.",
+      descripcion: "Residencia demo de alto valor con jardin y acabados premium.",
       categoria: "Residencial",
-      notas: "Ficha tecnica rica para demo de propietarios y tecnica.",
+      notas: "Ficha tecnica rica para demo de propietarios y visitas.",
       servicios: ["Parques", "Escuelas", "Bancos", "Comercios"],
       superficiesValores: [
-        { concepto: "Terreno", metros: 280, valor: 16000, total: 4480000 },
-        { concepto: "Construccion", metros: 360, valor: 11250, total: 4050000 }
+        { concepto: "Terreno", metros: 290, valor: 15500, total: 4495000 },
+        { concepto: "Construccion", metros: 365, valor: 10548, total: 3850020 }
       ]
     },
     condicionesOperacion: {
       modoComision: "politica",
       porcentaje: 6,
       monto: 0,
-      politicaVigente: "Venta residencial premium 6%",
+      politicaVigente: "Venta residencial premium demo 6%",
       aplicaExcepcion: false,
       politicaAnterior: "",
       datosConfirmados: true,
-      comentarios: "Checklist completo y datos confirmados."
+      comentarios: "Checklist demo completo y datos confirmados."
     },
     propietarios: [
       {
-        id: "owner-icv-1",
-        nombre: "Marcela Ochoa",
-        telefono: "8119943311",
-        correo: "marcela.ochoa@gmail.com",
+        id: "owner-rem-5521-1",
+        nombre: "Monica Rivas",
+        telefono: "81 0000 5522",
+        correo: "monica.rivas@remax-demo.test",
         principal: true
       },
       {
-        id: "owner-icv-2",
-        nombre: "Sergio Ochoa",
-        telefono: "8119943322",
-        correo: "sergio.ochoa@gmail.com",
+        id: "owner-rem-5521-2",
+        nombre: "Emilio Vargas",
+        telefono: "81 0000 5523",
+        correo: "emilio.vargas@remax-demo.test",
         principal: false
       }
     ],
@@ -1518,16 +1558,16 @@ export const remaxDemoProperties: RemaxProperty[] = [
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 70,
-        monto: 5971000,
+        monto: 5845000,
         tipoIntervencion: "Captacion",
         contexto: "Alta"
       },
       {
-        advisorId: "ricardo-salinas",
+        advisorId: "luis-navarro",
         nivel: "M",
         comisionTipo: "%",
         participacionPorcentaje: 30,
-        monto: 2559000,
+        monto: 2505000,
         tipoIntervencion: "Prospeccion",
         contexto: "Alta"
       }
@@ -1555,8 +1595,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     historialValores: [
       {
-        id: "vh-icv-1",
-        propiedadClave: "ICV-441",
+        id: "vh-rem-5521-1",
+        propiedadClave: "REM-5521",
         fecha: "2026-02-12",
         valor: 8530000,
         moneda: "Pesos",
@@ -1566,22 +1606,22 @@ export const remaxDemoProperties: RemaxProperty[] = [
         usuario: "Alejandra Rios"
       },
       {
-        id: "vh-icv-2",
-        propiedadClave: "ICV-441",
+        id: "vh-rem-5521-2",
+        propiedadClave: "REM-5521",
         fecha: "2026-03-07",
         valor: 8350000,
         moneda: "Pesos",
         posicion: "Ultimo",
-        motivoCambio: "Ajuste por open house",
+        motivoCambio: "Ajuste por open house demo",
         motivoMinuta: "Cambio de precio",
-        usuario: "Pedro Leyva"
+        usuario: "Mariana Fuentes"
       }
     ]
   },
   {
-    id: "prop-ohr-1182",
-    folio: 1182,
-    clave: "OHR-1182",
+    id: "prop-rem-6684",
+    folio: 6684,
+    clave: "REM-6684",
     categoria: "Opcion",
     categoriaCode: "OP",
     giro: "Comercial",
@@ -1593,20 +1633,20 @@ export const remaxDemoProperties: RemaxProperty[] = [
     exclusividad: "Opcion",
     estatus: "Cerrada",
     altaBaja: "Baja",
-    descripcionCorta: "Av. Patria 1182, Puerta de Hierro",
+    descripcionCorta: "Avenida Torre Central 402, Suite 8, Arboledas Oficinas",
     address: {
-      calle: "Av. Patria",
-      noExt: "1182",
-      noInt: "8B",
-      edificio: "Torre Ejecutiva",
-      piso: "8",
-      entreCalles: "",
-      colonia: "Puerta de Hierro",
+      calle: "Avenida Torre Central",
+      noExt: "402",
+      noInt: "Suite 8",
+      edificio: "Torre Central",
+      piso: "4",
+      entreCalles: "Av. Empresarial y Circuito Ejecutivo",
+      colonia: "Arboledas Oficinas",
       coto: "",
       fraccionamiento: "",
-      municipio: "Zapopan",
-      cp: "45116",
-      entidad: "Jalisco",
+      municipio: "San Pedro Garza Garcia",
+      cp: "66260",
+      entidad: "Nuevo Leon",
       coordenadasGuiaRoji: ""
     },
     agenda: {
@@ -1614,8 +1654,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
       cajaNo: "",
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "Recepcion",
-      telCitas: "3330001100",
-      contactoCitas: "Mariana Cisneros",
+      telCitas: "81 0000 6684",
+      contactoCitas: "Gabriela Duarte",
       origen: "Personal",
       origenDetalle: ""
     },
@@ -1632,19 +1672,19 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     ids: {
       ampi: "",
-      remax: "RMX-OHR1182",
+      remax: "RMX-REM6684",
       catastral: ""
     },
     visitaRecorrido: "Visitada",
     comoLlegar: {
-      ligasA: "REMAX",
-      remax: "remax-activa.com.mx/ohr-1182",
+      ligasA: "REMAX Demo",
+      remax: "demo.remax.test/rem-6684",
       googleMap: "",
       googleEarth: "",
       ampi: "",
-      fichaArchivo: "OHR-1182",
-      ftPdf: "OHR-1182.pdf",
-      comentarios: "Caso util para mostrar asesor con rol en alta y cierre."
+      fichaArchivo: "REM-6684",
+      ftPdf: "REM-6684.pdf",
+      comentarios: "Caso demo para mostrar asesor con rol en alta y cierre."
     },
     caracteristicas: {
       supTerreno: 180,
@@ -1658,35 +1698,33 @@ export const remaxDemoProperties: RemaxProperty[] = [
       jardin: false,
       estacionamientosCubiertos: 4,
       estacionamientosDescubiertos: 0,
-      nivel: "8",
+      nivel: "4",
       pisosTotales: 1,
       exteriorInterior: "Interior",
       noUnidades: 1,
       vistaA: "Zona corporativa",
       elevadores: 2,
-      edad: 7,
+      edad: 5,
       formaTerreno: "Regular",
       inclinacion: "Plano",
       ubicacion: "Torre",
       usoSuelo: "Oficina",
       restricciones: "",
-      descripcion: "Oficina cerrada por contrato anual.",
+      descripcion: "Oficina demo cerrada por contrato ejecutivo.",
       categoria: "Comercial",
-      notas: "Pedro Leyva participa tanto en alta como en cierre.",
+      notas: "Mariana Fuentes participa tanto en alta como en cierre.",
       servicios: ["Bancos", "Comercios", "Transportes"],
-      superficiesValores: [
-        { concepto: "Oficina", metros: 180, valor: 611, total: 110000 }
-      ]
+      superficiesValores: [{ concepto: "Oficina", metros: 180, valor: 655.55, total: 117999 }]
     },
     condicionesOperacion: {
       modoComision: "monto",
       porcentaje: 0,
-      monto: 110000,
-      politicaVigente: "Monto de colocacion",
+      monto: 118000,
+      politicaVigente: "Monto de colocacion demo",
       aplicaExcepcion: false,
       politicaAnterior: "",
       datosConfirmados: true,
-      comentarios: "Monto fijo por renta anual."
+      comentarios: "Monto fijo demo por renta anual."
     },
     condicionesRenta: {
       anos: 2,
@@ -1709,48 +1747,48 @@ export const remaxDemoProperties: RemaxProperty[] = [
       herramientaJuridica: "Convenio",
       abogado: "Lic. Carlos Meza",
       notario: "",
-      empresa: "Puerta de Hierro Offices",
+      empresa: "Torre Central Advisory",
       aplicaMantenimiento: true,
       montoMantenimiento: 9500,
       periodoMantenimiento: "Mensual",
-      observaciones: "Contrato cerrado en Q1."
+      observaciones: "Contrato demo cerrado en Q1."
     },
     propietarios: [
       {
-        id: "owner-ohr-1",
-        nombre: "Operadora Ejecutiva PH",
-        telefono: "3332150012",
-        correo: "contacto@executivaph.mx",
+        id: "owner-rem-6684-1",
+        nombre: "Torre Central Advisory",
+        telefono: "81 0000 6680",
+        correo: "contacto@torrecentral-demo.test",
         principal: true
       }
     ],
     asesoresAlta: [
       {
-        advisorId: "mariana-cisneros",
+        advisorId: "carlos-herrera",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 70,
-        monto: 77000,
+        monto: 82600,
         tipoIntervencion: "Alta",
         contexto: "Alta"
       },
       {
-        advisorId: "pedro-leyva",
+        advisorId: "mariana-fuentes",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 30,
-        monto: 33000,
+        monto: 35400,
         tipoIntervencion: "Direccion comercial",
         contexto: "Alta"
       }
     ],
     asesoresBaja: [
       {
-        advisorId: "pedro-leyva",
+        advisorId: "mariana-fuentes",
         nivel: "A",
         comisionTipo: "%",
         participacionPorcentaje: 100,
-        monto: 110000,
+        monto: 118000,
         tipoIntervencion: "Cierre",
         contexto: "Baja / cierre"
       }
@@ -1767,35 +1805,35 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     historialValores: [
       {
-        id: "vh-ohr-1",
-        propiedadClave: "OHR-1182",
+        id: "vh-rem-6684-1",
+        propiedadClave: "REM-6684",
         fecha: "2025-12-02",
-        valor: 118000,
+        valor: 124000,
         moneda: "Pesos",
         posicion: "",
         motivoCambio: "Alta inicial",
         motivoMinuta: "Alta",
-        usuario: "Mariana Cisneros"
+        usuario: "Carlos Herrera"
       },
       {
-        id: "vh-ohr-2",
-        propiedadClave: "OHR-1182",
+        id: "vh-rem-6684-2",
+        propiedadClave: "REM-6684",
         fecha: "2026-02-14",
-        valor: 110000,
+        valor: 118000,
         moneda: "Pesos",
         posicion: "Ultimo",
-        motivoCambio: "Paquete de cierre",
+        motivoCambio: "Paquete de cierre demo",
         motivoMinuta: "Cambio de precio",
-        usuario: "Pedro Leyva"
+        usuario: "Mariana Fuentes"
       }
     ],
     baja: {
       fechaBaja: "2026-02-28",
       tipoCierre: "Cerrada",
-      condicionCierre: "Renta anual firmada con mantenimiento incluido",
-      personaRegistra: "Patricia Romo",
+      condicionCierre: "Contrato ejecutivo demo con mantenimiento incluido",
+      personaRegistra: "Patricia Solis",
       comentarios: "Ejemplo claro del nuevo modelo multirol aplicado al cierre.",
-      comunicadoId: "com-baja-ohr-1182"
+      comunicadoId: "com-baja-rem-6684"
     }
   }
 ];

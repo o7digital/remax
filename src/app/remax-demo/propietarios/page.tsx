@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
+import { remaxDemoDefaults } from "@/remax-demo/data";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { PropertyBanner } from "@/remax-demo/components/property-banner";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
@@ -15,8 +16,8 @@ export default async function PropietariosPage({
 }) {
   const language = await getRemaxLanguage();
   const params = await searchParams;
-  const selectedKey = getSingleSearchParam(params.propiedad) ?? "IBR-OP277";
-  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("IBR-OP277");
+  const selectedKey = getSingleSearchParam(params.propiedad) ?? remaxDemoDefaults.ownersPropertyKey;
+  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave(remaxDemoDefaults.ownersPropertyKey);
 
   if (!property) {
     return null;

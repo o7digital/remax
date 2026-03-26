@@ -2,10 +2,13 @@ import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
 import { StatusBadge } from "@/components/status-badge";
+import {
+  remaxDemoCommunications,
+  remaxDemoDefaults
+} from "@/remax-demo/data";
 import { CommunicationsPreview } from "@/remax-demo/components/communications-preview";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
-import { remaxDemoCommunications } from "@/remax-demo/data";
 import { getSingleSearchParam } from "@/remax-demo/formatters";
 import { getRemaxLanguage } from "@/remax-demo/get-language";
 import { translateCommunicationStatus, translateCommunicationType } from "@/remax-demo/i18n";
@@ -30,7 +33,7 @@ export default async function ComunicadosPage({
 }) {
   const language = await getRemaxLanguage();
   const params = await searchParams;
-  const selectedId = getSingleSearchParam(params.comunicado) ?? "com-cancel-rtr-2280";
+  const selectedId = getSingleSearchParam(params.comunicado) ?? remaxDemoDefaults.featuredCommunicationId;
   const communication = getCommunicationById(selectedId) ?? remaxDemoCommunications[0];
   const property = getPropertyByClave(communication.propiedadClave);
 
@@ -41,10 +44,10 @@ export default async function ComunicadosPage({
         description={language === "en" ? "Screen dedicated to onboarding, closing and cancellation communications. The goal is to show a centralized record that is clearer and ready for automation." : "Pantalla dedicada a los comunicados de alta, baja y cancelacion. El objetivo es mostrar un registro centralizado, mas claro y listo para automatizacion."}
         actions={
           <div className="remax-header-actions">
-            <Link href="/remax-demo/cancelacion?step=comunicado&propiedad=RTR-2280" className="button">
+            <Link href={`/remax-demo/cancelacion?step=comunicado&propiedad=${remaxDemoDefaults.featuredCancellationPropertyKey}`} className="button">
               {language === "en" ? "Cancellation communication" : "Comunicado cancelacion"}
             </Link>
-            <Link href="/remax-demo/alta?step=asesores&propiedad=IBR-OP277" className="button button-secondary">
+            <Link href={`/remax-demo/alta?step=asesores&propiedad=${remaxDemoDefaults.altaPropertyKey}`} className="button button-secondary">
               {language === "en" ? "Back to operations" : "Volver a operacion"}
             </Link>
           </div>

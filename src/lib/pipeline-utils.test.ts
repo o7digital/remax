@@ -6,8 +6,8 @@ import { filterPipelineDeals, getPipelineColumns, getPipelineSummary } from "@/l
 describe("pipeline-utils", () => {
   it("computes open and total lead counts from the demo dataset", () => {
     expect(getPipelineSummary(pipelineDemoDeals)).toMatchObject({
-      openLeads: 21,
-      totalLeads: 24
+      openLeads: 17,
+      totalLeads: 20
     });
   });
 
@@ -17,22 +17,19 @@ describe("pipeline-utils", () => {
     const propuesta = columns.find((column) => column.stage.id === "propuesta");
 
     expect(propuesta).toBeDefined();
-    expect(propuesta?.dealCount).toBe(4);
-    expect(propuesta?.totals).toEqual([
-      { currency: "USD", amount: 3650 },
-      { currency: "MXN", amount: 393488 }
-    ]);
+    expect(propuesta?.dealCount).toBe(2);
+    expect(propuesta?.totals).toEqual([{ currency: "MXN", amount: 397500 }]);
   });
 
   it("filters by owner, query and IA Pulse without mutating the source dataset", () => {
     const filtered = filterPipelineDeals(pipelineDemoDeals, {
-      query: "Catalina",
-      owner: "Valeria Cruz",
+      query: "Paula",
+      owner: "Julieta Mora",
       status: "open",
       aiOnly: false
     });
 
-    expect(filtered.map((deal) => deal.id)).toEqual(["deal-pipeline-012", "deal-pipeline-015"]);
-    expect(pipelineDemoDeals).toHaveLength(24);
+    expect(filtered.map((deal) => deal.id)).toEqual(["deal-pipeline-005", "deal-pipeline-013"]);
+    expect(pipelineDemoDeals).toHaveLength(20);
   });
 });

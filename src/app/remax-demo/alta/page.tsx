@@ -2,7 +2,13 @@ import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
 import { StatusBadge } from "@/components/status-badge";
-import { remaxCategoryOptions, remaxGiroOptions, remaxOperacionOptions, remaxTipoOptions } from "@/remax-demo/data";
+import {
+  remaxCategoryOptions,
+  remaxDemoDefaults,
+  remaxGiroOptions,
+  remaxOperacionOptions,
+  remaxTipoOptions
+} from "@/remax-demo/data";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { PropertyBanner } from "@/remax-demo/components/property-banner";
 import { RemaxPageHeader } from "@/remax-demo/components/remax-page-header";
@@ -37,14 +43,8 @@ const altaSteps = [
   { key: "ficha", label: "Ficha tecnica" }
 ] as const;
 
-function buildKeyPreview(
-  giroCode: string,
-  tipoCode: string,
-  operacionCode: string,
-  categoriaCode: string,
-  sequence = "277"
-) {
-  return `${giroCode}${tipoCode}${operacionCode}-${categoriaCode}${sequence}`;
+function buildKeyPreview(sequence = "1012") {
+  return `REM-${sequence}`;
 }
 
 function YesNoBadge({ value, language }: { value: boolean; language: RemaxLanguage }) {
@@ -63,19 +63,14 @@ export default async function AltaPage({
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
   const maybeT = (value?: string | null) => (value ? t(value) : "");
-  const selectedKey = getSingleSearchParam(params.propiedad) ?? "IBR-OP277";
-  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("IBR-OP277");
+  const selectedKey = getSingleSearchParam(params.propiedad) ?? remaxDemoDefaults.altaPropertyKey;
+  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave(remaxDemoDefaults.altaPropertyKey);
 
   if (!property) {
     return null;
   }
 
-  const generatedKey = buildKeyPreview(
-    property.giroCode,
-    property.tipoCode,
-    property.operacionCode,
-    property.categoriaCode
-  );
+  const generatedKey = buildKeyPreview(property.clave.split("-")[1] ?? "1012");
   const roleMatrix = getPropertyRoleMatrix(property).filter((row) => row.roles.length > 1);
 
   return (
@@ -177,8 +172,8 @@ export default async function AltaPage({
               <strong>{language === "en" ? "Key logic integrated into the new platform" : "Logica de clave integrada al nuevo sistema"}</strong>
               <p>
                 {language === "en"
-                  ? `${property.giroCode} + ${property.tipoCode} + ${property.operacionCode} defines the record type; ${property.categoriaCode} keeps the commercial category.`
-                  : `${property.giroCode} + ${property.tipoCode} + ${property.operacionCode} define el tipo de expediente; ${property.categoriaCode} conserva la categoria comercial.`}
+                  ? "The REM prefix identifies the demo inventory and the numeric sequence keeps each listing easy to present and test."
+                  : "El prefijo REM identifica el inventario demo y el consecutivo numerico mantiene cada inmueble facil de presentar y probar."}
               </p>
             </div>
           </div>

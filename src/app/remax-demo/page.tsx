@@ -1,6 +1,10 @@
 import Link from "next/link";
 
-import { remaxDemoAdvisors, remaxDemoCommunications } from "@/remax-demo/data";
+import {
+  remaxDemoAdvisors,
+  remaxDemoCommunications,
+  remaxDemoDefaults
+} from "@/remax-demo/data";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { PriorityBadge } from "@/remax-demo/components/priority-badge";
 import { SentimentBadge } from "@/remax-demo/components/sentiment-badge";
@@ -124,6 +128,17 @@ function getActivityTone(category: string): SectionTone {
   return "gold";
 }
 
+const altaPropertyHref = `/remax-demo/alta?step=clave&propiedad=${remaxDemoDefaults.altaPropertyKey}`;
+const altaRecordHref = `/remax-demo/alta?step=expediente&propiedad=${remaxDemoDefaults.altaPropertyKey}`;
+const altaConditionsHref = `/remax-demo/alta?step=condiciones&propiedad=${remaxDemoDefaults.altaPropertyKey}`;
+const bajaPropertyHref = `/remax-demo/baja?step=registro&propiedad=${remaxDemoDefaults.bajaPropertyKey}`;
+const bajaValuesHref = `/remax-demo/baja?step=valores&propiedad=${remaxDemoDefaults.bajaPropertyKey}`;
+const bajaSearchHref = `/remax-demo/baja?step=busqueda&propiedad=${remaxDemoDefaults.bajaPropertyKey}`;
+const cancelPropertyHref = `/remax-demo/cancelacion?step=registro&propiedad=${remaxDemoDefaults.cancelacionPropertyKey}`;
+const cancelAdvisorHref = `/remax-demo/cancelacion?step=asesores&propiedad=${remaxDemoDefaults.cancelacionPropertyKey}`;
+const ownersHref = `/remax-demo/propietarios?propiedad=${remaxDemoDefaults.ownersPropertyKey}`;
+const valuesHref = `/remax-demo/valores?propiedad=${remaxDemoDefaults.bajaPropertyKey}`;
+
 const dashboardSections: DashboardSection[] = [
   {
     title: "Operacion comercial",
@@ -134,7 +149,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "ALT",
         title: "Altas",
         description: "Clave, expediente, condiciones, asesores y ficha tecnica en un solo recorrido.",
-        href: "/remax-demo/alta?step=clave&propiedad=IBR-OP277",
+        href: altaPropertyHref,
         cta: "Abrir alta",
         note: "Flujo continuo de captura.",
         pills: ["Clave", "Expediente", "Ficha tecnica"],
@@ -144,7 +159,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "CIE",
         title: "Bajas / cierres",
         description: "Salida comercial con valores, responsables y comunicado listos para control interno.",
-        href: "/remax-demo/baja?step=registro&propiedad=CBR-1748",
+        href: bajaPropertyHref,
         cta: "Abrir cierre",
         note: "Control de estatus final.",
         pills: ["Cierre", "Valores", "Comunicado"],
@@ -154,7 +169,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "CAN",
         title: "Cancelaciones",
         description: "Motivo, comision, responsables y trazabilidad de salida de cartera.",
-        href: "/remax-demo/cancelacion?step=registro&propiedad=RTV-571",
+        href: cancelPropertyHref,
         cta: "Abrir cancelacion",
         note: "Seguimiento hasta comunicado.",
         pills: ["Motivo", "Asesores", "Bitacora"],
@@ -164,7 +179,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "VIS",
         title: "Visitas y recorridos",
         description: "Agenda de campo, visitas programadas y cobertura comercial del dia.",
-        href: "/remax-demo/baja?step=busqueda&propiedad=CBR-1748",
+        href: bajaSearchHref,
         cta: "Ver agenda",
         note: "Lectura diaria de actividad.",
         pills: ["Visitas", "Recorridos", "Agenda"],
@@ -191,7 +206,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "VAL",
         title: "Valores",
         description: "Historico de precio, posicion comercial y referencia para minuta.",
-        href: "/remax-demo/valores?propiedad=CBR-1748",
+        href: valuesHref,
         cta: "Ver valores",
         note: "Evolucion comercial clara.",
         pills: ["Historico", "Precio", "Minuta"],
@@ -201,7 +216,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "PRO",
         title: "Propietarios",
         description: "Relacion de propietarios, copropiedad y contacto vinculado a cada expediente.",
-        href: "/remax-demo/propietarios?propiedad=IBR-OP277",
+        href: ownersHref,
         cta: "Ver propietarios",
         note: "Contacto y contexto unificados.",
         pills: ["Contacto", "Copropiedad", "Ficha"],
@@ -211,7 +226,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "LLV",
         title: "Control de llaves",
         description: "Recepcion, citas, disponibilidad y coordinacion de visitas por propiedad.",
-        href: "/remax-demo/alta?step=expediente&propiedad=IBR-OP277",
+        href: altaRecordHref,
         cta: "Abrir control",
         note: "Operacion de campo sin friccion.",
         pills: ["Llaves", "Citas", "Recepcion"],
@@ -248,7 +263,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "COM",
         title: "Comisiones",
         description: "Politica, monto y control interno visibles para asesores y administracion.",
-        href: "/remax-demo/alta?step=condiciones&propiedad=IBR-OP277",
+        href: altaConditionsHref,
         cta: "Ver comisiones",
         note: "Mas claridad para todo el equipo.",
         pills: ["Politica", "Monto", "Control"],
@@ -258,7 +273,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "REC",
         title: "Recorridos",
         description: "Seguimiento de campo para visitas, cierres y cobertura por zona.",
-        href: "/remax-demo/baja?step=busqueda&propiedad=CBR-1748",
+        href: bajaSearchHref,
         cta: "Ver recorridos",
         note: "Campo y coordinacion conectados.",
         pills: ["Campo", "Zona", "Cobertura"],
@@ -285,7 +300,7 @@ const dashboardSections: DashboardSection[] = [
         icon: "MIN",
         title: "Minutas",
         description: "Cambios comerciales vinculados a valores, cierres y salida administrativa.",
-        href: "/remax-demo/valores?propiedad=CBR-1748",
+        href: valuesHref,
         cta: "Ver minutas",
         note: "Menos friccion documental.",
         pills: ["Cambios", "Motivos", "Versiones"],
@@ -348,42 +363,42 @@ const benefitCards = [
 const openProcesses: OpenProcess[] = [
   {
     type: "Alta",
-    property: "IBR-OP277",
+    property: "REM-1012",
     stage: "Expediente, condiciones y ficha tecnica",
-    owners: ["Pedro Leyva", "Patricia Romo"],
+    owners: ["Mariana Fuentes", "Patricia Solis"],
     nextAction: "Validar condiciones de renta y liberar ficha comercial",
     priority: "alta",
-    href: "/remax-demo/alta?step=expediente&propiedad=IBR-OP277",
+    href: altaRecordHref,
     status: "En captura"
   },
   {
     type: "Baja / cierre",
-    property: "CBR-1748",
+    property: "REM-2044",
     stage: "Revision de valores y comunicado de salida",
-    owners: ["Julieta Mora", "Erika Valles"],
+    owners: ["Julieta Mora", "Erika Navarro"],
     nextAction: "Confirmar ultimo valor y emitir comunicado interno",
     priority: "alta",
-    href: "/remax-demo/baja?step=valores&propiedad=CBR-1748",
+    href: bajaValuesHref,
     status: "En revision"
   },
   {
     type: "Cancelacion",
-    property: "RTV-571",
+    property: "REM-3308",
     stage: "Registro, asesores y condicion de comision",
-    owners: ["Patricia Romo", "Sofia Campos"],
+    owners: ["Patricia Solis", "Sofia Cardenas"],
     nextAction: "Validar cancelacion y confirmar salida operativa",
     priority: "media",
-    href: "/remax-demo/cancelacion?step=asesores&propiedad=RTV-571",
+    href: cancelAdvisorHref,
     status: "Listo para comunicado"
   },
   {
     type: "Seguimiento comercial",
-    property: "ICV-441",
+    property: "REM-5521",
     stage: "Visitas, propietarios y control de agenda",
-    owners: ["Gabriela Perez", "Diego Ruiz"],
+    owners: ["Gabriela Duarte", "Diego Romero"],
     nextAction: "Actualizar visitas activas y feedback del cliente",
     priority: "media",
-    href: "/remax-demo/propietarios?propiedad=ICV-441",
+    href: ownersHref,
     status: "En seguimiento"
   }
 ];
@@ -407,7 +422,7 @@ const quickActions: QuickAction[] = [
     icon: "ALT",
     title: "Nueva alta",
     description: "Abrir un expediente desde clave hasta ficha tecnica.",
-    href: "/remax-demo/alta?step=clave&propiedad=IBR-OP277",
+    href: altaPropertyHref,
     tag: "Operacion"
   },
   {
@@ -437,22 +452,22 @@ const mobileScreens: MobileScreen[] = [
     subtitle: "Agenda de hoy",
     style: "agenda",
     visits: [
-      { time: "09:30", client: "Mariana Fuentes", property: "ICV-441", status: "Confirmada" },
-      { time: "12:00", client: "Grupo Laureles", property: "IBR-OP277", status: "Ruta lista" },
-      { time: "16:30", client: "Parques Santa Maria", property: "CBR-1748", status: "En seguimiento" }
+      { time: "09:30", client: "Paola Serrano", property: "REM-5521", status: "Confirmada" },
+      { time: "12:00", client: "Grupo Bosque Verde", property: "REM-1012", status: "Ruta lista" },
+      { time: "16:30", client: "Fondo Arboleda", property: "REM-2044", status: "En seguimiento" }
     ],
     note: "Ruta optimizada para cubrir zona poniente y cierre de campo antes de las 18:00.",
     actions: ["Iniciar ruta", "Marcar llegada"]
   },
   {
     title: "Ficha de propiedad",
-    subtitle: "IBR-OP277 · El Zapote del Valle",
+    subtitle: "REM-1012 · Vista Encino",
     style: "property",
     details: [
-      { label: "Precio", value: "MXN 605,253.60" },
-      { label: "Direccion", value: "Camino viejo a los Laureles 195" },
-      { label: "Propietario", value: "Oscar Ivan Olivares" },
-      { label: "Asesor asignado", value: "Pedro Leyva" },
+      { label: "Precio", value: "MXN 187,500" },
+      { label: "Direccion", value: "Circuito Bosque Verde 128" },
+      { label: "Propietario", value: "Clara Montes" },
+      { label: "Asesor asignado", value: "Mariana Fuentes" },
       { label: "Estado", value: "Alta iniciada" }
     ],
     note: "Cliente interesado en agendar visita de seguimiento y revisar acceso para citas.",
@@ -612,13 +627,13 @@ export default async function RemaxMenuOperacionPage() {
     },
     {
       title: "Cancelacion pendiente de validacion",
-      detail: `${cancelProcess?.property ?? "RTV-571"} necesita confirmacion de salida y comunicado final.`,
+      detail: `${cancelProcess?.property ?? remaxDemoDefaults.cancelacionPropertyKey} necesita confirmacion de salida y comunicado final.`,
       priority: "alta" as RemaxPriorityLevel,
-      href: cancelProcess?.href ?? "/remax-demo/cancelacion?step=registro&propiedad=RTV-571"
+      href: cancelProcess?.href ?? cancelPropertyHref
     },
     {
       title: "Cierre esperando comunicado",
-      detail: `${t(closureProcess?.itemLabel ?? "CBR-1748")} ${language === "en" ? "is moving toward closing and should enter the administrative circuit." : "avanza a cierre y debe pasar a circuito administrativo."}`,
+      detail: `${t(closureProcess?.itemLabel ?? remaxDemoDefaults.bajaPropertyKey)} ${language === "en" ? "is moving toward closing and should enter the administrative circuit." : "avanza a cierre y debe pasar a circuito administrativo."}`,
       priority: "media" as RemaxPriorityLevel,
       href: "/remax-demo/pipeline"
     },
@@ -630,7 +645,7 @@ export default async function RemaxMenuOperacionPage() {
     },
     {
       title: "Propiedad con visitas activas sin actualizacion",
-      detail: `${t(staleVisit?.itemLabel ?? "ICV-441")} ${language === "en" ? "remains in visits and needs immediate commercial feedback." : "sigue en visitas y requiere feedback comercial inmediato."}`,
+      detail: `${t(staleVisit?.itemLabel ?? "Lead comprador · Vista Encino")} ${language === "en" ? "remains in visits and needs immediate commercial feedback." : "sigue en visitas y requiere feedback comercial inmediato."}`,
       priority: "media" as RemaxPriorityLevel,
       href: "/remax-demo/pipeline"
     }

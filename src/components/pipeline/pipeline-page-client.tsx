@@ -89,7 +89,7 @@ export function PipelinePageClient() {
           <input
             id="pipeline-search"
             type="search"
-            placeholder="Ej. Catalina, Pedro Leyva, Heliamexico"
+            placeholder="Ej. Mariana Fuentes, Bosque Verde, Torre Central"
             value={filters.query}
             onChange={(event) =>
               setFilters((current) => ({

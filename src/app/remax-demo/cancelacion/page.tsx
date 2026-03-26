@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { DataTable } from "@/components/data-table";
+import { remaxDemoDefaults } from "@/remax-demo/data";
 import { CommunicationsPreview } from "@/remax-demo/components/communications-preview";
 import { AccessSection } from "@/remax-demo/components/access-section";
 import { PropertyBanner } from "@/remax-demo/components/property-banner";
@@ -43,8 +44,8 @@ export default async function CancelacionPage({
   const language = await getRemaxLanguage();
   const t = (value: string) => rt(language, value);
   const maybeT = (value?: string | null) => (value ? t(value) : "");
-  const selectedKey = getSingleSearchParam(params.propiedad) ?? "RTV-571";
-  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave("RTV-571");
+  const selectedKey = getSingleSearchParam(params.propiedad) ?? remaxDemoDefaults.cancelacionPropertyKey;
+  const property = getPropertyByClave(selectedKey) ?? getPropertyByClave(remaxDemoDefaults.cancelacionPropertyKey);
 
   if (!property) {
     return null;
