@@ -365,7 +365,7 @@ const openProcesses: OpenProcess[] = [
     type: "Alta",
     property: "REM-1012",
     stage: "Expediente, condiciones y ficha tecnica",
-    owners: ["Mariana Fuentes", "Patricia Solis"],
+    owners: ["Mariana Fuentes", "Operaciones Demo"],
     nextAction: "Validar condiciones de renta y liberar ficha comercial",
     priority: "alta",
     href: altaRecordHref,
@@ -375,7 +375,7 @@ const openProcesses: OpenProcess[] = [
     type: "Baja / cierre",
     property: "REM-2044",
     stage: "Revision de valores y comunicado de salida",
-    owners: ["Julieta Mora", "Erika Navarro"],
+    owners: ["Julieta Mora", "Comisiones Demo"],
     nextAction: "Confirmar ultimo valor y emitir comunicado interno",
     priority: "alta",
     href: bajaValuesHref,
@@ -385,7 +385,7 @@ const openProcesses: OpenProcess[] = [
     type: "Cancelacion",
     property: "REM-3308",
     stage: "Registro, asesores y condicion de comision",
-    owners: ["Patricia Solis", "Sofia Cardenas"],
+    owners: ["Operaciones Demo", "Sofia Cardenas"],
     nextAction: "Validar cancelacion y confirmar salida operativa",
     priority: "media",
     href: cancelAdvisorHref,
@@ -395,7 +395,7 @@ const openProcesses: OpenProcess[] = [
     type: "Seguimiento comercial",
     property: "REM-5521",
     stage: "Visitas, propietarios y control de agenda",
-    owners: ["Gabriela Duarte", "Diego Romero"],
+    owners: ["Recepcion Demo", "Asesor Demo Poniente"],
     nextAction: "Actualizar visitas activas y feedback del cliente",
     priority: "media",
     href: ownersHref,
@@ -452,9 +452,9 @@ const mobileScreens: MobileScreen[] = [
     subtitle: "Agenda de hoy",
     style: "agenda",
     visits: [
-      { time: "09:30", client: "Paola Serrano", property: "REM-5521", status: "Confirmada" },
-      { time: "12:00", client: "Grupo Bosque Verde", property: "REM-1012", status: "Ruta lista" },
-      { time: "16:30", client: "Fondo Arboleda", property: "REM-2044", status: "En seguimiento" }
+      { time: "09:30", client: "Sofia Cardenas", property: "REM-5521", status: "Confirmada" },
+      { time: "12:00", client: "Bosque Verde Demo", property: "REM-1012", status: "Ruta lista" },
+      { time: "16:30", client: "Arboledas Oficinas Demo", property: "REM-2044", status: "En seguimiento" }
     ],
     note: "Ruta optimizada para cubrir zona poniente y cierre de campo antes de las 18:00.",
     actions: ["Iniciar ruta", "Marcar llegada"]
@@ -466,7 +466,7 @@ const mobileScreens: MobileScreen[] = [
     details: [
       { label: "Precio", value: "MXN 187,500" },
       { label: "Direccion", value: "Circuito Bosque Verde 128" },
-      { label: "Propietario", value: "Clara Montes" },
+      { label: "Propietario", value: "Alejandra Rios" },
       { label: "Asesor asignado", value: "Mariana Fuentes" },
       { label: "Estado", value: "Alta iniciada" }
     ],

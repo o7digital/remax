@@ -30,7 +30,7 @@ const demoAccounts: RemaxDemoAccount[] = [
   {
     id: "demo-direccion",
     name: "Mariana Fuentes",
-    email: "direccion@remax-demo.test",
+    email: "direccion.demo@remax-demo.test",
     password: "DemoDireccion26!",
     role: "direccion",
     roleLabel: "Direccion demo",
@@ -39,7 +39,7 @@ const demoAccounts: RemaxDemoAccount[] = [
   {
     id: "demo-asesor",
     name: "Luis Navarro",
-    email: "asesor@remax-demo.test",
+    email: "asesor.demo@remax-demo.test",
     password: "DemoAsesor26!",
     role: "asesor",
     roleLabel: "Asesor demo",

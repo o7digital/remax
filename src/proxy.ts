@@ -9,7 +9,7 @@ import {
   sanitizeRemaxDemoNextPath
 } from "@/remax-demo/auth-config";
 
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
 
 export function proxy(request: NextRequest) {

@@ -23,7 +23,7 @@ describe("pipeline-utils", () => {
 
   it("filters by owner, query and IA Pulse without mutating the source dataset", () => {
     const filtered = filterPipelineDeals(pipelineDemoDeals, {
-      query: "Paula",
+      query: "Julieta",
       owner: "Julieta Mora",
       status: "open",
       aiOnly: false

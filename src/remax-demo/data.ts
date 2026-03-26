@@ -122,7 +122,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "valeria-mendoza",
-    nombre: "Valeria Mendoza",
+    nombre: "Asesor Demo Norte",
     clase: "M",
     tipoPersonal: "asesor",
     rol: "Control de cartera",
@@ -131,7 +131,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "diego-romero",
-    nombre: "Diego Romero",
+    nombre: "Asesor Demo Poniente",
     clase: "M",
     tipoPersonal: "asesor",
     rol: "Rentas residenciales",
@@ -140,7 +140,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "karla-ortega",
-    nombre: "Karla Ortega",
+    nombre: "Agenda Demo",
     clase: "M",
     tipoPersonal: "asesor",
     rol: "Agenda y recorridos",
@@ -149,7 +149,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "tomas-aguilar",
-    nombre: "Tomas Aguilar",
+    nombre: "Inventario Demo",
     clase: "M",
     tipoPersonal: "asesor",
     rol: "Inventario y llaves",
@@ -158,7 +158,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "patricia-solis",
-    nombre: "Patricia Solis",
+    nombre: "Operaciones Demo",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Coordinacion operativa",
@@ -167,7 +167,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "erika-navarro",
-    nombre: "Erika Navarro",
+    nombre: "Comisiones Demo",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Control de comisiones",
@@ -176,7 +176,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "leonor-paz",
-    nombre: "Leonor Paz",
+    nombre: "Backoffice Demo",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Backoffice de captacion",
@@ -185,7 +185,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "susana-vega",
-    nombre: "Susana Vega",
+    nombre: "Contratos Demo",
     clase: null,
     tipoPersonal: "administrativo",
     rol: "Expedientes y contratos",
@@ -194,7 +194,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
   },
   {
     id: "gabriela-duarte",
-    nombre: "Gabriela Duarte",
+    nombre: "Recepcion Demo",
     clase: null,
     tipoPersonal: "recepcion",
     rol: "Recepcion y agenda comercial",
@@ -246,7 +246,7 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     estado: "enviado",
     resumen: "Se informa el alta demo de REM-1012 y la apertura del expediente operativo.",
     remitente: "Inventario REMAX Demo",
-    firma: "Patricia Solis | Coordinacion operativa"
+    firma: "Operaciones Demo | Coordinacion operativa"
   },
   {
     id: "com-baja-rem-2044",
@@ -258,7 +258,7 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     estado: "enviado",
     resumen: "REM-2044 pasa a cerrada y se activa el circuito interno de comisiones demo.",
     remitente: "Inventario REMAX Demo",
-    firma: "Erika Navarro | Control de comisiones"
+    firma: "Comisiones Demo | Control de comisiones"
   },
   {
     id: "com-cancel-rem-3308",
@@ -266,11 +266,11 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-3308",
     fecha: "2026-03-24",
     asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, REM-3308.",
-    destinatarios: ["direccion@remax-demo.test", "inventario@remax-demo.test"],
+    destinatarios: ["direccion.demo@remax-demo.test", "inventario@remax-demo.test"],
     estado: "borrador",
     resumen: "Se documenta la cancelacion demo de REM-3308 con motivo registrado por operaciones.",
     remitente: "Inventario REMAX Demo",
-    firma: "Patricia Solis | Coordinacion operativa"
+    firma: "Operaciones Demo | Coordinacion operativa"
   },
   {
     id: "com-cancel-rem-4417",
@@ -282,7 +282,7 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     estado: "enviado",
     resumen: "Se informa la salida de REM-4417 del inventario demo y el cierre administrativo del expediente.",
     remitente: "Inventario REMAX Demo",
-    firma: "Patricia Solis | Coordinacion operativa"
+    firma: "Operaciones Demo | Coordinacion operativa"
   },
   {
     id: "com-alta-rem-5521",
@@ -294,7 +294,7 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     estado: "enviado",
     resumen: "Nueva captacion residencial demo lista para publicacion y agenda de visitas.",
     remitente: "Inventario REMAX Demo",
-    firma: "Gabriela Duarte | Recepcion"
+    firma: "Recepcion Demo | Recepcion"
   },
   {
     id: "com-baja-rem-6684",
@@ -306,7 +306,7 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     estado: "archivado",
     resumen: "La oficina demo REM-6684 se marca como cerrada por firma del contrato ejecutivo.",
     remitente: "Inventario REMAX Demo",
-    firma: "Patricia Solis | Coordinacion operativa"
+    firma: "Operaciones Demo | Coordinacion operativa"
   }
 ];
 
@@ -316,7 +316,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sourceLabel: "REM-1012 · Alta iniciada",
     advisorId: "mariana-fuentes",
     propertyClave: "REM-1012",
-    clientName: "Valentina Cruz",
+    clientName: "Andrea Lozano",
     createdAt: "2026-03-24",
     note: "Cliente interesada, pero quiere revisar precio la proxima semana.",
     sentiment: "neutro",
@@ -330,7 +330,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sourceLabel: "REM-2044 · Cierre en revision",
     advisorId: "julieta-mora",
     propertyClave: "REM-2044",
-    clientName: "Fondo Arboleda",
+    clientName: "Arboledas Oficinas Demo",
     createdAt: "2026-03-22",
     note: "Propietario abierto a negociar tiempos de cierre.",
     sentiment: "positivo",
@@ -344,7 +344,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sourceLabel: "REM-3308 · Cancelacion documentada",
     advisorId: "sofia-cardenas",
     propertyClave: "REM-3308",
-    clientName: "Clara Montes",
+    clientName: "Alejandra Rios",
     createdAt: "2026-03-24",
     note: "Seguimiento pendiente despues de visita y el propietario ya considera pausar la venta.",
     sentiment: "sensible / en riesgo",
@@ -358,7 +358,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sourceLabel: "REM-4417 · Seguimiento comercial",
     advisorId: "ricardo-salinas",
     propertyClave: "REM-4417",
-    clientName: "Altaria Patrimonial",
+    clientName: "Residencial Altaria Demo",
     createdAt: "2026-03-23",
     note: "Responden lento y piden frenar publicaciones hasta validar estrategia familiar.",
     sentiment: "sensible / en riesgo",
@@ -372,7 +372,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sourceLabel: "REM-5521 · Publicacion lista",
     advisorId: "alejandra-rios",
     propertyClave: "REM-5521",
-    clientName: "Monica Rivas y Emilio Vargas",
+    clientName: "Mariana Fuentes y Ricardo Salinas",
     createdAt: "2026-03-21",
     note: "Oportunidad con interes alto y respuesta rapida.",
     sentiment: "positivo",
@@ -386,7 +386,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     sourceLabel: "REM-6684 · Seguimiento post cierre",
     advisorId: "carlos-herrera",
     propertyClave: "REM-6684",
-    clientName: "Torre Central Advisory",
+    clientName: "Torre Central 402 Demo",
     createdAt: "2026-03-20",
     note: "Cliente satisfecho con el cierre demo, sin nuevas necesidades para este trimestre.",
     sentiment: "neutro",
@@ -399,7 +399,7 @@ export const remaxDemoSentimentInsights: RemaxSentimentInsight[] = [
     id: "insight-lead-verde",
     sourceLabel: "Lead comprador · Bosque Verde",
     advisorId: "luis-navarro",
-    clientName: "Mariana Fuentes",
+    clientName: "Andrea Lozano",
     createdAt: "2026-03-25",
     note: "Solicita visita esta semana, comparte presupuesto y responde rapido por WhatsApp.",
     sentiment: "positivo",
@@ -426,9 +426,9 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
   {
     id: "pipe-001",
     stage: "Nuevo lead",
-    itemLabel: "Mariana Fuentes · Bosque Verde",
+    itemLabel: "Andrea Lozano · Bosque Verde",
     advisorId: "luis-navarro",
-    clientName: "Mariana Fuentes",
+    clientName: "Andrea Lozano",
     status: "Busca casa en zona poniente y quiere visita esta semana",
     nextAction: "Llamar hoy 16:30 para validar presupuesto y tiempos",
     sentiment: "positivo",
@@ -442,7 +442,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     itemLabel: "REM-5521",
     advisorId: "alejandra-rios",
     propertyClave: "REM-5521",
-    clientName: "Monica Rivas y Emilio Vargas",
+    clientName: "Mariana Fuentes y Ricardo Salinas",
     status: "Propietarios alineados con lanzamiento comercial demo",
     nextAction: "Confirmar calendario de publicaciones en 48h",
     sentiment: "neutro",
@@ -455,7 +455,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     stage: "Evaluacion",
     itemLabel: "Lead corporativo · Arboledas Oficinas",
     advisorId: "carlos-herrera",
-    clientName: "Grupo Horizonte",
+    clientName: "Arboledas Oficinas Demo",
     status: "Requiere 900 m2 y 18 cajones",
     nextAction: "Cruzar inventario y enviar shortlist comercial",
     sentiment: "positivo",
@@ -469,7 +469,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     itemLabel: "REM-1012",
     advisorId: "mariana-fuentes",
     propertyClave: "REM-1012",
-    clientName: "Grupo Bosque Verde",
+    clientName: "Bosque Verde Demo",
     status: "Expediente y condiciones en captura",
     nextAction: "Cerrar propietarios y ficha tecnica hoy",
     sentiment: "positivo",
@@ -483,7 +483,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     itemLabel: "REM-4417",
     advisorId: "ricardo-salinas",
     propertyClave: "REM-4417",
-    clientName: "Altaria Patrimonial",
+    clientName: "Residencial Altaria Demo",
     status: "Publicacion activa con respuesta irregular",
     nextAction: "Revisar material visual y relanzar anuncio",
     sentiment: "sensible / en riesgo",
@@ -496,7 +496,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     stage: "Visitas",
     itemLabel: "Lead comprador · Vista Encino",
     advisorId: "julieta-mora",
-    clientName: "Paola Serrano",
+    clientName: "Sofia Cardenas",
     status: "Dos visitas confirmadas para esta semana",
     nextAction: "Coordinar acceso, llaves y feedback comercial",
     sentiment: "positivo",
@@ -510,7 +510,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     itemLabel: "REM-6684",
     advisorId: "carlos-herrera",
     propertyClave: "REM-6684",
-    clientName: "Torre Central Advisory",
+    clientName: "Torre Central 402 Demo",
     status: "Condiciones economicas en revision final",
     nextAction: "Alinear mantenimiento y vigencia antes del viernes",
     sentiment: "sensible / en riesgo",
@@ -523,7 +523,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     stage: "Cierre",
     itemLabel: "Jardines Premier",
     advisorId: "mariana-fuentes",
-    clientName: "Consejo Jardines",
+    clientName: "Jardines Premier Demo",
     status: "Firma operativa y comisiones por validar",
     nextAction: "Confirmar minuta y liberar comunicado interno",
     sentiment: "neutro",
@@ -537,7 +537,7 @@ export const remaxDemoPipelineItems: RemaxPipelineItem[] = [
     itemLabel: "REM-3308",
     advisorId: "sofia-cardenas",
     propertyClave: "REM-3308",
-    clientName: "Clara Montes",
+    clientName: "Alejandra Rios",
     status: "Salida de cartera con observacion de servicio",
     nextAction: "Cerrar seguimiento y documentar aprendizajes",
     sentiment: "sensible / en riesgo",
@@ -585,7 +585,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "Control digital",
       telCitas: "33 0000 1012",
-      contactoCitas: "Karla Ortega",
+      contactoCitas: "Agenda Demo",
       origen: "Referido",
       origenDetalle: "Red de inversionistas demo"
     },
@@ -597,8 +597,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     referidos: {
       idRef: "REM-REF-12",
-      nombre: "Emilio Vargas",
-      empresa: "Bosque Verde Capital"
+      nombre: "Ricardo Salinas",
+      empresa: "Bosque Verde Demo"
     },
     ids: {
       ampi: "REM1012",
@@ -679,7 +679,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       costoInvestigacion: 2800,
       investigador: "Control Demo",
       herramientaJuridica: "Convenio interno",
-      abogado: "Lic. Nora Beltran",
+      abogado: "Juridico Demo",
       notario: "N/A",
       empresa: "REMAX Demo",
       aplicaMantenimiento: true,
@@ -690,9 +690,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
     propietarios: [
       {
         id: "owner-rem-1012-1",
-        nombre: "Clara Montes",
+        nombre: "Alejandra Rios",
         telefono: "33 0000 1112",
-        correo: "clara.montes@remax-demo.test",
+        correo: "owner.demo.a@remax-demo.test",
         principal: true
       }
     ],
@@ -808,7 +808,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "Activas",
       telCitas: "33 0000 2044",
-      contactoCitas: "Gabriela Duarte",
+      contactoCitas: "Recepcion Demo",
       origen: "Portal",
       origenDetalle: "Campana demo"
     },
@@ -820,8 +820,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     referidos: {
       idRef: "REM-REF-20",
-      nombre: "Paula Serrano",
-      empresa: "Premier Retail Demo"
+      nombre: "Julieta Mora",
+      empresa: "Jardines Premier Demo"
     },
     ids: {
       ampi: "REM2044",
@@ -901,9 +901,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
       costoInvestigacion: 0,
       investigador: "",
       herramientaJuridica: "Contrato privado",
-      abogado: "Lic. Andrea Campos",
+      abogado: "Juridico Demo",
       notario: "",
-      empresa: "Premier Retail Demo",
+      empresa: "Jardines Premier Demo",
       aplicaMantenimiento: false,
       montoMantenimiento: 0,
       periodoMantenimiento: "",
@@ -912,9 +912,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
     propietarios: [
       {
         id: "owner-rem-2044-1",
-        nombre: "Paula Serrano",
+        nombre: "Julieta Mora",
         telefono: "33 0000 2244",
-        correo: "paula.serrano@remax-demo.test",
+        correo: "owner.demo.b@remax-demo.test",
         principal: true
       }
     ],
@@ -1006,7 +1006,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       fechaBaja: "2026-03-18",
       tipoCierre: "Cerrada",
       condicionCierre: "Contrato demo firmado a 24 meses",
-      personaRegistra: "Erika Navarro",
+      personaRegistra: "Comisiones Demo",
       comentarios: "Listo para minuta interna y liberacion de comisiones demo.",
       comunicadoId: "com-baja-rem-2044"
     }
@@ -1048,7 +1048,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "",
       telCitas: "33 0000 3308",
-      contactoCitas: "Clara Montes",
+      contactoCitas: "Alejandra Rios",
       origen: "Personal",
       origenDetalle: ""
     },
@@ -1122,9 +1122,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
     propietarios: [
       {
         id: "owner-rem-3308-1",
-        nombre: "Clara Montes",
+        nombre: "Alejandra Rios",
         telefono: "33 0000 3301",
-        correo: "clara.montes@remax-demo.test",
+        correo: "owner.demo.a@remax-demo.test",
         principal: true
       }
     ],
@@ -1194,7 +1194,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
         posicion: "",
         motivoCambio: "Alta inicial",
         motivoMinuta: "Alta",
-        usuario: "Valeria Mendoza"
+        usuario: "Asesor Demo Norte"
       },
       {
         id: "vh-rem-3308-2",
@@ -1213,7 +1213,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       fechaCancelacion: "2026-04-08",
       motivo: "El propietario decide pausar la venta para replantear estrategia familiar.",
       aplicaComision: true,
-      personaRegistra: "Patricia Solis",
+      personaRegistra: "Operaciones Demo",
       bajaPor: "Cancelacion",
       comentarios: "Caso demo documentado con comision aplicable por gestion comercial.",
       comunicadoId: "com-cancel-rem-3308"
@@ -1256,7 +1256,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "",
       telCitas: "81 0000 4417",
-      contactoCitas: "Valentina Cruz",
+      contactoCitas: "Andrea Lozano",
       origen: "Referido",
       origenDetalle: "Campana residencial demo"
     },
@@ -1268,8 +1268,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     referidos: {
       idRef: "REM-REF-44",
-      nombre: "Roberto Mena",
-      empresa: "Altaria Patrimonial"
+      nombre: "Carlos Herrera",
+      empresa: "Residencial Altaria Demo"
     },
     ids: {
       ampi: "REM4417",
@@ -1333,9 +1333,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
     propietarios: [
       {
         id: "owner-rem-4417-1",
-        nombre: "Valentina Cruz",
+        nombre: "Andrea Lozano",
         telefono: "81 0000 4411",
-        correo: "valentina.cruz@remax-demo.test",
+        correo: "owner.demo.c@remax-demo.test",
         principal: true
       }
     ],
@@ -1419,7 +1419,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       fechaCancelacion: "2026-03-24",
       motivo: "Cliente retira la propiedad para replantear tiempos de salida.",
       aplicaComision: false,
-      personaRegistra: "Patricia Solis",
+      personaRegistra: "Operaciones Demo",
       bajaPor: "Cancelacion",
       comentarios: "Comunicado demo ya enviado al equipo completo.",
       comunicadoId: "com-cancel-rem-4417"
@@ -1462,7 +1462,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "En recepcion",
       telCitas: "81 0000 5521",
-      contactoCitas: "Gabriela Duarte",
+      contactoCitas: "Recepcion Demo",
       origen: "Referido",
       origenDetalle: "Cliente demo"
     },
@@ -1474,7 +1474,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     referidos: {
       idRef: "REM-REF-55",
-      nombre: "Marco Villa",
+      nombre: "Luis Navarro",
       empresa: "REMAX Demo"
     },
     ids: {
@@ -1539,16 +1539,16 @@ export const remaxDemoProperties: RemaxProperty[] = [
     propietarios: [
       {
         id: "owner-rem-5521-1",
-        nombre: "Monica Rivas",
+        nombre: "Mariana Fuentes",
         telefono: "81 0000 5522",
-        correo: "monica.rivas@remax-demo.test",
+        correo: "owner.demo.d@remax-demo.test",
         principal: true
       },
       {
         id: "owner-rem-5521-2",
-        nombre: "Emilio Vargas",
+        nombre: "Ricardo Salinas",
         telefono: "81 0000 5523",
-        correo: "emilio.vargas@remax-demo.test",
+        correo: "owner.demo.e@remax-demo.test",
         principal: false
       }
     ],
@@ -1655,7 +1655,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       disponibilidadVisitas: "Disponible",
       estatusLlaves: "Recepcion",
       telCitas: "81 0000 6684",
-      contactoCitas: "Gabriela Duarte",
+      contactoCitas: "Recepcion Demo",
       origen: "Personal",
       origenDetalle: ""
     },
@@ -1745,9 +1745,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
       costoInvestigacion: 0,
       investigador: "",
       herramientaJuridica: "Convenio",
-      abogado: "Lic. Carlos Meza",
+      abogado: "Juridico Demo",
       notario: "",
-      empresa: "Torre Central Advisory",
+      empresa: "Torre Central 402 Demo",
       aplicaMantenimiento: true,
       montoMantenimiento: 9500,
       periodoMantenimiento: "Mensual",
@@ -1756,9 +1756,9 @@ export const remaxDemoProperties: RemaxProperty[] = [
     propietarios: [
       {
         id: "owner-rem-6684-1",
-        nombre: "Torre Central Advisory",
+        nombre: "Torre Central 402 Demo",
         telefono: "81 0000 6680",
-        correo: "contacto@torrecentral-demo.test",
+        correo: "owner.demo.f@remax-demo.test",
         principal: true
       }
     ],
@@ -1831,7 +1831,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       fechaBaja: "2026-02-28",
       tipoCierre: "Cerrada",
       condicionCierre: "Contrato ejecutivo demo con mantenimiento incluido",
-      personaRegistra: "Patricia Solis",
+      personaRegistra: "Operaciones Demo",
       comentarios: "Ejemplo claro del nuevo modelo multirol aplicado al cierre.",
       comunicadoId: "com-baja-rem-6684"
     }

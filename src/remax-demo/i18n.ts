@@ -458,7 +458,7 @@ Object.assign(copy, {
   "Renta objetivo MXN 185k": { es: "Renta objetivo MXN 185k", en: "Target lease MXN 185k" },
   "Salida MXN 8.35M": { es: "Salida MXN 8.35M", en: "Listing price MXN 8.35M" },
   "Meta de cierre MXN 8.1M": { es: "Meta de cierre MXN 8.1M", en: "Closing target MXN 8.1M" },
-  "Mariana Fuentes · Bosque Verde": { es: "Mariana Fuentes · Bosque Verde", en: "Mariana Fuentes · Bosque Verde" },
+  "Andrea Lozano · Bosque Verde": { es: "Andrea Lozano · Bosque Verde", en: "Andrea Lozano · Bosque Verde" },
   "Lead comprador · Vista Encino": { es: "Lead comprador · Vista Encino", en: "Buyer lead · Vista Encino" },
   "Lead corporativo · Arboledas Oficinas": { es: "Lead corporativo · Arboledas Oficinas", en: "Corporate lead · Arboledas Offices" },
   "REM-1012": { es: "REM-1012", en: "REM-1012" },
@@ -599,14 +599,14 @@ Object.assign(copy, {
     es: "Se informa la salida de REM-4417 del inventario demo y el cierre administrativo del expediente.",
     en: "The removal of REM-4417 from the demo inventory and the administrative close-out are reported."
   },
-  "Erika Navarro | Control de comisiones": {
-    es: "Erika Navarro | Control de comisiones",
-    en: "Erika Navarro | Commission control"
+  "Comisiones Demo | Control de comisiones": {
+    es: "Comisiones Demo | Control de comisiones",
+    en: "Comisiones Demo | Commission control"
   },
-  "Gabriela Duarte | Recepcion": { es: "Gabriela Duarte | Recepcion", en: "Gabriela Duarte | Front desk" },
-  "Patricia Solis | Coordinacion operativa": {
-    es: "Patricia Solis | Coordinacion operativa",
-    en: "Patricia Solis | Operations coordination"
+  "Recepcion Demo | Recepcion": { es: "Recepcion Demo | Recepcion", en: "Recepcion Demo | Front desk" },
+  "Operaciones Demo | Coordinacion operativa": {
+    es: "Operaciones Demo | Coordinacion operativa",
+    en: "Operaciones Demo | Operations coordination"
   },
   Disponible: { es: "Disponible", en: "Available" },
   Personal: { es: "Personal", en: "Direct" },
