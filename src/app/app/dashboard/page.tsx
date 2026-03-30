@@ -5,39 +5,28 @@ import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
-import {
-  activities,
-  deals,
-  invoiceValidations,
-  invoices,
-  jurisdictionProfiles,
-  pipelineStages,
-  tasks
-} from "@/lib/erp-data";
-import { formatCurrency } from "@/lib/formatters";
+import { formatDate } from "@/lib/formatters";
+import { getDashboardData } from "@/lib/remax-app-data";
 import { getDemoI18n } from "@/lib/server-i18n";
 
 export default async function DashboardPage() {
-  const { languageTag, txt } = await getDemoI18n();
-  const pipelineValue = deals.reduce((total, deal) => total + deal.amount, 0);
-  const readyInvoices = invoices.filter((invoice) => invoice.providerStatus === "ready").length;
-  const blockedTasks = tasks.filter((task) => task.status === "Blocked").length;
-  const invoicesWithIssues = invoiceValidations.filter((item) => item.issues.length > 0).length;
+  const { txt } = await getDemoI18n();
+  const { summary, properties, deals, staff, shifts, attendance } = await getDashboardData();
 
   return (
     <div className="page-stack">
       <PageHeader
         title={txt("Dashboard")}
         description={txt(
-          "Vue d'ensemble de l'activite ERP, du pipe commercial et de la conformite facture electronique."
+          "Vista ejecutiva de propiedades, operaciones, asesores y asistencia cargada desde la base real del cliente."
         )}
         actions={
           <div className="button-row">
-            <Link href="/app/invoices" className="button">
-              {txt("Ouvrir Invoices")}
+            <Link href="/app/clients" className="button">
+              {txt("Ver clientes")}
             </Link>
-            <Link href="/app/settings/compliance" className="button button-secondary">
-              {txt("Ouvrir Compliance")}
+            <Link href="/app/contacts" className="button button-secondary">
+              {txt("Ver contactos")}
             </Link>
           </div>
         }
@@ -45,34 +34,97 @@ export default async function DashboardPage() {
 
       <div className="stats-grid">
         <StatCard
-          label={txt("Pipeline ouvert")}
-          value={formatCurrency(pipelineValue, "USD", languageTag)}
-          detail={txt("3 deals actifs")}
+          label={txt("Propiedades")}
+          value={String(summary.propertyCount)}
+          detail={txt("inventario migrado")}
         />
         <StatCard
-          label={txt("Factures prêtes")}
-          value={String(readyInvoices)}
-          detail={txt("flux FR/MX prêts a emettre")}
+          label={txt("Propiedades activas")}
+          value={String(summary.activePropertyCount)}
+          detail={txt("cartera comercial vigente")}
         />
         <StatCard
-          label={txt("Tasks bloquees")}
-          value={String(blockedTasks)}
-          detail={txt("actions compliance a lever")}
+          label={txt("Staff activo")}
+          value={String(summary.activeStaffCount)}
+          detail={txt("asesores y administracion")}
         />
         <StatCard
-          label={txt("Factures a corriger")}
-          value={String(invoicesWithIssues)}
-          detail={txt("validations avec erreurs")}
+          label={txt("Guardias")}
+          value={String(summary.guardShiftCount)}
+          detail={txt("turnos historicos importados")}
         />
       </div>
 
       <div className="two-columns">
         <SectionCard
-          title={txt("Pipeline actif")}
-          description={txt("Opportunites en cours et prochaine action commerciale.")}
+          title={txt("Propiedades destacadas")}
+          description={txt("Muestra inicial del inventario real con estado y ubicacion.")}
           action={
-            <Link href="/app/pipeline" className="button button-ghost">
-              {txt("Pipeline")}
+            <Link href="/app/clients" className="button button-ghost">
+              {txt("Clientes")}
+            </Link>
+          }
+        >
+          <DataTable
+            rows={properties}
+            getRowId={(row) => row.id}
+            columns={[
+              {
+                key: "property",
+                label: txt("Propiedad"),
+                render: (row) => (
+                  <div>
+                    <strong>{row.propertyKey}</strong>
+                    <div className="muted">{row.title}</div>
+                  </div>
+                )
+              },
+              {
+                key: "location",
+                label: txt("Ubicacion"),
+                render: (row) => row.location
+              },
+              {
+                key: "status",
+                label: txt("Estado"),
+                render: (row) => <StatusBadge value={txt(row.propertyStatus)} />
+              }
+            ]}
+          />
+        </SectionCard>
+
+        <SectionCard
+          title={txt("Resumen operativo")}
+          description={txt("Lectura rapida del nucleo importado desde Access.")}
+        >
+          <ul className="list">
+            <li className="list-item">
+              <strong>{txt("Operaciones completadas")}</strong>
+              <span className="muted">{summary.completedDealCount} {txt("cierres y cancelaciones")}</span>
+            </li>
+            <li className="list-item">
+              <strong>{txt("Propiedades cerradas")}</strong>
+              <span className="muted">{summary.closedPropertyCount} {txt("historico consolidado")}</span>
+            </li>
+            <li className="list-item">
+              <strong>{txt("Eventos de asistencia")}</strong>
+              <span className="muted">{summary.attendanceEventCount} {txt("check-in y check-out importados")}</span>
+            </li>
+            <li className="list-item">
+              <strong>{txt("Cobertura de guardias")}</strong>
+              <span className="muted">{summary.guardShiftCount} {txt("registros listos para explotacion")}</span>
+            </li>
+          </ul>
+        </SectionCard>
+      </div>
+
+      <div className="two-columns">
+        <SectionCard
+          title={txt("Operaciones recientes")}
+          description={txt("Ultimos cierres y cancelaciones del historico migrado.")}
+          action={
+            <Link href="/app/contacts" className="button button-ghost">
+              {txt("Contactos")}
             </Link>
           }
         >
@@ -82,41 +134,43 @@ export default async function DashboardPage() {
             columns={[
               {
                 key: "deal",
-                label: txt("Deal"),
+                label: txt("Operacion"),
                 render: (row) => (
                   <div>
-                    <strong>{row.name}</strong>
-                    <div className="muted">{row.client}</div>
+                    <strong>{row.title}</strong>
+                    <div className="muted">{row.propertyKey} · {row.propertyTitle}</div>
                   </div>
                 )
               },
               {
-                key: "stage",
-                label: txt("Stage"),
-                render: (row) => <StatusBadge value={txt(row.stage)} />
+                key: "kind",
+                label: txt("Tipo"),
+                render: (row) => <StatusBadge value={txt(row.dealKind)} />
               },
-              { key: "owner", label: txt("Owner"), render: (row) => row.owner },
-              { key: "next", label: txt("Next step"), render: (row) => txt(row.nextStep) },
               {
-                key: "amount",
-                label: txt("Montant"),
-                align: "right",
-                render: (row) => formatCurrency(row.amount, row.currency, languageTag)
+                key: "status",
+                label: txt("Estado"),
+                render: (row) => <StatusBadge value={txt(row.status)} />
+              },
+              {
+                key: "date",
+                label: txt("Fecha"),
+                render: (row) => row.closedOn ? formatDate(row.closedOn, "es-MX") : "Sin fecha"
               }
             ]}
           />
         </SectionCard>
 
         <SectionCard
-          title={txt("Pipeline par stage")}
-          description={txt("Concentration de valeur dans les etapes de vente.")}
+          title={txt("Equipo operativo")}
+          description={txt("Staff importado con foco en perfiles activos y elegibilidad de guardia.")}
         >
           <ul className="list">
-            {pipelineStages.map((stage) => (
-              <li key={stage.id} className="list-item">
-                <strong>{txt(stage.name)}</strong>
+            {staff.map((member) => (
+              <li key={member.id} className="timeline-item">
+                <strong>{member.displayName}</strong>
                 <span className="muted">
-                  {stage.deals} {txt("deals")} · {formatCurrency(stage.amount, "USD", languageTag)}
+                  {txt(member.staffKind)} · {txt(member.employmentStatus)} · {member.guardEligible ? "Guardia" : "Sin guardia"}
                 </span>
               </li>
             ))}
@@ -126,106 +180,36 @@ export default async function DashboardPage() {
 
       <div className="two-columns">
         <SectionCard
-          title={txt("Flux facture electronique")}
-          description={txt("Suivi des statuts d'emission, de validation et de transmission.")}
-          action={
-            <Link href="/app/invoices/events" className="button button-ghost">
-              {txt("Logs")}
-            </Link>
-          }
+          title={txt("Guardias recientes")}
+          description={txt("Ultimos turnos importados con asesor asignado.")}
         >
           <DataTable
-            rows={invoices}
+            rows={shifts}
             getRowId={(row) => row.id}
             columns={[
-              {
-                key: "invoice",
-                label: txt("Invoice"),
-                render: (row) => (
-                  <div>
-                    <Link href={`/app/invoices/${row.id}`}>
-                      <strong>{row.number}</strong>
-                    </Link>
-                    <div className="muted">
-                      {row.client} · {row.country}
-                    </div>
-                  </div>
-                )
-              },
-              {
-                key: "business",
-                label: txt("Metier"),
-                render: (row) => <StatusBadge value={txt(row.businessStatus)} />
-              },
-              {
-                key: "electronic",
-                label: txt("E-invoicing"),
-                render: (row) => <StatusBadge value={txt(row.electronicStatus)} />
-              },
-              {
-                key: "provider",
-                label: txt("Provider"),
-                render: (row) => <StatusBadge value={txt(row.providerStatus)} />
-              }
+              { key: "date", label: txt("Fecha"), render: (row) => formatDate(row.shiftDate, "es-MX") },
+              { key: "label", label: txt("Turno"), render: (row) => row.shiftLabel },
+              { key: "advisor", label: txt("Asesor"), render: (row) => row.advisorName },
+              { key: "status", label: txt("Estado"), render: (row) => <StatusBadge value={txt(row.shiftStatus)} /> }
             ]}
           />
         </SectionCard>
 
         <SectionCard
-          title={txt("Timeline operations")}
-          description={txt("Dernieres actions operationnelles et admin.")}
+          title={txt("Asistencia reciente")}
+          description={txt("Ultimos eventos de check-in y check-out del historico cargado.")}
         >
-          <ul className="list">
-            {activities.map((activity) => (
-              <li key={activity.id} className="timeline-item">
-                <strong>{txt(activity.event)}</strong>
-                <span className="muted">
-                  {activity.entity} · {activity.actor} · {activity.occurredAt}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <DataTable
+            rows={attendance}
+            getRowId={(row) => row.id}
+            columns={[
+              { key: "advisor", label: txt("Asesor"), render: (row) => row.advisorName },
+              { key: "event", label: txt("Evento"), render: (row) => <StatusBadge value={txt(row.eventType)} /> },
+              { key: "date", label: txt("Fecha"), render: (row) => formatDate(row.eventAt, "es-MX") }
+            ]}
+          />
         </SectionCard>
       </div>
-
-      <SectionCard
-        title={txt("Conformite par pays")}
-        description={txt("Obligations actives et formats pris en charge dans l'ERP.")}
-      >
-        <DataTable
-          rows={jurisdictionProfiles}
-          getRowId={(row) => row.country}
-          columns={[
-            {
-              key: "country",
-              label: txt("Pays"),
-              render: (row) => (
-                <div>
-                  <strong>{row.countryName}</strong>
-                  <div className="muted">{row.activeVersion}</div>
-                </div>
-              )
-            },
-            { key: "model", label: txt("Mode"), render: (row) => txt(row.transmissionModel) },
-            {
-              key: "formats",
-              label: txt("Formats"),
-              render: (row) => <div className="inline-stack">{row.supportedFormats.map((format) => <StatusBadge key={format} value={format} />)}</div>
-            },
-            {
-              key: "obligations",
-              label: txt("Statuts"),
-              render: (row) => (
-                <div className="inline-stack">
-                  {row.obligations.map((status) => (
-                    <StatusBadge key={status.flow} value={`${txt(status.flow)}: ${txt(status.state)}`} />
-                  ))}
-                </div>
-              )
-            }
-          ]}
-        />
-      </SectionCard>
     </div>
   );
 }
