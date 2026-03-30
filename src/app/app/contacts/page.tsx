@@ -1,45 +1,69 @@
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
+import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
-import { contacts } from "@/lib/erp-data";
 import { getDemoI18n } from "@/lib/server-i18n";
+import { getContactDirectoryData } from "@/lib/remax-app-data";
 
 export default async function ContactsPage() {
   const { txt } = await getDemoI18n();
+  const { totalContacts, ownerContacts, buyerContacts, contactsWithEmail, records } = await getContactDirectoryData();
 
   return (
     <div className="page-stack">
       <PageHeader
         title={txt("Contacts")}
         description={txt(
-          "Contacts client rattaches aux comptes, avec suivi des interactions et alertes fiscales."
+          "Directorio real de propietarios y compradores vinculado a propiedades importadas."
         )}
       />
 
+      <div className="stats-grid">
+        <StatCard label={txt("Contactos importados")} value={String(totalContacts)} detail={txt("registros operativos")} />
+        <StatCard label={txt("Propietarios")} value={String(ownerContacts)} detail={txt("lado captacion")} />
+        <StatCard label={txt("Compradores")} value={String(buyerContacts)} detail={txt("lado cierre")} />
+        <StatCard label={txt("Con email")} value={String(contactsWithEmail)} detail={txt("listos para outreach")} />
+      </div>
+
       <SectionCard
-        title={txt("Carnet de contacts")}
-        description={txt("Vue transversale sales, finance et operations.")}
+        title={txt("Directorio de contactos")}
+        description={txt("Vista detallada por propiedad para operacion, recepcion y seguimiento comercial.")}
       >
         <DataTable
-          rows={contacts}
+          rows={records}
           getRowId={(row) => row.id}
+          emptyMessage={txt("No hay contactos importados.")}
           columns={[
             {
               key: "name",
-              label: txt("Contact"),
+              label: txt("Contacto"),
               render: (row) => (
                 <div>
-                  <strong>{row.name}</strong>
-                  <div className="muted">{txt(row.title)}</div>
+                  <strong>{row.fullName}</strong>
+                  <div className="muted">{row.isPrimary ? "Principal" : "Secundario"}</div>
                 </div>
               )
             },
-            { key: "client", label: txt("Client"), render: (row) => row.client },
-            { key: "email", label: "Email", render: (row) => row.email },
-            { key: "phone", label: txt("Telephone"), render: (row) => row.phone },
-            { key: "lastTouch", label: txt("Dernier contact"), render: (row) => row.lastTouch },
-            { key: "status", label: txt("Statut"), render: (row) => <StatusBadge value={txt(row.status)} /> }
+            {
+              key: "kind",
+              label: txt("Tipo"),
+              render: (row) => <StatusBadge value={txt(row.contactKind === "owner" ? "Propietario" : "Comprador")} />
+            },
+            {
+              key: "property",
+              label: txt("Propiedad"),
+              render: (row) => (
+                <div>
+                  <strong>{row.propertyKey}</strong>
+                  <div className="muted">{row.propertyTitle}</div>
+                </div>
+              )
+            },
+            { key: "location", label: txt("Ubicacion"), render: (row) => row.location },
+            { key: "email", label: "Email", render: (row) => row.email ?? "Sin email" },
+            { key: "phone", label: txt("Telefono"), render: (row) => row.phone ?? "Sin telefono" },
+            { key: "status", label: txt("Estado"), render: (row) => <StatusBadge value={txt(row.propertyStatus)} /> }
           ]}
         />
       </SectionCard>

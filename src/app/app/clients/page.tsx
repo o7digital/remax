@@ -3,73 +3,89 @@ import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
-import { clients } from "@/lib/erp-data";
-import { formatCurrency } from "@/lib/formatters";
 import { getDemoI18n } from "@/lib/server-i18n";
+import { getClientOverviewData } from "@/lib/remax-app-data";
 
 export default async function ClientsPage() {
-  const { languageTag, txt } = await getDemoI18n();
-  const franceClients = clients.filter((client) => client.country === "FR").length;
-  const mexicoClients = clients.filter((client) => client.country === "MX").length;
-  const openInvoices = clients.reduce((total, client) => total + client.openInvoices, 0);
+  const { txt } = await getDemoI18n();
+  const { records, summary } = await getClientOverviewData();
 
   return (
     <div className="page-stack">
       <PageHeader
         title={txt("Clients")}
         description={txt(
-          "Base comptes clients avec ownership, statut financier et readiness de facturation electronique."
+          "Propietarios y compradores reales consolidados desde la base Access migrada a Supabase."
         )}
       />
 
       <div className="stats-grid">
-        <StatCard label={txt("Clients actifs")} value={String(clients.length)} detail={txt("portefeuille multi-pays")} />
-        <StatCard label={txt("Clients FR")} value={String(franceClients)} detail={txt("sujets PDP / TVA")} />
-        <StatCard label={txt("Clients MX")} value={String(mexicoClients)} detail={txt("sujets CFDI 4.0")} />
-        <StatCard label={txt("Factures ouvertes")} value={String(openInvoices)} detail={txt("sur comptes clients")} />
+        <StatCard label={txt("Clientes unicos")} value={String(summary.totalClients)} detail={txt("base consolidada")} />
+        <StatCard label={txt("Propietarios")} value={String(summary.ownerClients)} detail={txt("contactos lado captacion")} />
+        <StatCard label={txt("Compradores")} value={String(summary.buyerClients)} detail={txt("contactos lado cierre")} />
+        <StatCard label={txt("Con email")} value={String(summary.clientsWithEmail)} detail={txt("listos para seguimiento")} />
       </div>
 
       <SectionCard
-        title={txt("Liste clients")}
-        description={txt("Vue exploitable pour sales, finance et operations.")}
+        title={txt("Base de clientes")}
+        description={txt("Vista operativa con cartera, ubicacion y datos de contacto reales.")}
       >
         <DataTable
-          rows={clients}
+          rows={records}
           getRowId={(row) => row.id}
+          emptyMessage={txt("No hay clientes importados.")}
           columns={[
             {
               key: "name",
-              label: txt("Client"),
+              label: txt("Cliente"),
               render: (row) => (
                 <div>
-                  <strong>{row.name}</strong>
-                  <div className="muted">{txt(row.sector)}</div>
+                  <strong>{row.fullName}</strong>
+                  <div className="muted">{row.primaryPropertyTitle}</div>
                 </div>
               )
             },
-            { key: "country", label: txt("Pays"), render: (row) => <StatusBadge value={row.country} /> },
-            { key: "owner", label: txt("Owner"), render: (row) => row.owner },
             {
-              key: "arr",
-              label: txt("ARR"),
+              key: "kind",
+              label: txt("Tipo"),
+              render: (row) => <StatusBadge value={txt(row.contactKind === "owner" ? "Propietario" : "Comprador")} />
+            },
+            {
+              key: "properties",
+              label: txt("Propiedades"),
               align: "right",
-              render: (row) => formatCurrency(row.arr, row.currency, languageTag)
+              render: (row) => row.propertyCount
             },
             {
-              key: "openInvoices",
-              label: txt("Invoices ouvertes"),
-              align: "right",
-              render: (row) => row.openInvoices
+              key: "location",
+              label: txt("Ubicacion"),
+              render: (row) => row.primaryLocation
             },
             {
-              key: "compliance",
-              label: txt("Compliance"),
-              render: (row) => <StatusBadge value={txt(row.compliance)} />
+              key: "contact",
+              label: txt("Contacto"),
+              render: (row) => (
+                <div>
+                  <div>{row.email ?? "Sin email"}</div>
+                  <div className="muted">{row.phone ?? "Sin telefono"}</div>
+                </div>
+              )
             },
             {
-              key: "tags",
-              label: txt("Tags"),
-              render: (row) => <div className="inline-stack">{row.tags.map((tag) => <StatusBadge key={tag} value={txt(tag)} />)}</div>
+              key: "status",
+              label: txt("Estado cartera"),
+              render: (row) => <StatusBadge value={txt(row.portfolioStatus)} />
+            },
+            {
+              key: "keys",
+              label: txt("Claves"),
+              render: (row) => (
+                <div className="inline-stack">
+                  {row.propertyKeys.map((propertyKey) => (
+                    <StatusBadge key={propertyKey} value={propertyKey} />
+                  ))}
+                </div>
+              )
             }
           ]}
         />
