@@ -12,8 +12,14 @@ function getOptionalEnv(name: "SUPABASE_SERVICE_ROLE_KEY") {
   return process.env[name];
 }
 
-const supabaseUrl = getRequiredEnv("NEXT_PUBLIC_SUPABASE_URL");
-const supabasePublishableKey = getRequiredEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY");
-const supabaseServiceRoleKey = getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY");
+export function getSupabaseUrl() {
+  return getRequiredEnv("NEXT_PUBLIC_SUPABASE_URL");
+}
 
-export { supabasePublishableKey, supabaseServiceRoleKey, supabaseUrl };
+export function getSupabasePublishableKey() {
+  return getRequiredEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY");
+}
+
+export function getSupabaseServiceRoleKey() {
+  return getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY");
+}

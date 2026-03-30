@@ -1,12 +1,12 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-import { supabasePublishableKey, supabaseUrl } from "@/utils/supabase/config";
+import { getSupabasePublishableKey, getSupabaseUrl } from "@/utils/supabase/config";
 
 type CookieStore = Awaited<ReturnType<typeof cookies>>;
 
 function createServerSupabaseClient(cookieStore: CookieStore) {
-  return createServerClient(supabaseUrl, supabasePublishableKey, {
+  return createServerClient(getSupabaseUrl(), getSupabasePublishableKey(), {
     cookies: {
       getAll() {
         return cookieStore.getAll();
