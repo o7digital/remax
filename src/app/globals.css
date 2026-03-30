@@ -1116,6 +1116,11 @@ textarea {
     linear-gradient(145deg, rgba(14, 20, 37, 0.96), rgba(8, 13, 28, 0.94));
 }
 
+.pipeline-hero > :first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
 .pipeline-hero h1 {
   margin: 8px 0 10px;
   font-size: clamp(32px, 4vw, 48px);
@@ -1143,7 +1148,9 @@ textarea {
   display: grid;
   justify-items: end;
   gap: 14px;
-  min-width: min(100%, 520px);
+  flex: 0 1 560px;
+  min-width: 320px;
+  max-width: 100%;
 }
 
 .pipeline-action-row,
@@ -1273,11 +1280,13 @@ textarea {
 
 .pipeline-stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
 }
 
 .pipeline-stat-card {
+  min-width: 0;
+  overflow: hidden;
   padding: 18px 18px 20px;
   border-radius: 22px;
   background: linear-gradient(145deg, rgba(16, 23, 42, 0.9), rgba(12, 18, 34, 0.84));
@@ -2204,6 +2213,9 @@ textarea {
 
 .app-remax-shell .pipeline-stat-card strong {
   text-shadow: none;
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .app-remax-shell .pipeline-stat-number {
@@ -2212,12 +2224,12 @@ textarea {
 }
 
 .app-remax-shell .pipeline-stat-amount {
-  font-size: clamp(26px, 2.4vw, 38px);
-  line-height: 1.08;
+  font-size: clamp(24px, 2.1vw, 34px);
+  line-height: 1.04;
 }
 
 .app-remax-shell .pipeline-stat-title {
-  font-size: clamp(20px, 2vw, 30px);
+  font-size: clamp(18px, 1.7vw, 24px);
   line-height: 1.12;
 }
 
