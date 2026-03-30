@@ -1,5 +1,6 @@
 import "server-only";
 
+import type { PipelineDeal, PipelineWorkflow } from "@/lib/pipeline-types";
 import { createAdminClient } from "@/utils/supabase/admin";
 
 const SUPABASE_BATCH_SIZE = 1000;
@@ -234,6 +235,13 @@ export interface ReportingAreaRecord {
   propertyCount: number;
   activePropertyCount: number;
 }
+
+type PropertyContactLiteRow = {
+  property_id: string;
+  contact_kind: string;
+  full_name: string;
+  is_primary: boolean;
+};
 
 const commissionRateByDealKind: Record<string, number> = {
   closing: 0.06,
@@ -547,6 +555,34 @@ function getLatestPropertyValueMap(values: PropertyValueRow[]) {
 
 function roundAmount(value: number) {
   return Math.round(value * 100) / 100;
+}
+
+function getRealPipelineStage(status: string, dealKind: string, operationValue: number | null) {
+  if (status === "draft") {
+    if (!operationValue) {
+      return "lead";
+    }
+
+    if (operationValue >= 5_000_000) {
+      return "negociacion";
+    }
+
+    if (operationValue >= 1_000_000) {
+      return "validado";
+    }
+
+    return "lead";
+  }
+
+  if (dealKind === "cancellation") {
+    return "perdido";
+  }
+
+  if (dealKind === "rental") {
+    return "renta";
+  }
+
+  return "ganado";
 }
 
 async function buildCommissionDataset(): Promise<{
@@ -920,5 +956,119 @@ export async function getReportingData(): Promise<{
       .sort((left, right) => right.propertyCount - left.propertyCount)
       .slice(0, 10),
     topAdvisors: advisorRecords.slice(0, 10)
+  };
+}
+
+export async function getPipelineData(): Promise<{
+  workflows: PipelineWorkflow[];
+  deals: PipelineDeal[];
+}> {
+  const [properties, propertyValues, deals, participants, staff, contacts] = await Promise.all([
+    fetchAllRows<PropertyRow>(
+      "properties",
+      "id, property_key, title, municipality, state, property_status, list_price, currency_code"
+    ),
+    fetchAllRows<PropertyValueRow>(
+      "property_values",
+      "property_id, price_amount, currency_code, valued_on"
+    ),
+    fetchAllRows<DealRow>(
+      "deals",
+      "id, title, deal_kind, status, property_id, closed_on, created_at"
+    ),
+    fetchAllRows<DealParticipantRow>(
+      "deal_participants",
+      "id, deal_id, staff_member_id, participant_name, participant_side, participant_role, advisor_class, participation_percent, fixed_amount"
+    ),
+    fetchAllRows<StaffMemberRow>(
+      "staff_members",
+      "id, display_name, staff_kind, employment_status, is_guard_eligible, joined_on"
+    ),
+    fetchAllRows<PropertyContactLiteRow>(
+      "property_contacts",
+      "property_id, contact_kind, full_name, is_primary"
+    )
+  ]);
+
+  const propertiesById = new Map(properties.map((property) => [property.id, property]));
+  const latestValueByPropertyId = getLatestPropertyValueMap(propertyValues);
+  const staffById = new Map(staff.map((member) => [member.id, member]));
+  const participantsByDealId = new Map<string, DealParticipantRow[]>();
+  const contactsByPropertyId = new Map<string, PropertyContactLiteRow[]>();
+
+  for (const participant of participants) {
+    const current = participantsByDealId.get(participant.deal_id) ?? [];
+    current.push(participant);
+    participantsByDealId.set(participant.deal_id, current);
+  }
+
+  for (const contact of contacts) {
+    const current = contactsByPropertyId.get(contact.property_id) ?? [];
+    current.push(contact);
+    contactsByPropertyId.set(contact.property_id, current);
+  }
+
+  const workflow: PipelineWorkflow = {
+    id: "real-operations",
+    name: "Operaciones inmobiliarias reales",
+    description: "Pipeline derivado del historico real importado desde Access.",
+    stages: [
+      { id: "lead", name: "Lead", probability: 15, status: "open", position: 1 },
+      { id: "validado", name: "Validado", probability: 35, status: "open", position: 2 },
+      { id: "negociacion", name: "Negociacion", probability: 70, status: "open", position: 3 },
+      { id: "ganado", name: "Venta cerrada", probability: 100, status: "won", position: 4 },
+      { id: "renta", name: "Renta cerrada", probability: 100, status: "won", position: 5 },
+      { id: "perdido", name: "Cancelada", probability: 0, status: "lost", position: 6 }
+    ]
+  };
+
+  const recentDeals = [...deals]
+    .sort((left, right) => compareDateDesc(left.closed_on ?? left.created_at, right.closed_on ?? right.created_at))
+    .slice(0, 180);
+
+  const pipelineDeals = recentDeals.map<PipelineDeal>((deal) => {
+    const property = propertiesById.get(deal.property_id);
+    const latestValue = latestValueByPropertyId.get(deal.property_id);
+    const operationValue = latestValue?.price_amount ?? property?.list_price ?? 0;
+    const currencyCode = latestValue?.currency_code ?? property?.currency_code ?? "MXN";
+    const stage = getRealPipelineStage(deal.status, deal.deal_kind, operationValue);
+    const stageConfig = workflow.stages.find((item) => item.id === stage) ?? workflow.stages[0];
+    const dealParticipants = [...(participantsByDealId.get(deal.id) ?? [])].sort(
+      (left, right) => (right.participation_percent ?? 0) - (left.participation_percent ?? 0)
+    );
+    const primaryParticipant = dealParticipants[0];
+    const owner =
+      (primaryParticipant?.staff_member_id ? staffById.get(primaryParticipant.staff_member_id)?.display_name : null) ??
+      primaryParticipant?.participant_name ??
+      "Sin asignar";
+    const propertyContacts = contactsByPropertyId.get(deal.property_id) ?? [];
+    const primaryContact =
+      propertyContacts.find((contact) => contact.is_primary && contact.contact_kind === "owner") ??
+      propertyContacts.find((contact) => contact.is_primary) ??
+      propertyContacts[0];
+
+    return {
+      id: deal.id,
+      pipelineId: workflow.id,
+      title: deal.title,
+      client: primaryContact?.full_name ?? owner,
+      company: property?.title ?? property?.property_key,
+      amount: operationValue,
+      currency: currencyCode,
+      stage,
+      probability: stageConfig.probability,
+      status: stageConfig.status,
+      closeDate: deal.closed_on ?? deal.created_at,
+      owner,
+      aiPulse:
+        deal.deal_kind === "cancellation" ||
+        dealParticipants.length > 1 ||
+        operationValue >= 5_000_000
+    };
+  });
+
+  return {
+    workflows: [workflow],
+    deals: pipelineDeals
   };
 }

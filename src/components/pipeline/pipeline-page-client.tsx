@@ -7,9 +7,8 @@ import { PipelineDialog } from "@/components/pipeline/pipeline-dialog";
 import { PipelineHeader } from "@/components/pipeline/pipeline-header";
 import { PipelineStats } from "@/components/pipeline/pipeline-stats";
 import { formatCurrency, formatDate } from "@/lib/formatters";
-import { pipelineDemoDeals, pipelineDemoWorkflows } from "@/lib/pipeline-demo-data";
 import { filterPipelineDeals, getPipelineColumns, getPipelineSummary, getStageStatusLabel } from "@/lib/pipeline-utils";
-import type { PipelineDeal, PipelineFilters } from "@/lib/pipeline-types";
+import type { PipelineDeal, PipelineFilters, PipelineWorkflow } from "@/lib/pipeline-types";
 
 type PipelineDialogState =
   | { type: "new-deal"; stageId?: string }
@@ -25,13 +24,19 @@ const defaultFilters: PipelineFilters = {
   aiOnly: false
 };
 
-export function PipelinePageClient() {
-  const [selectedPipelineId, setSelectedPipelineId] = useState(pipelineDemoWorkflows[0]?.id ?? "");
+export function PipelinePageClient({
+  workflows,
+  deals
+}: {
+  workflows: PipelineWorkflow[];
+  deals: PipelineDeal[];
+}) {
+  const [selectedPipelineId, setSelectedPipelineId] = useState(workflows[0]?.id ?? "");
   const [filters, setFilters] = useState<PipelineFilters>(defaultFilters);
   const [dialogState, setDialogState] = useState<PipelineDialogState>(null);
 
-  const selectedWorkflow = pipelineDemoWorkflows.find((workflow) => workflow.id === selectedPipelineId) ?? pipelineDemoWorkflows[0];
-  const workflowDeals = pipelineDemoDeals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
+  const selectedWorkflow = workflows.find((workflow) => workflow.id === selectedPipelineId) ?? workflows[0];
+  const workflowDeals = deals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
   const filteredDeals = filterPipelineDeals(workflowDeals, filters);
   const columns = getPipelineColumns(selectedWorkflow.stages, filteredDeals);
   const summary = getPipelineSummary(filteredDeals);
@@ -67,7 +72,7 @@ export function PipelinePageClient() {
   return (
     <div className="page-stack pipeline-page">
       <PipelineHeader
-        pipelines={pipelineDemoWorkflows}
+        pipelines={workflows}
         selectedPipelineId={selectedPipelineId}
         viewMode="kanban"
         onPipelineChange={setSelectedPipelineId}
@@ -85,11 +90,11 @@ export function PipelinePageClient() {
 
       <section className="pipeline-toolbar">
         <div className="pipeline-search-field">
-          <label htmlFor="pipeline-search">Buscar deal, cliente u owner</label>
+          <label htmlFor="pipeline-search">Buscar operacion, propiedad, cliente u owner</label>
           <input
             id="pipeline-search"
             type="search"
-            placeholder="Ej. Mariana Fuentes, Bosque Verde, Torre Central"
+            placeholder="Ej. Leticia Diaz, RTV-571, Zapopan"
             value={filters.query}
             onChange={(event) =>
               setFilters((current) => ({
@@ -168,8 +173,8 @@ export function PipelinePageClient() {
       </section>
 
       <div className="pipeline-summary-row">
-        <span>Leads abiertos: {summary.openLeads}</span>
-        <span>Total leads: {summary.totalLeads}</span>
+        <span>Operaciones abiertas: {summary.openLeads}</span>
+        <span>Total operaciones: {summary.totalLeads}</span>
         <span>{filteredDeals.length} visibles en Kanban</span>
       </div>
 

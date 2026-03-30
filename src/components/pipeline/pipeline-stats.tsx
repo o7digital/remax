@@ -15,15 +15,15 @@ export function PipelineStats({
   return (
     <section className="pipeline-stats-grid">
       <article className="pipeline-stat-card">
-        <span>Leads abiertos</span>
+        <span>Operaciones abiertas</span>
         <strong>{summary.openLeads}</strong>
         <p>{visibleCount === totalCount ? "Vista completa" : `${visibleCount} visibles con filtros`}</p>
       </article>
 
       <article className="pipeline-stat-card">
-        <span>Total leads</span>
+        <span>Total operaciones</span>
         <strong>{summary.totalLeads}</strong>
-        <p>Incluye abiertos, ganados y perdidos</p>
+        <p>Incluye abiertas, cerradas y canceladas</p>
       </article>
 
       <article className="pipeline-stat-card">
