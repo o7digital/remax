@@ -36,6 +36,240 @@ body {
   color: var(--text);
 }
 
+.remax-backoffice-shell {
+  --text: #1a2433;
+  --muted: #63758b;
+  --line: #c8d4e3;
+  --line-strong: #8ea4c1;
+  --panel: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+  --panel-solid: #ffffff;
+  --shadow: 0 18px 48px rgba(65, 86, 118, 0.12);
+  background:
+    linear-gradient(180deg, rgba(95, 136, 195, 0.06), rgba(238, 242, 247, 0)),
+    #eef2f7;
+  color: var(--text);
+}
+
+.remax-backoffice-shell .shell-main {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(238, 242, 247, 0.78)),
+    #eef2f7;
+}
+
+.remax-sidebar-shell {
+  padding: 18px 16px 24px;
+  border-right: 1px solid #2b3b53;
+  background: linear-gradient(180deg, #16202f 0%, #1d2a3f 100%);
+  color: #f5f8fc;
+}
+
+.remax-sidebar-shell .sidebar-brand,
+.remax-sidebar-shell .sidebar-footer {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.app-brand-panel,
+.app-side-note {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.18);
+}
+
+.app-brand-panel {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  margin-bottom: 18px;
+}
+
+.app-brand-panel strong {
+  color: #f5f8fc;
+}
+
+.app-brand-panel p {
+  margin: 0;
+  color: rgba(245, 248, 252, 0.78);
+}
+
+.remax-sidebar-shell .nav-title {
+  color: rgba(245, 248, 252, 0.62);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.remax-sidebar-shell .nav-link {
+  color: rgba(245, 248, 252, 0.82);
+}
+
+.remax-sidebar-shell .nav-link:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.remax-sidebar-shell .nav-link.active {
+  border-color: rgba(123, 167, 231, 0.35);
+  background: linear-gradient(180deg, rgba(95, 136, 195, 0.34), rgba(95, 136, 195, 0.18));
+  color: #ffffff;
+}
+
+.app-session-card {
+  margin-bottom: 18px;
+}
+
+.app-side-note {
+  display: grid;
+  gap: 8px;
+  padding: 16px !important;
+}
+
+.app-side-note span {
+  display: block;
+  color: #b9c8db;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.app-side-note strong {
+  display: block;
+  color: #f5f8fc;
+  font-size: 18px;
+}
+
+.app-side-note p {
+  margin: 0;
+  color: rgba(245, 248, 252, 0.78);
+  line-height: 1.5;
+}
+
+.app-windowbar {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  min-height: 44px;
+  padding: 8px 12px 0;
+  background: #141516;
+}
+
+.app-toolbar {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(245, 248, 252, 0.96));
+  box-shadow: 0 6px 18px rgba(77, 102, 136, 0.06);
+}
+
+.app-toolbar .topbar-actions {
+  align-items: center;
+}
+
+.app-toolbar-copy {
+  min-width: 0;
+}
+
+.app-toolbar-user {
+  text-align: right;
+}
+
+.app-toolbar-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 24px 0;
+  color: var(--muted);
+}
+
+.app-toolbar-meta span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.app-toolbar-meta strong {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.remax-backoffice-shell .language-switcher {
+  border-color: var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 18px rgba(77, 103, 140, 0.08);
+}
+
+.remax-backoffice-shell .language-button {
+  min-width: 46px;
+  min-height: 34px;
+  border-radius: 999px;
+  color: #5a6f8c;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.remax-backoffice-shell .language-button.active {
+  background: linear-gradient(180deg, #dce8f8, #c7d8f0);
+  color: #274162;
+}
+
+.remax-backoffice-shell .page-content {
+  padding: 24px;
+}
+
+.remax-backoffice-shell .page-header h1 {
+  color: #1a2433;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.remax-backoffice-shell .eyebrow {
+  color: #d7433f;
+  letter-spacing: 0.18em;
+}
+
+.remax-backoffice-shell .button {
+  border: 1px solid #9fb6d8;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #d9e6f8, #bdd2f0);
+  color: #274162;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.remax-backoffice-shell .button-secondary {
+  border-color: #c8d4e3;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 246, 252, 0.94));
+  color: #35506f;
+}
+
+.remax-backoffice-shell .card,
+.remax-backoffice-shell .stat-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+
+.remax-backoffice-shell .table-wrap {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.remax-backoffice-shell .data-table tbody tr:hover {
+  background: rgba(95, 136, 195, 0.08);
+}
+
+.remax-backoffice-shell .badge {
+  border-color: rgba(103, 128, 163, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  color: #345273;
+}
+
 a {
   color: inherit;
   text-decoration: none;
