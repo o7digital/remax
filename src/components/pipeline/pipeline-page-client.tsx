@@ -241,7 +241,7 @@ export function PipelinePageClient({
             </div>
             <div className="pipeline-dialog-card">
               <span>Campos previstos</span>
-              <strong>Monto, moneda, owner, cierre, probabilidad</strong>
+              <strong>Monto, moneda, owner, cierre, probabilidad, cliente, propiedad y deduplicacion</strong>
             </div>
           </div>
         </PipelineDialog>
@@ -315,7 +315,7 @@ export function PipelinePageClient({
         <PipelineDialog
           eyebrow={dialogState.deal.aiPulse ? "IA Pulse" : "Deal"}
           title={dialogState.deal.title}
-          description="Detalle breve listo para enlazar con una ficha de oportunidad completa."
+          description="Ficha operativa enriquecida con cliente, propiedad, riesgo de duplicado y acceso a propuestas."
           onClose={() => setDialogState(null)}
         >
           <div className="pipeline-dialog-grid">
@@ -339,6 +339,14 @@ export function PipelinePageClient({
               <strong>{dialogState.deal.owner}</strong>
             </div>
             <div className="pipeline-dialog-card">
+              <span>Propiedad</span>
+              <strong>{dialogState.deal.propertyKey ?? dialogState.deal.propertyTitle ?? "Sin propiedad"}</strong>
+            </div>
+            <div className="pipeline-dialog-card">
+              <span>Ubicacion</span>
+              <strong>{dialogState.deal.location ?? "Sin ubicacion"}</strong>
+            </div>
+            <div className="pipeline-dialog-card">
               <span>Probabilidad</span>
               <strong>{dialogState.deal.probability}%</strong>
             </div>
@@ -346,8 +354,45 @@ export function PipelinePageClient({
               <span>Estado</span>
               <strong>{getStageStatusLabel(dialogState.deal.status)}</strong>
             </div>
+            <div className="pipeline-dialog-card">
+              <span>Contacto principal</span>
+              <strong>{dialogState.deal.primaryEmail ?? dialogState.deal.primaryPhone ?? "Pendiente de enriquecer"}</strong>
+            </div>
+            <div className="pipeline-dialog-card">
+              <span>Contactos vinculados</span>
+              <strong>{dialogState.deal.linkedContactCount ?? 0}</strong>
+            </div>
+            <div className="pipeline-dialog-card">
+              <span>Riesgo duplicado</span>
+              <strong>
+                {(dialogState.deal.duplicateClientCount ?? 0) > 1
+                  ? `${dialogState.deal.duplicateClientCount} coincidencias`
+                  : "Sin duplicado visible"}
+              </strong>
+            </div>
+            <div className="pipeline-dialog-card">
+              <span>Propuesta</span>
+              <strong>{dialogState.deal.proposalLabel ?? "Sin propuesta"}</strong>
+            </div>
             <div className="pipeline-dialog-card pipeline-dialog-card-wide">
-              <span>Accion rapida</span>
+              <span>Acciones relacionadas</span>
+              <strong className="inline-stack">
+                <Link href="/app/clients" className="pipeline-text-button">
+                  Gestionar cliente
+                </Link>
+                <Link href="/app/contacts" className="pipeline-text-button">
+                  Ver contactos
+                </Link>
+                <Link href="/app/quotes" className="pipeline-text-button">
+                  Abrir propuestas
+                </Link>
+                <Link href="/app/marketing" className="pipeline-text-button">
+                  Leads y newsletter
+                </Link>
+              </strong>
+            </div>
+            <div className="pipeline-dialog-card pipeline-dialog-card-wide">
+              <span>Movimiento rapido</span>
               <strong>Tambien puedes arrastrar este deal a otra etapa directamente desde el tablero.</strong>
             </div>
           </div>

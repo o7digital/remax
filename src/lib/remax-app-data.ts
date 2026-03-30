@@ -62,6 +62,27 @@ export interface ContactDirectoryRecord {
   isPrimary: boolean;
 }
 
+export interface MarketingSummary {
+  uniqueAudience: number;
+  emailableContacts: number;
+  duplicateContacts: number;
+  ownerAudience: number;
+  buyerAudience: number;
+}
+
+export interface MarketingAudienceRecord {
+  id: string;
+  fullName: string;
+  contactKind: string;
+  email: string | null;
+  phone: string | null;
+  linkedProperties: number;
+  activeProperties: number;
+  duplicateCount: number;
+  location: string;
+  segmentLabel: string;
+}
+
 type StaffMemberRow = {
   id: string;
   display_name: string;
@@ -328,6 +349,8 @@ type PropertyContactLiteRow = {
   property_id: string;
   contact_kind: string;
   full_name: string;
+  email: string | null;
+  phone: string | null;
   is_primary: boolean;
 };
 
@@ -428,6 +451,20 @@ function getClientKey(contact: PropertyContactRow) {
   }
 
   return `${contact.contact_kind}:${normalizeText(contact.full_name)}`;
+}
+
+function getLooseContactKey(contact: Pick<PropertyContactRow, "email" | "phone" | "full_name">) {
+  const normalizedEmail = normalizeText(contact.email);
+  if (normalizedEmail) {
+    return `email:${normalizedEmail}`;
+  }
+
+  const normalizedPhone = normalizePhone(contact.phone);
+  if (normalizedPhone) {
+    return `phone:${normalizedPhone}`;
+  }
+
+  return `name:${normalizeText(contact.full_name)}`;
 }
 
 async function fetchPropertiesAndContacts() {
@@ -610,6 +647,123 @@ export async function getContactDirectoryData(): Promise<{
     buyerContacts: records.filter((record) => record.contactKind === "buyer").length,
     contactsWithEmail: records.filter((record) => record.email).length,
     records
+  };
+}
+
+export async function getMarketingData(): Promise<{
+  summary: MarketingSummary;
+  audience: MarketingAudienceRecord[];
+}> {
+  const { properties, contacts } = await fetchPropertiesAndContacts();
+  const propertiesById = new Map(properties.map((property) => [property.id, property]));
+  const strictGrouped = new Map<
+    string,
+    {
+      id: string;
+      fullName: string;
+      contactKind: string;
+      email: string | null;
+      phone: string | null;
+      locations: Set<string>;
+      properties: PropertyRow[];
+    }
+  >();
+  const looseCounts = new Map<string, number>();
+
+  for (const contact of contacts) {
+    const looseKey = getLooseContactKey(contact);
+    looseCounts.set(looseKey, (looseCounts.get(looseKey) ?? 0) + 1);
+
+    const property = propertiesById.get(contact.property_id);
+    if (!property) {
+      continue;
+    }
+
+    const strictKey = getClientKey(contact);
+    const existing = strictGrouped.get(strictKey);
+
+    if (existing) {
+      if (!existing.email && contact.email) {
+        existing.email = contact.email;
+      }
+
+      if (!existing.phone && normalizePhone(contact.phone)) {
+        existing.phone = contact.phone;
+      }
+
+      existing.locations.add(getLocation(property));
+
+      if (!existing.properties.some((item) => item.id === property.id)) {
+        existing.properties.push(property);
+      }
+
+      continue;
+    }
+
+    strictGrouped.set(strictKey, {
+      id: strictKey,
+      fullName: contact.full_name,
+      contactKind: contact.contact_kind,
+      email: contact.email,
+      phone: normalizePhone(contact.phone) ? contact.phone : null,
+      locations: new Set([getLocation(property)]),
+      properties: [property]
+    });
+  }
+
+  const audience = Array.from(strictGrouped.values())
+    .map<MarketingAudienceRecord>((entry) => {
+      const duplicateCount = looseCounts.get(
+        getLooseContactKey({
+          full_name: entry.fullName,
+          email: entry.email,
+          phone: entry.phone
+        })
+      ) ?? 1;
+
+      const activeProperties = entry.properties.filter((property) => isActivePropertyStatus(property.property_status)).length;
+
+      return {
+        id: entry.id,
+        fullName: entry.fullName,
+        contactKind: entry.contactKind,
+        email: entry.email,
+        phone: entry.phone,
+        linkedProperties: entry.properties.length,
+        activeProperties,
+        duplicateCount,
+        location: Array.from(entry.locations)[0] ?? "Sin ubicacion",
+        segmentLabel:
+          entry.contactKind === "owner"
+            ? activeProperties > 0
+              ? "Propietario activo"
+              : "Propietario historico"
+            : activeProperties > 0
+              ? "Comprador activo"
+              : "Comprador historico"
+      };
+    })
+    .sort((left, right) => {
+      if (right.duplicateCount !== left.duplicateCount) {
+        return right.duplicateCount - left.duplicateCount;
+      }
+
+      if (right.activeProperties !== left.activeProperties) {
+        return right.activeProperties - left.activeProperties;
+      }
+
+      return left.fullName.localeCompare(right.fullName);
+    });
+
+  return {
+    summary: {
+      uniqueAudience: audience.length,
+      emailableContacts: audience.filter((item) => item.email).length,
+      duplicateContacts: audience.filter((item) => item.duplicateCount > 1).length,
+      ownerAudience: audience.filter((item) => item.contactKind === "owner").length,
+      buyerAudience: audience.filter((item) => item.contactKind === "buyer").length
+    },
+    audience: audience.slice(0, 50)
   };
 }
 
@@ -1074,7 +1228,7 @@ export async function getPipelineData(): Promise<{
     ),
     fetchAllRows<PropertyContactLiteRow>(
       "property_contacts",
-      "property_id, contact_kind, full_name, is_primary"
+      "property_id, contact_kind, full_name, email, phone, is_primary"
     )
   ]);
 
@@ -1083,6 +1237,7 @@ export async function getPipelineData(): Promise<{
   const staffById = new Map(staff.map((member) => [member.id, member]));
   const participantsByDealId = new Map<string, DealParticipantRow[]>();
   const contactsByPropertyId = new Map<string, PropertyContactLiteRow[]>();
+  const looseClientCounts = new Map<string, number>();
 
   for (const participant of participants) {
     const current = participantsByDealId.get(participant.deal_id) ?? [];
@@ -1094,6 +1249,13 @@ export async function getPipelineData(): Promise<{
     const current = contactsByPropertyId.get(contact.property_id) ?? [];
     current.push(contact);
     contactsByPropertyId.set(contact.property_id, current);
+
+    const looseKey = getLooseContactKey({
+      full_name: contact.full_name,
+      email: contact.email,
+      phone: contact.phone
+    });
+    looseClientCounts.set(looseKey, (looseClientCounts.get(looseKey) ?? 0) + 1);
   }
 
   const workflow: PipelineWorkflow = {
@@ -1134,6 +1296,14 @@ export async function getPipelineData(): Promise<{
       propertyContacts.find((contact) => contact.is_primary && contact.contact_kind === "owner") ??
       propertyContacts.find((contact) => contact.is_primary) ??
       propertyContacts[0];
+    const duplicateClientCount =
+      looseClientCounts.get(
+        getLooseContactKey({
+          full_name: primaryContact?.full_name ?? owner,
+          email: primaryContact?.email ?? null,
+          phone: primaryContact?.phone ?? null
+        })
+      ) ?? 1;
 
     return {
       id: deal.id,
@@ -1141,6 +1311,15 @@ export async function getPipelineData(): Promise<{
       title: deal.title,
       client: primaryContact?.full_name ?? owner,
       company: property?.title ?? property?.property_key,
+      propertyKey: property?.property_key,
+      propertyTitle: property?.title ?? property?.property_key,
+      location: property ? getLocation(property) : "Sin ubicacion",
+      propertyStatus: property?.property_status ?? "unknown",
+      primaryEmail: primaryContact?.email ?? null,
+      primaryPhone: normalizePhone(primaryContact?.phone) ? primaryContact?.phone ?? null : null,
+      linkedContactCount: propertyContacts.length,
+      duplicateClientCount,
+      proposalLabel: operationValue >= 1_000_000 ? "Propuesta premium" : "Propuesta base",
       amount: operationValue,
       currency: currencyCode,
       stage,

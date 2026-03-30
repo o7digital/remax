@@ -30,6 +30,7 @@ export function DealCard({
             Cliente: {deal.client}
             {deal.company ? ` · ${deal.company}` : ""}
           </p>
+          {deal.propertyKey ? <p className="deal-card-client">Propiedad: {deal.propertyKey}</p> : null}
         </div>
         <span className="deal-probability-badge">{deal.probability}%</span>
       </div>

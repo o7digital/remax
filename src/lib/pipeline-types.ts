@@ -23,6 +23,15 @@ export interface PipelineDeal {
   title: string;
   client: string;
   company?: string;
+  propertyKey?: string;
+  propertyTitle?: string;
+  location?: string;
+  propertyStatus?: string;
+  primaryEmail?: string | null;
+  primaryPhone?: string | null;
+  linkedContactCount?: number;
+  duplicateClientCount?: number;
+  proposalLabel?: string;
   amount: number;
   currency: string;
   stage: string;
