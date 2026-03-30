@@ -3,6 +3,8 @@ import type {
   CurrencyTotal,
   PipelineColumnData,
   PipelineDeal,
+  PipelineForecastStageRow,
+  PipelineForecastSummary,
   PipelineFilters,
   PipelineStage,
   PipelineStageStatus,
@@ -114,5 +116,56 @@ export function getPipelineSummary(deals: PipelineDeal[]): PipelineSummary {
     totalLeads: deals.length,
     openValueTotals: getCurrencyTotals(openDeals),
     totalValueTotals: getCurrencyTotals(deals)
+  };
+}
+
+export function getPipelineForecast(
+  stages: PipelineStage[],
+  deals: PipelineDeal[],
+  preferredCurrency = "MXN"
+): {
+  summary: PipelineForecastSummary;
+  rows: PipelineForecastStageRow[];
+} {
+  const stageRows = [...stages]
+    .sort((left, right) => left.position - right.position)
+    .map<PipelineForecastStageRow>((stage) => {
+      const stageDeals = deals.filter((deal) => deal.stage === stage.id);
+      const totals = getCurrencyTotals(stageDeals);
+      const preferredTotal = getPreferredCurrencyTotal(totals, preferredCurrency);
+      const totalAmount = preferredTotal?.amount ?? 0;
+      const weightedAmount = stageDeals.reduce(
+        (sum, deal) => sum + (deal.currency === preferredCurrency ? deal.amount * (stage.probability / 100) : 0),
+        0
+      );
+
+      return {
+        stageId: stage.id,
+        stageName: stage.name,
+        status: stage.status,
+        dealCount: stageDeals.length,
+        probability: stage.probability,
+        totalAmount,
+        weightedAmount,
+        currency: preferredTotal?.currency ?? preferredCurrency
+      };
+    });
+
+  const openDeals = deals.filter((deal) => deal.status === "open");
+  const totalAmount = openDeals.reduce(
+    (sum, deal) => sum + (deal.currency === preferredCurrency ? deal.amount : 0),
+    0
+  );
+  const weightedAmount = stageRows.reduce((sum, row) => sum + row.weightedAmount, 0);
+
+  return {
+    summary: {
+      currency: preferredCurrency,
+      totalAmount,
+      weightedAmount,
+      openDeals: openDeals.length,
+      totalDeals: deals.length
+    },
+    rows: stageRows.filter((row) => row.dealCount > 0)
   };
 }

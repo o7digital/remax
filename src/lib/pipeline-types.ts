@@ -52,6 +52,25 @@ export interface PipelineSummary {
   totalValueTotals: CurrencyTotal[];
 }
 
+export interface PipelineForecastStageRow {
+  stageId: string;
+  stageName: string;
+  status: PipelineStageStatus;
+  dealCount: number;
+  probability: number;
+  totalAmount: number;
+  weightedAmount: number;
+  currency: string;
+}
+
+export interface PipelineForecastSummary {
+  currency: string;
+  totalAmount: number;
+  weightedAmount: number;
+  openDeals: number;
+  totalDeals: number;
+}
+
 export interface PipelineFilters {
   query: string;
   owner: string;

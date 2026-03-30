@@ -1,15 +1,28 @@
+import type { DragEvent } from "react";
+
 import { formatCurrency, formatDate } from "@/lib/formatters";
 import type { PipelineDeal } from "@/lib/pipeline-types";
 
 export function DealCard({
   deal,
-  onOpen
+  onOpen,
+  onDragStart,
+  onDragEnd
 }: {
   deal: PipelineDeal;
   onOpen: (deal: PipelineDeal) => void;
+  onDragStart?: (deal: PipelineDeal, event: DragEvent<HTMLButtonElement>) => void;
+  onDragEnd?: () => void;
 }) {
   return (
-    <button type="button" className="deal-card" onClick={() => onOpen(deal)}>
+    <button
+      type="button"
+      className="deal-card"
+      draggable
+      onClick={() => onOpen(deal)}
+      onDragStart={(event) => onDragStart?.(deal, event)}
+      onDragEnd={onDragEnd}
+    >
       <div className="deal-card-top">
         <div>
           <p className="deal-card-title">{deal.title}</p>

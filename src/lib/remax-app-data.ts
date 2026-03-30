@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { PipelineDeal, PipelineWorkflow } from "@/lib/pipeline-types";
+import { getPipelineForecast } from "@/lib/pipeline-utils";
 import { createAdminClient } from "@/utils/supabase/admin";
 
 const SUPABASE_BATCH_SIZE = 1000;
@@ -1157,6 +1158,16 @@ export async function getPipelineData(): Promise<{
   return {
     workflows: [workflow],
     deals: pipelineDeals
+  };
+}
+
+export async function getPipelineForecastData() {
+  const { workflows, deals } = await getPipelineData();
+  const workflow = workflows[0];
+
+  return {
+    workflow,
+    ...getPipelineForecast(workflow.stages, deals, "MXN")
   };
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { KanbanBoard } from "@/components/pipeline/kanban-board";
@@ -34,9 +35,11 @@ export function PipelinePageClient({
   const [selectedPipelineId, setSelectedPipelineId] = useState(workflows[0]?.id ?? "");
   const [filters, setFilters] = useState<PipelineFilters>(defaultFilters);
   const [dialogState, setDialogState] = useState<PipelineDialogState>(null);
+  const [boardDeals, setBoardDeals] = useState<PipelineDeal[]>(deals);
+  const [draggingDealId, setDraggingDealId] = useState<string | null>(null);
 
   const selectedWorkflow = workflows.find((workflow) => workflow.id === selectedPipelineId) ?? workflows[0];
-  const workflowDeals = deals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
+  const workflowDeals = boardDeals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
   const filteredDeals = filterPipelineDeals(workflowDeals, filters);
   const columns = getPipelineColumns(selectedWorkflow.stages, filteredDeals);
   const summary = getPipelineSummary(filteredDeals);
@@ -68,6 +71,31 @@ export function PipelinePageClient({
   useEffect(() => {
     setFilters(defaultFilters);
   }, [selectedPipelineId]);
+
+  useEffect(() => {
+    setBoardDeals(deals);
+  }, [deals]);
+
+  function moveDealToStage(dealId: string, stageId: string) {
+    const targetStage = selectedWorkflow.stages.find((stage) => stage.id === stageId);
+    if (!targetStage) {
+      return;
+    }
+
+    setBoardDeals((current) =>
+      current.map((deal) =>
+        deal.id === dealId
+          ? {
+              ...deal,
+              stage: targetStage.id,
+              probability: targetStage.probability,
+              status: targetStage.status
+            }
+          : deal
+      )
+    );
+    setDraggingDealId(null);
+  }
 
   return (
     <div className="page-stack pipeline-page">
@@ -182,6 +210,9 @@ export function PipelinePageClient({
         columns={columns}
         onOpenDeal={(deal) => setDialogState({ type: "deal", deal })}
         onAddDeal={(stageId) => setDialogState({ type: "new-deal", stageId })}
+        onMoveDeal={moveDealToStage}
+        draggingDealId={draggingDealId}
+        onDragStartDeal={setDraggingDealId}
       />
 
       {dialogState?.type === "new-deal" ? (
@@ -220,7 +251,7 @@ export function PipelinePageClient({
         <PipelineDialog
           eyebrow="Workflow"
           title="Gestionar workflow"
-          description="La configuración avanzada de etapas, reglas y automatizaciones se conecta en la siguiente entrega."
+          description="Editor operativo del workflow actual. La persistencia en base llega en la siguiente iteracion."
           onClose={() => setDialogState(null)}
         >
           <div className="pipeline-dialog-grid">
@@ -233,8 +264,24 @@ export function PipelinePageClient({
               <strong>{selectedWorkflow.stages.length}</strong>
             </div>
             <div className="pipeline-dialog-card pipeline-dialog-card-wide">
-              <span>Próximo paso</span>
-              <strong>Editor de etapas, probabilidades, automatizaciones y permisos por workflow.</strong>
+              <span>Forecast</span>
+              <strong>
+                <Link href="/app/forecast" className="pipeline-text-button">
+                  Abrir forecast del workflow
+                </Link>
+              </strong>
+            </div>
+            {selectedWorkflow.stages.map((stage) => (
+              <div key={stage.id} className="pipeline-dialog-card">
+                <span>{stage.name}</span>
+                <strong>
+                  {getStageStatusLabel(stage.status)} · {stage.probability}%
+                </strong>
+              </div>
+            ))}
+            <div className="pipeline-dialog-card pipeline-dialog-card-wide">
+              <span>Movimiento manual</span>
+              <strong>Ya puedes mover deals entre columnas con la souris / drag and drop en el kanban.</strong>
             </div>
           </div>
         </PipelineDialog>
@@ -298,6 +345,10 @@ export function PipelinePageClient({
             <div className="pipeline-dialog-card">
               <span>Estado</span>
               <strong>{getStageStatusLabel(dialogState.deal.status)}</strong>
+            </div>
+            <div className="pipeline-dialog-card pipeline-dialog-card-wide">
+              <span>Accion rapida</span>
+              <strong>Tambien puedes arrastrar este deal a otra etapa directamente desde el tablero.</strong>
             </div>
           </div>
         </PipelineDialog>

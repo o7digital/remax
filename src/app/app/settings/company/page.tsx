@@ -1,3 +1,4 @@
+import { RemaxBrandSettings } from "@/components/remax-brand-settings";
 import { DataOriginNotice } from "@/components/data-origin-notice";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
@@ -39,6 +40,13 @@ export default async function SettingsCompanyPage() {
             <textarea defaultValue={"78 SW 7th St\nMiami, FL 33130\nUnited States"} />
           </div>
         </div>
+      </SectionCard>
+
+      <SectionCard
+        title="Personalizacion REMAX"
+        description="Ajusta logo, colores principales y lenguaje visible del shell para alinear el backoffice con la marca del cliente."
+      >
+        <RemaxBrandSettings />
       </SectionCard>
     </div>
   );

@@ -2,12 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { StatusBadge } from "@/components/status-badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import type { DemoLocale } from "@/lib/demo-locale";
 import type { NavSection } from "@/lib/nav";
+import {
+  defaultRemaxBrandingSettings,
+  getRemaxBrandingStyle,
+  parseRemaxBrandingSettings,
+  REMAX_BRANDING_STORAGE_KEY,
+  type RemaxBrandingSettings
+} from "@/lib/remax-branding";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -44,17 +51,36 @@ export function ErpShell({
   };
 }) {
   const pathname = usePathname();
+  const [branding, setBranding] = useState<RemaxBrandingSettings>(defaultRemaxBrandingSettings);
   const activeItem = navigationSections.flatMap((section) => section.items).find((item) => isActive(pathname, item.href));
   const isFictitiousIdentity = /@o7digitalgroup\.com$|@o7\.digital$/i.test(currentUser.email);
 
+  useEffect(() => {
+    const applyStoredBranding = () => {
+      const stored = window.localStorage.getItem(REMAX_BRANDING_STORAGE_KEY);
+      setBranding(parseRemaxBrandingSettings(stored));
+    };
+
+    applyStoredBranding();
+    window.addEventListener("remax-branding-updated", applyStoredBranding);
+
+    return () => {
+      window.removeEventListener("remax-branding-updated", applyStoredBranding);
+    };
+  }, []);
+
   return (
-    <div className="app-shell app-remax-shell">
+    <div className="app-shell app-remax-shell" style={getRemaxBrandingStyle(branding)}>
       <aside className="remax-sidebar app-remax-sidebar">
         <div className="remax-brand-panel app-remax-brand-panel">
-          <div className="remax-brand-lockup">
-            <span className="remax-brand-mark">REMAX</span>
-            <span className="remax-brand-sub">ACTIVA</span>
-          </div>
+          {branding.logoDataUrl ? (
+            <img src={branding.logoDataUrl} alt={workspace.productName} className="remax-brand-logo" />
+          ) : (
+            <div className="remax-brand-lockup">
+              <span className="remax-brand-mark">REMAX</span>
+              <span className="remax-brand-sub">ACTIVA</span>
+            </div>
+          )}
           <strong>{workspace.productName}</strong>
           <p>{workspace.workspaceName}</p>
         </div>

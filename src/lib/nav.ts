@@ -20,6 +20,7 @@ export function getNavigationSections(txt: Translator): NavSection[] {
         { label: txt("Contacts"), href: "/app/contacts" },
         { label: txt("Comisiones"), href: "/app/commissions" },
         { label: txt("Reporting"), href: "/app/reporting" },
+        { label: txt("Forecast"), href: "/app/forecast" },
         { label: txt("Guardias"), href: "/app/guards" },
         { label: txt("Tasks"), href: "/app/tasks" },
         { label: txt("Pipeline"), href: "/app/pipeline" },

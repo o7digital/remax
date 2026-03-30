@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { PipelineViewMode, PipelineWorkflow } from "@/lib/pipeline-types";
 
 export function PipelineHeader({
@@ -43,6 +45,9 @@ export function PipelineHeader({
         </div>
 
         <div className="pipeline-action-row">
+          <Link href="/app/forecast" className="pipeline-secondary-button">
+            Forecast
+          </Link>
           <button type="button" className="pipeline-secondary-button" onClick={onOpenManageWorkflow}>
             Gestionar workflow
           </button>

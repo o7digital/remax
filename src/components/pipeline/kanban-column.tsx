@@ -1,3 +1,5 @@
+import type { DragEvent } from "react";
+
 import { DealCard } from "@/components/pipeline/deal-card";
 import { formatCurrencyTotals, getStageStatusLabel } from "@/lib/pipeline-utils";
 import type { PipelineColumnData, PipelineDeal } from "@/lib/pipeline-types";
@@ -5,14 +7,35 @@ import type { PipelineColumnData, PipelineDeal } from "@/lib/pipeline-types";
 export function KanbanColumn({
   column,
   onOpenDeal,
-  onAddDeal
+  onAddDeal,
+  onMoveDeal,
+  draggingDealId,
+  onDragStartDeal
 }: {
   column: PipelineColumnData;
   onOpenDeal: (deal: PipelineDeal) => void;
   onAddDeal: (stageId: string) => void;
+  onMoveDeal?: (dealId: string, stageId: string) => void;
+  draggingDealId?: string | null;
+  onDragStartDeal?: (dealId: string | null) => void;
 }) {
+  function handleDrop(event: DragEvent<HTMLElement>) {
+    event.preventDefault();
+
+    const dealId = event.dataTransfer.getData("text/pipeline-deal-id");
+    if (!dealId || !onMoveDeal) {
+      return;
+    }
+
+    onMoveDeal(dealId, column.stage.id);
+  }
+
   return (
-    <section className={`kanban-column kanban-column-${column.stage.status}`}>
+    <section
+      className={`kanban-column kanban-column-${column.stage.status} ${draggingDealId ? "is-drop-target" : ""}`}
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={handleDrop}
+    >
       <div className="kanban-column-header">
         <div>
           <div className="kanban-column-topline">
@@ -52,7 +75,19 @@ export function KanbanColumn({
             </button>
           </div>
         ) : (
-          column.deals.map((deal) => <DealCard key={deal.id} deal={deal} onOpen={onOpenDeal} />)
+          column.deals.map((deal) => (
+            <DealCard
+              key={deal.id}
+              deal={deal}
+              onOpen={onOpenDeal}
+              onDragStart={(draggedDeal, event) => {
+                event.dataTransfer.setData("text/pipeline-deal-id", draggedDeal.id);
+                event.dataTransfer.effectAllowed = "move";
+                onDragStartDeal?.(draggedDeal.id);
+              }}
+              onDragEnd={() => onDragStartDeal?.(null)}
+            />
+          ))
         )}
       </div>
     </section>
