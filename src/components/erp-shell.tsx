@@ -17,7 +17,8 @@ export function ErpShell({
   locale,
   navigationSections,
   workspace,
-  shellCopy
+  shellCopy,
+  currentUser
 }: {
   children: ReactNode;
   locale: DemoLocale;
@@ -35,6 +36,10 @@ export function ErpShell({
     activeTenantLabel: string;
     invoicesLabel: string;
     complianceLabel: string;
+  };
+  currentUser: {
+    email: string;
+    label: string;
   };
 }) {
   const pathname = usePathname();
@@ -88,6 +93,10 @@ export function ErpShell({
             <strong>{workspace.workspaceName}</strong>
           </div>
           <div className="topbar-actions">
+            <div className="topbar-user">
+              <span>{currentUser.label}</span>
+              <strong>{currentUser.email}</strong>
+            </div>
             <LanguageSwitcher locale={locale} />
             <Link href="/app/invoices" className="button button-secondary">
               {shellCopy.invoicesLabel}
@@ -95,6 +104,11 @@ export function ErpShell({
             <Link href="/app/settings/compliance" className="button">
               {shellCopy.complianceLabel}
             </Link>
+            <form action="/auth/logout" method="post">
+              <button type="submit" className="button button-secondary">
+                Logout
+              </button>
+            </form>
           </div>
         </header>
         <main className="page-content">{children}</main>

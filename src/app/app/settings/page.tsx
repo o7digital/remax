@@ -22,6 +22,7 @@ const routes = [
   "/app/settings",
   "/app/settings/users",
   "/app/settings/roles",
+  "/app/settings/security",
   "/app/settings/company",
   "/app/settings/billing",
   "/app/settings/compliance",

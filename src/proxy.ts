@@ -8,17 +8,19 @@ import {
   getRemaxDemoSessionByToken,
   sanitizeRemaxDemoNextPath
 } from "@/remax-demo/auth-config";
+import { updateSupabaseSession } from "@/utils/supabase/middleware";
 
 const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
 const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
 
 export function proxy(request: NextRequest) {
+  const supabaseResponse = updateSupabaseSession(request);
   const { pathname, search } = request.nextUrl;
 
   if (MAINTENANCE_MODE) {
     if (pathname === MAINTENANCE_PATH) {
-      return NextResponse.next();
+      return supabaseResponse;
     }
 
     return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
@@ -30,7 +32,7 @@ export function proxy(request: NextRequest) {
   if (pathname === REMAX_DEMO_LOGIN_PATH) {
     return session
       ? NextResponse.redirect(new URL(REMAX_DEMO_HOME_PATH, request.url))
-      : NextResponse.next();
+      : supabaseResponse;
   }
 
   if (pathname.startsWith(REMAX_DEMO_HOME_PATH) && !session) {
@@ -43,7 +45,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(REMAX_DEMO_HOME_PATH, request.url));
   }
 
-  return NextResponse.next();
+  return supabaseResponse;
 }
 
 export const config = {

@@ -34,6 +34,7 @@ export function getNavigationSections(txt: Translator): NavSection[] {
         { label: txt("Settings"), href: "/app/settings" },
         { label: txt("Users"), href: "/app/settings/users" },
         { label: txt("Roles"), href: "/app/settings/roles" },
+        { label: txt("Security"), href: "/app/settings/security" },
         { label: txt("Company"), href: "/app/settings/company" },
         { label: txt("Billing"), href: "/app/settings/billing" },
         { label: txt("Compliance"), href: "/app/settings/compliance" }
@@ -47,6 +48,7 @@ export function getSettingsLinks(txt: Translator): NavItem[] {
     { label: txt("Vue globale"), href: "/app/settings" },
     { label: txt("Users"), href: "/app/settings/users" },
     { label: txt("Roles"), href: "/app/settings/roles" },
+    { label: txt("Security"), href: "/app/settings/security" },
     { label: txt("Company"), href: "/app/settings/company" },
     { label: txt("Billing"), href: "/app/settings/billing" },
     { label: txt("Compliance"), href: "/app/settings/compliance" },
