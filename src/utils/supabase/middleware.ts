@@ -1,9 +1,21 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { getSupabasePublishableKey, getSupabaseUrl } from "@/utils/supabase/config";
+import {
+  getSupabasePublishableKey,
+  getSupabaseUrl,
+  hasSupabasePublicEnv
+} from "@/utils/supabase/config";
 
 export function updateSupabaseSession(request: NextRequest) {
+  if (!hasSupabasePublicEnv()) {
+    return NextResponse.next({
+      request: {
+        headers: request.headers
+      }
+    });
+  }
+
   const supabaseUrl = getSupabaseUrl();
   const supabasePublishableKey = getSupabasePublishableKey();
   let response = NextResponse.next({

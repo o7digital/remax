@@ -12,6 +12,13 @@ function getOptionalEnv(name: "SUPABASE_SERVICE_ROLE_KEY") {
   return process.env[name];
 }
 
+export function hasSupabasePublicEnv() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+  );
+}
+
 export function getSupabaseUrl() {
   return getRequiredEnv("NEXT_PUBLIC_SUPABASE_URL");
 }
