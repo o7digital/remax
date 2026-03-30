@@ -28,9 +28,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         planName: txt(workspaceProfile.planName)
       }}
       shellCopy={{
-        workspaceLabel: txt("Workspace"),
+        workspaceLabel: txt("Organisation"),
         seatsLabel: txt("Seats"),
-        activeTenantLabel: txt("Tenant actif"),
+        activeTenantLabel: txt("Structure active"),
         invoicesLabel: txt("Factures"),
         complianceLabel: txt("Compliance")
       }}

@@ -26,7 +26,7 @@ export function LanguageSwitcher({ locale }: { locale: DemoLocale }) {
   }
 
   return (
-    <div className="language-switcher" aria-label="Demo language switcher">
+    <div className="language-switcher" aria-label="Application language switcher">
       {demoLocaleOptions.map((option) => (
         <button
           key={option.value}

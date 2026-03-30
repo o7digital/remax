@@ -12,9 +12,9 @@ import type {
 } from "@/lib/erp-types";
 
 export const workspaceProfile = {
-  productName: "O7 ERP SaaS",
-  workspaceName: "Pulse Workspace Americas",
-  planName: "Growth",
+  productName: "O7 Backoffice",
+  workspaceName: "O7 Digital Group",
+  planName: "Enterprise",
   activeSeats: 18,
   seatLimit: 25,
   locale: "en-US",

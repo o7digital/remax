@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { signInAction } from "@/app/auth/actions";
@@ -31,10 +30,10 @@ export default async function AuthLoginPage({
     <div className="auth-screen">
       <div className="auth-card">
         <div className="auth-card-header">
-          <p className="eyebrow">Admin Access</p>
-          <h1>Connexion ERP</h1>
+          <p className="eyebrow">Backoffice O7</p>
+          <h1>Connexion securisee</h1>
           <p className="page-description">
-            Authentification admin sur Supabase. Cette base servira au 2FA juste apres.
+            Acces au backoffice O7 avec authentification email, mot de passe et second facteur.
           </p>
         </div>
 
@@ -65,10 +64,7 @@ export default async function AuthLoginPage({
         </form>
 
         <div className="auth-footer">
-          <span>Environnement de dev branche sur Supabase.</span>
-          <Link href="/remax-demo/login" className="button button-secondary">
-            Ouvrir la demo REMAX
-          </Link>
+          <span>Plateforme securisee connectee a Supabase.</span>
         </div>
       </div>
     </div>
