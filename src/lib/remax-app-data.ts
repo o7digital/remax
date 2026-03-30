@@ -236,6 +236,93 @@ export interface ReportingAreaRecord {
   activePropertyCount: number;
 }
 
+type StaffDirectoryRow = {
+  id: string;
+  display_name: string;
+  staff_kind: string;
+  advisor_class: string | null;
+  employment_status: string;
+  is_guard_eligible: boolean;
+  mobile_phone: string | null;
+  office_phone: string | null;
+  personal_email: string | null;
+  work_email: string | null;
+  city: string | null;
+  state: string | null;
+  joined_on: string | null;
+  left_on: string | null;
+};
+
+type GuardShiftDetailRow = {
+  id: string;
+  shift_date: string;
+  shift_label: string | null;
+  check_in_at: string | null;
+  check_out_at: string | null;
+  assigned_staff_member_id: string | null;
+  replacement_staff_member_id: string | null;
+  shift_status: string;
+  punctuality_status: string | null;
+  checkout_status: string | null;
+};
+
+export interface StaffDirectorySummary {
+  totalStaff: number;
+  activeStaff: number;
+  advisorCount: number;
+  adminCount: number;
+  guardEligibleCount: number;
+}
+
+export interface StaffDirectoryRecord {
+  id: string;
+  displayName: string;
+  roleLabel: string;
+  email: string | null;
+  phone: string | null;
+  location: string;
+  employmentStatus: string;
+  guardEligible: boolean;
+  joinedOn: string | null;
+  leftOn: string | null;
+}
+
+export interface GuardAttendanceSummary {
+  totalShifts: number;
+  assignedShifts: number;
+  attendanceEvents: number;
+  activeGuardStaff: number;
+  lateShiftCount: number;
+}
+
+export interface GuardCoverageRecord {
+  id: string;
+  advisorName: string;
+  staffKind: string;
+  employmentStatus: string;
+  shiftCount: number;
+  lateCount: number;
+  attendanceEvents: number;
+}
+
+export interface GuardShiftRecord {
+  id: string;
+  shiftDate: string;
+  shiftLabel: string;
+  advisorName: string;
+  replacementName: string | null;
+  shiftStatus: string;
+  punctualityStatus: string;
+  checkoutStatus: string;
+}
+
+export interface AttendanceActivityRecord {
+  id: string;
+  advisorName: string;
+  eventType: string;
+  eventAt: string;
+}
+
 type PropertyContactLiteRow = {
   property_id: string;
   contact_kind: string;
@@ -1070,5 +1157,157 @@ export async function getPipelineData(): Promise<{
   return {
     workflows: [workflow],
     deals: pipelineDeals
+  };
+}
+
+export async function getStaffDirectoryData(): Promise<{
+  summary: StaffDirectorySummary;
+  records: StaffDirectoryRecord[];
+}> {
+  const staff = await fetchAllRows<StaffDirectoryRow>(
+    "staff_members",
+    "id, display_name, staff_kind, advisor_class, employment_status, is_guard_eligible, mobile_phone, office_phone, personal_email, work_email, city, state, joined_on, left_on"
+  );
+
+  const records = [...staff]
+    .sort((left, right) => {
+      const activeDelta = Number(right.employment_status === "active") - Number(left.employment_status === "active");
+
+      if (activeDelta !== 0) {
+        return activeDelta;
+      }
+
+      if (left.staff_kind !== right.staff_kind) {
+        return left.staff_kind.localeCompare(right.staff_kind);
+      }
+
+      return left.display_name.localeCompare(right.display_name);
+    })
+    .map<StaffDirectoryRecord>((member) => ({
+      id: member.id,
+      displayName: member.display_name,
+      roleLabel:
+        member.staff_kind === "advisor"
+          ? `Asesor${member.advisor_class ? ` ${member.advisor_class}` : ""}`
+          : "Administracion",
+      email: member.work_email ?? member.personal_email,
+      phone: member.mobile_phone ?? member.office_phone,
+      location: [member.city, member.state].filter(Boolean).join(", ") || "Sin ubicacion",
+      employmentStatus: member.employment_status,
+      guardEligible: member.is_guard_eligible,
+      joinedOn: member.joined_on,
+      leftOn: member.left_on
+    }));
+
+  return {
+    summary: {
+      totalStaff: records.length,
+      activeStaff: records.filter((record) => record.employmentStatus === "active").length,
+      advisorCount: staff.filter((member) => member.staff_kind === "advisor").length,
+      adminCount: staff.filter((member) => member.staff_kind === "admin").length,
+      guardEligibleCount: staff.filter((member) => member.is_guard_eligible).length
+    },
+    records
+  };
+}
+
+export async function getGuardAttendanceData(): Promise<{
+  summary: GuardAttendanceSummary;
+  coverage: GuardCoverageRecord[];
+  shifts: GuardShiftRecord[];
+  attendance: AttendanceActivityRecord[];
+}> {
+  const [staff, shifts, attendance] = await Promise.all([
+    fetchAllRows<StaffMemberRow>(
+      "staff_members",
+      "id, display_name, staff_kind, employment_status, is_guard_eligible, joined_on"
+    ),
+    fetchAllRows<GuardShiftDetailRow>(
+      "guard_shifts",
+      "id, shift_date, shift_label, check_in_at, check_out_at, assigned_staff_member_id, replacement_staff_member_id, shift_status, punctuality_status, checkout_status"
+    ),
+    fetchAllRows<AttendanceEventRow>(
+      "attendance_events",
+      "id, event_type, event_at, staff_member_id"
+    )
+  ]);
+
+  const staffById = new Map(staff.map((member) => [member.id, member]));
+  const attendanceByStaffId = new Map<string, number>();
+  const coverageByStaffId = new Map<
+    string,
+    {
+      id: string;
+      advisorName: string;
+      staffKind: string;
+      employmentStatus: string;
+      shiftCount: number;
+      lateCount: number;
+      attendanceEvents: number;
+    }
+  >();
+
+  for (const event of attendance) {
+    attendanceByStaffId.set(event.staff_member_id, (attendanceByStaffId.get(event.staff_member_id) ?? 0) + 1);
+  }
+
+  for (const shift of shifts) {
+    if (!shift.assigned_staff_member_id) {
+      continue;
+    }
+
+    const staffMatch = staffById.get(shift.assigned_staff_member_id);
+    const current = coverageByStaffId.get(shift.assigned_staff_member_id) ?? {
+      id: shift.assigned_staff_member_id,
+      advisorName: staffMatch?.display_name ?? "Sin match",
+      staffKind: staffMatch?.staff_kind ?? "advisor",
+      employmentStatus: staffMatch?.employment_status ?? "inactive",
+      shiftCount: 0,
+      lateCount: 0,
+      attendanceEvents: attendanceByStaffId.get(shift.assigned_staff_member_id) ?? 0
+    };
+
+    current.shiftCount += 1;
+    current.lateCount += Number((shift.punctuality_status ?? "").toLowerCase() !== "puntual");
+    coverageByStaffId.set(shift.assigned_staff_member_id, current);
+  }
+
+  return {
+    summary: {
+      totalShifts: shifts.length,
+      assignedShifts: shifts.filter((shift) => shift.assigned_staff_member_id).length,
+      attendanceEvents: attendance.length,
+      activeGuardStaff: staff.filter((member) => member.employment_status === "active" && member.is_guard_eligible).length,
+      lateShiftCount: shifts.filter((shift) => (shift.punctuality_status ?? "").toLowerCase() !== "puntual").length
+    },
+    coverage: Array.from(coverageByStaffId.values())
+      .sort((left, right) => right.shiftCount - left.shiftCount)
+      .slice(0, 20),
+    shifts: [...shifts]
+      .sort((left, right) => compareDateDesc(left.shift_date, right.shift_date))
+      .slice(0, 20)
+      .map((shift) => ({
+        id: shift.id,
+        shiftDate: shift.shift_date,
+        shiftLabel: shift.shift_label ?? "Guardia",
+        advisorName: shift.assigned_staff_member_id
+          ? staffById.get(shift.assigned_staff_member_id)?.display_name ?? "Sin match"
+          : "Sin asignar",
+        replacementName: shift.replacement_staff_member_id
+          ? staffById.get(shift.replacement_staff_member_id)?.display_name ?? "Sin match"
+          : null,
+        shiftStatus: shift.shift_status,
+        punctualityStatus: shift.punctuality_status ?? "Sin registro",
+        checkoutStatus: shift.checkout_status ?? "Sin registro"
+      })),
+    attendance: [...attendance]
+      .sort((left, right) => compareDateDesc(left.event_at, right.event_at))
+      .slice(0, 20)
+      .map((event) => ({
+        id: event.id,
+        advisorName: staffById.get(event.staff_member_id)?.display_name ?? "Sin match",
+        eventType: event.event_type,
+        eventAt: event.event_at
+      }))
   };
 }

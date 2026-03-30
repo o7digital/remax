@@ -2,46 +2,70 @@ import { DataOriginNotice } from "@/components/data-origin-notice";
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
+import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
-import { users } from "@/lib/erp-data";
-import { getDemoI18n } from "@/lib/server-i18n";
+import { formatDate } from "@/lib/formatters";
+import { getStaffDirectoryData } from "@/lib/remax-app-data";
 
 export default async function SettingsUsersPage() {
-  const { txt } = await getDemoI18n();
+  const { summary, records } = await getStaffDirectoryData();
 
   return (
     <div className="page-stack">
       <PageHeader
-        title={txt("Users")}
-        description={txt("Utilisateurs actifs, role assigne, region et dernier acces.")}
+        title="Usuarios"
+        description="Directorio real del staff REMAX importado desde Access. Las cuentas de acceso del producto se gestionan aparte."
       />
 
-      <DataOriginNotice description="Los usuarios REMAX son referencias operativas de trabajo. Cualquier cuenta O7 Digital esta marcada explicitamente como datos ficticios de entorno dev." />
+      <DataOriginNotice
+        title="Staff real"
+        description="Esta vista muestra asesores y administracion reales del cliente. El login tecnico de dev sigue siendo una cuenta separada del producto."
+      />
 
-      <SectionCard title={txt("Workspace users")} description={txt("Administration equipe et securite d'acces.")}>
+      <div className="stats-grid">
+        <StatCard label="Staff total" value={String(summary.totalStaff)} detail="directorio importado" />
+        <StatCard label="Activos" value={String(summary.activeStaff)} detail="equipo vigente" />
+        <StatCard label="Asesores" value={String(summary.advisorCount)} detail="comerciales" />
+        <StatCard label="Guardias elegibles" value={String(summary.guardEligibleCount)} detail="cobertura potencial" />
+      </div>
+
+      <SectionCard title="Directorio del staff" description="Asesores, administracion, contacto y elegibilidad para guardias.">
         <DataTable
-          rows={users}
+          rows={records}
           getRowId={(row) => row.id}
+          emptyMessage="No hay staff importado."
           columns={[
             {
               key: "name",
-              label: txt("User"),
+              label: "Usuario",
               render: (row) => (
                 <div>
-                  <strong>{row.name}</strong>
-                  <div className="muted">{row.email}</div>
-                  {row.isFictitious ? (
-                    <div className="inline-stack">
-                      <StatusBadge value="Datos ficticios" tone="warning" />
-                    </div>
-                  ) : null}
+                  <strong>{row.displayName}</strong>
+                  <div className="muted">{row.email ?? "Sin email"}</div>
                 </div>
               )
             },
-            { key: "role", label: txt("Role"), render: (row) => txt(row.role) },
-            { key: "region", label: txt("Region"), render: (row) => row.region },
-            { key: "status", label: txt("Statut"), render: (row) => <StatusBadge value={txt(row.status)} /> },
-            { key: "lastSeen", label: txt("Dernier acces"), render: (row) => row.lastSeen }
+            { key: "role", label: "Rol", render: (row) => row.roleLabel },
+            { key: "location", label: "Ubicacion", render: (row) => row.location },
+            { key: "phone", label: "Telefono", render: (row) => row.phone ?? "Sin telefono" },
+            { key: "status", label: "Estado", render: (row) => <StatusBadge value={row.employmentStatus} /> },
+            {
+              key: "guard",
+              label: "Guardia",
+              render: (row) => (
+                <StatusBadge value={row.guardEligible ? "Elegible" : "Sin guardia"} tone={row.guardEligible ? "info" : "neutral"} />
+              )
+            },
+            {
+              key: "joined",
+              label: "Alta",
+              render: (row) => (row.joinedOn ? formatDate(row.joinedOn, "es-MX") : "Sin fecha")
+            },
+            {
+              key: "left",
+              label: "Baja",
+              render: (row) => (row.leftOn ? formatDate(row.leftOn, "es-MX") : "Activa")
+            }
           ]}
         />
       </SectionCard>
