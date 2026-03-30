@@ -1633,6 +1633,422 @@ textarea {
   line-height: 1.55;
 }
 
+.app-remax-shell {
+  --remax-bg: #eef2f7;
+  --remax-surface: #ffffff;
+  --remax-surface-soft: #f7f9fc;
+  --remax-line: #c8d4e3;
+  --remax-line-strong: #8ea4c1;
+  --remax-text: #1a2433;
+  --remax-muted: #63758b;
+  --remax-red: #d7433f;
+  --remax-blue: #5f88c3;
+  --remax-shadow: 0 18px 48px rgba(65, 86, 118, 0.12);
+  background:
+    linear-gradient(180deg, rgba(95, 136, 195, 0.06), rgba(238, 242, 247, 0)),
+    var(--remax-bg);
+  color: var(--remax-text);
+  color-scheme: light;
+}
+
+.app-remax-shell .remax-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 24px 18px 32px;
+  border-right: 1px solid var(--remax-line);
+  background:
+    radial-gradient(circle at top, rgba(95, 136, 195, 0.24), transparent 26%),
+    linear-gradient(180deg, #16202f 0%, #1d2a3f 100%);
+  color: #f5f8fc;
+}
+
+.app-remax-shell .remax-sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.app-remax-shell .remax-sidebar::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  background-clip: padding-box;
+}
+
+.app-remax-shell .remax-brand-panel,
+.app-remax-shell .remax-side-note,
+.app-remax-shell .remax-session-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.18);
+}
+
+.app-remax-shell .remax-brand-panel {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.app-remax-shell .remax-brand-lockup {
+  display: grid;
+  gap: 4px;
+}
+
+.app-remax-shell .remax-brand-mark {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  color: #f04f4c;
+}
+
+.app-remax-shell .remax-brand-sub {
+  font-size: 14px;
+  letter-spacing: 0.42em;
+}
+
+.app-remax-shell .remax-brand-panel strong,
+.app-remax-shell .remax-side-note strong,
+.app-remax-shell .remax-session-card strong {
+  display: block;
+  font-size: 18px;
+}
+
+.app-remax-shell .remax-brand-panel p,
+.app-remax-shell .remax-side-note p,
+.app-remax-shell .remax-session-card p {
+  margin: 10px 0 0;
+  color: rgba(245, 248, 252, 0.78);
+  line-height: 1.5;
+}
+
+.app-remax-shell .remax-session-card {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  margin-bottom: 22px;
+}
+
+.app-remax-shell .remax-session-card span,
+.app-remax-shell .remax-side-note span {
+  display: block;
+  color: #b9c8db;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.app-remax-shell .remax-nav-section + .remax-nav-section {
+  margin-top: 20px;
+}
+
+.app-remax-shell .remax-nav-title {
+  margin: 0 0 8px;
+  padding: 0 8px;
+  color: rgba(245, 248, 252, 0.62);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.app-remax-shell .remax-nav-links {
+  display: grid;
+  gap: 8px;
+}
+
+.app-remax-shell .remax-nav-link {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  color: rgba(245, 248, 252, 0.82);
+  transition:
+    160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.app-remax-shell .remax-nav-link:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(2px);
+}
+
+.app-remax-shell .remax-nav-link.active {
+  border-color: rgba(123, 167, 231, 0.35);
+  background: linear-gradient(180deg, rgba(95, 136, 195, 0.34), rgba(95, 136, 195, 0.18));
+  color: #ffffff;
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
+}
+
+.app-remax-shell .remax-side-note {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  margin-top: 20px;
+}
+
+.app-remax-shell .remax-main {
+  min-width: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(238, 242, 247, 0.78)),
+    var(--remax-bg);
+}
+
+.app-remax-shell .remax-windowbar {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  min-height: 44px;
+  padding: 8px 12px 0;
+  background: #141516;
+}
+
+.app-remax-shell .remax-window-tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: #1d1f22;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+}
+
+.app-remax-shell .remax-window-tab.active {
+  background: #fbfdff;
+  color: #1f2937;
+}
+
+.app-remax-shell .remax-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--remax-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(245, 248, 252, 0.96));
+  box-shadow: 0 6px 18px rgba(77, 102, 136, 0.06);
+}
+
+.app-remax-shell .remax-toolbar-ribbon {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.app-remax-shell .remax-toolbar-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #1c2637;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.app-remax-shell .remax-toolbar-copy {
+  color: var(--remax-muted);
+  font-size: 14px;
+}
+
+.app-remax-shell .remax-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.app-remax-shell .app-remax-subbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 24px 0;
+}
+
+.app-remax-shell .app-remax-subbar-title span {
+  display: block;
+  color: var(--remax-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.app-remax-shell .app-remax-subbar-title strong,
+.app-remax-shell .remax-toolbar-meta strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--remax-text);
+  font-size: 16px;
+}
+
+.app-remax-shell .remax-toolbar-meta {
+  text-align: right;
+}
+
+.app-remax-shell .remax-toolbar-meta p {
+  margin: 4px 0 0;
+  color: var(--remax-muted);
+  font-size: 13px;
+}
+
+.app-remax-shell .remax-content {
+  padding: 32px;
+}
+
+.app-remax-shell .language-switcher {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid var(--remax-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 18px rgba(77, 103, 140, 0.08);
+}
+
+.app-remax-shell .language-button {
+  min-width: 46px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5a6f8c;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.app-remax-shell .language-button:hover:not(:disabled) {
+  color: #274162;
+  background: rgba(95, 136, 195, 0.08);
+}
+
+.app-remax-shell .language-button.active {
+  background: linear-gradient(180deg, #dce8f8, #c7d8f0);
+  color: #274162;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+.app-remax-shell .page-header h1 {
+  color: var(--remax-text);
+  font-size: clamp(40px, 5vw, 62px);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.app-remax-shell .eyebrow {
+  color: var(--remax-red);
+  letter-spacing: 0.18em;
+}
+
+.app-remax-shell .page-description,
+.app-remax-shell .topbar-label,
+.app-remax-shell .stat-detail,
+.app-remax-shell .field-label,
+.app-remax-shell .muted,
+.app-remax-shell .helper-text {
+  color: var(--remax-muted);
+}
+
+.app-remax-shell .button {
+  border: 1px solid #9fb6d8;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #d9e6f8, #bdd2f0);
+  color: #274162;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.app-remax-shell .button-secondary {
+  border-color: #c8d4e3;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 246, 252, 0.94));
+  color: #35506f;
+}
+
+.app-remax-shell .card,
+.app-remax-shell .stat-card,
+.app-remax-shell .summary-block,
+.app-remax-shell .security-banner,
+.app-remax-shell .security-card,
+.app-remax-shell .security-panel,
+.app-remax-shell .list-item,
+.app-remax-shell .timeline-item,
+.app-remax-shell .info-item,
+.app-remax-shell .route-tree code,
+.app-remax-shell .field input,
+.app-remax-shell .field select,
+.app-remax-shell .field textarea {
+  border-color: var(--remax-line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+  color: var(--remax-text);
+  box-shadow: var(--remax-shadow);
+  backdrop-filter: none;
+}
+
+.app-remax-shell .security-banner {
+  background: rgba(242, 197, 63, 0.12);
+}
+
+.app-remax-shell .table-wrap {
+  border: 1px solid var(--remax-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.app-remax-shell .data-table th {
+  color: #7a8ea7;
+}
+
+.app-remax-shell .data-table td {
+  color: var(--remax-text);
+}
+
+.app-remax-shell .data-table tbody tr:hover {
+  background: rgba(95, 136, 195, 0.08);
+}
+
+.app-remax-shell .badge {
+  border-color: rgba(103, 128, 163, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  color: #345273;
+}
+
+.app-remax-shell .badge-success {
+  border-color: rgba(77, 174, 123, 0.18);
+  background: rgba(112, 196, 149, 0.14);
+  color: #2f6e4c;
+}
+
+.app-remax-shell .badge-warning {
+  border-color: rgba(203, 162, 76, 0.22);
+  background: rgba(217, 176, 77, 0.14);
+  color: #8a6922;
+}
+
+.app-remax-shell .badge-danger {
+  border-color: rgba(215, 67, 63, 0.18);
+  background: rgba(215, 67, 63, 0.1);
+  color: #9f3430;
+}
+
+.app-remax-shell .badge-info {
+  border-color: rgba(95, 136, 195, 0.2);
+  background: rgba(95, 136, 195, 0.12);
+  color: #355c92;
+}
+
 @media (max-width: 1120px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -1670,6 +2086,20 @@ textarea {
 
   .pipeline-toolbar-controls {
     justify-content: flex-start;
+  }
+
+  .app-remax-shell .remax-sidebar {
+    position: static;
+    height: auto;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--remax-line);
+  }
+
+  .app-remax-shell .remax-toolbar,
+  .app-remax-shell .app-remax-subbar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
@@ -1714,5 +2144,18 @@ textarea {
 
   .mfa-enrollment {
     grid-template-columns: 1fr;
+  }
+
+  .app-remax-shell .remax-windowbar,
+  .app-remax-shell .remax-toolbar,
+  .app-remax-shell .app-remax-subbar,
+  .app-remax-shell .remax-content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .app-remax-shell .remax-content {
+    padding-top: 18px;
+    padding-bottom: 24px;
   }
 }

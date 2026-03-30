@@ -12,8 +12,8 @@ import type {
 } from "@/lib/erp-types";
 
 export const workspaceProfile = {
-  productName: "O7 Backoffice",
-  workspaceName: "O7 Digital Group",
+  productName: "REMAX Activa",
+  workspaceName: "Plataforma Operativa Inmobiliaria",
   planName: "Enterprise",
   activeSeats: 18,
   seatLimit: 25,

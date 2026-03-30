@@ -46,9 +46,9 @@ export function ErpShell({
   const activeItem = navigationSections.flatMap((section) => section.items).find((item) => isActive(pathname, item.href));
 
   return (
-    <div className="app-shell remax-backoffice-shell">
-      <aside className="sidebar remax-sidebar-shell">
-        <div className="sidebar-brand remax-brand-panel app-brand-panel">
+    <div className="app-shell app-remax-shell">
+      <aside className="remax-sidebar app-remax-sidebar">
+        <div className="remax-brand-panel app-remax-brand-panel">
           <div className="remax-brand-lockup">
             <span className="remax-brand-mark">REMAX</span>
             <span className="remax-brand-sub">ACTIVA</span>
@@ -57,26 +57,26 @@ export function ErpShell({
           <p>{workspace.workspaceName}</p>
         </div>
 
-        <div className="remax-session-card app-session-card">
-          <span>{shellCopy.activeTenantLabel}</span>
+        <div className="remax-session-card app-remax-session-card">
+          <span>Panel operativo</span>
           <strong>{currentUser.label}</strong>
           <p>{currentUser.email}</p>
           <form action="/auth/logout" method="post">
             <button type="submit" className="button button-secondary remax-logout-button">
-              Logout
+              Cerrar sesion
             </button>
           </form>
         </div>
 
         {navigationSections.map((section) => (
-          <div key={section.title} className="nav-section remax-nav-section">
-            <p className="nav-title remax-nav-title">{section.title}</p>
-            <div className="nav-links remax-nav-links">
+          <div key={section.title} className="remax-nav-section">
+            <p className="remax-nav-title">{section.title}</p>
+            <div className="remax-nav-links">
               {section.items.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={isActive(pathname, item.href) ? "nav-link remax-nav-link active" : "nav-link remax-nav-link"}
+                  className={isActive(pathname, item.href) ? "remax-nav-link active" : "remax-nav-link"}
                 >
                   {item.label}
                 </Link>
@@ -85,7 +85,7 @@ export function ErpShell({
           </div>
         ))}
 
-        <div className="sidebar-footer remax-side-note app-side-note">
+        <div className="remax-side-note app-remax-side-note">
           <span>{shellCopy.workspaceLabel}</span>
           <strong>{workspace.planName}</strong>
           <p>
@@ -93,33 +93,27 @@ export function ErpShell({
           </p>
         </div>
 
-        <div className="sidebar-footer remax-side-note app-side-note">
-          <span>Backoffice</span>
+        <div className="remax-side-note app-remax-side-note">
+          <span>{shellCopy.activeTenantLabel}</span>
           <strong>{activeItem?.label ?? "Panel"}</strong>
           <p>Operacion, administracion y seguimiento centralizado en una sola interfaz.</p>
         </div>
       </aside>
 
-      <div className="shell-main remax-main-shell">
-        <div className="remax-windowbar app-windowbar">
+      <div className="remax-main app-remax-main">
+        <div className="remax-windowbar">
           <span className="remax-window-tab active">{activeItem?.label ?? workspace.productName}</span>
         </div>
 
-        <header className="topbar remax-toolbar app-toolbar">
-          <div className="app-toolbar-copy">
-            <div className="remax-toolbar-ribbon">
-              <span className="remax-toolbar-chip">Plataforma ejecutiva</span>
-              <span className="remax-toolbar-copy">
-                Gestion centralizada de propiedades, asesores, clientes, documentos y operaciones.
-              </span>
-            </div>
+        <header className="remax-toolbar app-remax-toolbar">
+          <div className="remax-toolbar-ribbon">
+            <span className="remax-toolbar-chip">Plataforma ejecutiva</span>
+            <span className="remax-toolbar-copy">
+              Gestion centralizada de propiedades, asesores, clientes, documentos y operaciones.
+            </span>
           </div>
 
-          <div className="topbar-actions app-toolbar-actions">
-            <div className="topbar-user app-toolbar-user">
-              <span>{currentUser.label}</span>
-              <strong>{currentUser.email}</strong>
-            </div>
+          <div className="remax-header-actions">
             <LanguageSwitcher locale={locale} />
             <Link href="/app/invoices" className="button button-secondary">
               {shellCopy.invoicesLabel}
@@ -130,12 +124,18 @@ export function ErpShell({
           </div>
         </header>
 
-        <div className="app-toolbar-meta">
-          <span>{shellCopy.activeTenantLabel}</span>
-          <strong>{workspace.workspaceName}</strong>
+        <div className="app-remax-subbar">
+          <div className="app-remax-subbar-title">
+            <span>{shellCopy.activeTenantLabel}</span>
+            <strong>{workspace.workspaceName}</strong>
+          </div>
+          <div className="remax-toolbar-meta">
+            <strong>{currentUser.email}</strong>
+            <p>{currentUser.label}</p>
+          </div>
         </div>
 
-        <main className="page-content remax-content-shell">{children}</main>
+        <main className="page-content remax-content app-remax-content">{children}</main>
       </div>
     </div>
   );
