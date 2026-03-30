@@ -5,3 +5,11 @@ import { getSupabasePublishableKey, getSupabaseUrl } from "@/utils/supabase/conf
 export function createClient() {
   return createBrowserClient(getSupabaseUrl(), getSupabasePublishableKey());
 }
+
+export function tryCreateClient() {
+  try {
+    return createClient();
+  } catch {
+    return null;
+  }
+}

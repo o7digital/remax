@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Factor } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/client";
+import { tryCreateClient } from "@/utils/supabase/client";
 
 type SecurityState = {
   currentLevel: "aal1" | "aal2" | null;
@@ -30,7 +30,7 @@ export function MfaSecurityPanel({
   setupRequired: boolean;
 }) {
   const router = useRouter();
-  const [supabase] = useState(() => createClient());
+  const [supabase] = useState(() => tryCreateClient());
   const [security, setSecurity] = useState<SecurityState>({ currentLevel: null, factors: [] });
   const [pendingEnrollment, setPendingEnrollment] = useState<PendingEnrollment | null>(null);
   const [friendlyName, setFriendlyName] = useState("ERP Admin");
@@ -45,6 +45,10 @@ export function MfaSecurityPanel({
   );
 
   async function refreshState() {
+    if (!supabase) {
+      throw new Error("Missing browser supabase client");
+    }
+
     const [{ data: aalData, error: aalError }, { data: factorData, error: factorError }] = await Promise.all([
       supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
       supabase.auth.mfa.listFactors()
@@ -82,9 +86,14 @@ export function MfaSecurityPanel({
     return () => {
       active = false;
     };
-  }, [supabase.auth.mfa]);
+  }, [supabase]);
 
   async function handleEnroll() {
+    if (!supabase) {
+      setError("No se pudo inicializar el cliente de autenticacion.");
+      return;
+    }
+
     setBusy(true);
     setError(null);
 
@@ -111,6 +120,11 @@ export function MfaSecurityPanel({
   }
 
   async function handleVerify() {
+    if (!supabase) {
+      setError("No se pudo inicializar el cliente de autenticacion.");
+      return;
+    }
+
     if (!pendingEnrollment || verificationCode.length !== 6) {
       setError("Introduce un codigo TOTP valido de 6 digitos.");
       return;
@@ -138,6 +152,11 @@ export function MfaSecurityPanel({
   }
 
   async function handleUnenroll(factorId: string) {
+    if (!supabase) {
+      setError("No se pudo inicializar el cliente de autenticacion.");
+      return;
+    }
+
     setBusy(true);
     setError(null);
 

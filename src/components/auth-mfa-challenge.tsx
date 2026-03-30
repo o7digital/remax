@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import type { Factor } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/client";
+import { tryCreateClient } from "@/utils/supabase/client";
 
 export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
   const router = useRouter();
-  const [supabase] = useState(() => createClient());
+  const [supabase] = useState(() => tryCreateClient());
   const [code, setCode] = useState("");
   const [factors, setFactors] = useState<Factor[]>([]);
   const [selectedFactorId, setSelectedFactorId] = useState("");
@@ -20,6 +20,14 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
     let active = true;
 
     async function loadState() {
+      if (!supabase) {
+        if (active) {
+          setError("No se pudo inicializar el cliente de autenticacion.");
+          setLoading(false);
+        }
+        return;
+      }
+
       const [{ data: aalData, error: aalError }, { data: factorData, error: factorError }] = await Promise.all([
         supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
         supabase.auth.mfa.listFactors()
@@ -57,9 +65,14 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
     return () => {
       active = false;
     };
-  }, [nextPath, router, supabase.auth.mfa]);
+  }, [nextPath, router, supabase]);
 
   async function handleSubmit(formData: FormData) {
+    if (!supabase) {
+      setError("No se pudo inicializar el cliente de autenticacion.");
+      return;
+    }
+
     const submittedCode = String(formData.get("code") ?? "").trim();
     const factorId = String(formData.get("factorId") ?? selectedFactorId).trim();
 
