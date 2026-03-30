@@ -2,6 +2,8 @@ import "server-only";
 
 import { createAdminClient } from "@/utils/supabase/admin";
 
+const SUPABASE_BATCH_SIZE = 1000;
+
 type PropertyRow = {
   id: string;
   property_key: string;
@@ -9,6 +11,8 @@ type PropertyRow = {
   municipality: string | null;
   state: string | null;
   property_status: string;
+  list_price?: number | null;
+  currency_code?: string | null;
 };
 
 type PropertyContactRow = {
@@ -90,6 +94,25 @@ type AttendanceEventRow = {
   staff_member_id: string;
 };
 
+type PropertyValueRow = {
+  property_id: string;
+  price_amount: number | null;
+  currency_code: string | null;
+  valued_on: string | null;
+};
+
+type DealParticipantRow = {
+  id: string;
+  deal_id: string;
+  staff_member_id: string | null;
+  participant_name: string | null;
+  participant_side: string;
+  participant_role: string | null;
+  advisor_class: string | null;
+  participation_percent: number | null;
+  fixed_amount: number | null;
+};
+
 export interface DashboardSummary {
   propertyCount: number;
   activePropertyCount: number;
@@ -142,6 +165,84 @@ export interface DashboardAttendanceRecord {
   advisorName: string;
 }
 
+export interface CommissionSummary {
+  totalDeals: number;
+  estimableDeals: number;
+  totalEstimatedCommission: number;
+  activeAdvisorsWithCommission: number;
+  coverageRatio: number;
+}
+
+export interface CommissionDealRecord {
+  id: string;
+  dealTitle: string;
+  propertyKey: string;
+  propertyTitle: string;
+  dealKind: string;
+  dealStatus: string;
+  operationValue: number | null;
+  currencyCode: string;
+  commissionRate: number;
+  estimatedGrossCommission: number | null;
+  participantCount: number;
+  closedOn: string | null;
+}
+
+export interface CommissionAdvisorRecord {
+  id: string;
+  advisorName: string;
+  staffKind: string;
+  employmentStatus: string;
+  dealCount: number;
+  estimatedCommission: number;
+  currencyCode: string;
+}
+
+interface CommissionDealComputation {
+  id: string;
+  dealTitle: string;
+  propertyKey: string;
+  propertyTitle: string;
+  dealKind: string;
+  dealStatus: string;
+  operationValue: number | null;
+  currencyCode: string;
+  commissionRate: number;
+  estimatedGrossCommission: number | null;
+  participantCount: number;
+  closedOn: string | null;
+  eventDate: string;
+}
+
+export interface ReportingSummary {
+  totalProperties: number;
+  activeProperties: number;
+  completedDeals: number;
+  attendanceEvents: number;
+  guardShifts: number;
+  estimatedCommissionTotal: number;
+}
+
+export interface ReportingMonthRecord {
+  month: string;
+  deals: number;
+  estimatedCommission: number;
+}
+
+export interface ReportingAreaRecord {
+  area: string;
+  propertyCount: number;
+  activePropertyCount: number;
+}
+
+const commissionRateByDealKind: Record<string, number> = {
+  closing: 0.06,
+  sale: 0.06,
+  listing: 0.05,
+  rental: 0.04,
+  cancellation: 0.02
+};
+
 function assertData<T>(value: T | null, error: { message: string } | null, label: string): T {
   if (error) {
     throw new Error(`Failed to load ${label}: ${error.message}`);
@@ -152,6 +253,30 @@ function assertData<T>(value: T | null, error: { message: string } | null, label
   }
 
   return value;
+}
+
+async function fetchAllRows<T>(table: string, selectClause: string): Promise<T[]> {
+  const admin = createAdminClient();
+  const rows: T[] = [];
+  let from = 0;
+
+  while (true) {
+    const response = await admin
+      .from(table)
+      .select(selectClause)
+      .range(from, from + SUPABASE_BATCH_SIZE - 1);
+
+    const batch = assertData<T[]>(response.data as T[] | null, response.error, table);
+    rows.push(...batch);
+
+    if (batch.length < SUPABASE_BATCH_SIZE) {
+      break;
+    }
+
+    from += SUPABASE_BATCH_SIZE;
+  }
+
+  return rows;
 }
 
 function normalizeText(value: string | null | undefined) {
@@ -396,6 +521,183 @@ function compareDateDesc(left: string | null, right: string | null) {
   return new Date(right ?? 0).getTime() - new Date(left ?? 0).getTime();
 }
 
+function getCommissionRate(dealKind: string) {
+  return commissionRateByDealKind[dealKind] ?? 0.05;
+}
+
+function getLatestPropertyValueMap(values: PropertyValueRow[]) {
+  const latestByProperty = new Map<string, PropertyValueRow>();
+
+  for (const value of values) {
+    if (!value.price_amount) {
+      continue;
+    }
+
+    const existing = latestByProperty.get(value.property_id);
+    const currentStamp = new Date(value.valued_on ?? 0).getTime();
+    const existingStamp = new Date(existing?.valued_on ?? 0).getTime();
+
+    if (!existing || currentStamp >= existingStamp) {
+      latestByProperty.set(value.property_id, value);
+    }
+  }
+
+  return latestByProperty;
+}
+
+function roundAmount(value: number) {
+  return Math.round(value * 100) / 100;
+}
+
+async function buildCommissionDataset(): Promise<{
+  summary: CommissionSummary;
+  advisorRecords: CommissionAdvisorRecord[];
+  dealRecords: CommissionDealComputation[];
+}> {
+  const [properties, propertyValues, deals, participants, staff] = await Promise.all([
+    fetchAllRows<PropertyRow>(
+      "properties",
+      "id, property_key, title, municipality, state, property_status, list_price, currency_code"
+    ),
+    fetchAllRows<PropertyValueRow>(
+      "property_values",
+      "property_id, price_amount, currency_code, valued_on"
+    ),
+    fetchAllRows<DealRow>(
+      "deals",
+      "id, title, deal_kind, status, property_id, closed_on, created_at"
+    ),
+    fetchAllRows<DealParticipantRow>(
+      "deal_participants",
+      "id, deal_id, staff_member_id, participant_name, participant_side, participant_role, advisor_class, participation_percent, fixed_amount"
+    ),
+    fetchAllRows<StaffMemberRow>(
+      "staff_members",
+      "id, display_name, staff_kind, employment_status, is_guard_eligible, joined_on"
+    )
+  ]);
+
+  const propertiesById = new Map(properties.map((property) => [property.id, property]));
+  const staffById = new Map(staff.map((member) => [member.id, member]));
+  const latestValueByPropertyId = getLatestPropertyValueMap(propertyValues);
+  const participantsByDealId = new Map<string, DealParticipantRow[]>();
+
+  for (const participant of participants) {
+    const current = participantsByDealId.get(participant.deal_id) ?? [];
+    current.push(participant);
+    participantsByDealId.set(participant.deal_id, current);
+  }
+
+  const dealRecords = deals
+    .map<CommissionDealComputation>((deal) => {
+      const property = propertiesById.get(deal.property_id);
+      const latestValue = latestValueByPropertyId.get(deal.property_id);
+      const operationValue = latestValue?.price_amount ?? property?.list_price ?? null;
+      const currencyCode = latestValue?.currency_code ?? property?.currency_code ?? "MXN";
+      const participantRows = participantsByDealId.get(deal.id) ?? [];
+      const commissionRate = getCommissionRate(deal.deal_kind);
+      const estimatedGrossCommission = operationValue ? roundAmount(operationValue * commissionRate) : null;
+
+      return {
+        id: deal.id,
+        dealTitle: deal.title,
+        propertyKey: property?.property_key ?? "Sin clave",
+        propertyTitle: property?.title ?? property?.property_key ?? "Sin propiedad",
+        dealKind: deal.deal_kind,
+        dealStatus: deal.status,
+        operationValue,
+        currencyCode,
+        commissionRate,
+        estimatedGrossCommission,
+        participantCount: participantRows.length,
+        closedOn: deal.closed_on,
+        eventDate: deal.closed_on ?? deal.created_at
+      };
+    })
+    .sort((left, right) => compareDateDesc(left.eventDate, right.eventDate));
+
+  const advisorTotals = new Map<
+    string,
+    {
+      id: string;
+      advisorName: string;
+      staffKind: string;
+      employmentStatus: string;
+      dealIds: Set<string>;
+      estimatedCommission: number;
+      currencyCode: string;
+    }
+  >();
+
+  for (const dealRecord of dealRecords) {
+    if (!dealRecord.estimatedGrossCommission) {
+      continue;
+    }
+
+    const participantRows = participantsByDealId.get(dealRecord.id) ?? [];
+
+    if (participantRows.length === 0) {
+      continue;
+    }
+
+    for (const participant of participantRows) {
+      const splitPercent = participant.participation_percent ?? 0;
+      const splitAmount =
+        participant.fixed_amount ??
+        (splitPercent > 0 ? roundAmount(dealRecord.estimatedGrossCommission * (splitPercent / 100)) : 0);
+
+      if (splitAmount <= 0) {
+        continue;
+      }
+
+      const staffMatch = participant.staff_member_id ? staffById.get(participant.staff_member_id) : null;
+      const key = participant.staff_member_id ?? participant.participant_name ?? participant.id;
+      const current = advisorTotals.get(key) ?? {
+        id: key,
+        advisorName: staffMatch?.display_name ?? participant.participant_name ?? "Sin asignar",
+        staffKind: staffMatch?.staff_kind ?? "advisor",
+        employmentStatus: staffMatch?.employment_status ?? "inactive",
+        dealIds: new Set<string>(),
+        estimatedCommission: 0,
+        currencyCode: dealRecord.currencyCode
+      };
+
+      current.dealIds.add(dealRecord.id);
+      current.estimatedCommission += splitAmount;
+      advisorTotals.set(key, current);
+    }
+  }
+
+  const advisorRecords = Array.from(advisorTotals.values())
+    .map<CommissionAdvisorRecord>((entry) => ({
+      id: entry.id,
+      advisorName: entry.advisorName,
+      staffKind: entry.staffKind,
+      employmentStatus: entry.employmentStatus,
+      dealCount: entry.dealIds.size,
+      estimatedCommission: roundAmount(entry.estimatedCommission),
+      currencyCode: entry.currencyCode
+    }))
+    .sort((left, right) => right.estimatedCommission - left.estimatedCommission);
+
+  const estimableDealsCount = dealRecords.filter((entry) => typeof entry.estimatedGrossCommission === "number").length;
+  const totalEstimatedCommission = roundAmount(
+    dealRecords.reduce((sum, entry) => sum + (entry.estimatedGrossCommission ?? 0), 0)
+  );
+
+  return {
+    summary: {
+      totalDeals: deals.length,
+      estimableDeals: estimableDealsCount,
+      totalEstimatedCommission,
+      activeAdvisorsWithCommission: advisorRecords.filter((record) => record.employmentStatus === "active").length,
+      coverageRatio: deals.length > 0 ? estimableDealsCount / deals.length : 0
+    },
+    advisorRecords,
+    dealRecords
+  };
+}
+
 export async function getDashboardData(): Promise<{
   summary: DashboardSummary;
   properties: DashboardPropertyRecord[];
@@ -527,5 +829,96 @@ export async function getDashboardData(): Promise<{
         eventAt: event.event_at,
         advisorName: staffById.get(event.staff_member_id)?.display_name ?? "Sin match"
       }))
+  };
+}
+
+export async function getCommissionData(): Promise<{
+  summary: CommissionSummary;
+  dealRecords: CommissionDealRecord[];
+  advisorRecords: CommissionAdvisorRecord[];
+}> {
+  const { summary, advisorRecords, dealRecords } = await buildCommissionDataset();
+
+  return {
+    summary,
+    dealRecords: dealRecords.slice(0, 16).map<CommissionDealRecord>((record) => ({
+      id: record.id,
+      dealTitle: record.dealTitle,
+      propertyKey: record.propertyKey,
+      propertyTitle: record.propertyTitle,
+      dealKind: record.dealKind,
+      dealStatus: record.dealStatus,
+      operationValue: record.operationValue,
+      currencyCode: record.currencyCode,
+      commissionRate: record.commissionRate,
+      estimatedGrossCommission: record.estimatedGrossCommission,
+      participantCount: record.participantCount,
+      closedOn: record.closedOn
+    })),
+    advisorRecords: advisorRecords.slice(0, 12)
+  };
+}
+
+export async function getReportingData(): Promise<{
+  summary: ReportingSummary;
+  monthlyClosings: ReportingMonthRecord[];
+  topAreas: ReportingAreaRecord[];
+  topAdvisors: CommissionAdvisorRecord[];
+}> {
+  const [{ summary: commissionSummary, advisorRecords, dealRecords }, dashboard, properties] = await Promise.all([
+    buildCommissionDataset(),
+    getDashboardData(),
+    fetchAllRows<PropertyRow>("properties", "id, property_key, title, municipality, state, property_status")
+  ]);
+
+  const monthlyMap = new Map<string, { deals: number; estimatedCommission: number }>();
+  const areaMap = new Map<string, ReportingAreaRecord>();
+
+  for (const property of properties) {
+    const area = property.municipality ?? property.state ?? "Sin ubicacion";
+    const current = areaMap.get(area) ?? {
+      area,
+      propertyCount: 0,
+      activePropertyCount: 0
+    };
+
+    current.propertyCount += 1;
+    current.activePropertyCount += Number(property.property_status === "active");
+    areaMap.set(area, current);
+  }
+
+  for (const deal of dealRecords) {
+    const month = deal.eventDate.slice(0, 7);
+    const current = monthlyMap.get(month) ?? {
+      deals: 0,
+      estimatedCommission: 0
+    };
+
+    current.deals += 1;
+    current.estimatedCommission += deal.estimatedGrossCommission ?? 0;
+    monthlyMap.set(month, current);
+  }
+
+  return {
+    summary: {
+      totalProperties: dashboard.summary.propertyCount,
+      activeProperties: dashboard.summary.activePropertyCount,
+      completedDeals: dashboard.summary.completedDealCount,
+      attendanceEvents: dashboard.summary.attendanceEventCount,
+      guardShifts: dashboard.summary.guardShiftCount,
+      estimatedCommissionTotal: commissionSummary.totalEstimatedCommission
+    },
+    monthlyClosings: Array.from(monthlyMap.entries())
+      .map(([month, values]) => ({
+        month,
+        deals: values.deals,
+        estimatedCommission: roundAmount(values.estimatedCommission)
+      }))
+      .sort((left, right) => right.month.localeCompare(left.month))
+      .slice(0, 12),
+    topAreas: Array.from(areaMap.values())
+      .sort((left, right) => right.propertyCount - left.propertyCount)
+      .slice(0, 10),
+    topAdvisors: advisorRecords.slice(0, 10)
   };
 }
