@@ -1,3 +1,4 @@
+import { DataOriginNotice } from "@/components/data-origin-notice";
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
@@ -14,6 +15,8 @@ export default async function SettingsRolesPage() {
         title={txt("Roles")}
         description={txt("Roles et permissions pour sales, finance, operations et administration.")}
       />
+
+      <DataOriginNotice description="El catalogo de roles y permisos sigue siendo temporal. Todavia no representa la estructura final del cliente." />
 
       <div className="two-columns">
         <SectionCard title={txt("Roles actifs")} description={txt("Roles appliques dans le workspace.")}>

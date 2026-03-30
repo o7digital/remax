@@ -1,3 +1,4 @@
+import { DataOriginNotice } from "@/components/data-origin-notice";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { workspaceProfile } from "@/lib/erp-data";
@@ -12,6 +13,8 @@ export default async function SettingsCompanyPage() {
         title={txt("Company")}
         description={txt("Profil societe, devise, locale et donnees de reference du tenant.")}
       />
+
+      <DataOriginNotice description="Este bloque sigue usando parametros temporales de configuracion. No corresponde todavia a la ficha corporativa final del cliente." />
 
       <SectionCard title={txt("Profil workspace")} description={txt("Donnees de base de l'entite commerciale.")}>
         <div className="form-grid">

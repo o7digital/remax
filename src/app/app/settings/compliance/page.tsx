@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ComplianceCountryCard } from "@/components/compliance-country-card";
+import { DataOriginNotice } from "@/components/data-origin-notice";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { StatCard } from "@/components/stat-card";
@@ -40,6 +41,8 @@ export default async function CompliancePage() {
           </div>
         }
       />
+
+      <DataOriginNotice description="El bloque de compliance e invoicing sigue siendo un modulo ficticio heredado del ERP base. No corresponde al negocio inmobiliario real del cliente." />
 
       <div className="stats-grid">
         <StatCard label={txt("Pays actives")} value={String(jurisdictionProfiles.length)} detail={txt("France + Mexique")} />

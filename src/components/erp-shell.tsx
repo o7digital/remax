@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { StatusBadge } from "@/components/status-badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import type { DemoLocale } from "@/lib/demo-locale";
 import type { NavSection } from "@/lib/nav";
@@ -44,6 +45,7 @@ export function ErpShell({
 }) {
   const pathname = usePathname();
   const activeItem = navigationSections.flatMap((section) => section.items).find((item) => isActive(pathname, item.href));
+  const isFictitiousIdentity = /@o7digitalgroup\.com$|@o7\.digital$/i.test(currentUser.email);
 
   return (
     <div className="app-shell app-remax-shell">
@@ -61,6 +63,11 @@ export function ErpShell({
           <span>Panel operativo</span>
           <strong>{currentUser.label}</strong>
           <p>{currentUser.email}</p>
+          {isFictitiousIdentity ? (
+            <div className="inline-stack">
+              <StatusBadge value="Datos ficticios" tone="warning" />
+            </div>
+          ) : null}
           <form action="/auth/logout" method="post">
             <button type="submit" className="button button-secondary remax-logout-button">
               Cerrar sesion
@@ -132,6 +139,11 @@ export function ErpShell({
           <div className="remax-toolbar-meta">
             <strong>{currentUser.email}</strong>
             <p>{currentUser.label}</p>
+            {isFictitiousIdentity ? (
+              <div className="inline-stack">
+                <StatusBadge value="Datos ficticios" tone="warning" />
+              </div>
+            ) : null}
           </div>
         </div>
 

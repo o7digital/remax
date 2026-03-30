@@ -1,3 +1,4 @@
+import { DataOriginNotice } from "@/components/data-origin-notice";
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
@@ -16,6 +17,8 @@ export default async function SettingsBillingPage() {
         title={txt("Billing")}
         description={txt("Abonnement SaaS, usage seats et numerotation des flux facture.")}
       />
+
+      <DataOriginNotice description="Los datos de facturacion y suscripcion siguen siendo ficticios. Este modulo aun no esta conectado a informacion real del cliente." />
 
       <div className="stats-grid">
         <StatCard label={txt("Plan")} value={billingProfile.provider} detail={txt(billingProfile.subscriptionStatus)} />

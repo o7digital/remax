@@ -663,39 +663,33 @@ export const contracts = [
 export const users = [
   {
     id: "usr-1",
-    name: "Nadia Laurent",
-    email: "nadia@o7.digital",
-    role: "Sales Admin",
-    region: "FR",
+    name: "Christopher Suarez",
+    email: "christopher.suarez@remax-activa.com.mx",
+    role: "Administrador",
+    region: "MX",
     status: "Active",
-    lastSeen: "2026-03-20 09:14"
+    lastSeen: "2026-03-29 19:20",
+    isFictitious: false
   },
   {
     id: "usr-2",
-    name: "Luis Navarro",
-    email: "luis@o7.digital",
-    role: "Finance Ops MX",
+    name: "Pedro Leyva",
+    email: "pedro.leyva@remax-activa.com.mx",
+    role: "Director General",
     region: "MX",
     status: "Active",
-    lastSeen: "2026-03-20 08:48"
+    lastSeen: "2026-03-29 18:52",
+    isFictitious: false
   },
   {
     id: "usr-3",
-    name: "Alicia Gomez",
-    email: "alicia@o7.digital",
-    role: "Implementation Lead",
-    region: "FR",
+    name: "Admin O7 Digital",
+    email: "info@o7digitalgroup.com",
+    role: "Dev Admin",
+    region: "DEV",
     status: "Active",
-    lastSeen: "2026-03-19 18:10"
-  },
-  {
-    id: "usr-4",
-    name: "Marc Favier",
-    email: "marc@o7.digital",
-    role: "Owner",
-    region: "Global",
-    status: "MFA review",
-    lastSeen: "2026-03-20 09:31"
+    lastSeen: "2026-03-29 20:10",
+    isFictitious: true
   }
 ];
 

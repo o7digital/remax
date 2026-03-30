@@ -1,3 +1,4 @@
+import { DataOriginNotice } from "@/components/data-origin-notice";
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
@@ -15,6 +16,8 @@ export default async function SettingsUsersPage() {
         description={txt("Utilisateurs actifs, role assigne, region et dernier acces.")}
       />
 
+      <DataOriginNotice description="Los usuarios REMAX son referencias operativas de trabajo. Cualquier cuenta O7 Digital esta marcada explicitamente como datos ficticios de entorno dev." />
+
       <SectionCard title={txt("Workspace users")} description={txt("Administration equipe et securite d'acces.")}>
         <DataTable
           rows={users}
@@ -27,6 +30,11 @@ export default async function SettingsUsersPage() {
                 <div>
                   <strong>{row.name}</strong>
                   <div className="muted">{row.email}</div>
+                  {row.isFictitious ? (
+                    <div className="inline-stack">
+                      <StatusBadge value="Datos ficticios" tone="warning" />
+                    </div>
+                  ) : null}
                 </div>
               )
             },
