@@ -60,6 +60,10 @@ export function formatCurrencyTotals(totals: CurrencyTotal[], locale = "es-MX") 
   return totals.map((entry) => formatCurrency(entry.amount, entry.currency, locale)).join(" · ");
 }
 
+export function getPreferredCurrencyTotal(totals: CurrencyTotal[], preferredCurrency = "MXN") {
+  return totals.find((entry) => entry.currency === preferredCurrency) ?? totals[0] ?? null;
+}
+
 export function filterPipelineDeals(deals: PipelineDeal[], filters: PipelineFilters) {
   const normalizedQuery = filters.query.trim().toLowerCase();
 

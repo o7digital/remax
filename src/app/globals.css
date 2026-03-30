@@ -1944,14 +1944,16 @@ textarea {
 
 .app-remax-shell .page-header h1 {
   color: var(--remax-text);
-  font-size: clamp(40px, 5vw, 62px);
-  line-height: 0.95;
+  font-size: clamp(34px, 4.2vw, 52px);
+  line-height: 0.98;
   letter-spacing: -0.06em;
 }
 
 .app-remax-shell .eyebrow {
   color: var(--remax-red);
-  letter-spacing: 0.18em;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
 }
 
 .app-remax-shell .page-description,
@@ -2195,6 +2197,21 @@ textarea {
 
 .app-remax-shell .pipeline-stat-card strong {
   text-shadow: none;
+}
+
+.app-remax-shell .pipeline-stat-number {
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1;
+}
+
+.app-remax-shell .pipeline-stat-amount {
+  font-size: clamp(26px, 2.4vw, 38px);
+  line-height: 1.08;
+}
+
+.app-remax-shell .pipeline-stat-title {
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.12;
 }
 
 .app-remax-shell .pipeline-toolbar {
