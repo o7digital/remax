@@ -20,12 +20,12 @@ export default async function SettingsSecurityPage({
     <div className="page-stack">
       <PageHeader
         title="Security"
-        description="Gestion du login admin, du mot de passe et du facteur TOTP pour l'ERP."
+        description="Gestion del acceso administrador, la contrasena y el factor TOTP del ERP."
       />
 
       <SectionCard
-        title="2FA obligatoire"
-        description="Ajoute un facteur TOTP via Google Authenticator, 1Password ou Authy avant d'ouvrir l'admin en production."
+        title="2FA obligatorio"
+        description="Agrega un factor TOTP con Google Authenticator, 1Password o Authy antes de abrir la administracion en produccion."
       >
         <MfaSecurityPanel nextPath={nextPath} setupRequired={setupRequired} />
       </SectionCard>

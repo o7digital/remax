@@ -4,7 +4,7 @@ export const demoLocales = ["es", "en", "fr"] as const;
 
 export type DemoLocale = (typeof demoLocales)[number];
 
-export const defaultDemoLocale: DemoLocale = "fr";
+export const defaultDemoLocale: DemoLocale = "es";
 
 export const demoLocaleOptions = [
   {

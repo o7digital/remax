@@ -71,7 +71,7 @@ export function MfaSecurityPanel({
         }
       } catch {
         if (active) {
-          setError("Impossible de charger la configuration de securite.");
+          setError("No se pudo cargar la configuracion de seguridad.");
           setLoading(false);
         }
       }
@@ -96,7 +96,7 @@ export function MfaSecurityPanel({
     setBusy(false);
 
     if (enrollError || !data || data.type !== "totp") {
-      setError("Impossible d'activer le facteur TOTP.");
+      setError("No se pudo activar el factor TOTP.");
       return;
     }
 
@@ -112,7 +112,7 @@ export function MfaSecurityPanel({
 
   async function handleVerify() {
     if (!pendingEnrollment || verificationCode.length !== 6) {
-      setError("Entre un code TOTP valide a 6 chiffres.");
+      setError("Introduce un codigo TOTP valido de 6 digitos.");
       return;
     }
 
@@ -127,7 +127,7 @@ export function MfaSecurityPanel({
     setBusy(false);
 
     if (verifyError) {
-      setError("Verification MFA invalide. Utilise le code TOTP courant.");
+      setError("Verificacion MFA invalida. Usa el codigo TOTP actual.");
       return;
     }
 
@@ -148,7 +148,7 @@ export function MfaSecurityPanel({
     setBusy(false);
 
     if (unenrollError) {
-      setError("Suppression du facteur refusee. Un facteur verifie demande une session aal2.");
+      setError("No se pudo eliminar el factor. Un factor verificado requiere una sesion aal2.");
       return;
     }
 
@@ -159,34 +159,34 @@ export function MfaSecurityPanel({
     <div className="security-stack">
       {setupRequired ? (
         <div className="security-banner">
-          <strong>Second facteur requis.</strong>
-          <span>Active et verifie ton application TOTP avant d&apos;ouvrir l&apos;ERP.</span>
+          <strong>Segundo factor obligatorio.</strong>
+          <span>Activa y verifica tu aplicacion TOTP antes de abrir el ERP.</span>
         </div>
       ) : null}
 
-      {loading ? <p className="page-description">Chargement de la configuration de securite...</p> : null}
+      {loading ? <p className="page-description">Cargando configuracion de seguridad...</p> : null}
       {error ? <p className="auth-error">{error}</p> : null}
 
       {!loading ? (
         <>
           <div className="security-grid">
             <div className="security-card">
-              <p className="eyebrow">Session</p>
-              <strong>{security.currentLevel === "aal2" ? "AAL2 active" : "AAL1 uniquement"}</strong>
+              <p className="eyebrow">Sesion</p>
+              <strong>{security.currentLevel === "aal2" ? "AAL2 activa" : "Solo AAL1"}</strong>
               <p className="page-description">
                 {security.currentLevel === "aal2"
-                  ? "La session courante a deja valide le second facteur."
-                  : "Le second facteur n'est pas encore verifie sur cette session."}
+                  ? "La sesion actual ya valido el segundo factor."
+                  : "El segundo factor todavia no esta validado en esta sesion."}
               </p>
             </div>
 
             <div className="security-card">
-              <p className="eyebrow">Facteurs verifies</p>
+              <p className="eyebrow">Factores verificados</p>
               <strong>{verifiedFactors.length}</strong>
               <p className="page-description">
                 {verifiedFactors.length > 0
-                  ? "Un login futur exigera le code TOTP apres le mot de passe."
-                  : "Aucun facteur verifie. Le compte reste en simple mot de passe."}
+                  ? "El proximo acceso exigira el codigo TOTP despues de la contrasena."
+                  : "No hay factores verificados. La cuenta sigue solo con contrasena."}
               </p>
             </div>
           </div>
@@ -194,18 +194,18 @@ export function MfaSecurityPanel({
           <div className="security-panel">
             <div className="security-panel-header">
               <div>
-                <p className="eyebrow">Activer TOTP</p>
-                <h2>Ajouter une application d&apos;authentification</h2>
+                <p className="eyebrow">Activar TOTP</p>
+                <h2>Agregar una aplicacion autenticadora</h2>
               </div>
               {verifiedFactors.length > 0 ? (
                 <button type="button" className="button button-secondary" onClick={() => router.push(nextPath)}>
-                  Continuer vers l&apos;ERP
+                  Continuar al ERP
                 </button>
               ) : null}
             </div>
 
             <label className="field">
-              <span className="field-label">Nom du facteur</span>
+              <span className="field-label">Nombre del factor</span>
               <input
                 type="text"
                 value={friendlyName}
@@ -216,7 +216,7 @@ export function MfaSecurityPanel({
 
             <div className="button-row">
               <button type="button" className="button" disabled={busy} onClick={() => void handleEnroll()}>
-                {busy && !pendingEnrollment ? "Activation..." : "Generer le QR code"}
+                {busy && !pendingEnrollment ? "Activando..." : "Generar codigo QR"}
               </button>
             </div>
 
@@ -230,14 +230,14 @@ export function MfaSecurityPanel({
                 </div>
 
                 <div className="mfa-secret">
-                  <p className="field-label">Secret manuel</p>
+                  <p className="field-label">Secreto manual</p>
                   <code>{pendingEnrollment.secret}</code>
                   <p className="page-description">
-                    Si le QR ne passe pas, copie ce secret dans ton application d&apos;authentification.
+                    Si el QR no funciona, copia este secreto en tu aplicacion autenticadora.
                   </p>
 
                   <label className="field">
-                    <span className="field-label">Code TOTP</span>
+                    <span className="field-label">Codigo TOTP</span>
                     <input
                       type="text"
                       inputMode="numeric"
@@ -251,7 +251,7 @@ export function MfaSecurityPanel({
                   </label>
 
                   <button type="button" className="button" disabled={busy} onClick={() => void handleVerify()}>
-                    {busy ? "Verification..." : "Verifier le facteur"}
+                    {busy ? "Verificando..." : "Verificar factor"}
                   </button>
                 </div>
               </div>
@@ -261,13 +261,13 @@ export function MfaSecurityPanel({
           <div className="security-panel">
             <div className="security-panel-header">
               <div>
-                <p className="eyebrow">Facteurs enregistres</p>
-                <h2>Applications deja attachees</h2>
+                <p className="eyebrow">Factores registrados</p>
+                <h2>Aplicaciones ya vinculadas</h2>
               </div>
             </div>
 
             {security.factors.length === 0 ? (
-              <p className="page-description">Aucun facteur MFA attache a ce compte.</p>
+              <p className="page-description">No hay factores MFA vinculados a esta cuenta.</p>
             ) : (
               <div className="factor-list">
                 {security.factors.map((factor) => (
@@ -284,7 +284,7 @@ export function MfaSecurityPanel({
                       disabled={busy}
                       onClick={() => void handleUnenroll(factor.id)}
                     >
-                      Retirer
+                      Quitar
                     </button>
                   </div>
                 ))}

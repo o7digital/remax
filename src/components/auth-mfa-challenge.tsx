@@ -30,7 +30,7 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
       }
 
       if (aalError || factorError) {
-        setError("Impossible de charger l'etat MFA.");
+        setError("No se pudo cargar el estado MFA.");
         setLoading(false);
         return;
       }
@@ -64,7 +64,7 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
     const factorId = String(formData.get("factorId") ?? selectedFactorId).trim();
 
     if (!submittedCode || !factorId) {
-      setError("Code MFA obligatoire.");
+      setError("El codigo MFA es obligatorio.");
       return;
     }
 
@@ -79,7 +79,7 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
     setSubmitting(false);
 
     if (verifyError) {
-      setError("Code invalide. Reessaye avec le code courant de ton application d'authentification.");
+      setError("Codigo invalido. Intenta de nuevo con el codigo actual de tu aplicacion autenticadora.");
       return;
     }
 
@@ -92,13 +92,13 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
       <div className="auth-card">
         <div className="auth-card-header">
           <p className="eyebrow">MFA Challenge</p>
-          <h1>Verifier le second facteur</h1>
+          <h1>Verifica el segundo factor</h1>
           <p className="page-description">
-            Entre le code TOTP de ton application d&apos;authentification pour acceder a l&apos;ERP.
+            Introduce el codigo TOTP de tu aplicacion autenticadora para entrar al ERP.
           </p>
         </div>
 
-        {loading ? <p className="page-description">Chargement du challenge MFA...</p> : null}
+        {loading ? <p className="page-description">Cargando desafio MFA...</p> : null}
         {error ? <p className="auth-error">{error}</p> : null}
 
         {!loading ? (
@@ -109,7 +109,7 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
             }}
           >
             <label className="field">
-              <span className="field-label">Facteur</span>
+              <span className="field-label">Factor</span>
               <select
                 name="factorId"
                 value={selectedFactorId}
@@ -124,7 +124,7 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
             </label>
 
             <label className="field">
-              <span className="field-label">Code a 6 chiffres</span>
+              <span className="field-label">Codigo de 6 digitos</span>
               <input
                 type="text"
                 name="code"
@@ -139,7 +139,7 @@ export function AuthMfaChallenge({ nextPath }: { nextPath: string }) {
             </label>
 
             <button type="submit" className="button" disabled={submitting}>
-              {submitting ? "Verification..." : "Valider le code"}
+              {submitting ? "Verificando..." : "Validar codigo"}
             </button>
           </form>
         ) : null}

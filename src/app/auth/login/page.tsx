@@ -31,17 +31,17 @@ export default async function AuthLoginPage({
       <div className="auth-card">
         <div className="auth-card-header">
           <p className="eyebrow">Backoffice O7</p>
-          <h1>Connexion securisee</h1>
+          <h1>Acceso seguro</h1>
           <p className="page-description">
-            Acces au backoffice O7 avec authentification email, mot de passe et second facteur.
+            Accede al backoffice O7 con autenticacion por correo, contrasena y segundo factor.
           </p>
         </div>
 
         {error ? (
           <p className="auth-error">
             {error === "missing"
-              ? "Email et mot de passe obligatoires."
-              : "Connexion invalide. Verifie les identifiants du compte admin."}
+              ? "Correo y contrasena obligatorios."
+              : "Acceso invalido. Verifica las credenciales de la cuenta administradora."}
           </p>
         ) : null}
 
@@ -54,17 +54,17 @@ export default async function AuthLoginPage({
           </label>
 
           <label className="field">
-            <span className="field-label">Mot de passe</span>
+            <span className="field-label">Contrasena</span>
             <input type="password" name="password" autoComplete="current-password" required />
           </label>
 
           <button type="submit" className="button">
-            Ouvrir l&apos;ERP
+            Entrar al ERP
           </button>
         </form>
 
         <div className="auth-footer">
-          <span>Plateforme securisee connectee a Supabase.</span>
+          <span>Plataforma segura conectada a Supabase.</span>
         </div>
       </div>
     </div>
