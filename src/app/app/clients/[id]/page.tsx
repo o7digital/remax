@@ -16,12 +16,28 @@ function toRouteSlug(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+function toCanonicalKey(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { txt } = await getDemoI18n();
   const { id } = await params;
   const { records } = await getClientOverviewData();
+  const canonicalId = toCanonicalKey(id);
 
-  const client = records.find((record) => record.id === id || toRouteSlug(record.id) === id);
+  const client = records.find((record) => {
+    if (record.id === id || toRouteSlug(record.id) === id) {
+      return true;
+    }
+
+    return toCanonicalKey(record.id) === canonicalId || toCanonicalKey(toRouteSlug(record.id)) === canonicalId;
+  });
 
   if (!client) {
     notFound();
