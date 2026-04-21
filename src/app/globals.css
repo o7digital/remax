@@ -2037,6 +2037,17 @@ textarea {
   background: rgba(95, 136, 195, 0.08);
 }
 
+.app-remax-shell .table-link {
+  border-color: var(--remax-line);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--remax-text);
+}
+
+.app-remax-shell .table-link:hover {
+  border-color: rgba(95, 136, 195, 0.36);
+  background: rgba(95, 136, 195, 0.12);
+}
+
 .app-remax-shell .badge {
   border-color: rgba(103, 128, 163, 0.18);
   background: rgba(255, 255, 255, 0.9);
