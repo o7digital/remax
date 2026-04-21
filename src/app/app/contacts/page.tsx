@@ -42,7 +42,7 @@ export default async function ContactsPage() {
               label: txt("Contacto"),
               render: (row) => (
                 <div>
-                  <Link href={`/app/contacts/${row.id}`} className="table-link">
+                  <Link href={`/app/contacts/detail?id=${encodeURIComponent(row.id)}`} className="table-link">
                     <strong>{row.fullName}</strong>
                   </Link>
                   <div className="muted">{row.isPrimary ? "Principal" : "Secundario"}</div>

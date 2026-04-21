@@ -42,7 +42,7 @@ export default async function ClientsPage() {
               label: txt("Cliente"),
               render: (row) => (
                 <div>
-                  <Link href={`/app/clients/${row.id}`} className="table-link">
+                  <Link href={`/app/clients/detail?id=${encodeURIComponent(row.id)}`} className="table-link">
                     <strong>{row.fullName}</strong>
                   </Link>
                   <div className="muted">{row.primaryPropertyTitle}</div>
