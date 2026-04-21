@@ -52,6 +52,7 @@ export function getSettingsLinks(txt: Translator): NavItem[] {
   return [
     { label: txt("Vue globale"), href: "/app/settings" },
     { label: txt("Users"), href: "/app/settings/users" },
+    { label: txt("Commissions"), href: "/app/settings/commissions" },
     { label: txt("Roles"), href: "/app/settings/roles" },
     { label: txt("Security"), href: "/app/settings/security" },
     { label: txt("Company"), href: "/app/settings/company" },

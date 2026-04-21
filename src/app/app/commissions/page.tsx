@@ -20,9 +20,12 @@ export default async function CommissionsPage() {
     <div className="page-stack">
       <PageHeader
         title="Comisiones"
-        description="Estimacion operativa por cierre, renta o cancelacion a partir del valor de propiedad y las participaciones importadas."
+        description="Calculo operativo por cierre, renta o cancelacion usando la formula configurada en Settings y las participaciones importadas."
         actions={
           <div className="button-row">
+            <Link href="/app/settings/commissions" className="button">
+              Editar formula
+            </Link>
             <Link href="/app/reporting" className="button">
               Ver reporting
             </Link>
@@ -34,8 +37,8 @@ export default async function CommissionsPage() {
       />
 
       <DataOriginNotice
-        title="Modelo estimado"
-        description="La base operativa es real del cliente. La formula final de oficina, captacion, cierre, gerencia y excepciones sigue pendiente de validacion negocio."
+        title="Formula en Settings"
+        description="La base operativa es real del cliente. Las tasas por deal kind se leen desde commission_rules en Settings > Commissions."
       />
 
       <div className="stats-grid">
