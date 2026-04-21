@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
@@ -40,7 +42,9 @@ export default async function ContactsPage() {
               label: txt("Contacto"),
               render: (row) => (
                 <div>
-                  <strong>{row.fullName}</strong>
+                  <Link href={`/app/contacts/detail?id=${encodeURIComponent(row.id)}`} className="table-link">
+                    <strong>{row.fullName}</strong>
+                  </Link>
                   <div className="muted">{row.isPrimary ? "Principal" : "Secundario"}</div>
                 </div>
               )

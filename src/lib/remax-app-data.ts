@@ -221,6 +221,15 @@ export interface CommissionAdvisorRecord {
   currencyCode: string;
 }
 
+export interface CommissionRuleRecord {
+  id: string;
+  ruleCode: string;
+  name: string;
+  dealKind: string;
+  defaultPercent: number | null;
+  isActive: boolean;
+}
+
 interface CommissionDealComputation {
   id: string;
   dealTitle: string;
@@ -256,6 +265,12 @@ export interface ReportingAreaRecord {
   area: string;
   propertyCount: number;
   activePropertyCount: number;
+}
+
+export interface CommissionRulesSummary {
+  totalRules: number;
+  activeRules: number;
+  dealKindCoverage: number;
 }
 
 type StaffDirectoryRow = {
@@ -352,6 +367,15 @@ type PropertyContactLiteRow = {
   email: string | null;
   phone: string | null;
   is_primary: boolean;
+};
+
+type CommissionRuleRow = {
+  id: string;
+  rule_code: string;
+  name: string;
+  deal_kind: string | null;
+  default_percent: number | null;
+  is_active: boolean;
 };
 
 const commissionRateByDealKind: Record<string, number> = {
@@ -771,8 +795,41 @@ function compareDateDesc(left: string | null, right: string | null) {
   return new Date(right ?? 0).getTime() - new Date(left ?? 0).getTime();
 }
 
-function getCommissionRate(dealKind: string) {
-  return commissionRateByDealKind[dealKind] ?? 0.05;
+function getCommissionRate(
+  dealKind: string,
+  dealKindRuleMap: Map<string, number>,
+  globalFallbackRate: number
+) {
+  return (
+    dealKindRuleMap.get(dealKind) ??
+    commissionRateByDealKind[dealKind] ??
+    globalFallbackRate
+  );
+}
+
+function getRuleRateMaps(rules: CommissionRuleRow[]) {
+  const activeRules = rules.filter(
+    (rule) => rule.is_active && typeof rule.default_percent === "number"
+  );
+  const dealKindRuleMap = new Map<string, number>();
+
+  for (const rule of activeRules) {
+    if (!rule.deal_kind || dealKindRuleMap.has(rule.deal_kind)) {
+      continue;
+    }
+
+    dealKindRuleMap.set(rule.deal_kind, Number(rule.default_percent));
+  }
+
+  const globalRuleRate =
+    activeRules.find((rule) => rule.deal_kind === null)?.default_percent ?? null;
+  const globalFallbackRate =
+    typeof globalRuleRate === "number" ? Number(globalRuleRate) : 0.05;
+
+  return {
+    dealKindRuleMap,
+    globalFallbackRate
+  };
 }
 
 function getLatestPropertyValueMap(values: PropertyValueRow[]) {
@@ -832,7 +889,7 @@ async function buildCommissionDataset(): Promise<{
   advisorRecords: CommissionAdvisorRecord[];
   dealRecords: CommissionDealComputation[];
 }> {
-  const [properties, propertyValues, deals, participants, staff] = await Promise.all([
+  const [properties, propertyValues, deals, participants, staff, rules] = await Promise.all([
     fetchAllRows<PropertyRow>(
       "properties",
       "id, property_key, title, municipality, state, property_status, list_price, currency_code"
@@ -852,8 +909,13 @@ async function buildCommissionDataset(): Promise<{
     fetchAllRows<StaffMemberRow>(
       "staff_members",
       "id, display_name, staff_kind, employment_status, is_guard_eligible, joined_on"
+    ),
+    fetchAllRows<CommissionRuleRow>(
+      "commission_rules",
+      "id, rule_code, name, deal_kind, default_percent, is_active"
     )
   ]);
+  const { dealKindRuleMap, globalFallbackRate } = getRuleRateMaps(rules);
 
   const propertiesById = new Map(properties.map((property) => [property.id, property]));
   const staffById = new Map(staff.map((member) => [member.id, member]));
@@ -873,7 +935,11 @@ async function buildCommissionDataset(): Promise<{
       const operationValue = latestValue?.price_amount ?? property?.list_price ?? null;
       const currencyCode = latestValue?.currency_code ?? property?.currency_code ?? "MXN";
       const participantRows = participantsByDealId.get(deal.id) ?? [];
-      const commissionRate = getCommissionRate(deal.deal_kind);
+      const commissionRate = getCommissionRate(
+        deal.deal_kind,
+        dealKindRuleMap,
+        globalFallbackRate
+      );
       const estimatedGrossCommission = operationValue ? roundAmount(operationValue * commissionRate) : null;
 
       return {
@@ -1134,6 +1200,43 @@ export async function getCommissionData(): Promise<{
       closedOn: record.closedOn
     })),
     advisorRecords: advisorRecords.slice(0, 12)
+  };
+}
+
+export async function getCommissionRulesData(): Promise<{
+  summary: CommissionRulesSummary;
+  records: CommissionRuleRecord[];
+}> {
+  const rules = await fetchAllRows<CommissionRuleRow>(
+    "commission_rules",
+    "id, rule_code, name, deal_kind, default_percent, is_active"
+  );
+
+  const records = rules
+    .map<CommissionRuleRecord>((rule) => ({
+      id: rule.id,
+      ruleCode: rule.rule_code,
+      name: rule.name,
+      dealKind: rule.deal_kind ?? "global",
+      defaultPercent: rule.default_percent,
+      isActive: rule.is_active
+    }))
+    .sort((left, right) => left.ruleCode.localeCompare(right.ruleCode));
+
+  const activeRules = records.filter((rule) => rule.isActive);
+  const dealKindCoverage = new Set(
+    activeRules
+      .filter((rule) => rule.dealKind !== "global")
+      .map((rule) => rule.dealKind)
+  ).size;
+
+  return {
+    summary: {
+      totalRules: records.length,
+      activeRules: activeRules.length,
+      dealKindCoverage
+    },
+    records
   };
 }
 
