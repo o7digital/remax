@@ -7,12 +7,21 @@ import { StatusBadge } from "@/components/status-badge";
 import { getClientOverviewData } from "@/lib/remax-app-data";
 import { getDemoI18n } from "@/lib/server-i18n";
 
+function toRouteSlug(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { txt } = await getDemoI18n();
   const { id } = await params;
   const { records } = await getClientOverviewData();
 
-  const client = records.find((record) => record.id === id);
+  const client = records.find((record) => record.id === id || toRouteSlug(record.id) === id);
 
   if (!client) {
     notFound();
