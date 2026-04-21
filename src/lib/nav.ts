@@ -18,6 +18,7 @@ export function getNavigationSections(txt: Translator): NavSection[] {
         { label: txt("Dashboard"), href: "/app/dashboard" },
         { label: txt("Clients"), href: "/app/clients" },
         { label: txt("Contacts"), href: "/app/contacts" },
+        { label: txt("Encuestas"), href: "/app/surveys" },
         { label: txt("Marketing"), href: "/app/marketing" },
         { label: txt("Comisiones"), href: "/app/commissions" },
         { label: txt("Reporting"), href: "/app/reporting" },

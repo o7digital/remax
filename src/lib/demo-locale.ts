@@ -32,13 +32,16 @@ const localeConfig = Object.fromEntries(
 ) as Record<DemoLocale, (typeof demoLocaleOptions)[number]>;
 
 const translations: Record<DemoLocale, Record<string, string>> = {
-  fr: {},
+  fr: {
+    Encuestas: "Enquetes"
+  },
   en: {
     Operations: "Operations",
     Administration: "Administration",
     Dashboard: "Dashboard",
     Clients: "Clients",
     Contacts: "Contacts",
+    Encuestas: "Surveys",
     Tasks: "Tasks",
     Pipeline: "Pipeline",
     Quotes: "Quotes",
