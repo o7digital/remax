@@ -10,6 +10,15 @@ import { StatusBadge } from "@/components/status-badge";
 import { getCommissionRulesData } from "@/lib/remax-app-data";
 import { createAdminClient } from "@/utils/supabase/admin";
 
+const DEAL_KIND_OPTIONS = [
+  { value: "global", label: "Global (fallback)" },
+  { value: "closing", label: "Closing (venta cerrada)" },
+  { value: "sale", label: "Sale (captacion/venta)" },
+  { value: "rental", label: "Rental (renta)" },
+  { value: "cancellation", label: "Cancellation (cancelacion)" },
+  { value: "listing", label: "Listing" }
+];
+
 function formatPercent(value: number | null) {
   if (typeof value !== "number") {
     return "Sin porcentaje";
@@ -107,6 +116,30 @@ export default async function SettingsCommissionsPage({
         description="Las tasas se leen desde Supabase en commission_rules. Si una regla no existe para un deal_kind, se aplica fallback tecnico."
       />
 
+      <SectionCard
+        title="Como funciona la formula"
+        description="La comision se calcula con una regla por tipo de operacion."
+      >
+        <div className="list">
+          <div className="list-item">
+            <strong>Formula base</strong>
+            <div className="muted mono">comision_bruta = valor_operacion × tasa(deal_kind)</div>
+          </div>
+          <div className="list-item">
+            <strong>Prioridad de reglas</strong>
+            <div className="muted">
+              1) Busca regla activa exacta para el `deal kind` del deal. 2) Si no existe, usa `global`. 3) Si no hay `global`, aplica fallback tecnico.
+            </div>
+          </div>
+          <div className="list-item">
+            <strong>Ejemplo rapido</strong>
+            <div className="muted">
+              Si el deal es `closing` y el valor es `$1,000,000`, con tasa `6%` la comision bruta es `$60,000`.
+            </div>
+          </div>
+        </div>
+      </SectionCard>
+
       {params.saved ? <p className="helper-text">Regla guardada correctamente.</p> : null}
       {params.error ? <p className="auth-error">Error al guardar: {params.error}</p> : null}
 
@@ -128,7 +161,13 @@ export default async function SettingsCommissionsPage({
           </label>
           <label className="field">
             <span className="field-label">Deal kind</span>
-            <input name="dealKind" placeholder="closing / rental / cancellation / global" defaultValue="global" required />
+            <select name="dealKind" defaultValue="global" required>
+              {DEAL_KIND_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="field">
             <span className="field-label">Porcentaje</span>
@@ -186,7 +225,13 @@ export default async function SettingsCommissionsPage({
                 </label>
                 <label className="field">
                   <span className="field-label">Deal kind</span>
-                  <input name="dealKind" defaultValue={row.dealKind} required />
+                  <select name="dealKind" defaultValue={row.dealKind} required>
+                    {DEAL_KIND_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label className="field">
                   <span className="field-label">Porcentaje</span>
