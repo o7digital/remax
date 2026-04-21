@@ -38,6 +38,7 @@ export function getNavigationSections(txt: Translator): NavSection[] {
       title: txt("Administration"),
       items: [
         { label: txt("Settings"), href: "/app/settings" },
+        { label: txt("IA Search"), href: "/app/settings/ia-search" },
         { label: txt("Users"), href: "/app/settings/users" },
         { label: txt("Roles"), href: "/app/settings/roles" },
         { label: txt("Security"), href: "/app/settings/security" },
@@ -52,6 +53,7 @@ export function getNavigationSections(txt: Translator): NavSection[] {
 export function getSettingsLinks(txt: Translator): NavItem[] {
   return [
     { label: txt("Vue globale"), href: "/app/settings" },
+    { label: txt("IA Search"), href: "/app/settings/ia-search" },
     { label: txt("Users"), href: "/app/settings/users" },
     { label: txt("Commissions"), href: "/app/settings/commissions" },
     { label: txt("Roles"), href: "/app/settings/roles" },
