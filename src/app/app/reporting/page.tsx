@@ -198,7 +198,7 @@ export default async function ReportingPage({
   const collectionRate = invoiceRevenue > 0 ? Math.round(((invoiceRevenue - outstandingBalance) / invoiceRevenue) * 100) : 0;
 
   return (
-    <div className="page-stack">
+    <div className="page-stack reporting-page">
       <PageHeader
         title="Reporting"
         description="Sistema de reportes operativos y financieros para direccion comercial y administrativa."
