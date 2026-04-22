@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { ErpShell } from "@/components/erp-shell";
+import { getAllowedModulesForRole, getRoleForEmail } from "@/lib/access-control";
 import { workspaceProfile } from "@/lib/erp-data";
 import { getNavigationSections } from "@/lib/nav";
 import { getDemoI18n } from "@/lib/server-i18n";
@@ -17,11 +18,13 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   if (!user) {
     redirect("/auth/login?next=/app");
   }
+  const role = getRoleForEmail(user.email);
+  const allowedModules = getAllowedModulesForRole(role);
 
   return (
     <ErpShell
       locale={locale}
-      navigationSections={getNavigationSections(txt)}
+      navigationSections={getNavigationSections(txt, allowedModules)}
       workspace={{
         ...workspaceProfile,
         workspaceName: txt(workspaceProfile.workspaceName),
@@ -36,7 +39,12 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       }}
       currentUser={{
         email: user.email ?? "",
-        label: user.user_metadata?.full_name ?? user.email ?? "Admin"
+        label: user.user_metadata?.full_name ?? user.email ?? "Admin",
+        role
+      }}
+      quickAccess={{
+        invoicesEnabled: allowedModules.has("invoices"),
+        complianceEnabled: allowedModules.has("settings_compliance")
       }}
     >
       {children}
