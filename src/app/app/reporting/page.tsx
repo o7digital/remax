@@ -121,6 +121,29 @@ function getPeriodLabel(period: string): string {
   }
 }
 
+function buildReportingHref(filters: {
+  period: string;
+  startDate: string | null;
+  endDate: string | null;
+  country: string;
+  advisor: string;
+  area: string;
+  report: string;
+}) {
+  const query = new URLSearchParams();
+
+  if (filters.period !== "all") query.set("period", filters.period);
+  if (filters.startDate) query.set("startDate", filters.startDate);
+  if (filters.endDate) query.set("endDate", filters.endDate);
+  if (filters.country !== "all") query.set("country", filters.country);
+  if (filters.advisor) query.set("advisor", filters.advisor);
+  if (filters.area) query.set("area", filters.area);
+  if (filters.report !== "all") query.set("report", filters.report);
+
+  const queryText = query.toString();
+  return queryText ? `/app/reporting?${queryText}` : "/app/reporting";
+}
+
 export default async function ReportingPage({
   searchParams
 }: {
@@ -131,6 +154,10 @@ export default async function ReportingPage({
   const country = getFirstQueryValue(params.country) || "all";
   const advisorFilter = getFirstQueryValue(params.advisor).trim().toLowerCase();
   const areaFilter = getFirstQueryValue(params.area).trim().toLowerCase();
+  const requestedReportView = getFirstQueryValue(params.report) || "all";
+  const reportView = ["all", "advisor", "sales", "invoicing", "finance"].includes(requestedReportView)
+    ? requestedReportView
+    : "all";
 
   const parsedStart = parseDateInput(getFirstQueryValue(params.startDate));
   const parsedEnd = parseDateInput(getFirstQueryValue(params.endDate));
@@ -196,6 +223,21 @@ export default async function ReportingPage({
   const invoiceRevenue = filteredInvoices.reduce((sum, invoice) => sum + invoice.total, 0);
   const outstandingBalance = filteredInvoices.reduce((sum, invoice) => sum + invoice.balance, 0);
   const collectionRate = invoiceRevenue > 0 ? Math.round(((invoiceRevenue - outstandingBalance) / invoiceRevenue) * 100) : 0;
+  const reportTabs = [
+    { id: "all", label: "Todos los reportes" },
+    { id: "advisor", label: "Reporte asesor" },
+    { id: "sales", label: "Reporte ventas" },
+    { id: "invoicing", label: "Facturacion emitida" },
+    { id: "finance", label: "Reporte financiero" }
+  ];
+  const commonFilters = {
+    period,
+    startDate: parsedStart,
+    endDate: parsedEnd,
+    country,
+    advisor: advisorFilter,
+    area: areaFilter
+  };
 
   return (
     <div className="page-stack reporting-page">
@@ -224,6 +266,7 @@ export default async function ReportingPage({
         </div>
 
         <form className="report-filter-grid" action="/app/reporting" method="get">
+          <input type="hidden" name="report" value={reportView} />
           <label className="field">
             <span className="field-label">Periodo</span>
             <select name="period" defaultValue={period}>
@@ -288,53 +331,60 @@ export default async function ReportingPage({
       />
 
       <div className="subnav no-print">
-        <a href="#reporte-asesor" className="subnav-link">Reporte asesor</a>
-        <a href="#reporte-ventas" className="subnav-link">Reporte ventas</a>
-        <a href="#reporte-facturacion" className="subnav-link">Facturacion emitida</a>
-        <a href="#reporte-financiero" className="subnav-link">Reporte financiero</a>
+        {reportTabs.map((tab) => (
+          <Link
+            key={tab.id}
+            href={buildReportingHref({ ...commonFilters, report: tab.id })}
+            className={`subnav-link report-tab-link ${reportView === tab.id ? "active" : ""}`}
+          >
+            {tab.label}
+          </Link>
+        ))}
       </div>
 
-      <SectionCard
-        title="Reporte de desempeno por asesor"
-        description="Productividad comercial por asesor basada en deals y comision calculada."
-      >
-        <div id="reporte-asesor" className="stats-grid">
-          <StatCard label="Asesores con actividad" value={String(filteredAdvisors.length)} detail="ranking vigente" />
-          <StatCard label="Deals completados" value={String(summary.completedDeals)} detail="cierres historicos" />
-          <StatCard
-            label="Comision total"
-            value={formatCurrency(summary.estimatedCommissionTotal, "MXN", "es-MX")}
-            detail="estimacion consolidada"
+      {(reportView === "all" || reportView === "advisor") && (
+        <SectionCard
+          title="Reporte de desempeno por asesor"
+          description="Productividad comercial por asesor basada en deals y comision calculada."
+        >
+          <div className="stats-grid">
+            <StatCard label="Asesores con actividad" value={String(filteredAdvisors.length)} detail="ranking vigente" />
+            <StatCard label="Deals completados" value={String(summary.completedDeals)} detail="cierres historicos" />
+            <StatCard
+              label="Comision total"
+              value={formatCurrency(summary.estimatedCommissionTotal, "MXN", "es-MX")}
+              detail="estimacion consolidada"
+            />
+          </div>
+
+          <DataTable
+            rows={filteredAdvisors}
+            getRowId={(row) => row.id}
+            emptyMessage="No hay asesores con comision estimable."
+            columns={[
+              {
+                key: "advisor",
+                label: "Asesor",
+                render: (row) => (
+                  <div>
+                    <strong>{row.advisorName}</strong>
+                    <div className="muted">{row.staffKind}</div>
+                  </div>
+                )
+              },
+              { key: "deals", label: "Deals", align: "right", render: (row) => row.dealCount },
+              {
+                key: "commission",
+                label: "Comision",
+                align: "right",
+                render: (row) => formatCurrency(row.estimatedCommission, row.currencyCode, "es-MX")
+              }
+            ]}
           />
-        </div>
+        </SectionCard>
+      )}
 
-        <DataTable
-          rows={filteredAdvisors}
-          getRowId={(row) => row.id}
-          emptyMessage="No hay asesores con comision estimable."
-          columns={[
-            {
-              key: "advisor",
-              label: "Asesor",
-              render: (row) => (
-                <div>
-                  <strong>{row.advisorName}</strong>
-                  <div className="muted">{row.staffKind}</div>
-                </div>
-              )
-            },
-            { key: "deals", label: "Deals", align: "right", render: (row) => row.dealCount },
-            {
-              key: "commission",
-              label: "Comision",
-              align: "right",
-              render: (row) => formatCurrency(row.estimatedCommission, row.currencyCode, "es-MX")
-            }
-          ]}
-        />
-      </SectionCard>
-
-      <div className="two-columns" id="reporte-ventas">
+      {(reportView === "all" || reportView === "sales") && <div className="two-columns">
         <SectionCard
           title="Reporte de ventas"
           description="Tendencia mensual de cierres y comision por ventas."
@@ -376,13 +426,13 @@ export default async function ReportingPage({
             ]}
           />
         </SectionCard>
-      </div>
+      </div>}
 
-      <SectionCard
+      {(reportView === "all" || reportView === "invoicing") && <SectionCard
         title="Reportes de facturacion emitida"
         description="Control de facturas emitidas, estado electronico y saldo por pais."
       >
-        <div id="reporte-facturacion" className="stats-grid">
+        <div className="stats-grid">
           <StatCard label="Facturas emitidas" value={String(issuedInvoices.length)} detail="ERP emitidas" />
           <StatCard label="Enviadas SAT/PDP" value={String(submittedInvoices.length)} detail="submitted + accepted" />
           <StatCard
@@ -424,9 +474,9 @@ export default async function ReportingPage({
             }
           ]}
         />
-      </SectionCard>
+      </SectionCard>}
 
-      <div className="two-columns" id="reporte-financiero">
+      {(reportView === "all" || reportView === "finance") && <div className="two-columns">
         <SectionCard
           title="Reportes financieros"
           description="KPIs de caja, cobranza y riesgo financiero."
@@ -477,7 +527,7 @@ export default async function ReportingPage({
             ]}
           />
         </SectionCard>
-      </div>
+      </div>}
     </div>
   );
 }

@@ -2608,6 +2608,15 @@ textarea {
   color: #ffffff;
 }
 
+.reporting-page .report-tab-link.active {
+  border-color: rgba(34, 138, 255, 0.84);
+  background: linear-gradient(180deg, #3aa2ff 0%, #1f7de0 100%);
+  color: #f7fbff;
+  box-shadow:
+    0 10px 24px rgba(11, 53, 106, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
 .report-filter-grid {
   display: grid;
   gap: 12px;
