@@ -15,6 +15,7 @@ import {
   REMAX_BRANDING_STORAGE_KEY,
   type RemaxBrandingSettings
 } from "@/lib/remax-branding";
+import type { AppRole } from "@/lib/access-control";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -26,7 +27,8 @@ export function ErpShell({
   navigationSections,
   workspace,
   shellCopy,
-  currentUser
+  currentUser,
+  quickAccess
 }: {
   children: ReactNode;
   locale: DemoLocale;
@@ -48,6 +50,11 @@ export function ErpShell({
   currentUser: {
     email: string;
     label: string;
+    role: AppRole;
+  };
+  quickAccess: {
+    invoicesEnabled: boolean;
+    complianceEnabled: boolean;
   };
 }) {
   const pathname = usePathname();
@@ -148,12 +155,16 @@ export function ErpShell({
 
           <div className="remax-header-actions">
             <LanguageSwitcher locale={locale} />
-            <Link href="/app/invoices" className="button button-secondary">
-              {shellCopy.invoicesLabel}
-            </Link>
-            <Link href="/app/settings/compliance" className="button">
-              {shellCopy.complianceLabel}
-            </Link>
+            {quickAccess.invoicesEnabled ? (
+              <Link href="/app/invoices" className="button button-secondary">
+                {shellCopy.invoicesLabel}
+              </Link>
+            ) : null}
+            {quickAccess.complianceEnabled ? (
+              <Link href="/app/settings/compliance" className="button">
+                {shellCopy.complianceLabel}
+              </Link>
+            ) : null}
           </div>
         </header>
 

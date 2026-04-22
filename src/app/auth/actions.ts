@@ -1,7 +1,9 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { getRoleForEmail } from "@/lib/access-control";
 import { hasVerifiedFactors, sanitizeNextPath } from "@/utils/supabase/auth";
 import { ensureProfileForUser } from "@/utils/supabase/profiles";
 import { createServerClientFromCookies } from "@/utils/supabase/server";
@@ -32,6 +34,14 @@ export async function signInAction(formData: FormData) {
   if (!user) {
     redirect(`/auth/login?error=invalid&next=${encodeURIComponent(next)}`);
   }
+
+  const cookieStore = await cookies();
+  cookieStore.set("app-role", getRoleForEmail(user.email), {
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production"
+  });
 
   await ensureProfileForUser(user);
 
