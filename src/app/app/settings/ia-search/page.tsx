@@ -107,10 +107,18 @@ export default async function IaSearchPage({
                 label: "Resultado",
                 render: (row) => (
                   <div>
-                    <a href={row.link} target="_blank" rel="noreferrer">
+                    <a href={row.link} target="_blank" rel="noopener noreferrer">
                       <strong>{row.title}</strong>
                     </a>
                     <div className="muted">{row.snippet}</div>
+                    <div className="inline-actions">
+                      <a className="table-link" href={row.link} target="_blank" rel="noopener noreferrer">
+                        Abrir resultado
+                      </a>
+                      <a className="table-link" href={row.googleLink} target="_blank" rel="noopener noreferrer">
+                        Google
+                      </a>
+                    </div>
                   </div>
                 )
               },

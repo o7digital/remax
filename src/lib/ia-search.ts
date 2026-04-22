@@ -2,6 +2,7 @@ export interface IaSearchResult {
   id: string;
   title: string;
   link: string;
+  googleLink: string;
   snippet: string;
   source: string;
   position: number;
@@ -33,17 +34,22 @@ function sourceFromLink(link: string) {
   }
 }
 
+function buildGoogleSearchLink(value: string) {
+  return `https://www.google.com/search?q=${encodeURIComponent(value)}`;
+}
+
 function buildFallbackResults(keywords: string, domains: string[]): IaSearchResult[] {
   const searchScopes = domains.length > 0 ? domains : ["inmueble24.com", "easybroker.com"];
 
   return searchScopes.map((domain, index) => {
     const scopedQuery = `${keywords} site:${domain}`;
-    const link = `https://www.google.com/search?q=${encodeURIComponent(scopedQuery)}`;
+    const link = buildGoogleSearchLink(scopedQuery);
 
     return {
       id: `fallback-${domain}-${index}`,
       title: `Busqueda web en ${domain}`,
       link,
+      googleLink: link,
       snippet: `Resultado generado sin API configurada. Ejecuta esta busqueda para revisar propiedades, chats o anuncios relacionados con: ${keywords}`,
       source: domain,
       position: index + 1
@@ -106,14 +112,22 @@ export async function runIaSearch(args: {
   const results = (payload.organic_results ?? [])
     .filter((entry) => Boolean(entry.link && entry.title))
     .slice(0, 20)
-    .map<IaSearchResult>((entry, index) => ({
-      id: `${entry.position ?? index + 1}-${entry.link}`,
-      title: entry.title ?? "Sin titulo",
-      link: entry.link ?? "",
-      snippet: entry.snippet ?? "Sin descripcion",
-      source: sourceFromLink(entry.link ?? ""),
-      position: entry.position ?? index + 1
-    }));
+    .map<IaSearchResult>((entry, index) => {
+      const link = entry.link ?? "";
+      const title = entry.title ?? "Sin titulo";
+      const source = sourceFromLink(link);
+      const googleQuery = `${keywords} site:${source} ${title}`;
+
+      return {
+        id: `${entry.position ?? index + 1}-${link}`,
+        title,
+        link,
+        googleLink: buildGoogleSearchLink(googleQuery),
+        snippet: entry.snippet ?? "Sin descripcion",
+        source,
+        position: entry.position ?? index + 1
+      };
+    });
 
   return {
     query,
