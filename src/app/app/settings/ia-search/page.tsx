@@ -9,22 +9,24 @@ import { StatusBadge } from "@/components/status-badge";
 import { runIaSearch } from "@/lib/ia-search";
 import { getDemoI18n } from "@/lib/server-i18n";
 
-const DEFAULT_DOMAINS = "inmueble24.com,easybroker.com,metroscubicos.com";
+const DEFAULT_DOMAINS = "inmueble24.com,easyaviso.com,metroscubicos.com,propiedades.com";
 
 export default async function IaSearchPage({
   searchParams
 }: {
-  searchParams: Promise<{ q?: string; domains?: string }>;
+  searchParams: Promise<{ q?: string; domains?: string; wide?: string }>;
 }) {
   const { locale } = await getDemoI18n();
   const params = await searchParams;
   const keywords = params.q?.trim() ?? "";
   const domains = params.domains?.trim() ?? DEFAULT_DOMAINS;
+  const isWideSearch = params.wide === "1";
 
   const { query, provider, results } = await runIaSearch({
     keywords,
     domains,
-    locale
+    locale,
+    wide: isWideSearch
   });
 
   const sourceCounts = new Map<string, number>();
@@ -51,7 +53,7 @@ export default async function IaSearchPage({
 
       <DataOriginNotice
         title="Motor de analisis web"
-        description="Consulta Google con foco en Inmueble24, EasyBroker y dominios personalizados."
+        description="Consulta Google avanzada con foco en Inmueble24, EasyAviso, MetrosCubicos, Propiedades y dominios personalizados."
       />
 
       <SectionCard
@@ -65,7 +67,7 @@ export default async function IaSearchPage({
               <input
                 name="q"
                 defaultValue={keywords}
-                placeholder="departamento 2 recamaras providencia guadalajara visita asesor"
+                placeholder="bodega industrial en venta 5000m2 construccion 6000m2 terreno mexicali"
                 required
               />
             </label>
@@ -74,8 +76,13 @@ export default async function IaSearchPage({
               <input name="domains" defaultValue={domains} />
             </label>
             <div className="field">
-              <button type="submit" className="button">
+              <button type="submit" className="button" name="wide" value="0">
                 Ejecutar IA Search
+              </button>
+            </div>
+            <div className="field">
+              <button type="submit" className="button button-secondary" name="wide" value="1">
+                Recherche ultra large
               </button>
             </div>
           </div>
@@ -95,7 +102,7 @@ export default async function IaSearchPage({
       {keywords ? (
         <SectionCard
           title="Resultados encontrados"
-          description={`Query ejecutada: ${query}`}
+          description={`${isWideSearch ? "Modo ultra large (sans site:)" : "Modo focalizado por dominios"} · Query ejecutada: ${query}`}
         >
           <DataTable
             rows={results}
