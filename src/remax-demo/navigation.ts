@@ -6,9 +6,12 @@ export const remaxDemoNavigation: NavSection[] = [
     items: [{ label: "Plataforma ejecutiva", href: "/remax-demo" }]
   },
   {
+    title: "Alta de Propiedad",
+    items: [{ label: "Proceso de alta", href: "/remax-demo/alta" }]
+  },
+  {
     title: "Operacion",
     items: [
-      { label: "Alta", href: "/remax-demo/alta" },
       { label: "Bajas / cierres", href: "/remax-demo/baja" },
       { label: "Cancelacion", href: "/remax-demo/cancelacion" }
     ]
@@ -19,6 +22,7 @@ export const remaxDemoNavigation: NavSection[] = [
       { label: "Propiedades", href: "/remax-demo/propiedades" },
       { label: "Valores", href: "/remax-demo/valores" },
       { label: "Asesores", href: "/remax-demo/asesores" },
+      { label: "Alta de Asesor", href: "/remax-demo/asesores/alta" },
       { label: "Propietarios", href: "/remax-demo/propietarios" },
       { label: "Comunicados", href: "/remax-demo/comunicados" }
     ]

@@ -2018,6 +2018,18 @@
   grid-column: span 4;
 }
 
+.remax-advisor-alta-grid .remax-field input,
+.remax-advisor-alta-grid .remax-field select {
+  min-height: 34px;
+  border-radius: 6px;
+  background: #f4f7fc;
+}
+
+.remax-advisor-alta-grid .remax-field span {
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
 .remax-subgrid {
   display: grid;
   gap: 16px;
