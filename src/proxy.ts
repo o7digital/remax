@@ -1,3 +1,4 @@
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -9,20 +10,22 @@ import {
   getRemaxDemoSessionByToken,
   sanitizeRemaxDemoNextPath
 } from "@/remax-demo/auth-config";
-import { updateSupabaseSession } from "@/utils/supabase/middleware";
-
 const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
 const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
 const APP_FORBIDDEN_PATH = "/app/forbidden";
+const isProtectedRoute = createRouteMatcher(["/app(.*)"]);
 
-export function proxy(request: NextRequest) {
-  const supabaseResponse = updateSupabaseSession(request);
+export default clerkMiddleware(async (auth, request: NextRequest) => {
+  if (isProtectedRoute(request)) {
+    await auth.protect();
+  }
+
   const { pathname, search } = request.nextUrl;
 
   if (MAINTENANCE_MODE) {
     if (pathname === MAINTENANCE_PATH) {
-      return supabaseResponse;
+      return NextResponse.next();
     }
 
     return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
@@ -34,7 +37,7 @@ export function proxy(request: NextRequest) {
   if (pathname === REMAX_DEMO_LOGIN_PATH) {
     return session
       ? NextResponse.redirect(new URL(REMAX_DEMO_HOME_PATH, request.url))
-      : supabaseResponse;
+      : NextResponse.next();
   }
 
   if (pathname.startsWith(REMAX_DEMO_HOME_PATH) && !session) {
@@ -56,8 +59,8 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  return supabaseResponse;
-}
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: ["/((?!_next|favicon.ico|.*\\..*).*)"]

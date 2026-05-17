@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
@@ -16,8 +17,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const config = getLocaleConfig(locale);
 
   return (
-    <html lang={config.languageTag}>
-      <body>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang={config.languageTag}>
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
