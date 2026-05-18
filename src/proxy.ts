@@ -1,5 +1,6 @@
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import type { NextFetchEvent, NextRequest } from "next/server";
 
 import { canRoleAccessPath, type AppRole } from "@/lib/access-control";
 import { hasClerkConfig } from "@/lib/clerk-config";
@@ -14,10 +15,9 @@ const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
 const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
 const APP_FORBIDDEN_PATH = "/app/forbidden";
+const isProtectedRoute = createRouteMatcher(["/app(.*)"]);
 
-export default function proxy(request: NextRequest) {
-  const clerkConfigured = hasClerkConfig();
-
+function handlePublicRoutes(request: NextRequest, clerkConfigured: boolean) {
   const { pathname, search } = request.nextUrl;
 
   if (MAINTENANCE_MODE) {
@@ -61,6 +61,22 @@ export default function proxy(request: NextRequest) {
   }
 
   return NextResponse.next();
+}
+
+const clerkProxy = clerkMiddleware(async (auth, request: NextRequest) => {
+  if (isProtectedRoute(request)) {
+    await auth.protect();
+  }
+
+  return handlePublicRoutes(request, true);
+});
+
+export default function proxy(request: NextRequest, event: NextFetchEvent) {
+  if (!hasClerkConfig()) {
+    return handlePublicRoutes(request, false);
+  }
+
+  return clerkProxy(request, event);
 }
 
 export const config = {
