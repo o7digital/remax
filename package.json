@@ -9,7 +9,9 @@
     "start": "next start",
     "test": "vitest run",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy"
+    "prisma:migrate": "prisma migrate deploy",
+    "migrate": "prisma migrate deploy",
+    "import-csv": "bash scripts/import-csv.sh"
   },
   "devDependencies": {
     "@types/node": "^24.5.2",
