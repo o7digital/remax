@@ -8,3 +8,4 @@ bdd/*.accdb
 .env
 .env.local
 .env.*.local
+bdd/exports/*.csv
