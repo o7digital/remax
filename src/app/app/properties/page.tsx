@@ -81,42 +81,6 @@ async function createPropertyAction(formData: FormData) {
   }
 
   const admin = createAdminClient();
-  const metadata = {
-    alta_process_version: "230426",
-    expediente: {
-      received_on: getDate(formData, "expedienteReceivedOn"),
-      status: getText(formData, "expedienteStatus"),
-      registered_by: getText(formData, "registeredBy"),
-      documents: getCheckboxValues(formData, "documents")
-    },
-    condiciones_operacion: {
-      commission_percent: commissionPercent,
-      policy_type: getText(formData, "policyType"),
-      minimum_amount_note: getText(formData, "minimumAmountNote"),
-      rent_deposits: getNumber(formData, "rentDeposits"),
-      rent_advance_months: getNumber(formData, "rentAdvanceMonths")
-    },
-    asesor_alta: {
-      name: advisorName,
-      advisor_level: getText(formData, "advisorLevel"),
-      participation_percent: getNumber(formData, "advisorParticipationPercent"),
-      fixed_amount: getNumber(formData, "advisorFixedAmount")
-    },
-    ficha_tecnica: {
-      type: getText(formData, "technicalSheetType"),
-      land_area_m2: getNumber(formData, "lotAreaM2"),
-      construction_area_m2: getNumber(formData, "constructionAreaM2"),
-      bedrooms: getNumber(formData, "bedrooms"),
-      bathrooms: getNumber(formData, "bathrooms"),
-      parking_spaces: getNumber(formData, "parkingSpaces"),
-      land_shape: getText(formData, "landShape"),
-      land_topography: getText(formData, "landTopography"),
-      land_use: getText(formData, "landUse"),
-      facade_photo_url: getText(formData, "facadePhotoUrl"),
-      croquis_url: getText(formData, "croquisUrl")
-    }
-  };
-
   const insertResult = await admin.from("properties").insert({
     property_key: propertyKey,
     title,
@@ -142,8 +106,7 @@ async function createPropertyAction(formData: FormData) {
     land_shape: getText(formData, "landShape"),
     land_topography: getText(formData, "landTopography"),
     land_use: getText(formData, "landUse"),
-    country: "MX",
-    metadata
+    country: "MX"
   }).select("id").single();
 
   if (insertResult.error) {
@@ -151,6 +114,52 @@ async function createPropertyAction(formData: FormData) {
   }
 
   const propertyId = insertResult.data.id;
+
+  const expedienteResult = await admin.from("property_alta_expedientes").insert({
+    property_id: propertyId,
+    process_version: "230426",
+    received_on: getDate(formData, "expedienteReceivedOn"),
+    expediente_status: getText(formData, "expedienteStatus"),
+    registered_by: getText(formData, "registeredBy"),
+    included_documents: getCheckboxValues(formData, "documents")
+  });
+
+  if (expedienteResult.error) {
+    redirect(`/app/properties?error=${encodeURIComponent(expedienteResult.error.message)}`);
+  }
+
+  const conditionsResult = await admin.from("property_operation_conditions").insert({
+    property_id: propertyId,
+    commission_percent: commissionPercent,
+    policy_type: getText(formData, "policyType"),
+    minimum_amount_note: getText(formData, "minimumAmountNote"),
+    rent_deposits: getNumber(formData, "rentDeposits"),
+    rent_advance_months: getNumber(formData, "rentAdvanceMonths")
+  });
+
+  if (conditionsResult.error) {
+    redirect(`/app/properties?error=${encodeURIComponent(conditionsResult.error.message)}`);
+  }
+
+  const technicalSheetResult = await admin.from("property_technical_sheets").insert({
+    property_id: propertyId,
+    sheet_type: getText(formData, "technicalSheetType") ?? "residential",
+    land_area_m2: getNumber(formData, "lotAreaM2"),
+    construction_area_m2: getNumber(formData, "constructionAreaM2"),
+    bedrooms: getNumber(formData, "bedrooms"),
+    bathrooms: getNumber(formData, "bathrooms"),
+    parking_spaces: getNumber(formData, "parkingSpaces"),
+    land_shape: getText(formData, "landShape"),
+    land_topography: getText(formData, "landTopography"),
+    land_use: getText(formData, "landUse"),
+    facade_photo_url: getText(formData, "facadePhotoUrl"),
+    croquis_url: getText(formData, "croquisUrl"),
+    notes: description
+  });
+
+  if (technicalSheetResult.error) {
+    redirect(`/app/properties?error=${encodeURIComponent(technicalSheetResult.error.message)}`);
+  }
 
   if (listPrice) {
     const valueResult = await admin.from("property_values").insert({
@@ -208,6 +217,19 @@ async function createPropertyAction(formData: FormData) {
 
     if (participantResult.error) {
       redirect(`/app/properties?error=${encodeURIComponent(participantResult.error.message)}`);
+    }
+
+    const altaAdvisorResult = await admin.from("property_alta_advisors").insert({
+      property_id: propertyId,
+      deal_id: dealResult.data.id,
+      advisor_name: advisorName,
+      advisor_level: getText(formData, "advisorLevel"),
+      participation_percent: getNumber(formData, "advisorParticipationPercent"),
+      fixed_amount: getNumber(formData, "advisorFixedAmount")
+    });
+
+    if (altaAdvisorResult.error) {
+      redirect(`/app/properties?error=${encodeURIComponent(altaAdvisorResult.error.message)}`);
     }
   }
 
