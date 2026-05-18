@@ -512,6 +512,90 @@ async function fetchPropertiesAndContacts() {
   };
 }
 
+export interface PropertyDirectoryRecord {
+  id: string;
+  propertyKey: string;
+  title: string;
+  location: string;
+  propertyStatus: string;
+  businessLine: string | null;
+  operationType: string | null;
+  listPrice: number | null;
+  currencyCode: string;
+  ownerCount: number;
+}
+
+export async function getPropertyDirectoryData(): Promise<{
+  summary: {
+    totalProperties: number;
+    activeProperties: number;
+    closedProperties: number;
+    draftProperties: number;
+  };
+  records: PropertyDirectoryRecord[];
+}> {
+  type PropertyDirectoryRow = PropertyRow & {
+    business_line: string | null;
+    operation_type: string | null;
+    list_price: number | null;
+    currency_code: string | null;
+    created_at: string;
+  };
+
+  const admin = createAdminClient();
+  const [propertiesResponse, contactsResponse] = await Promise.all([
+    admin
+      .from("properties")
+      .select(
+        "id, property_key, title, municipality, state, property_status, business_line, operation_type, list_price, currency_code, created_at"
+      )
+      .range(0, 4000)
+      .order("created_at", { ascending: false }),
+    admin
+      .from("property_contacts")
+      .select("property_id, contact_kind")
+      .eq("contact_kind", "owner")
+      .range(0, 4000)
+  ]);
+
+  const properties = assertData<PropertyDirectoryRow[]>(
+    propertiesResponse.data,
+    propertiesResponse.error,
+    "property directory"
+  );
+  const contacts = assertData<Array<{ property_id: string; contact_kind: string }>>(
+    contactsResponse.data,
+    contactsResponse.error,
+    "property owners"
+  );
+  const ownerCountByPropertyId = new Map<string, number>();
+
+  for (const contact of contacts) {
+    ownerCountByPropertyId.set(contact.property_id, (ownerCountByPropertyId.get(contact.property_id) ?? 0) + 1);
+  }
+
+  return {
+    summary: {
+      totalProperties: properties.length,
+      activeProperties: properties.filter((property) => property.property_status === "active").length,
+      closedProperties: properties.filter((property) => property.property_status === "closed").length,
+      draftProperties: properties.filter((property) => property.property_status === "draft").length
+    },
+    records: properties.slice(0, 80).map((property) => ({
+      id: property.id,
+      propertyKey: property.property_key,
+      title: property.title ?? property.property_key,
+      location: getLocation(property),
+      propertyStatus: property.property_status,
+      businessLine: property.business_line,
+      operationType: property.operation_type,
+      listPrice: property.list_price,
+      currencyCode: property.currency_code ?? "MXN",
+      ownerCount: ownerCountByPropertyId.get(property.id) ?? 0
+    }))
+  };
+}
+
 export async function getClientOverviewData(): Promise<{
   summary: ClientOverviewSummary;
   records: ClientOverviewRecord[];

@@ -19,6 +19,7 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
       title: txt("Operations"),
       items: [
         { label: txt("Dashboard"), href: "/app/dashboard", module: "dashboard" },
+        { label: txt("Propiedades"), href: "/app/properties", module: "properties" },
         { label: txt("Clients"), href: "/app/clients", module: "clients" },
         { label: txt("Contacts"), href: "/app/contacts", module: "contacts" },
         { label: txt("Encuestas"), href: "/app/surveys", module: "surveys" },

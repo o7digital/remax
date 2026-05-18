@@ -8,6 +8,7 @@ export type AppRole =
 
 export type AppModule =
   | "dashboard"
+  | "properties"
   | "clients"
   | "contacts"
   | "surveys"
@@ -38,6 +39,7 @@ export type AppModule =
 
 const ALL_MODULES: AppModule[] = [
   "dashboard",
+  "properties",
   "clients",
   "contacts",
   "surveys",
@@ -72,6 +74,7 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
   dev_admin: ALL_MODULES,
   sales_admin: [
     "dashboard",
+    "properties",
     "clients",
     "contacts",
     "surveys",
@@ -117,6 +120,7 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
 
 const ROLE_BY_EMAIL: Record<string, AppRole> = {
   "info@o7digitalgroup.com": "dev_admin",
+  "olivier.steineur@gmail.com": "dev_admin",
   "christopher.suarez@remax-activa.com.mx": "owner",
   "pedro.leyva@remax-activa.com.mx": "sales_admin"
 };
@@ -134,6 +138,7 @@ const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
   { prefix: "/app/settings/billing", module: "settings_billing" },
   { prefix: "/app/settings", module: "settings_overview" },
   { prefix: "/app/dashboard", module: "dashboard" },
+  { prefix: "/app/properties", module: "properties" },
   { prefix: "/app/clients", module: "clients" },
   { prefix: "/app/contacts", module: "contacts" },
   { prefix: "/app/surveys", module: "surveys" },
@@ -183,4 +188,3 @@ export function canRoleAccessPath(role: AppRole, pathname: string): boolean {
 
   return getAllowedModulesForRole(role).has(module);
 }
-
