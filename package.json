@@ -10,6 +10,7 @@
     "test": "vitest run",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
+    "railway:setup-staff": "node scripts/setup-railway-staff.mjs",
     "import-csv": "node scripts/import-csv.mjs",
     "migrate": "prisma migrate deploy"
   },
