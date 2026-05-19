@@ -2,23 +2,20 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { ErpShell } from "@/components/erp-shell";
+import { getAuthenticatedUserEmail } from "@/lib/auth";
 import { getAllowedModulesForRole, getRoleForEmail } from "@/lib/access-control";
 import { workspaceProfile } from "@/lib/erp-data";
 import { getNavigationSections } from "@/lib/nav";
 import { getDemoI18n } from "@/lib/server-i18n";
-import { createServerClientFromCookies } from "@/utils/supabase/server";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const { locale, txt } = await getDemoI18n();
-  const supabase = await createServerClientFromCookies();
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+  const email = await getAuthenticatedUserEmail();
 
-  if (!user) {
+  if (!email) {
     redirect("/auth/login?next=/app");
   }
-  const role = getRoleForEmail(user.email);
+  const role = getRoleForEmail(email);
   const allowedModules = getAllowedModulesForRole(role);
 
   return (
@@ -38,8 +35,8 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         complianceLabel: txt("Compliance")
       }}
       currentUser={{
-        email: user.email ?? "",
-        label: user.user_metadata?.full_name ?? user.email ?? "Admin",
+        email,
+        label: email,
         role
       }}
       quickAccess={{

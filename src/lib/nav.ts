@@ -19,6 +19,7 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
       title: txt("Operations"),
       items: [
         { label: txt("Dashboard"), href: "/app/dashboard", module: "dashboard" },
+        { label: txt("Propiedades"), href: "/app/properties", module: "properties" },
         { label: txt("Clients"), href: "/app/clients", module: "clients" },
         { label: txt("Contacts"), href: "/app/contacts", module: "contacts" },
         { label: txt("Encuestas"), href: "/app/surveys", module: "surveys" },
@@ -42,6 +43,7 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
       items: [
         { label: txt("Settings"), href: "/app/settings", module: "settings_overview" },
         { label: txt("IA Search"), href: "/app/settings/ia-search", module: "settings_ia_search" },
+        { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
         { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
         { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles" },
         { label: txt("Security"), href: "/app/settings/security", module: "settings_security" },
@@ -68,6 +70,7 @@ export function getSettingsLinks(txt: Translator, allowedModules?: Set<AppModule
   const items: NavItem[] = [
     { label: txt("Vue globale"), href: "/app/settings", module: "settings_overview" },
     { label: txt("IA Search"), href: "/app/settings/ia-search", module: "settings_ia_search" },
+    { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
     { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
     { label: txt("Commissions"), href: "/app/settings/commissions", module: "settings_commissions" },
     { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles" },

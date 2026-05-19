@@ -1,7 +1,9 @@
+import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import type { NextFetchEvent, NextRequest } from "next/server";
 
 import { canRoleAccessPath, type AppRole } from "@/lib/access-control";
+import { hasClerkConfig } from "@/lib/clerk-config";
 import {
   REMAX_DEMO_HOME_PATH,
   REMAX_DEMO_LOGIN_PATH,
@@ -9,20 +11,17 @@ import {
   getRemaxDemoSessionByToken,
   sanitizeRemaxDemoNextPath
 } from "@/remax-demo/auth-config";
-import { updateSupabaseSession } from "@/utils/supabase/middleware";
-
 const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
 const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
 const APP_FORBIDDEN_PATH = "/app/forbidden";
 
-export function proxy(request: NextRequest) {
-  const supabaseResponse = updateSupabaseSession(request);
+function handlePublicRoutes(request: NextRequest, clerkConfigured: boolean) {
   const { pathname, search } = request.nextUrl;
 
   if (MAINTENANCE_MODE) {
     if (pathname === MAINTENANCE_PATH) {
-      return supabaseResponse;
+      return NextResponse.next();
     }
 
     return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
@@ -34,7 +33,7 @@ export function proxy(request: NextRequest) {
   if (pathname === REMAX_DEMO_LOGIN_PATH) {
     return session
       ? NextResponse.redirect(new URL(REMAX_DEMO_HOME_PATH, request.url))
-      : supabaseResponse;
+      : NextResponse.next();
   }
 
   if (pathname.startsWith(REMAX_DEMO_HOME_PATH) && !session) {
@@ -47,6 +46,10 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(REMAX_DEMO_HOME_PATH, request.url));
   }
 
+  if (pathname.startsWith("/app") && !clerkConfigured) {
+    return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
+  }
+
   const appRole = request.cookies.get("app-role")?.value as AppRole | undefined;
   if (pathname.startsWith("/app") && pathname !== APP_FORBIDDEN_PATH && appRole) {
     if (!canRoleAccessPath(appRole, pathname)) {
@@ -56,7 +59,19 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  return supabaseResponse;
+  return NextResponse.next();
+}
+
+const clerkProxy = clerkMiddleware(async (_auth, request: NextRequest) => {
+  return handlePublicRoutes(request, true);
+});
+
+export default function proxy(request: NextRequest, event: NextFetchEvent) {
+  if (!hasClerkConfig()) {
+    return handlePublicRoutes(request, false);
+  }
+
+  return clerkProxy(request, event);
 }
 
 export const config = {

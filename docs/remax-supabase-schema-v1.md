@@ -23,6 +23,12 @@ It intentionally does not mirror Access table-by-table. It normalizes the data i
 - `staff_members`
   - advisor, manager, admin, reception
   - stores fiscal and banking data needed for commissions
+- `staff_fiscal_profiles`
+  - fiscal address, RFC, bank and RESICO fields from the Access staff forms
+- `staff_personal_profiles`
+  - birth, emergency contact, IMSS, insurance, blood type and health notes
+- `staff_remax_accounts`
+  - SIR, Easy Broker, REMAX Mexico, REMAX Internacional, Universidad and AMPI identifiers
 - `staff_roles`
   - allows one person to be both `advisor` and `manager`
 

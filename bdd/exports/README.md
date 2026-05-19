@@ -5,6 +5,9 @@ Ces fichiers sont les premiers exports transformes depuis Access vers le schema 
 Fichiers generes :
 
 - `staff_members.csv`
+- `staff_fiscal_profiles.csv`
+- `staff_personal_profiles.csv`
+- `staff_remax_accounts.csv`
 - `properties.csv`
 - `property_contacts.csv`
 - `property_values.csv`
@@ -28,6 +31,7 @@ Usage :
 
 - charger d'abord `properties.csv`
 - charger ensuite `staff_members.csv`
+- charger ensuite `staff_fiscal_profiles.csv`, `staff_personal_profiles.csv` et `staff_remax_accounts.csv`
 - charger ensuite `property_contacts.csv`
 - charger ensuite `property_values.csv`
 - charger ensuite `deals.csv`
@@ -40,6 +44,7 @@ Points d'attention :
 - les UUID sont stables et derives des cles Access pour faciliter les reprises d'import ;
 - certains champs Access restent bruts ou incomplets et devront etre nettoyes avant import final ;
 - `property_contacts.csv` regroupe les proprietaires et les acheteurs dans la meme table cible ;
+- les trois exports `staff_*_profiles/accounts.csv` reprennent les blocs fiscal, personal et socio REMAX visibles dans les formulaires Access `F-Asesores` et `F-Staff` ;
 - `commission_calculations.csv` est actuellement vide car la table `ComisionesBD` de la base source ne contient pas de lignes ;
 - `attendance_events.csv` est actuellement vide car les noms historiques des tables de presence ne correspondent pas encore proprement aux identites exportees dans `staff_members.csv` ;
 - `deal_participants.csv` contient les participants de commissions, mais beaucoup de `staff_member_id` restent vides tant que la reconciliation des noms Access n'est pas amelioree.
