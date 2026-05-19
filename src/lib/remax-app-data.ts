@@ -1,5 +1,6 @@
 import "server-only";
 
+import { prisma } from "@/lib/prisma";
 import type { PipelineDeal, PipelineWorkflow } from "@/lib/pipeline-types";
 import { getPipelineForecast } from "@/lib/pipeline-utils";
 import { createAdminClient } from "@/utils/supabase/admin";
@@ -1666,22 +1667,66 @@ export async function getStaffAccessFormData(): Promise<{
   records: StaffAccessFormRecord[];
 }> {
   const [staff, fiscalProfiles, personalProfiles, remaxAccounts] = await Promise.all([
-    fetchAllRows<StaffDirectoryRow>(
-      "staff_members",
-      "id, display_name, staff_kind, advisor_class, employment_status, is_guard_eligible, mobile_phone, office_phone, personal_email, work_email, city, state, joined_on, left_on"
-    ),
-    fetchAllRows<StaffFiscalProfileRow>(
-      "staff_fiscal_profiles",
-      "staff_member_id, legal_name, tax_id, fiscal_email, bank_name, bank_clabe, is_resico"
-    ),
-    fetchAllRows<StaffPersonalProfileRow>(
-      "staff_personal_profiles",
-      "staff_member_id, birth_date, education_level, language_1, language_2, emergency_contact_name, emergency_contact_phone, imss_number, medical_insurance, blood_type"
-    ),
-    fetchAllRows<StaffRemaxAccountRow>(
-      "staff_remax_accounts",
-      "staff_member_id, sir_user, sir_last_login_on, easy_broker_last_login_on, remax_mexico_id, remax_mexico_status, remax_international_id, remax_international_status, university_user, university_status, ampi_id, ampi_user, ampi_status, advisor_profile, advisor_or_staff, other_associations, is_high_performance, level_changed_on, rejoined_on, separation_reason"
-    )
+    prisma.$queryRaw<StaffDirectoryRow[]>`
+      select
+        id::text,
+        display_name,
+        staff_kind::text,
+        advisor_class::text,
+        employment_status::text,
+        is_guard_eligible,
+        mobile_phone,
+        office_phone,
+        personal_email,
+        work_email,
+        city,
+        state,
+        joined_on::text,
+        left_on::text
+      from public.staff_members
+    `,
+    prisma.$queryRaw<StaffFiscalProfileRow[]>`
+      select staff_member_id::text, legal_name, tax_id, fiscal_email, bank_name, bank_clabe, is_resico
+      from public.staff_fiscal_profiles
+    `,
+    prisma.$queryRaw<StaffPersonalProfileRow[]>`
+      select
+        staff_member_id::text,
+        birth_date::text,
+        education_level,
+        language_1,
+        language_2,
+        emergency_contact_name,
+        emergency_contact_phone,
+        imss_number,
+        medical_insurance,
+        blood_type
+      from public.staff_personal_profiles
+    `,
+    prisma.$queryRaw<StaffRemaxAccountRow[]>`
+      select
+        staff_member_id::text,
+        sir_user,
+        sir_last_login_on::text,
+        easy_broker_last_login_on::text,
+        remax_mexico_id,
+        remax_mexico_status,
+        remax_international_id,
+        remax_international_status,
+        university_user,
+        university_status,
+        ampi_id,
+        ampi_user,
+        ampi_status,
+        advisor_profile,
+        advisor_or_staff,
+        other_associations,
+        is_high_performance,
+        level_changed_on::text,
+        rejoined_on::text,
+        separation_reason
+      from public.staff_remax_accounts
+    `
   ]);
 
   const fiscalByStaffId = new Map(fiscalProfiles.map((profile) => [profile.staff_member_id, profile]));

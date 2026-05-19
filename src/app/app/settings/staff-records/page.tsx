@@ -9,8 +9,8 @@ import { SectionCard } from "@/components/section-card";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
 import { formatDate } from "@/lib/formatters";
+import { prisma } from "@/lib/prisma";
 import { getStaffAccessFormData } from "@/lib/remax-app-data";
-import { createAdminClient } from "@/utils/supabase/admin";
 
 function getText(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
@@ -19,6 +19,10 @@ function getText(formData: FormData, key: string) {
 
 function getBoolean(formData: FormData, key: string) {
   return formData.get(key) === "on";
+}
+
+function getDate(formData: FormData, key: string) {
+  return getText(formData, key);
 }
 
 async function createStaffRecordAction(formData: FormData) {
@@ -39,126 +43,211 @@ async function createStaffRecordAction(formData: FormData) {
     redirect("/app/settings/staff-records?error=missing-name");
   }
 
-  const admin = createAdminClient();
-  const staffResult = await admin
-    .from("staff_members")
-    .insert({
-      first_name: firstName,
-      last_name: [paternalLastName, maternalLastName].filter(Boolean).join(" ").trim() || null,
-      display_name: displayName,
-      legacy_full_name: fullName,
-      staff_kind: staffKind,
-      advisor_class: advisorClass,
-      employment_status: getText(formData, "employmentStatus") ?? "active",
-      is_guard_eligible: getBoolean(formData, "isGuardEligible"),
-      tax_id: getText(formData, "taxId"),
-      tax_regime: getBoolean(formData, "isResico") ? "RESICO" : null,
-      bank_name: getText(formData, "bankName"),
-      bank_account: getText(formData, "bankAccount"),
-      bank_clabe: getText(formData, "bankClabe"),
-      mobile_phone: getText(formData, "mobilePhone"),
-      office_phone: getText(formData, "officePhone"),
-      personal_email: getText(formData, "personalEmail"),
-      work_email: getText(formData, "workEmail"),
-      address_line_1: [getText(formData, "street"), getText(formData, "exteriorNumber"), getText(formData, "interiorNumber")]
-        .filter(Boolean)
-        .join(" ") || null,
-      neighborhood: getText(formData, "neighborhood") ?? getText(formData, "subdivision"),
-      city: getText(formData, "municipality"),
-      state: getText(formData, "state"),
-      postal_code: getText(formData, "postalCode"),
-      country: "MX",
-      joined_on: getText(formData, "joinedOn"),
-      first_joined_on: getText(formData, "firstJoinedOn"),
-      left_on: getText(formData, "leftOn"),
-      notes: getText(formData, "notes"),
-      metadata: {
-        access_form: formType === "staff" ? "F-Staff" : "F-Asesores",
-        alias: getText(formData, "alias"),
-        home_phone: getText(formData, "homePhone"),
-        building: getText(formData, "building"),
-        floor: getText(formData, "floor"),
-        birth_city: getText(formData, "birthCity"),
-        birth_country: getText(formData, "birthCountry")
+  try {
+    await prisma.$transaction(async (tx) => {
+      const staffRows = await tx.$queryRaw<{ id: string }[]>`
+        insert into public.staff_members (
+          first_name,
+          last_name,
+          display_name,
+          legacy_full_name,
+          staff_kind,
+          advisor_class,
+          employment_status,
+          is_guard_eligible,
+          tax_id,
+          tax_regime,
+          bank_name,
+          bank_account,
+          bank_clabe,
+          mobile_phone,
+          office_phone,
+          personal_email,
+          work_email,
+          address_line_1,
+          neighborhood,
+          city,
+          state,
+          postal_code,
+          country,
+          joined_on,
+          first_joined_on,
+          left_on,
+          notes,
+          metadata
+        )
+        values (
+          ${firstName},
+          ${[paternalLastName, maternalLastName].filter(Boolean).join(" ").trim() || null},
+          ${displayName},
+          ${fullName},
+          ${staffKind}::public.staff_kind,
+          ${advisorClass}::public.advisor_class,
+          ${getText(formData, "employmentStatus") ?? "active"}::public.employment_status,
+          ${getBoolean(formData, "isGuardEligible")},
+          ${getText(formData, "taxId")},
+          ${getBoolean(formData, "isResico") ? "RESICO" : null},
+          ${getText(formData, "bankName")},
+          ${getText(formData, "bankAccount")},
+          ${getText(formData, "bankClabe")},
+          ${getText(formData, "mobilePhone")},
+          ${getText(formData, "officePhone")},
+          ${getText(formData, "personalEmail")},
+          ${getText(formData, "workEmail")},
+          ${[getText(formData, "street"), getText(formData, "exteriorNumber"), getText(formData, "interiorNumber")]
+            .filter(Boolean)
+            .join(" ") || null},
+          ${getText(formData, "neighborhood") ?? getText(formData, "subdivision")},
+          ${getText(formData, "municipality")},
+          ${getText(formData, "state")},
+          ${getText(formData, "postalCode")},
+          'MX',
+          ${getDate(formData, "joinedOn")}::date,
+          ${getDate(formData, "firstJoinedOn")}::date,
+          ${getDate(formData, "leftOn")}::date,
+          ${getText(formData, "notes")},
+          ${JSON.stringify({
+            access_form: formType === "staff" ? "F-Staff" : "F-Asesores",
+            alias: getText(formData, "alias"),
+            home_phone: getText(formData, "homePhone"),
+            building: getText(formData, "building"),
+            floor: getText(formData, "floor"),
+            birth_city: getText(formData, "birthCity"),
+            birth_country: getText(formData, "birthCountry")
+          })}::jsonb
+        )
+        returning id::text
+      `;
+      const staffMemberId = staffRows[0]?.id;
+
+      if (!staffMemberId) {
+        throw new Error("missing-created-staff-id");
       }
-    })
-    .select("id")
-    .single();
 
-  if (staffResult.error) {
-    redirect(`/app/settings/staff-records?error=${encodeURIComponent(staffResult.error.message)}`);
-  }
+      await tx.$executeRaw`
+        insert into public.staff_fiscal_profiles (
+          staff_member_id,
+          legal_name,
+          tax_id,
+          fiscal_street,
+          fiscal_exterior_number,
+          fiscal_neighborhood,
+          fiscal_postal_code,
+          fiscal_email,
+          bank_name,
+          bank_account,
+          bank_clabe,
+          bank_branch_number,
+          is_resico
+        )
+        values (
+          ${staffMemberId}::uuid,
+          ${getText(formData, "legalName")},
+          ${getText(formData, "taxId")},
+          ${getText(formData, "fiscalStreet")},
+          ${getText(formData, "fiscalExteriorNumber")},
+          ${getText(formData, "fiscalNeighborhood")},
+          ${getText(formData, "fiscalPostalCode")},
+          ${getText(formData, "fiscalEmail")},
+          ${getText(formData, "bankName")},
+          ${getText(formData, "bankAccount")},
+          ${getText(formData, "bankClabe")},
+          ${getText(formData, "bankBranchNumber")},
+          ${getBoolean(formData, "isResico")}
+        )
+      `;
 
-  const staffMemberId = staffResult.data.id;
-  const fiscalResult = await admin.from("staff_fiscal_profiles").insert({
-    staff_member_id: staffMemberId,
-    legal_name: getText(formData, "legalName"),
-    tax_id: getText(formData, "taxId"),
-    fiscal_street: getText(formData, "fiscalStreet"),
-    fiscal_exterior_number: getText(formData, "fiscalExteriorNumber"),
-    fiscal_neighborhood: getText(formData, "fiscalNeighborhood"),
-    fiscal_postal_code: getText(formData, "fiscalPostalCode"),
-    fiscal_email: getText(formData, "fiscalEmail"),
-    bank_name: getText(formData, "bankName"),
-    bank_account: getText(formData, "bankAccount"),
-    bank_clabe: getText(formData, "bankClabe"),
-    bank_branch_number: getText(formData, "bankBranchNumber"),
-    is_resico: getBoolean(formData, "isResico")
-  });
+      await tx.$executeRaw`
+        insert into public.staff_personal_profiles (
+          staff_member_id,
+          birth_date,
+          birth_city,
+          birth_country,
+          education_level,
+          language_1,
+          language_2,
+          emergency_contact_name,
+          emergency_contact_phone,
+          emergency_contact_relationship,
+          imss_number,
+          medical_insurance,
+          blood_type,
+          medical_conditions,
+          allergies
+        )
+        values (
+          ${staffMemberId}::uuid,
+          ${getDate(formData, "birthDate")}::date,
+          ${getText(formData, "birthCity")},
+          ${getText(formData, "birthCountry")},
+          ${getText(formData, "educationLevel")},
+          ${getText(formData, "language1")},
+          ${getText(formData, "language2")},
+          ${getText(formData, "emergencyContactName")},
+          ${getText(formData, "emergencyContactPhone")},
+          ${getText(formData, "emergencyRelationship")},
+          ${getText(formData, "imssNumber")},
+          ${getText(formData, "medicalInsurance")},
+          ${getText(formData, "bloodType")},
+          ${getText(formData, "medicalConditions")},
+          ${getText(formData, "allergies")}
+        )
+      `;
 
-  if (fiscalResult.error) {
-    redirect(`/app/settings/staff-records?error=${encodeURIComponent(fiscalResult.error.message)}`);
-  }
-
-  const personalResult = await admin.from("staff_personal_profiles").insert({
-    staff_member_id: staffMemberId,
-    birth_date: getText(formData, "birthDate"),
-    birth_city: getText(formData, "birthCity"),
-    birth_country: getText(formData, "birthCountry"),
-    education_level: getText(formData, "educationLevel"),
-    language_1: getText(formData, "language1"),
-    language_2: getText(formData, "language2"),
-    emergency_contact_name: getText(formData, "emergencyContactName"),
-    emergency_contact_phone: getText(formData, "emergencyContactPhone"),
-    emergency_contact_relationship: getText(formData, "emergencyRelationship"),
-    imss_number: getText(formData, "imssNumber"),
-    medical_insurance: getText(formData, "medicalInsurance"),
-    blood_type: getText(formData, "bloodType"),
-    medical_conditions: getText(formData, "medicalConditions"),
-    allergies: getText(formData, "allergies")
-  });
-
-  if (personalResult.error) {
-    redirect(`/app/settings/staff-records?error=${encodeURIComponent(personalResult.error.message)}`);
-  }
-
-  const remaxResult = await admin.from("staff_remax_accounts").insert({
-    staff_member_id: staffMemberId,
-    sir_joined_on: getText(formData, "sirJoinedOn"),
-    sir_user: getText(formData, "sirUser"),
-    sir_last_login_on: getText(formData, "sirLastLoginOn"),
-    easy_broker_last_login_on: getText(formData, "easyBrokerLastLoginOn"),
-    remax_mexico_id: getText(formData, "remaxMexicoId"),
-    remax_mexico_status: getText(formData, "remaxMexicoStatus"),
-    remax_international_id: getText(formData, "remaxInternationalId"),
-    remax_international_user: getText(formData, "remaxInternationalUser"),
-    remax_international_status: getText(formData, "remaxInternationalStatus"),
-    university_user: getText(formData, "universityUser"),
-    university_status: getText(formData, "universityStatus"),
-    ampi_id: getText(formData, "ampiId"),
-    ampi_user: getText(formData, "ampiUser"),
-    ampi_status: getText(formData, "ampiStatus"),
-    advisor_profile: getText(formData, "advisorProfile"),
-    advisor_or_staff: formType === "staff" ? "Staff" : "Asesor",
-    other_associations: getText(formData, "otherAssociations"),
-    is_high_performance: getBoolean(formData, "isHighPerformance"),
-    level_changed_on: getText(formData, "levelChangedOn"),
-    rejoined_on: getText(formData, "rejoinedOn"),
-    separation_reason: getText(formData, "separationReason")
-  });
-
-  if (remaxResult.error) {
-    redirect(`/app/settings/staff-records?error=${encodeURIComponent(remaxResult.error.message)}`);
+      await tx.$executeRaw`
+        insert into public.staff_remax_accounts (
+          staff_member_id,
+          sir_joined_on,
+          sir_user,
+          sir_last_login_on,
+          easy_broker_last_login_on,
+          remax_mexico_id,
+          remax_mexico_status,
+          remax_international_id,
+          remax_international_user,
+          remax_international_status,
+          university_user,
+          university_status,
+          ampi_id,
+          ampi_user,
+          ampi_status,
+          advisor_profile,
+          advisor_or_staff,
+          other_associations,
+          is_high_performance,
+          level_changed_on,
+          rejoined_on,
+          separation_reason
+        )
+        values (
+          ${staffMemberId}::uuid,
+          ${getDate(formData, "sirJoinedOn")}::date,
+          ${getText(formData, "sirUser")},
+          ${getDate(formData, "sirLastLoginOn")}::date,
+          ${getDate(formData, "easyBrokerLastLoginOn")}::date,
+          ${getText(formData, "remaxMexicoId")},
+          ${getText(formData, "remaxMexicoStatus")},
+          ${getText(formData, "remaxInternationalId")},
+          ${getText(formData, "remaxInternationalUser")},
+          ${getText(formData, "remaxInternationalStatus")},
+          ${getText(formData, "universityUser")},
+          ${getText(formData, "universityStatus")},
+          ${getText(formData, "ampiId")},
+          ${getText(formData, "ampiUser")},
+          ${getText(formData, "ampiStatus")},
+          ${getText(formData, "advisorProfile")},
+          ${formType === "staff" ? "Staff" : "Asesor"},
+          ${getText(formData, "otherAssociations")},
+          ${getBoolean(formData, "isHighPerformance")},
+          ${getDate(formData, "levelChangedOn")}::date,
+          ${getDate(formData, "rejoinedOn")}::date,
+          ${getText(formData, "separationReason")}
+        )
+      `;
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "railway-postgres-error";
+    redirect(`/app/settings/staff-records?error=${encodeURIComponent(message)}`);
   }
 
   revalidatePath("/app/settings/staff-records");
