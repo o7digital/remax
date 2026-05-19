@@ -12,6 +12,9 @@ type ImportResult =
 const csvFiles = [
   { file: 'properties.csv', table: 'public.properties' },
   { file: 'staff_members.csv', table: 'public.staff_members' },
+  { file: 'staff_fiscal_profiles.csv', table: 'public.staff_fiscal_profiles' },
+  { file: 'staff_personal_profiles.csv', table: 'public.staff_personal_profiles' },
+  { file: 'staff_remax_accounts.csv', table: 'public.staff_remax_accounts' },
   { file: 'property_contacts.csv', table: 'public.property_contacts' },
   { file: 'property_values.csv', table: 'public.property_values' },
   { file: 'deals.csv', table: 'public.deals' },
@@ -23,6 +26,9 @@ const csvFiles = [
 const expectedCounts: Record<string, number> = {
   'public.properties': 2916,
   'public.staff_members': 257,
+  'public.staff_fiscal_profiles': 257,
+  'public.staff_personal_profiles': 257,
+  'public.staff_remax_accounts': 257,
   'public.property_contacts': 1941,
   'public.property_values': 3855,
   'public.deals': 1620,

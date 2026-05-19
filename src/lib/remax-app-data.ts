@@ -290,6 +290,52 @@ type StaffDirectoryRow = {
   left_on: string | null;
 };
 
+type StaffFiscalProfileRow = {
+  staff_member_id: string;
+  legal_name: string | null;
+  tax_id: string | null;
+  fiscal_email: string | null;
+  bank_name: string | null;
+  bank_clabe: string | null;
+  is_resico: boolean;
+};
+
+type StaffPersonalProfileRow = {
+  staff_member_id: string;
+  birth_date: string | null;
+  education_level: string | null;
+  language_1: string | null;
+  language_2: string | null;
+  emergency_contact_name: string | null;
+  emergency_contact_phone: string | null;
+  imss_number: string | null;
+  medical_insurance: string | null;
+  blood_type: string | null;
+};
+
+type StaffRemaxAccountRow = {
+  staff_member_id: string;
+  sir_user: string | null;
+  sir_last_login_on: string | null;
+  easy_broker_last_login_on: string | null;
+  remax_mexico_id: string | null;
+  remax_mexico_status: string | null;
+  remax_international_id: string | null;
+  remax_international_status: string | null;
+  university_user: string | null;
+  university_status: string | null;
+  ampi_id: string | null;
+  ampi_user: string | null;
+  ampi_status: string | null;
+  advisor_profile: string | null;
+  advisor_or_staff: string | null;
+  other_associations: string | null;
+  is_high_performance: boolean;
+  level_changed_on: string | null;
+  rejoined_on: string | null;
+  separation_reason: string | null;
+};
+
 type GuardShiftDetailRow = {
   id: string;
   shift_date: string;
@@ -322,6 +368,33 @@ export interface StaffDirectoryRecord {
   guardEligible: boolean;
   joinedOn: string | null;
   leftOn: string | null;
+}
+
+export interface StaffAccessFormSummary {
+  totalStaff: number;
+  fiscalProfiles: number;
+  personalProfiles: number;
+  remaxAccounts: number;
+  resicoCount: number;
+  ampiCount: number;
+}
+
+export interface StaffAccessFormRecord {
+  id: string;
+  displayName: string;
+  roleLabel: string;
+  employmentStatus: string;
+  taxId: string | null;
+  fiscalEmail: string | null;
+  bankLabel: string;
+  emergencyContact: string;
+  medicalLabel: string;
+  sirUser: string | null;
+  remaxMexico: string;
+  ampi: string;
+  profile: string;
+  joinedOn: string | null;
+  rejoinedOn: string | null;
 }
 
 export interface GuardAttendanceSummary {
@@ -1583,6 +1656,87 @@ export async function getStaffDirectoryData(): Promise<{
       advisorCount: staff.filter((member) => member.staff_kind === "advisor").length,
       adminCount: staff.filter((member) => member.staff_kind === "admin").length,
       guardEligibleCount: staff.filter((member) => member.is_guard_eligible).length
+    },
+    records
+  };
+}
+
+export async function getStaffAccessFormData(): Promise<{
+  summary: StaffAccessFormSummary;
+  records: StaffAccessFormRecord[];
+}> {
+  const [staff, fiscalProfiles, personalProfiles, remaxAccounts] = await Promise.all([
+    fetchAllRows<StaffDirectoryRow>(
+      "staff_members",
+      "id, display_name, staff_kind, advisor_class, employment_status, is_guard_eligible, mobile_phone, office_phone, personal_email, work_email, city, state, joined_on, left_on"
+    ),
+    fetchAllRows<StaffFiscalProfileRow>(
+      "staff_fiscal_profiles",
+      "staff_member_id, legal_name, tax_id, fiscal_email, bank_name, bank_clabe, is_resico"
+    ),
+    fetchAllRows<StaffPersonalProfileRow>(
+      "staff_personal_profiles",
+      "staff_member_id, birth_date, education_level, language_1, language_2, emergency_contact_name, emergency_contact_phone, imss_number, medical_insurance, blood_type"
+    ),
+    fetchAllRows<StaffRemaxAccountRow>(
+      "staff_remax_accounts",
+      "staff_member_id, sir_user, sir_last_login_on, easy_broker_last_login_on, remax_mexico_id, remax_mexico_status, remax_international_id, remax_international_status, university_user, university_status, ampi_id, ampi_user, ampi_status, advisor_profile, advisor_or_staff, other_associations, is_high_performance, level_changed_on, rejoined_on, separation_reason"
+    )
+  ]);
+
+  const fiscalByStaffId = new Map(fiscalProfiles.map((profile) => [profile.staff_member_id, profile]));
+  const personalByStaffId = new Map(personalProfiles.map((profile) => [profile.staff_member_id, profile]));
+  const accountsByStaffId = new Map(remaxAccounts.map((account) => [account.staff_member_id, account]));
+
+  const records = [...staff]
+    .sort((left, right) => {
+      const activeDelta = Number(right.employment_status === "active") - Number(left.employment_status === "active");
+
+      if (activeDelta !== 0) {
+        return activeDelta;
+      }
+
+      return left.display_name.localeCompare(right.display_name);
+    })
+    .slice(0, 80)
+    .map<StaffAccessFormRecord>((member) => {
+      const fiscal = fiscalByStaffId.get(member.id);
+      const personal = personalByStaffId.get(member.id);
+      const accounts = accountsByStaffId.get(member.id);
+      const languages = [personal?.language_1, personal?.language_2].filter(Boolean).join(" / ");
+
+      return {
+        id: member.id,
+        displayName: member.display_name,
+        roleLabel:
+          member.staff_kind === "advisor"
+            ? `Asesor${member.advisor_class ? ` ${member.advisor_class}` : ""}`
+            : member.staff_kind,
+        employmentStatus: member.employment_status,
+        taxId: fiscal?.tax_id ?? null,
+        fiscalEmail: fiscal?.fiscal_email ?? null,
+        bankLabel: [fiscal?.bank_name, fiscal?.bank_clabe ? `CLABE ${fiscal.bank_clabe}` : null].filter(Boolean).join(" · ") || "Sin banco",
+        emergencyContact: [personal?.emergency_contact_name, personal?.emergency_contact_phone].filter(Boolean).join(" · ") || "Sin contacto",
+        medicalLabel: [personal?.blood_type, personal?.medical_insurance, languages].filter(Boolean).join(" · ") || "Sin datos",
+        sirUser: accounts?.sir_user ?? null,
+        remaxMexico: [accounts?.remax_mexico_id, accounts?.remax_mexico_status].filter(Boolean).join(" · ") || "Sin registro",
+        ampi: [accounts?.ampi_id, accounts?.ampi_status].filter(Boolean).join(" · ") || accounts?.other_associations || "Sin asociacion",
+        profile: [accounts?.advisor_or_staff, accounts?.advisor_profile, accounts?.is_high_performance ? "AD" : null]
+          .filter(Boolean)
+          .join(" · ") || "Sin perfil",
+        joinedOn: member.joined_on,
+        rejoinedOn: accounts?.rejoined_on ?? null
+      };
+    });
+
+  return {
+    summary: {
+      totalStaff: staff.length,
+      fiscalProfiles: fiscalProfiles.length,
+      personalProfiles: personalProfiles.length,
+      remaxAccounts: remaxAccounts.length,
+      resicoCount: fiscalProfiles.filter((profile) => profile.is_resico).length,
+      ampiCount: remaxAccounts.filter((account) => account.ampi_id || account.ampi_user || account.other_associations?.includes("AMPI")).length
     },
     records
   };

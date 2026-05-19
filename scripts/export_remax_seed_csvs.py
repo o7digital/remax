@@ -61,7 +61,9 @@ def parse_date(value: str | None) -> str | None:
     month, day, year = match.groups()
     year_int = int(year)
     if year_int < 100:
-        year_int += 2000 if year_int < 70 else 1900
+        year_int += 2000
+        if year_int > 2026:
+            year_int -= 100
     month_int = int(month)
     day_int = int(day)
     if month_int < 1 or month_int > 12 or day_int < 1 or day_int > 31:
@@ -311,6 +313,190 @@ def export_staff_members() -> Path:
                     "first_joined_on": parse_date(row["fechapingreso"] or row["fingre"]),
                     "left_on": parse_date(row["fsa"]),
                     "notes": normalize_spaces(row["comenase"]),
+                }
+            )
+    return out_path
+
+
+def export_staff_fiscal_profiles() -> Path:
+    inventory = load_inventory()
+    rows = export_rows("AsesoresInternos", inventory["AsesoresInternos"])
+    out_path = OUTPUT_DIR / "staff_fiscal_profiles.csv"
+    fieldnames = [
+        "id",
+        "staff_member_id",
+        "legal_name",
+        "tax_id",
+        "fiscal_street",
+        "fiscal_exterior_number",
+        "fiscal_neighborhood",
+        "fiscal_postal_code",
+        "fiscal_email",
+        "bank_name",
+        "bank_account",
+        "bank_clabe",
+        "bank_branch_number",
+        "is_resico",
+    ]
+    with out_path.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            legacy_id = row["idai"]
+            writer.writerow(
+                {
+                    "id": stable_uuid("staff-fiscal", legacy_id),
+                    "staff_member_id": stable_uuid("staff", legacy_id),
+                    "legal_name": normalize_spaces(row["rsa"]),
+                    "tax_id": normalize_spaces(row["rfca"]),
+                    "fiscal_street": normalize_spaces(row["cfa"]),
+                    "fiscal_exterior_number": normalize_spaces(row["nefa"]),
+                    "fiscal_neighborhood": normalize_spaces(row["cofa"]),
+                    "fiscal_postal_code": normalize_spaces(row["cpfa"]),
+                    "fiscal_email": normalize_spaces(row["cefa"]),
+                    "bank_name": normalize_spaces(row["bancoase"]),
+                    "bank_account": normalize_spaces(row["cuentaase"]),
+                    "bank_clabe": normalize_spaces(row["clabease"]),
+                    "bank_branch_number": normalize_spaces(row["sucase"]),
+                    "is_resico": str(bool(parse_bool_from_si_no(row["rfasesor"]))).lower(),
+                }
+            )
+    return out_path
+
+
+def export_staff_personal_profiles() -> Path:
+    inventory = load_inventory()
+    rows = export_rows("AsesoresInternos", inventory["AsesoresInternos"])
+    out_path = OUTPUT_DIR / "staff_personal_profiles.csv"
+    fieldnames = [
+        "id",
+        "staff_member_id",
+        "birth_date",
+        "birth_city",
+        "birth_country",
+        "education_level",
+        "language_1",
+        "language_2",
+        "emergency_contact_name",
+        "emergency_contact_phone",
+        "emergency_contact_relationship",
+        "imss_number",
+        "medical_insurance",
+        "blood_type",
+        "medical_conditions",
+        "allergies",
+    ]
+    with out_path.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            legacy_id = row["idai"]
+            writer.writerow(
+                {
+                    "id": stable_uuid("staff-personal", legacy_id),
+                    "staff_member_id": stable_uuid("staff", legacy_id),
+                    "birth_date": parse_date(row["fna"]),
+                    "birth_city": normalize_spaces(row["cna"]),
+                    "birth_country": normalize_spaces(row["pna"]),
+                    "education_level": normalize_spaces(row["niea"]),
+                    "language_1": normalize_spaces(row["ia"]),
+                    "language_2": normalize_spaces(row["i2a"]),
+                    "emergency_contact_name": normalize_spaces(row["ena"]),
+                    "emergency_contact_phone": normalize_spaces(row["eta"]),
+                    "emergency_contact_relationship": normalize_spaces(row["epa"]),
+                    "imss_number": normalize_spaces(row["nimssa"]),
+                    "medical_insurance": normalize_spaces(row["sga"]),
+                    "blood_type": normalize_spaces(row["tsa"]),
+                    "medical_conditions": normalize_spaces(row["ea"]),
+                    "allergies": normalize_spaces(row["aa"]),
+                }
+            )
+    return out_path
+
+
+def export_staff_remax_accounts() -> Path:
+    inventory = load_inventory()
+    rows = export_rows("AsesoresInternos", inventory["AsesoresInternos"])
+    out_path = OUTPUT_DIR / "staff_remax_accounts.csv"
+    fieldnames = [
+        "id",
+        "staff_member_id",
+        "sir_joined_on",
+        "sir_user",
+        "sir_legacy_password",
+        "sir_last_login_on",
+        "easy_broker_last_login_on",
+        "remax_mexico_id",
+        "remax_mexico_trial_started_on",
+        "remax_mexico_trial_ended_on",
+        "remax_mexico_status",
+        "remax_international_id",
+        "remax_international_user",
+        "remax_international_legacy_password",
+        "remax_international_started_on",
+        "remax_international_ended_on",
+        "remax_international_status",
+        "university_user",
+        "university_legacy_password",
+        "university_trial_started_on",
+        "university_trial_ended_on",
+        "university_status",
+        "ampi_id",
+        "ampi_user",
+        "ampi_legacy_password",
+        "ampi_started_on",
+        "ampi_ended_on",
+        "ampi_status",
+        "advisor_profile",
+        "advisor_or_staff",
+        "other_associations",
+        "is_high_performance",
+        "level_changed_on",
+        "rejoined_on",
+        "separation_reason",
+    ]
+    with out_path.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            legacy_id = row["idai"]
+            writer.writerow(
+                {
+                    "id": stable_uuid("staff-remax-account", legacy_id),
+                    "staff_member_id": stable_uuid("staff", legacy_id),
+                    "sir_joined_on": parse_date(row["fingre"]),
+                    "sir_user": normalize_spaces(row["sira"]),
+                    "sir_legacy_password": None,
+                    "sir_last_login_on": parse_date(row["uisir"]),
+                    "easy_broker_last_login_on": parse_date(row["uieb"]),
+                    "remax_mexico_id": normalize_spaces(row["idea"]),
+                    "remax_mexico_trial_started_on": parse_date(row["fapa"]),
+                    "remax_mexico_trial_ended_on": parse_date(row["fbpa"]),
+                    "remax_mexico_status": normalize_spaces(row["era"]),
+                    "remax_international_id": normalize_spaces(row["idia"]),
+                    "remax_international_user": normalize_spaces(row["ua"]),
+                    "remax_international_legacy_password": None,
+                    "remax_international_started_on": parse_date(row["faa"]),
+                    "remax_international_ended_on": parse_date(row["fba"]),
+                    "remax_international_status": normalize_spaces(row["eria"]),
+                    "university_user": normalize_spaces(row["uua"]),
+                    "university_legacy_password": None,
+                    "university_trial_started_on": parse_date(row["fapua"]),
+                    "university_trial_ended_on": parse_date(row["fbpua"]),
+                    "university_status": normalize_spaces(row["eua"]),
+                    "ampi_id": normalize_spaces(row["idampa"]),
+                    "ampi_user": normalize_spaces(row["ampua"]),
+                    "ampi_legacy_password": None,
+                    "ampi_started_on": parse_date(row["ampfaa"]),
+                    "ampi_ended_on": parse_date(row["ampfba"]),
+                    "ampi_status": normalize_spaces(row["eampa"]),
+                    "advisor_profile": normalize_spaces(row["aperfa"]),
+                    "advisor_or_staff": normalize_spaces(row["asa"]),
+                    "other_associations": normalize_spaces(row["oaa"]),
+                    "is_high_performance": str(bool(parse_bool_from_si_no(row["nad"]))).lower(),
+                    "level_changed_on": parse_date(row["fechta"]),
+                    "rejoined_on": parse_date(row["frra"]),
+                    "separation_reason": normalize_spaces(row["msa"]),
                 }
             )
     return out_path
@@ -911,6 +1097,9 @@ def main() -> None:
     property_lookup = build_property_lookup()
     deal_lookup = build_deal_lookup(property_lookup)
     staff_path = export_staff_members()
+    fiscal_profiles_path = export_staff_fiscal_profiles()
+    personal_profiles_path = export_staff_personal_profiles()
+    remax_accounts_path = export_staff_remax_accounts()
     properties_path = export_properties()
     contacts_path = export_property_contacts(property_lookup)
     values_path = export_property_values(property_lookup)
@@ -920,6 +1109,9 @@ def main() -> None:
     calculations_path = export_commission_calculations()
     participants_path = export_deal_participants(staff_lookup, property_lookup, deal_lookup)
     print(f"Wrote {staff_path.relative_to(ROOT)}")
+    print(f"Wrote {fiscal_profiles_path.relative_to(ROOT)}")
+    print(f"Wrote {personal_profiles_path.relative_to(ROOT)}")
+    print(f"Wrote {remax_accounts_path.relative_to(ROOT)}")
     print(f"Wrote {properties_path.relative_to(ROOT)}")
     print(f"Wrote {contacts_path.relative_to(ROOT)}")
     print(f"Wrote {values_path.relative_to(ROOT)}")

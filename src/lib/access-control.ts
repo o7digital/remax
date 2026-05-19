@@ -27,6 +27,7 @@ export type AppModule =
   | "contracts"
   | "settings_overview"
   | "settings_ia_search"
+  | "settings_staff_records"
   | "settings_users"
   | "settings_commissions"
   | "settings_roles"
@@ -58,6 +59,7 @@ const ALL_MODULES: AppModule[] = [
   "contracts",
   "settings_overview",
   "settings_ia_search",
+  "settings_staff_records",
   "settings_users",
   "settings_commissions",
   "settings_roles",
@@ -130,6 +132,7 @@ const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
   { prefix: "/app/settings/tax-identities", module: "settings_tax_identities" },
   { prefix: "/app/settings/invoice-series", module: "settings_invoice_series" },
   { prefix: "/app/settings/ia-search", module: "settings_ia_search" },
+  { prefix: "/app/settings/staff-records", module: "settings_staff_records" },
   { prefix: "/app/settings/users", module: "settings_users" },
   { prefix: "/app/settings/commissions", module: "settings_commissions" },
   { prefix: "/app/settings/roles", module: "settings_roles" },

@@ -1,0 +1,258 @@
+id,staff_member_id,birth_date,birth_city,birth_country,education_level,language_1,language_2,emergency_contact_name,emergency_contact_phone,emergency_contact_relationship,imss_number,medical_insurance,blood_type,medical_conditions,allergies
+1c83daf6-74c9-cf08-4c52-07d55ff0185d,131f7c2b-d57b-5d64-96f4-122592720b65,1966-05-17,,,,Ingles,,Rosa Soltero,38233867,Mama,,,RH+O,,
+565f99b3-e413-7986-d482-4e208c4c505a,145a7cf1-943d-c1fc-c0cb-b55974ad651e,1953-08-21,,,,,,Juan Valle,,Hijo,,SI,RH+A,,
+625bcdaa-293b-283c-0642-2a92aaede6ff,804fb0bc-10a5-e18c-93b1-9e6e98d49440,1965-01-09,,,,,,,,,,,,,
+27dc64ff-4428-cff2-eaae-6f1e77c752d1,7e1eb5be-6984-ebf6-9f70-fd7f18e02064,1964-10-12,,,,,,,,,,,,,
+a550d6d9-e4bf-1b42-83ff-f99715f4048c,136b73c5-f912-b317-f8f1-ab61881a4e92,1959-07-10,,,,Inglés,,Pedro,,Esposo,,Si,,,
+6b40ca71-f3e8-a771-1bbd-24efd8f2107c,197cb249-0457-4aa9-2599-0a9a7e63aa54,1987-01-27,Guadalajara,Mexico,,,,,,,,,,,
+30c22b7e-6ed5-c7c2-bc81-be65d7f44d59,d72a6137-47b0-1305-a02f-d329f566c981,1952-12-15,,,,Inglés,,Maria de Lourdes,,Esposa,,Si,RH+B,,
+59c4f5de-0f02-ff44-dd9e-3f3c578d29bb,4f9423d8-7874-b05d-b26a-c41151426e81,1970-09-02,,,,,,Angelica,,Esposa,,Si,RH+O,,
+f59ad359-6c7a-fa87-02fe-65118d811162,1d1cff17-e713-8180-e13f-9bc878b0d436,,,,,,,,,,,,,,
+0965e2fb-c316-5050-b57e-c9a2ad534890,46dac12c-e5d3-ef9a-4b45-a5743bce1cd6,1970-06-29,,,,Inglés,,Aurelio,,Esposo,,Si,RH+O,,
+53d33d7e-95cd-e20e-2ad2-f7da895364f2,c8d608f6-b110-74be-4e95-9c295e63e609,,,,,,,,,,,,,,
+6521e0ad-ad49-4891-af72-8044ea6a84c5,fc8740df-1aac-2498-696f-d6d4ff461e54,,,,,,,,,,,,,,
+e0448ec2-037a-46f7-e1db-dae40d05d131,9c0b900b-5eae-7d58-7e02-759b4d72f3e8,,,,,,,,,,,,,,
+7bdcc904-340f-ff41-710e-1db84932be56,021a5233-df58-7f59-8b6a-b5d1d29799cf,,,,,,,,,,,,,,
+17cfd0e7-45f9-5dd0-5d05-22fdd89c0499,a6d1de4b-18bf-78d2-00b6-5a4369051933,1972-11-21,,,,,,,,,,,,,
+cb390ddf-7578-fa5d-3f23-e269d574bc83,dee9e329-c74b-67ee-6ae0-ed82176b81e7,1950-08-30,,,,Inglés,,Omar Castillo,,Hijo,,No,RH+B,,
+ce3c9449-0ed6-0d2e-9e4a-9a97e3d00f54,8a984ad2-96b3-feee-7d3c-60622c01ea98,1959-01-27,,,,Inglés,,Maria del Rocio,19838477,Esposa,,No,RH+O,,
+f05e0186-4259-b795-d935-4e0556cb59fd,1310632c-68cb-45c2-2bd2-36e92863ad37,1963-09-24,Nuevo Leon,Mexico,,,,,,,,,,,
+81d14058-a336-8b8c-73e3-f3a011dfe5e3,44f88916-2a91-7451-f4fa-c4efe7329461,1941-09-26,,,,Inglés,Sueco,Michell,,Hija,,Si,RH+O,,
+ddfead5c-5227-92de-06a1-d41b9ffa259c,2288549c-bfd0-ba23-dadd-442ef6894e10,,,,,,,,,,,,,,
+ec8c27b6-1b72-0a50-f43e-22c4c959cdc8,b5a28d5b-f7d7-d334-a7e5-4f5bd413bbf9,,,,,,,,,,,,,,
+c2076ab7-d7ff-e845-943f-75570fa2d026,08fa0d87-4e61-e6e8-bcfc-63c92dae3c7d,,,,,,,,,,,,,,
+ef03f3b7-261d-3937-18f5-ee3d4780ad1d,5fa89d92-f334-9a29-70c5-8025c0312341,1984-09-25,Guadalajara,Mexico,,,,,,,,,,,
+69df9bf5-1fee-5f6e-c697-54841cc0947c,f73d8925-ea51-96f2-c682-2c009ee477c8,1969-07-23,Guadalajara,Mexico,,,,,,,,,,,
+8ba03993-ccbd-9691-6f1f-20716e95fffe,ac8c1c43-bb90-2ac4-72af-fba6c38b6543,1987-04-16,,,,,,,,,,,,,
+3dc45e99-35dc-1ff2-68b6-d18872dcf5a5,db7ec0a0-f9bb-3cbd-d0ad-3b77fd53563e,1953-09-25,,,,,,,,,,,,,
+31509a56-ba28-e200-0df9-e9914ddf23f8,ad4237c3-2dc5-c782-5ee9-95e5708fb129,1970-10-20,,,,,,,,,,,,,
+e055ca53-7059-2612-4ea8-85c550533948,ffd8dc43-98d4-cccb-3640-d5d70448b91a,,,,,,,,,,,,,,
+81e84be4-aabc-ebbd-1dd7-7e7dfd6aacd9,9043c13e-97d9-e887-35c7-3c18dd4eaf03,1981-04-19,Guadalajara,Mexico,,,,,,,,,,,
+0ff7a6a4-cb33-6948-a4e5-12d5bfeda67b,08e846bb-956c-1a2c-d66d-747a44ffc945,1964-01-14,Guadalajara,Mexico,,,,,,,,,,,
+6c422075-e231-8ee8-5b3d-f0b89714b328,b7df62f5-6999-ab84-50be-2a5d070b9201,1987-09-19,Guadalajara,Mexico,,,,,,,,,,,
+1aeb30ab-151c-ae35-eb4f-0e43d2934532,9331d9b2-691b-ec23-cafd-1a47668b0518,1980-06-07,Guadalajara,Mexico,,,,,,,,,,,
+23879ef6-aabb-fb11-f5a2-6de021541f24,dd642a9f-ebf9-2fe5-bb29-4288495e36ab,1968-05-28,Guadalajara,Mexico,,,,,,,,,,,
+a2cce360-0887-5083-9004-3d4a7656c7a5,f7b9a6a3-1ed7-ebeb-3929-777d9bbf4a60,,,,,,,,,,,,,,
+84696f13-8a9b-47c3-14a9-0dd0fe85bd5e,d1a364f4-73bf-9657-45e1-9333a1bce3b4,,,,,,,,,,,,,,
+53494b10-8ba0-5d39-3379-361efb328556,fa80822b-8897-73cf-17ef-7976274ead76,1958-11-12,,,,,,,,,,,,,
+f96aae11-9394-517a-e933-98de5065217c,e89ca9ed-3f1f-a2de-54f6-712db2a6ef04,1949-12-18,,,,,,,,,,,,,
+cbc6bde7-447f-8e82-0042-753c6da7dc7f,a06e73b0-5842-e5aa-3600-144f492549b4,1974-12-26,Guadalajara,Mexico,,,,,,,,,,,
+c7a5b97b-cd22-4de6-fc6c-a06f6af97963,4b4bef1f-f010-66cb-e427-8abdc890c4cf,1961-05-26,,,,Francés,,Jorge Canavati,,Esposo,,Si,RH+B,,
+63758667-0412-18f0-03f5-55caf1dec6bd,acaf9569-c4d7-1181-8fa7-dae9c7deca3e,1973-10-26,Culiacan,Mexico,,,,,,,,,,,
+985363e7-4c5e-a391-06fa-1e468028d55e,6effec5f-5b10-df8e-a799-6fd59b5acd16,1952-09-15,Guadalajara,Mexico,Licenciatura,Inglés,,Gustavo Rodriguez Cisneros,,Hermano,,No,RH+AB,Hipertension,Antibioticos
+5a3ab9ae-4036-03b6-589d-165c33460767,81730db9-206a-9687-8d41-80c80a9fc9b0,1967-07-22,Puebla,Mexico,,,,,,,,,,,
+2a6dbd74-f73d-4771-4edc-46717dc6456c,2cdd1754-24e3-d555-2a87-e29591b01ae3,1993-11-03,Ixtlan del Rio,Mexico,,,,,,,,,,,
+d5f6158c-e2b2-bb2b-2d84-6c0d8b860b01,f2f9d20a-c276-f5bb-bc82-e4bf2b2541af,1955-09-20,,,,,,,,,,,,,
+5faadf49-0727-8dff-5412-d1d01a80fdf2,f4ab6af8-2657-2e37-1f63-236e14870d98,1968-01-31,,Mexicano,,,,,,,,,,,
+cfddfeef-4c00-4dfe-4c53-fe1019670d71,41678e3f-01e9-ed15-bb8c-df1e8e578fb4,1966-01-22,,,,Inglés,Francés,Edith Barajas,,Esposa,,Si,RH+AB,,
+d300f6c8-e5a6-94c5-c3a8-08ad3cf2ed03,0a9cca21-91cb-9016-3fc6-12e583ce5904,,,,,,,,,,,,,,
+7fecfd57-9a7f-0bed-f4dd-4d47fa660578,bc55a32a-64a4-a3c5-1378-ff7bf39a4630,1982-12-10,Guadalajara,Mexico,,,,,,,,,,,
+319d778f-3439-2cdb-9acf-7420ed63843a,892538fa-790f-e5d1-a0a3-8287e00d85a7,1957-10-19,,,,Inglés,Alemán,Wideland Kublun Palacios,,Hijo,,No,RH+A,,
+7a789367-8760-f4d2-a650-a039d3d586a0,6e1537ef-2d53-129e-79db-aceb692e5bae,1957-07-04,,,,,,,,,,,,,
+df70171f-03ef-9f29-c48d-44ff2b486cb4,edfc0ef6-be5b-52e2-ba1c-24a77eeff479,,,,,,,,,,,,,,
+8a5d8151-cdc7-4aa7-2753-55cf820295f7,49949a77-73fe-1580-1697-5adc1c8f6459,1965-10-30,,,,,,Samanta Ortiz,,Hija,,Si,RH+B,,
+33bd6e47-2f95-a1b2-d243-b3fb23d719ac,9ad84bc2-0785-8986-f2b8-f076fb98181e,,,,,,,,,,,,,,
+54dc2f33-a91e-ec0e-1d40-c7cf9f81654e,8cac2936-5acf-676d-3093-5740fb188295,1964-08-16,,,,,,Jorge Vargas,,Esposo,,No,RH+A,,
+163303cf-55a4-8d4b-f989-9acede5185bf,0caa2be7-c1ad-f9b3-a9ee-7409a0b1b287,1945-09-20,,,,,,Gabriela Martinez Vergara,,Esposa,,No,RH-O,,
+943dd221-17a1-8bfb-9d27-4ef2eec24023,69c28817-e56a-7e34-1fba-6906fb19b8a2,1950-08-27,Tonaya,Mexicano,,,,,,,,,,,
+e049b65f-d3f9-d622-a94c-83569d59d24d,e86275b9-c277-0918-69cd-4b3c25a3e749,1976-04-17,,,,,,,,,,,,,
+c3933da5-62fc-38e0-7849-8a935653e31c,b5d2e4e8-96ed-fe92-8ee5-9592d3422451,1980-04-06,,,,,,,,,,,,,
+e442338a-0b69-b32c-b2ef-860898cec5f0,f573fc95-5909-2a80-c77c-033ca53ccb0f,1950-08-18,,,,Inglés,,Lissette Gerhard Calderon,18136416,Esposa,,No,RH+A,,
+58a04c8f-c7b7-dc5c-f8c5-fdbfbaa92a1f,6997ed21-86a2-4479-1d2b-2e13e3dbb3c7,1965-10-24,,,,Inglés,,Susana Alonso,,Esposa,,NO,RH+O,,
+4d3e8e9d-bc23-f608-c34f-09bc7346ec41,4450d8d2-22cb-a3bb-8bf1-350800dedb16,1954-05-01,,,,,,David Hernandez Gonzalez,,Hijo,,,,,
+d8e4d18f-cafc-4add-610d-f3124fe28dbb,9e41f164-38a9-8f70-0d6c-8df8c5980d3d,,,,,,,,,,,,,,
+80a104fc-3d5c-9cfd-9604-20244c7bd639,b6be7f73-258e-aa7c-349e-244980f88494,1980-09-15,,,,,,Karla Garcia,,Esposa,,No,RH+A,,
+23d38da1-75b8-7977-0486-6f3d9676ed04,3d716ce1-1118-abe4-a369-df1bac6a83d6,,,,,,,,,,,,,,
+b7325969-53f1-9de6-864d-10cddc7fb18c,4fc9f780-af76-1b12-f489-e7e87983f7ad,,,,,,,,,,,,,,
+072bcf83-8c26-9e30-8a03-43d952f354bc,b6bf1598-8a10-2e5b-9293-82df987eb569,1982-12-16,,,,,,Julia Alcala,,Esposa,,Si,RH+A,,
+85c68f16-9d9c-ad3e-c115-fe9df4c0bc07,1a969ca7-c135-6f5a-e6ea-c6dfba748c35,1977-02-10,,,,,,Cynthia de Lira,,Esposa,,Si,RH+A,,
+7204b943-cc91-45c8-103d-9cd1938bd745,a5928ad9-1175-3e08-ef52-d85cfec50cc2,1968-02-12,,,,Inglés,,Rosario Juarez,,Esposa,,No,RH+O,,
+605b0391-bb69-d4c1-3252-d7108e268944,409b6a43-16d6-8ac9-4d26-07e4371968e5,1957-09-08,,,,Inglés,,Adriana Cobayashi,,Esposa,,No,RH+O,,
+85583dac-2149-716b-775a-2a9544f85a62,99f95efc-be61-ffba-637e-384d5d46c51f,1972-08-31,,,,Inglés,,Arturo Jimenez,,Esposo,,Si,RH+O,,
+f2710683-38b6-dfc0-4b05-4c368959e9f6,8c3af378-3855-108e-14fa-d2f8c61027d7,1980-11-13,,,,,,Ma. Concepcion Gutierrez,,Mama,,Si,RH+O,,
+1e84f2c3-9f9c-052e-8e4c-047e7ca03581,e83a6156-d595-8a6b-1981-acfea5345a75,1976-10-11,,,,Inglés,,Paticia Cortes,31212691,Mama,,No,RH+A,,
+eb389951-a609-6a50-a55b-75cb0095a0f4,8f457a0a-b2f1-3fcb-357d-a297dcf6b35d,,,,,,,,,,,,,,
+b0317972-522b-1270-32cb-26eb63f06548,6f4fe703-42bf-049e-7a84-9e5a8e6aaeb1,1969-08-22,,,,Inglés,,Jose Remus Garcia,,Esposo,,Si,RH+O,,
+53d84d1a-f32e-4cee-1920-2dcb52b64463,7bbbcbfa-5736-1613-9bbe-42734693b6f6,1979-05-18,Mexico,Mexico,,,,,,,,,,,
+469169b3-e31c-a743-3480-2258e8e9aa2f,39aeb9fe-d3c5-d93d-2086-6d60bb0d205e,1970-08-29,Distrito Federal,Mexico,,,,,,,,,,,
+01290ef3-f326-1783-a53c-64ca28d31895,f0ff6705-f7dc-a853-405a-39709238e3c1,1986-02-03,Celaya,Mexico,,,,,,,,,,,
+8df18d2d-5db2-adab-f6b8-58467407ae30,d9261a57-128a-fb63-f083-868dda608fff,1961-12-26,,Mexicana,,,,,,,,,,,
+d78eef89-9028-c731-cb17-fcbc2b9fadc9,2994458d-0f95-9ff1-866c-5579565c6b2e,,,,,,,,,,,,,,
+7f9da58b-211f-775f-cfa6-5c327bdf4ae2,52ed8bef-4739-4f0b-0667-7a401381a775,1979-07-28,Guadalajara,Mexico,,,,,,,,,,,
+35239700-a3b8-56f2-aa87-2b3cdf7214cc,07879d4f-9a54-73e6-a1e0-a9744f388a0e,,,,,,,,,,,,,,
+39c21004-4673-c751-b9aa-fb3b80d7baa2,458d6cbe-00e2-9da5-4cb0-968591326caf,1975-08-04,,,,,,,,,,,,,
+c4036e57-61da-1633-b84e-91a75293886e,15067759-9154-3cee-a35a-c934a59fe1b2,,,,,,,,,,,,,,
+1b0b3af5-8be5-2960-a1d3-c7c5a707b9fb,8d06672c-9999-b468-eeef-d9e4690ab52e,1970-04-28,Distito Federal,Mexico,,,,,,,,,,,
+e1fa5ca3-eecf-bccd-a287-021e5131631c,50b3060d-bdde-f39e-bc26-f0a6228b8f8f,1986-08-20,Guadalajara,Mexico,,,,,,,,,,,
+2f35ea08-533d-18ae-f169-1ea640a5fcc8,890f2861-f3d2-06d3-0ac0-d47fbc80fdcb,1948-11-21,,,,,,,,,,,,,
+062cfb6c-28bd-4da0-596c-37e3651f1708,d5bcf622-fd81-2a16-e23f-a1bad64dc679,,,,,,,,,,,,,,
+9efc5ea0-3dfb-4420-0ae7-3c65d945784a,0d62dd2e-b8fb-e3a1-0723-a19ade2158a2,,,,,,,,,,,,,,
+40cdacbe-49db-9e28-1b4f-42ba32c2806f,65f00dca-f1e2-9960-0f63-867861c3af17,1942-07-06,San Martin Hidalgo,Mexico,,,,,,,,,,,
+10659d85-0ea9-586b-1b92-b3ffa029b6cf,9a3645a5-977a-372e-5320-c619a987c131,1967-07-21,Monterrey,Mexicano,,,,,,,,,,,
+f4926051-f726-bb1e-d063-d067192827f1,3a3920e5-8bf7-0965-c64c-be115bf927ad,,,,,,,,,,,,,,
+fd066c99-07b4-006d-db5a-5d0fd24f1042,e0d5b221-3148-54d3-2814-b8484e9fb409,1971-11-09,,,,,,,,,,,,,
+b0f1cee5-fbe7-9d4a-4a82-e8c440478d68,1f5abe42-3430-f5fa-111d-fc8726e61b2d,,,,,,,,,,,,,,
+b9650278-313c-4666-52ca-c79033b8d8ea,f7e06294-e1ee-89a8-32e6-07195c5b8f95,1984-05-14,,Mexico,,,,,,,,,,,
+b6457188-db6b-3bc4-d1e2-069af969dc6c,0cd5cd15-2798-1e89-9d8e-8c513129e764,1988-01-07,Guadalajara,Mexicano,,,,,,,,,,,
+b41f5fc8-f35d-dd80-2422-7c512932080d,7909a454-8db5-94b5-dcc8-1e0853d21444,1954-04-22,,Mexico,,,,,,,,,,,
+de416cba-3c0c-aac9-3bb0-7388a930920e,608b93e9-5071-2a0d-d7e6-71cbb764d7e4,,,,,,,,,,,,,,
+551b71c9-5bce-009e-049d-f37a53c91731,bc5236a0-67fc-58f2-e351-69b6691e7994,1964-12-22,Puebla,Mexico,,,,,,,,,,,
+d97542ff-0ffa-1913-6169-2840bd9d4ca0,3a586e2b-6d22-f1cf-053c-e2cdd7cefdc1,1974-12-26,,,,,,,,,,,,,
+d5d16fd3-ed92-1501-1cc4-633fe313920e,f1cb7d12-bc9a-4304-8484-4ce3e072d8dc,,Mexico,,,,,,,,,,,,
+160ab829-1fa0-2d20-6009-4fee61dbb6c8,75609899-dfa8-11f2-e4b3-46b63bd50737,1951-02-16,Nuevo Laredo,Mexico,,,,,,,,,,,
+347cffc2-df85-cc57-cec1-122e9e3d2e2b,2b2f0fe4-e4bb-f791-470c-99eb7167c21a,1987-02-22,Republica Dominicana,Republica Dominicana,Lic. Diseñador Grafica,Ingles,Frances,Irbing de la Cruz,,Esposo,,SI,RH+O,,
+6882b114-33a9-aa9b-84b1-90cc746e405f,97e743c5-7926-bb16-9814-7c449bea537a,1980-06-04,Guadalajara,Mexico,,,,Daniel Cortez Chavez,,Esposo,,SI,RH+O,,
+3cb45143-1fbb-e19d-4dcb-38e68a0b6b3c,fa87707c-3607-e209-4241-a2dfd8a53a6d,1979-06-30,Cuidad de Mexico,Mexico,,,,,,,39957990094,,,,
+75f372dc-4677-d8a4-9e32-e863105133fa,e602cd88-710f-84e8-5fe0-183b95dffac5,1966-03-31,,,,,,Eliza Villa,,Hija,,NO,RH+A,,
+5aeea7af-c87a-0643-cb8f-1a1de21f7aa7,3527a9d6-430d-3d39-f6f4-16ce06150e48,1988-01-28,Guadalajara,Jalisco,Preparatoria,,,Teresa Quintero Perez,,Mama,04088827128,NO,RH+O,,
+27694c12-71ed-9630-80a6-252f56e0b392,7e398f83-6a8b-d2ff-a292-7b671e9fc7b6,1991-06-15,Guadalajara,Mexico,,,,,,,10159103257,,RH+O,,
+9644f9a2-6dbd-e01d-afd8-424d7e08ee3b,bfc96991-9dfc-c51b-a53c-2589f850ce64,1998-01-30,,,,,,,,,,,RH+A,,
+6de8f801-a6a3-874c-9fdd-413de3ade661,31693550-a706-8986-1ce6-0a9a3dfbd1e4,1997-11-28,Guadalajara,Jalisco,,,,Anaid Castillo,,Tia,,NO,RH+A,,
+81933502-d706-45f8-0963-9680f8b087b0,84ac79ec-8560-c48e-844e-4d915fcb55ef,1999-04-16,,,Secundaria,Nahualt,,,,,,,,,
+46cd2929-0b63-37c8-af1c-755d793a365b,07bec90c-52ea-5f55-4fba-7f55855349ad,,,,,,,,,,,,,,
+a6ae9c88-a057-68ae-fb65-46a7cc969c37,9d85d45a-eeee-3cb3-030a-7b71d135fa9e,,,,,,,,,,,,,,
+9600d677-b141-e5a5-8820-255f599a7e89,6eb9beb2-aef6-811b-27fe-ffcfd033ca4e,1993-10-07,Guadalajara,Mexico,Lic. Nutricion,,,Alejandro Arias Torres,36281323,Papa,,NO,RH+O,,
+117213da-26f6-c68a-88ae-472740a8c5bb,ae93512a-a72a-6c9b-5ec7-3653433950e8,1996-04-26,,,,,,,,,,,,,
+2c4b7af5-b23f-fd26-e4b6-2eca2fe0d0ac,75839f7c-0baa-4b13-f37b-c4575f5e0071,1997-09-21,,,Lic. Mercadotegnia,,,,,,,,,,
+ba390893-ced1-a4a0-91db-2b71a691f0ef,0846a568-823f-957c-0e69-45b9fbba8f23,,,,,,,,,,,,,,
+61fba135-6d32-7a80-08f2-7c272abb2b6a,a34338e1-5a9a-efab-a5b2-8679aadcf444,1998-03-20,,Mexico,,,,,,,,,,,
+a9e00c03-fbba-b002-31a6-2d047c5eda1a,28fcf615-3e7a-e438-ef38-e3084158429b,,,,,,,,,,,,,,
+c741ab9f-d214-2613-7fd0-994e523819c6,82784c6e-b94b-2c4d-5e3a-c66965177511,,,Venezuela,,,,,,,,,,,
+af8d4aca-7526-22aa-9b05-db1eeab008a0,532fa2af-9459-5051-ce50-a43267931243,,,Mexico,,,,,,,,,,,
+e4a60cdb-7656-415e-21ad-8f9aa315bb9d,0612d9d4-4668-8cc2-bce2-2cb94597564c,1950-02-28,Monterrey,México,,,,,,,,,,,
+f8d375f7-406e-9617-0d72-78dad9737dcd,d210b8d9-ac6a-af5a-475b-e8bacb4fa905,1968-02-26,Guadalajara,Mexico,,,,,,,,,,,
+dc8d6eab-ef35-5aa9-4619-c716460581f0,56cc954d-2730-327c-b12a-f2060bec14a4,1956-02-06,,Mexico,,,,,,,,,,,
+05cbab96-2ef5-0b91-a7c6-6df8d5f12604,13589b07-a7e7-90a6-dbe0-b615d21b4c23,1963-06-23,,Mexico,,,,,,,,,,,
+18fc7ace-fb38-defe-c87a-60a0e8592abe,029ce9f6-1155-698e-0b24-f705784e0930,1957-04-24,,Mexico,,,,,,,,,,,
+db1b12c1-a170-c7b5-fe7c-c9a5a857dbe6,9e002cba-e629-a2bc-d712-6b06b4548d6f,1980-01-24,Guadalajara,Mexico,,,,Francisco Javier Valdivia Orozco,,Esposo,,NO,RH-A,,Miel de abeja
+96c343f2-ae50-ae97-ccaf-6cc630249025,ddd83d40-444b-54c6-c38b-93a8bea8838c,,,Mexico,,,,,,,,,,,
+938b7c01-243e-96ba-7cd6-e6abaebfd206,9534232c-73b3-cb71-8fe2-7471846f1805,1990-10-14,Guadalajara,Mexico,Lic. Trabajo Social,Español,,Carlos Gonzaez,3313980900,Novio,04099041040,,A+,,
+aab57859-f17a-5657-5f77-b2142f3dcbc2,3760c451-064e-5f64-6665-23df37d89135,1973-02-13,Michoacan,Mexico,Diseñadora de Interiores,,,,,,,,,,
+4b3095f4-7d60-0ef6-e28f-448f39df7b34,0bcbd529-df8d-9105-5ac7-593914b72b0d,1992-09-04,Verecruz,Mexico,,,,,,,,,,,
+91940679-ea9a-0840-2017-504ec4164fb6,30b87947-5f07-1720-68e5-4846b5e7ef27,2000-05-23,Guadalajara,México,,,,María Rodrígurez Díaz,,,,,,,
+6625ef4e-ffaa-3360-eb3b-4730d8674997,63d0f9b7-f4cc-ef9b-53a3-eebbe4c6a7b5,1995-11-05,,México,Licenciarura Trunca,Español,,Román Israel Hernández Gómez,3332236095,Esposo,35149591139,,,,
+27b83531-894b-9085-dd7a-ac447b09a2e5,a6d64863-e6fc-f2d2-5937-642761bad169,1993-01-19,Ciudad de México,México,Licenciatura,Español,Inglés,Xochitl García,3336765627,Mamá,,,RH-A,Ninguna,Bacrtim
+449255d4-6dba-7656-5e47-cfae53b3cd9e,49ac75d8-0b54-3506-c56c-662a8922c5d3,,"Guadalajara, Jal.",México,Licenciatura,Español,Inglés,Melina Lecuona de Mora,3314105899,Esposa,,,O RH+,Ninguna,Ninguna
+06a174ad-7540-adb2-376a-2b69c410fad1,1d32a4db-63ca-7e5d-7c1e-67d880e64394,1974-08-11,"Guadalajara, Jal.",México,,,,Imelda Reyes Rodríguez,3335852185,Mamá,,,AB RH+,Ninguna,Niguna
+75db4b2b-bcbe-c278-b715-a208b9aea151,4125a8eb-bfb6-080f-7efa-eaae2e883e75,1980-03-09,Ciudad de México,México,,Español,Inglés,Luis Sánchez Mola,3324961909,Esposo,,,O RH+,Ninguna,Ninguna
+af9bed68-bc83-1f04-022c-32da6fe1ce4a,b664867c-5178-8164-a01a-88699b985f84,1972-08-08,Ciudad de México,México,,,,J. Pedro Leyva Alatriste,3314162474,Esposo,,,O RH +,Ninguna,"Polvo, humo"
+f6677698-7465-b795-3997-07d0d06cd803,02303df6-4d0b-548f-5610-ba314883368d,1987-07-03,,,Preparatoria,Español,,Maria Diaz,3310752556,Mamá,,,,Ninguna,Ninguna
+5f5df531-4005-9ee1-4a75-a7d51ee80c19,3efd27c5-d469-b012-3243-62b209069b1b,1974-03-28,Buenos Aires,Argentina,,Español,Inglés,Hugo Alberto Vallecio,3328801640,Esposo,,,A RH+,Ninguna,Ninguna
+c04a1440-c83a-3fd2-e264-3ab52b13016d,8254f3e3-4c15-821e-ee0b-558e53ab02d6,1992-03-01,La havana,Cuba,,,,ESTEBAN MUNGUIA,3317639092,AMIGO,,,O+,NO,ACIDO ACETIL SALICILICO
+316a71f2-13ba-71c6-db03-f089c87663c1,5c3949b1-1538-3da8-005d-b5dc8fa67684,1969-02-26,guayabo,Guerrero,,,,ADRIANA GAXIOLA,3311570367,CONYUGE,,,O+,NO,NO
+8b776f04-d81b-8f0c-3821-2958a178b852,8a6ba5d1-4868-a1b2-37e7-a259d97dd98d,2000-11-19,Guadalajara,México,,,,Abraham Arvizu,3313371513,Esposo,13130004248,,A RH+,Ninguna,Ninguna
+751f2869-a195-e81c-2712-5fc468b409c8,a4e4b687-e9ba-a428-e69f-e86b3f5dd998,1976-07-01,Santo Domingo Tehuantepec,Oaxaca,,,,Salvador Grajeda Padilla,3318333739,Esposo,,SI,O RH+,Ninguna,Medio ambiente
+02bcdf8e-18f9-079d-6539-50a797d5d186,534f2799-4053-dd65-c975-bbef5d008456,1999-06-05,"Zapopan, Jal.",México,,,,Edith Márquez,3310170805,Mamá,05179947071,,RH A+,Hipotiroidismo,Ninguna
+8af8d3fb-b776-1792-55aa-8d8c99164698,bf141130-e8c3-5887-c663-3facff46916e,1993-01-10,Zapopan,México,,,,Juan Carlos Murillo,3222748092,Esposo,,SI,O RH+,Ninguna,Ninguna
+330a2813-5893-8dc0-df5d-94344d478958,930610d3-bba3-1d16-dc7d-7b457cdc222c,1994-06-10,"Mazatlán, Sin.",México,Lic. En Mercadotecnia,Español,,Ixchel Elizabeth Ureña Ariieta,6690297340,Hermana,23139439840,,,Ninguna,Ninguna
+82b2f479-c986-b4c3-c5f6-caf5c34e6980,695440be-b86c-3125-2325-9c7ac17e9ae1,1996-02-18,"Guadalajara, Jal",México,Licenciatura,Español,Italiano,MARIA DE LOURDES HERNANDEZ,3334457575,Mamá,09169684769,,O RH+,Ninguna,Penicilina
+3ba6f2bb-127d-47eb-6470-6bfbac181de4,b867663e-4ce6-c0ea-be52-5a68ac610435,1980-07-15,"Guadalajara, Jal.",México,,,,Christian Manuel Orozco Morales,3311609317,Hijo,,NO,A RH+,Ninguna,Penicilina
+2f2d5b17-1b72-3d67-63aa-75c9cb360394,30e09239-958b-84f4-e9b7-5908d14ea149,1968-05-31,Guadalajara,México,,,,Bernardo Vergara,3319861193,Hijo,,NO,A RH-,Ninguna,levofloxacino
+13f35d5e-98b0-4d1f-0bd7-a7d5243b83c1,02b3c3ca-d207-91c0-840a-efdca8b11939,,Guadalajara,México,,,,Guillermina Rodríguez,3315001645,Mamá,,NO,O RH+,Ninguna,Ninguna
+48f12494-d675-0c2f-143d-37a626b4515c,f2770a4d-60f4-fdba-ff5b-adeed9f38d98,1996-01-17,Guadalajara,México,,,,Daniela Ochoa,3325848685,Mamá,02219656069,NO,O RH+,Ninguna,Ninguna
+23befcb8-e48d-7597-f3ba-e1c4641de792,82aecdd9-048b-23dc-05e8-f8df27669eef,1996-06-08,"Guadalajara, Jal.",México,,,,María Esperanza Ibañez Camarena,3338293094,Tía,09169616365,NO,O RH-,Ninguna,Penicilina
+227da5bc-e962-7cc4-7005-13e45c9e57c2,26b2223d-c30f-3f4d-1483-01d0a35a103c,1975-09-20,Guadalajara,México,Licenciaatura,Español,Inglés,Carmina Díaz,3316707151,Mamá,05209522415,NO,O RH+,Ninguna,Ninguna
+3ad7c770-10fc-3408-4a5d-cae0b7b72f7e,e44f6876-e410-ec68-34d1-ead09fbdebae,1975-06-28,Cd. México,México,,,,Alicia Navarijo,5555323308,Mamá,01917512939,NO,O RH+,Ninguna,Penicilina
+15a316ec-ff14-8db8-66c0-e3af9679be63,6602a578-cd4e-c857-0090-38becf0eb9f8,1992-07-23,Guadalajara,México,,Español,Inglés,Norma Angélica Cabrera García,3311356738,Mamá,,NO,B RH+,NO,NO
+9c12b19b-16a0-33e3-738c-0e1344319480,c096fb6d-c7f9-19d8-045e-53556519ca27,1987-10-22,"Guadalajara, Jal.",México,Licenciatura,Español,,Christian Josué Saldívar Gómez,3339678120,Esposo,,NO,O RH+,Ninguna,"Gato, polvo, plantas"
+78291b89-fc85-5477-56ba-da4275acd849,b539edac-c924-4fe4-2989-a322e6003ffb,,,,,,,,,,,,,,
+27212db6-5322-ef21-3a63-20deb9400a2b,a255a1b1-064f-11c5-f9b0-639f911cbf8f,2002-07-16,Gujadalajara,México,Bachillerato,Español,,Francisco Suárez,3314673060,Papá,,NO,O RH+,Ninguna,"Penicilina, perros y gatos"
+1f5dd328-8c53-486a-8572-4d2879be9622,73b320b5-656a-7185-722b-adb74339d1bc,1994-07-12,Distrito Federal,México,Licenciatura,Español,Inglés,Miriam Vázquez,3314820385,Amiga,,,,Ninguna,Ninguna
+03dea0cc-7196-404a-c371-a3e4fd5aabcb,8fe04081-ca95-51b7-43c6-91701fafc8f8,1967-04-03,Bogotá,Colombia,Maestría,Español,Inglés,Juan Camilo Durán,4622102039,Hijo,,SI,A RH+,Ninguna,Ninguna
+fc6badde-7fa9-ee75-0acd-988d8b6199c2,da1af68a-564f-48f7-bd5e-d416ab6a8b68,,,,,,,,,,,,,,
+a6a92b85-4215-3347-e005-3b2e0994059e,46feb664-9f10-fab4-503a-c85f1236d083,1974-09-19,"Tala, Jal.",México,,Español,,José Gerardo Glez. García,3319427957,Esposo,,SI,O RH+,Ninguna,Ninguna
+af11e3eb-b9f8-ccda-2ac8-c166ed765ccf,0ef095d0-53d1-c4e4-3c79-961e89cc77bc,1990-11-21,Guadalajara,México,Postgrado,Español,Inglés,Ignacio Pamplona,3315209475,Papá,82139009847,SI,A RH+,Ninguna,Piquete hormiga roja
+e0779cd2-f8ce-f68c-98f1-08b56201fa2b,e0001c63-f0ef-c2d7-8024-286191c7101b,1984-10-07,"Guadalajara, Jal",México,Licenciatura,Español,,María Jesús Mandujano,3336702161,Mamá,,No,O RH+,No,No
+19a3b4c9-42fc-cf33-a033-5525aca045d9,a0190741-02a1-172f-94af-6645e8811969,1971-03-26,Guadalajara,México,Licenciatura,Español,,Ilse Montserrat Gómez,3316064441,Hija,,NO,A RH+,Ninguna,Ninguna
+8e85564f-ba57-acdf-cad6-ab735dca071c,1777696b-0c4d-7a77-8721-b7a11e217c5b,1978-06-12,"Guadalajara, Jal.",México,Preparatoria,Español,,Jaime Camacho Figueroa,3316828719,Esposo,,Si,O RH+,Cáncer,Ninguna
+8c87eed0-a17c-6f2c-e90a-12064cdd6084,ae97a58c-45e1-fe4a-aa64-76362e376789,1982-02-06,"Guadalajara, Jal",México,Técnico Superior Universitaeio,Español,,Jorge Valenzuela Romero,3314426923,Esposo,04018273690,Si,O RH+,Ninguna,Ninguna
+c7763df2-db45-65b7-cdfb-8a91d55b6e0c,f75c2a08-a184-4694-20d2-3bf60da11101,1973-11-22,,,,,,,,,,,,,
+b75054c5-ca9c-520e-7c74-a968fa28e19e,f8516e5b-f453-c081-7ebb-ba30c3fe5e51,1969-03-08,"Saltillo, Coah.",México,Ingeniería,Español,Inglés,Ma. Fernanda de la Garza García,6863525809,Hija,32886941361,No,O RH+,Ninguna,Polen
+19128358-bb87-7c88-b22d-1496df01a31f,7bc81f7b-1061-65bf-d6d1-6a38486dda0c,1989-10-05,Tlaxcala,México,Preparatoria Trunca,Español,,José Alberto Flores,9323291962,Esposo,,NO,O RH+,No,No
+2fe4a2a0-c0b6-df0f-4ecd-209f3800983f,102584bb-84dc-47d2-02ed-c4a3e262c8fc,1977-07-18,"Miahuatlán, Oax.",México,,,,Isidra Angel Curiel,3336751944,Cuñada,,,O RH+,No,No
+b36d0290-1e22-ab68-b200-b5d4ffedb7df,78a32c22-0aab-be41-bae1-94caf020e63a,1981-02-16,Estado de México,México,"Carrera Técnica Admón, Turística",Español,,Nadia Sánchez,3310120429,Hermana,75978133314,No,A RH+,Ninguna,Neomelubrina y Ampicilina
+1804dca3-ab1b-b9ea-5378-081c88d1335d,2c155d69-65bc-d1f4-bab1-51a5e6840312,1972-02-19,"Tecomán, Col.",México,Preparatoria trunca,Español,,Martha de la Mora Soto,3333978545,Hermana,7596205909,No,A RH +,Ninguna,Ninguna
+4db1c4e3-670b-f713-719b-57d13a1b64e5,463585b3-c4c2-c1f9-ad72-374de17967b5,1995-02-02,Guadalajara,México,Lic. Admón. Empresas Turísticas,Español,,Emilia Herrera,3310463541,Mamá,27159572695,No,O RH-,Lupus,Ninguna
+b36ca2fd-d1ee-f4c0-fc8f-0d5b082031f5,6c1715a6-2018-6acd-dc4c-9847fd24937a,1995-12-08,Guadalajara,México,Universiad Trunca,Español,Inglés,Teofilo Ramos Guzman,3313691990,Padre,,No,O RH+,Ninguna,Ninguna
+99a87957-5aac-d683-95c1-37e08cab6a9a,a510f37c-567b-e1fe-e2be-05e7e2c74938,1980-08-24,"Villahermosa, Tabasco",México,Profesional,Español,Inglés,Adrian Gustavo Ortiz de la Peña,9935900848,Esposo,,Si,A RH+,Ninguna,Ninguna
+213da9ec-39a2-df07-9840-b85e1a48d69f,56b0afa6-185f-e3d5-18ab-d40a29120d42,1997-09-10,"Navojoa, Son.",México,Licenciatura,Español,Inglés,Minerva Vega Muñoz,3318556104,Mamá,44169725403,No,A RH+,Ninguna,Ninguna
+6a803f07-36c0-cc4e-e2cb-9224e940c007,537323ad-7df5-67b7-fd23-cd2321cac4e7,1961-08-17,"Guadalajara, jal.",México,Lic. Derecho Trunca,Español,,Rosy Velasco,3312184884,Esposa,048661 17811,,O RH+,Ninguna,Ninguna
+ac308a89-0c2f-5066-2bec-30fc6543d7a2,1e1ba339-cc36-504b-2fac-04628e1003c2,1962-04-18,Mexico DF,México,Licenciatura Trunca,Español,Inglés,Ma. Fernanda Gonzalez,33310279275,Hija,,SI,O RH+,Hipotiroidismo,Ninguna
+7a1a13fd-a5f4-a819-22d8-99fed2137128,fba827a0-a23d-0210-4e8c-4844bfa3961c,1963-12-20,México D.F.,México,Licenciatura,Español,Inglés,José Ramón García,3339546869,Cónyuge,04886309147,SI,O RH+,Hipotiroidismo y trombocitopenia,Ninguna
+5b0023cc-33e6-2cd0-6917-411e534b193a,cd6b149d-ed9b-cf92-09b6-f62e3e4b6f58,1998-12-11,Guadalajara,México,Licenciatura,Español,,Berta Jiménez López,3311518980,Mamá,,NO,O RH+,Ninguna,Ninguna
+aa50b4f1-6289-63ae-688e-7defaaad9098,7898f1c7-546e-89cd-0879-a090a441cbbd,1997-11-10,Guadalajara,México,Licenciatura,Español,,María Isabel Escamilla Vázquez,3333908348,Mamá,,,A RH+,Ninguna,Ninguna
+7761e0d2-7966-0a1e-3447-dded6d80616c,f6f21058-4987-4047-9bd2-082eb05c8af5,2001-05-14,Guadalajara,Mexico,Bachillerato,,,Eva Esmeralda,3320952267,Hermana,05130108664,Na,RH O+,NA,NA
+e7d32873-581e-d40f-bb3b-d7c66026497c,ba514314-daa4-0f0d-af0c-f434a3bddafb,1981-08-20,"Guadalajara, Jal",Mexico,Preparatoria,,,Maria Huerta Salcido,3311272742,Mama,,,,No,No
+1ff30497-d4f7-0cd7-5e05-6dcfc493d0e8,109dd78d-ca6a-5d12-25ae-61c9cb648a87,1971-04-10,"Guadalajara, Jal",Mexico,,,,Paulet,3326257376,Hija,,,RH O+,NO,NO
+77feb2e0-6b0b-548b-6415-154729e8f7ce,70833858-3cc3-f6fd-14de-f7706d684c5b,1997-11-24,,,Licenciatura,Español,Inglés,Juana Fonseca Alvarez,4731180726,Mama,03169753872,,RH A+,NINGUNA,NINGUNA
+377d5964-921a-2bba-9c5b-fb8e12a5fe78,4c6ad0d2-6eaf-4395-1f75-f4869765a84c,1978-03-14,,,,,,Roberto Diaz Guizar,3331386464,Padre,04007867973,,RHO-,NINGUNDA,NINGUNA
+f823b1a6-58cc-5d7d-a527-59253bcd3836,7f0ca332-6ca6-03dd-d45d-2a51d6c0f331,1977-01-08,,,Licenciatura,Inglés,Español,Sara Bertha Ruesga,3334408285,Hermana,,,RHO+,TIROIDES,Ninguna
+d42052bb-e90c-7758-17b0-997af4cd3eb6,ab0b54e4-c6d4-9ebb-de2d-b04a57757287,1999-02-12,Guaddalajara,,Preparatoria,Español,,Angel Eliel,5561802899,Novio,61169964873,,RH O+,Ningunda,Ninguna
+dbe84b74-8006-2a26-cbf4-e60dc6e28b90,b689b811-aabd-7267-3dbe-7739018ba8c5,1999-09-09,Guadalajara,,Licenciatura trunca,Español,,Elizabeth Gonzalez,3328339159,Mama,6716994348,,RHA+,Ninguna,Ninguna
+980b58fa-1ede-51f7-993d-61fc2866d337,22288fb8-b0df-ca58-b5dc-b411195cf16b,1960-04-29,"Tepic, Nayarit",,Preparatoria Trunca,Español,,Penelope Pulido,3331170330,Hija,,,RH O-,"Hipotiroidismo, deficiencia circulatoria",Ninguna
+9dea7ee6-71e4-61ac-1d4a-33de53293e17,e21737b2-ab50-5788-646c-6d32307aa168,2003-02-16,Tabasco,,Licenciatura,Español,Inglés,José Pedro Leyva Alatriste,3314162474,Padrino,,,RH-O+,Ninguna,Ninguna
+65239546-57dc-0b45-c68b-e6fae9424af0,0f329aeb-208b-eb09-3c1d-a1198f3bdbce,1971-01-25,Ciudad de Mexico,,,Español,,,,Esposo,,,RH-A+,Ninguna,Ninguna
+40a90145-1b7b-e1f9-033a-5d1b1963d619,49823a26-464f-8f04-0610-255202dd1b63,2001-12-22,Guadalajara,,Licenciatura,Español,Inglés,Nadia Flores,3310428516,Mama,,,RH-O,Ninguna,Ninguna
+332dc2c1-e28b-d45f-3b3f-2c75250873e6,9f1d0521-8d85-61cf-ab92-10ad99c949a2,1972-03-21,,,,Español,,,,,,,,,
+34cd9573-6bbf-1af7-0b5d-25ff6a3011af,69278970-4e65-b7de-59b0-665e8aae88dc,1954-11-03,Guadalajara,,Licenciatura,Español,Inglés,Maria Silvia Villaseñor Garcia,3333800734,Esposa,,,RH-B+,NA,SULFAS
+4a9d4c93-738a-5174-057e-d51d538a0f45,2d5b6b9f-ab26-b307-e5ef-80c213566c92,1974-05-11,,,,Español,,Omar,3334672064,Esposo,,,,NINGUNA,NINGUNA
+c122b396-ed1f-1259-874b-4238016c82c9,655eac95-1aab-bacf-0c1d-74ede0fb7a64,1999-12-02,Guadalajara,,PREPARATORIA,Español,,Martin Sanchez,3334812298,Novio,,,RH-O+,Ninguna,Ninguna
+e04887dd-9bf6-5eb4-c90d-2bebadb93901,ab74b333-c915-8dbb-0a8b-215d0fa62e26,1984-04-14,,,,Español,,Miguel Angel Benitez,3316034587,Esposo,,,RH-A+,NINGUNA,NINGUNA
+19ee92d5-fa69-89aa-a188-38bd5bfa522c,b31736cd-cfd1-89a9-9128-7dfacfee9871,1974-09-05,,,Maestria,Francés,Inglés,Franacisco Xavier Rodrigez,3336677983,Esposo,75927404386,,RH-O,Ninguna,Todas Alimentos
+cd5418d8-cd9b-5c6a-6ad9-785c803dcf53,2b8fc1ef-d69e-c50e-f44f-dc211435a703,1987-03-02,Ciudad de Mexico,,Licenciatura,Español,Inglés,Fernanda Loranca,3329141552,Trabajadora,,,RH-A,Ninguna,Ninguna
+4922a3a7-0598-754a-e5e2-d1d4fb8bb7e2,1596cd61-8933-2929-c0f8-24beee839a0e,1987-10-11,Guadalajara,,Licenciatura,Español,Inglés,Yavinn beltran,3310141312,Novio,05198701855,,,Ninguna,Ninguna
+da482f46-4dd8-b58f-a9b6-045cda9ac09b,a64e9cae-a4ea-47bc-8634-f2a5c6343ab2,,,,,,,Ericka Yanet Jiménez Gonzál,3322195515,Hija,,,,NINGUNA,NINGUNA
+9e8188ea-8284-f6c5-203d-d086b196150c,575690d6-c73c-dfe5-7af1-844940810f81,1998-04-13,,,Preparatoria,Español,,Cecilia Veronica Jiménez Alvarado,3312642293,Mama,69169813883,,RH+O,Hormonales,Ninguna
+83733320-a701-234b-dfb6-62214630eacb,7397749e-1268-7b29-6c50-a2915a6cf4d3,1991-06-13,zapopan,,Licenciatura,Español,Inglés,Maria Guadalupe Guiterrez Guerrero,3331706190,Mamá,,,RH O+,Ninguna,Ninguna
+24796326-cf0a-53f8-a12f-5db0c0fb7138,c3a1c2e2-1150-27bf-83c8-4a0c63335c8b,1992-08-10,,,Maestria,Español,Inglés,Maria Ileana,3326367276,Mama,,,RH-B+,Ninguna,Ninguna
+209fc1b3-0b94-f4a1-ea3e-3318c2300a05,4aae50e9-f1a0-b72e-7356-420043236b74,1971-10-06,Guadalajara,México,,Español,,Jacqueline Cruz Përez,3339596562,Hija,,NO,A RH+,Ninguna,Ciprofloxina
+671abba2-7701-c065-12ef-a6652c338cf0,15b54e9b-25d2-13c3-d789-4ea7c0a7bb08,1975-10-07,Yurécuaro Michoacán,México,Licenciatura,Español,,Aurelio Medina,3338083791,Esposo,,,A RH+,Ninguna,Ninguna
+df4135b5-907b-60d1-f40c-1a65c6dcc24c,c4a96fad-1a1e-647b-324d-62217b88cbf7,1973-07-25,,,,,Español,Felipe castro salazar,3310382852,Esposo,,,RH-O+,NINGUNA,NINGUNA
+35480eaa-d63b-a3d2-3035-28cc8d4de3b0,2107117e-e9e0-06fe-2450-0a368d21c54b,1991-09-12,,,Licenciatura,Español,Inglés,Luis Ernesto Ledezma Villalobos,3331064627,Padre,,,RHA+,NINGUNA,NINGUNA
+2acddee1-9f34-1d91-3cac-1c9994c4f1df,766b8f27-6c43-7e25-2a73-788a8590f0f4,1964-05-30,"Guadalajara, Jal.",México,Maestría,Español,Inglés,Omar Javier López,3312962865,Hijo,,No,O RH+,Bitiligo,Sol
+6d4deb67-78e8-3db8-19d9-7c20077663ea,a95fcc77-9245-b3d6-b547-5272f7677323,,,,,,,,,,,,,,
+e56d8d09-ebf0-2f90-84eb-d528ebb9d4eb,7c029757-6ff5-78bc-c98b-18e30c236473,1985-03-12,,,Maestria,Español,,Leonardo Salvador,3311332991,Hermano,,,RH+O,Ninguna,Ninguna
+2f3526fc-842c-057a-2175-b173766bfa66,6621043a-4f27-6841-f45e-7b216cc780d8,1959-02-12,Distrito Federal,Mexico,Comerciales,Español,,Karla González Muñoz,34645280482,Hija,,,RHA+,Ninguna,Ninguna
+f0c681b4-80ee-63dd-a514-7f49bb603a5e,84425df2-fb88-4dc1-49fe-6a5dcfc1b9df,1970-12-17,Guadalajara,,Secundaria y Carrera Tecnica,Español,,Luis Daniel Castillo Hernandez,,Hijo,,,RHO+,Ninguna,Ninguna
+ec5985d9-56d7-9433-0aa1-262dcc559cd6,1c437951-be34-03a9-2695-fc3c336a9dc5,1963-08-16,Guadalajara,,Universitario,Español,,Marco Antonio Casillas Orozco,3322388365,Hijo,,,RH-O,Ninguna,Ninguna
+df8560bd-b764-d861-3181-2c064c226f4e,0b24b83b-9919-35fe-bfb1-7f32455dd17d,1977-08-13,Guadalajara,,Universitario,Español,Inglés,Yadira Sandoval,3334632721,Esposa,0494770656,,RH+O,Ninguna,Ninguna
+4d87a436-abb2-d974-24db-c87493bd2bd9,b7e0fe99-e968-4bca-da03-cf37d74237d8,1971-07-12,Guadalajara,,,Español,,Melisa Macias,3315660924,Hija,02157159167,,RH+O,Ninguna,Ninguna
+a230c333-dbf8-5f58-28d9-3e8dc076c775,cffc299b-47e3-09c6-9c2f-a75ecc1a53fe,1969-07-04,Guadalajara,México,Preparatoria,Español,,Paola Gutierrez,,Hija,0498690969-7,,RH+O,Ninguna,Ninguna
+662a79df-04fe-1964-856e-cafd530f5557,f83972f1-46a1-57fd-b0b3-9ad591f3b2e6,1978-09-21,,,,Español,,Eduardo Michelle Cabezas Antunes,3339665441,Amigo,,,RH+O,NINGUNA,NINGUNA
+e4115744-1dae-e8c8-1907-d3eb44b8a47a,a5b58b50-f3ad-e56e-f8c5-91f250ce4cb9,2000-09-26,,,Prepa,Español,,Ana Elda Arias Ceja,3418863825,Mama,,,,NINGUNA,NINGUNA
+803baacc-168a-9a45-28d8-b9bb47db26c8,6f412c72-540c-adc5-64f6-ddab11506565,1996-12-24,,,Prepa,Español,,Sysmai Salem Gonzalez Pérez,3337026006,AMIGA,,,,,
+1cd31c78-2454-3309-c055-9d3523f0637b,d4eae1cc-cfea-2213-8213-7c68ffc3e7ab,1974-08-17,,,,Español,,Sara Ríos,3336353997,TIA,,,,,
+85ec04a6-aa07-6419-70dc-cf2fb57837ae,ec7e2188-5c3f-c672-0430-013003338749,1970-10-27,,,Licenciatura,Español,,Larisa Gonzalez Chavez,3330125286,,,,,,
+e112020e-27b4-0e28-2078-e6f1c95e7e1c,cc6c78b8-e57e-2b03-34cb-22ffdd2ce610,1973-08-13,,,,Español,,Liliana Pérez Güitrón,3311481505,Hermana,,,,NINGUNA,NINGUNA
+88cd7bf8-8569-ed2b-032f-2e66495b8e10,550783a1-d719-2c27-0e07-6c394f735267,1995-02-20,Paso Texas,,Universitaria,Español,Inglés,,,,,,,Ninguna,Ninguna
+71c3443a-9d92-99a8-f8bd-03bd0e3798b3,a86bedac-70c0-2fb1-5278-faad742be05b,1968-02-16,,,,,,,,,,,,NINGUNA,NINGUNA
+23cb8d8a-99c5-41c4-5f02-5f4f2b572f16,744e9fb1-d067-1436-dd11-e09fe3b0b2e5,2003-03-26,,,,,,,,,,,,,
+a889e511-d220-798b-5c38-158b696cd9fd,b6338f60-795b-f55b-062a-0e347ff807ad,1996-10-20,Guadalajara,México,Preparatoria,Español,Inglés,Sandra Garcia Cardenaz,3312291445,Hermana,,,O+,NA,Penincilina
+c02e6e3b-494f-6be6-de78-2ae1a2ae4e92,3058ab91-7adc-07d8-546c-a824f137579f,1968-02-08,,,,Español,,Sergio Eduardo Macías Sánchez,3330650730,Hermno,,,,,
+d914fa53-9ac1-635d-e825-af2d180a2706,a16e041c-db2e-04c5-d136-98481d112fe7,1956-08-25,,,,Español,,Hector Torres Vivanco,3331890103,,,,,,
+131e29a1-46f3-9a64-1460-b999df616dee,86c95001-d8ec-1188-11d7-7cf9e50b376d,1987-03-30,México,,Licenciado,Español,,,,,,,,,
+f5f24df3-7950-2269-eb4c-8768219c12ef,6c91b29d-ef83-c64f-5fcb-47da38dc9ef2,1986-09-02,Zapopan,México,Licenciatura Informatica,Español,Inglés,Vivian Lupercio,3329166742,Pareja,04028695320,,RH-AB+,Ninguna,Ninguna
+b28ac172-4daf-5a8c-df42-a1f10bc77a2c,7f00d051-b05e-214e-8a35-f5cf0748b638,1997-03-29,,,Licenciatura,Español,Inglés,,,,,,,Ninguna,Ninguna
+74a6be37-f9ad-5641-842d-eabd8fb64ff1,15b21b60-49e2-d51d-7fd9-ac8e99f90c68,1967-01-16,Morelia,México,Maestria,Español,Inglés,Geraldine Gomez Mendieta,3339545889,Pareja,,,RH+A,Ninguna,Ninguna
+1c0ae72f-09dd-6eef-f331-fbbb6f54b92e,dd0a534e-5826-8de5-16c3-23c5cfaac5ea,1978-05-02,México,,,Español,,David Castillejos,3338089200,Cuñado,,,,NINGUNA,NINGUNA
+29c692b3-6e8a-c252-670e-f049f6bb73de,30bcce14-1625-8100-d716-cf235b82a00e,1981-10-08,,,,,,Rosa Corona,3321375187,Amiga,,,,NINGUNA,NINGUNA
+f303ae77-d578-425d-66d3-ad3522959b03,9339449f-0213-87e3-492d-4a3ffd7b8cd4,1971-05-01,,,,Español,,Adriana Styles,6268266849,Prima,,,,NINGUNA,NINGUNA
+7869a640-257e-64ab-edbd-ba870613e79b,6f3447af-51ce-0a68-1833-3d3ceac327fe,1987-11-14,,,,,,,,,,,,,
+5515bfcb-26aa-695d-51d2-2b28ee26f9db,eeb51db8-d62c-e81b-637b-6c0b226fb41e,1995-06-17,,,,Español,Inglés,Valente Casanova,3318420585,Amigo,,,,NINGUNA,NINGUNA
+740e0970-2388-abfa-a160-51e18ad7c68b,ddc729a3-3030-f5d9-40e0-cce0ae6eab99,2005-01-21,Leon Guanajuato,México,Preparatoria,Español,,Luliane Villagomez,9984415203,Hermana,18250547603,,RHA+,Ninguna,Colorantes
+96af0945-73e7-bf86-f13f-92381bb480ed,70415fbf-295f-8759-ab55-e87b1a9b46bc,1997-07-31,México,,Licenciatura Derecho,Español,,Martha,5539929318,Mama/Abuelita,03219707290,,,NINGUNA,NINGUNA
+422e49a1-e50c-572c-3e89-49a6c94ab9ea,3f822e97-2f04-fb21-ee8e-018ca2478af5,1960-10-08,México,,,,,,,,,,,,
+b763135f-63b9-896c-f037-a05f8c698145,78c3300c-cbc4-6a8d-535e-10ebbe139e50,1994-04-10,México,Guadalajara,Preparatoria,Español,,Jesus Enrique Herrera Ulloa,3345690883,Esposo,,,,Ninguna,"Manzana,Lacteo Crema Metamizol"
+03ffe6e2-1510-f091-0d31-504ee7e92221,3441815c-8e91-8ec1-1697-5f823f12346e,1998-05-28,,,,Español,Inglés,Laura Gutierrez,3312206075,Pareja,,,,NINGUNA,"Alergico a la penicilina, al iodo/yodo y camarones"
+5a422a7b-c528-c990-525d-726dc7dd7b56,c0f93489-117d-a982-ed20-b4952b900209,1983-05-30,,,,Español,,,,,,,,,
+ff872e16-bf67-7ead-700d-6231c14fdf27,fb60aaf0-9057-d1b0-2556-eadc6b62ebc7,1981-12-27,México,,,Español,,,,,,,,NA,NA
+c9e470a7-5e59-bcfd-a1d0-1fb31e54e564,97ef1f8b-8dfc-d9a7-447f-7988c37735a6,1964-06-06,,,,Español,,Alicia Lopez Arevalo,3313538463,Esposa,,,,NINGUNA,NINGUNA
+2ce7addf-910c-8b93-a01d-bbf75230b447,95c5f5e0-08bf-5c00-3de2-4cfc2b1966fc,1998-03-19,Zapopan,México,Preparatoria,Español,Inglés,Hugo Villarreal,3336624872,Papa,02209846670,,RH+O,Ninguna,Ninguna
+9423fa8c-2504-fce1-20d4-7d55ca673aa5,a4f8c6fd-f732-c667-cfd5-ae93380f9b9e,1999-03-08,,,Preparatoria Trunca,Español,,Pamela Reynaud,5660106673,Novia,,,RHO+,Ninguna,Ninguna
+8dd856b6-ef49-2a1e-8e48-a42a06047015,2e6c6f9f-046e-2f0e-4ea0-3a07dae2d209,1956-08-25,Zamora,Michoacan,,Español,,MA de Lourdes Carrillo Gonzalez,3318635032,Esposa,,,RH O+,Ninguna,Ninguna
+cb350137-8e96-d59f-566b-3670e42d30da,9628cb01-3bff-e6bc-074b-dbd5058951dd,1968-02-13,,,,,,,,,,,,NINGUNA,NINGUNA
+98687023-314c-8328-19f4-2d29895a0622,625e24ac-1995-d272-520a-90f124a77cc1,1986-06-27,,,,Español,,Rodrigo Palacios,3317946935,PAREJA,,,,NINGUNA,NINGUNA
+80992e45-d6eb-fa5a-c371-43d9924a49ef,4ce954cb-3ba8-bc55-69aa-d89f6a7d2d88,1970-11-28,"Gadalajara, Jal.",México,Lic. Drecho,Español,,Hiram Messina Sánchez,3353056162,Esposo,,No,B RH+,Hipertensión,Ninguna
+f5cf1108-91a8-ef4f-eb57-0e6be72014c7,a92cb6ef-efe7-56ac-3a27-e191695bd0c5,1987-01-16,México,,,,,,,,,,,,
+4ab9273d-8db9-6277-f561-fa5997f1f5e2,8b76b7d6-38bd-ca7b-a374-cf79bc6ac00c,1945-08-29,,,,Inglés,,Ing. Valencia,,Esposo,,No,RH+O,,
+42081990-121d-ecc6-b1dc-930f2709174a,90084390-922c-470b-3bbb-b4f993393956,1954-10-03,,,,Español,,Maria Andrea Castro Fonsec,3333191267,Hija,,,Rh O-,,

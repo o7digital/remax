@@ -21,6 +21,7 @@ const routes = [
   "/app/contracts",
   "/app/settings",
   "/app/settings/ia-search",
+  "/app/settings/staff-records",
   "/app/settings/commissions",
   "/app/settings/users",
   "/app/settings/roles",
