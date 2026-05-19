@@ -17,7 +17,7 @@ export interface RemaxBrandingSettings {
 }
 
 export const defaultRemaxBrandingSettings: RemaxBrandingSettings = {
-  logoDataUrl: null,
+  logoDataUrl: "/logo.png",
   backgroundColor: "#eef2f7",
   surfaceColor: "#ffffff",
   textColor: "#1a2433",
@@ -47,6 +47,7 @@ export function parseRemaxBrandingSettings(value: string | null | undefined): Re
     return {
       ...defaultRemaxBrandingSettings,
       ...parsed,
+      logoDataUrl: parsed.logoDataUrl ?? defaultRemaxBrandingSettings.logoDataUrl,
       locale
     };
   } catch {
