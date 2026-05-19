@@ -11,12 +11,32 @@ import { getStaffAccessFormData } from "@/lib/remax-app-data";
 
 export default async function StaffRecordsPage() {
   const { summary, records } = await getStaffAccessFormData();
+  const formModules = [
+    {
+      name: "F-Asesores",
+      title: "Registro de asesores internos",
+      detail: "INF. GRAL. + INF. FISCAL + INF. PERSONAL + INF. SOCIO REMAX",
+      table: "staff_members + staff_fiscal_profiles + staff_personal_profiles + staff_remax_accounts"
+    },
+    {
+      name: "F-Staff",
+      title: "Registro de miembros del Staff",
+      detail: "INF. GRAL. + INF. FISCAL + INF. PERSONAL + INF. SOCIO REMAX",
+      table: "staff_members + staff_fiscal_profiles + staff_personal_profiles + staff_remax_accounts"
+    },
+    {
+      name: "F-Asesores - parte inferior",
+      title: "Socio REMAX / SIR / AMPI / Universidad",
+      detail: "Fecha ingreso SIR, ID Remax Mexico, Remax Int, Universidad, AMPI, estatus y comentarios",
+      table: "staff_remax_accounts"
+    }
+  ];
 
   return (
     <div className="page-stack">
       <PageHeader
-        title="Expedientes staff"
-        description="Modulos importados desde los formularios Access F-Asesores y F-Staff: fiscal, personal y socio REMAX."
+        title="F-Asesores / F-Staff"
+        description="Pantallas de captura migradas desde Access: Registro de asesores internos, Registro de miembros del Staff y bloque Socio REMAX."
         actions={
           <div className="button-row">
             <Link href="/app/settings/users" className="button">
@@ -30,15 +50,40 @@ export default async function StaffRecordsPage() {
       />
 
       <DataOriginNotice
-        title="Datos Access"
-        description="Estas tablas complementan staff_members y conservan los bloques visibles en los formularios originales para migracion operativa."
+        title="Nombres originales Access visibles"
+        description="Los formularios que pasaste quedan identificados aqui por su nombre original. Abajo se ve la tabla consolidada conectada a Railway/Postgres."
       />
 
+      <SectionCard
+        title="Formularios Access migrados"
+        description="Estos son los modulos de captura que corresponden directamente a tus capturas."
+      >
+        <DataTable
+          rows={formModules}
+          getRowId={(row) => row.name}
+          emptyMessage="No hay formularios configurados."
+          columns={[
+            {
+              key: "form",
+              label: "Formulario Access",
+              render: (row) => (
+                <div>
+                  <strong>{row.name}</strong>
+                  <div className="muted">{row.title}</div>
+                </div>
+              )
+            },
+            { key: "blocks", label: "Bloques de saisie", render: (row) => row.detail },
+            { key: "tables", label: "Tables Railway/Postgres", render: (row) => <span className="mono">{row.table}</span> }
+          ]}
+        />
+      </SectionCard>
+
       <div className="stats-grid">
-        <StatCard label="Staff" value={String(summary.totalStaff)} detail="expedientes base" />
-        <StatCard label="Fiscal" value={String(summary.fiscalProfiles)} detail="RFC, banco, RESICO" />
-        <StatCard label="Personal" value={String(summary.personalProfiles)} detail="emergencia y salud" />
-        <StatCard label="Socio REMAX" value={String(summary.remaxAccounts)} detail="SIR, AMPI, universidad" />
+        <StatCard label="F-Asesores / F-Staff" value={String(summary.totalStaff)} detail="staff_members" />
+        <StatCard label="INF. FISCAL" value={String(summary.fiscalProfiles)} detail="staff_fiscal_profiles" />
+        <StatCard label="INF. PERSONAL" value={String(summary.personalProfiles)} detail="staff_personal_profiles" />
+        <StatCard label="INF. SOCIO REMAX" value={String(summary.remaxAccounts)} detail="staff_remax_accounts" />
       </div>
 
       <div className="stats-grid">
@@ -47,8 +92,8 @@ export default async function StaffRecordsPage() {
       </div>
 
       <SectionCard
-        title="Registro de asesores y staff"
-        description="Vista consolidada de los tres modulos nuevos conectados por staff_member_id."
+        title="F-Asesores / F-Staff - registros importados"
+        description="Vista consolidada de los bloques INF. FISCAL, INF. PERSONAL et INF. SOCIO REMAX conectados por staff_member_id."
       >
         <DataTable
           rows={records}
