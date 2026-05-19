@@ -88,7 +88,6 @@ export function ErpShell({
               <span className="remax-brand-sub">ACTIVA</span>
             </div>
           )}
-          <strong>{workspace.productName}</strong>
           <p>{workspace.workspaceName}</p>
         </div>
 
