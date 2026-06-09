@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ClientEditPanel } from "@/components/client-edit-panel";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
@@ -38,34 +39,7 @@ export default async function ClientDetailPage({
         }
       />
 
-      <SectionCard title={txt("Resumen")}>
-        <div className="two-columns">
-          <div>
-            <p className="field-label">{txt("Tipo")}</p>
-            <StatusBadge value={txt(client.contactKind === "owner" ? "Propietario" : "Comprador")} />
-          </div>
-          <div>
-            <p className="field-label">Email</p>
-            <p>{client.email ?? "Sin email"}</p>
-          </div>
-          <div>
-            <p className="field-label">{txt("Telefono")}</p>
-            <p>{client.phone ?? "Sin telefono"}</p>
-          </div>
-          <div>
-            <p className="field-label">{txt("Propiedades")}</p>
-            <p>{client.propertyCount}</p>
-          </div>
-          <div>
-            <p className="field-label">{txt("Ubicacion")}</p>
-            <p>{client.primaryLocation}</p>
-          </div>
-          <div>
-            <p className="field-label">{txt("Estado cartera")}</p>
-            <StatusBadge value={txt(client.portfolioStatus)} />
-          </div>
-        </div>
-      </SectionCard>
+      <ClientEditPanel client={client} />
 
       <SectionCard title={txt("Propiedades vinculadas")}>
         <div className="inline-stack">
