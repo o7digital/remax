@@ -2,7 +2,6 @@ import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextRequest } from "next/server";
 
-import { canRoleAccessPath, type AppRole } from "@/lib/access-control";
 import { hasClerkConfig } from "@/lib/clerk-config";
 import {
   REMAX_DEMO_HOME_PATH,
@@ -14,7 +13,6 @@ import {
 const MAINTENANCE_MODE = false;
 const MAINTENANCE_PATH = "/maintenance";
 const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
-const APP_FORBIDDEN_PATH = "/app/forbidden";
 
 function handlePublicRoutes(request: NextRequest, clerkConfigured: boolean) {
   const { pathname, search } = request.nextUrl;
@@ -48,15 +46,6 @@ function handlePublicRoutes(request: NextRequest, clerkConfigured: boolean) {
 
   if (pathname.startsWith("/app") && !clerkConfigured) {
     return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
-  }
-
-  const appRole = request.cookies.get("app-role")?.value as AppRole | undefined;
-  if (pathname.startsWith("/app") && pathname !== APP_FORBIDDEN_PATH && appRole) {
-    if (!canRoleAccessPath(appRole, pathname)) {
-      const deniedUrl = new URL(APP_FORBIDDEN_PATH, request.url);
-      deniedUrl.searchParams.set("path", pathname);
-      return NextResponse.redirect(deniedUrl);
-    }
   }
 
   return NextResponse.next();

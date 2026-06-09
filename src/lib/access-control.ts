@@ -124,7 +124,12 @@ const ROLE_BY_EMAIL: Record<string, AppRole> = {
   "info@o7digitalgroup.com": "dev_admin",
   "olivier.steineur@gmail.com": "dev_admin",
   "christopher.suarez@remax-activa.com.mx": "owner",
+  "inventario@remax-activa.com.mx": "sales_admin",
   "pedro.leyva@remax-activa.com.mx": "sales_admin"
+};
+
+const ROLE_BY_EMAIL_DOMAIN: Record<string, AppRole> = {
+  "remax-activa.com.mx": "sales_admin"
 };
 
 const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
@@ -165,7 +170,10 @@ export function getRoleForEmail(email: string | null | undefined): AppRole {
     return "viewer";
   }
 
-  return ROLE_BY_EMAIL[email.trim().toLowerCase()] ?? "viewer";
+  const normalizedEmail = email.trim().toLowerCase();
+  const domain = normalizedEmail.split("@")[1];
+
+  return ROLE_BY_EMAIL[normalizedEmail] ?? ROLE_BY_EMAIL_DOMAIN[domain] ?? "viewer";
 }
 
 export function getAllowedModulesForRole(role: AppRole): Set<AppModule> {
