@@ -97,6 +97,49 @@ export function PipelinePageClient({
     setDraggingDealId(null);
   }
 
+  function saveDeal(formData: FormData, existingDeal?: PipelineDeal) {
+    const stageId = String(formData.get("stage") || existingDeal?.stage || selectedWorkflow.stages[0]?.id);
+    const stage = selectedWorkflow.stages.find((item) => item.id === stageId) ?? selectedWorkflow.stages[0];
+    const amount = Number(formData.get("amount") || existingDeal?.amount || 0);
+    const title = String(formData.get("title") || existingDeal?.title || "").trim();
+
+    if (!title || !stage) {
+      return;
+    }
+
+    const nextDeal: PipelineDeal = {
+      ...(existingDeal ?? {
+        id: `deal-${Date.now()}`,
+        pipelineId: selectedWorkflow.id,
+        linkedContactCount: 0,
+        duplicateClientCount: 1,
+        proposalLabel: "Propuesta base",
+        aiPulse: false
+      }),
+      title,
+      client: String(formData.get("client") || existingDeal?.client || "").trim(),
+      company: String(formData.get("company") || existingDeal?.company || "").trim(),
+      propertyKey: String(formData.get("propertyKey") || existingDeal?.propertyKey || "").trim(),
+      propertyTitle: String(formData.get("propertyTitle") || existingDeal?.propertyTitle || "").trim(),
+      location: String(formData.get("location") || existingDeal?.location || "").trim(),
+      primaryEmail: String(formData.get("primaryEmail") || existingDeal?.primaryEmail || "").trim() || null,
+      primaryPhone: String(formData.get("primaryPhone") || existingDeal?.primaryPhone || "").trim() || null,
+      amount: Number.isFinite(amount) ? amount : 0,
+      currency: String(formData.get("currency") || existingDeal?.currency || "MXN"),
+      owner: String(formData.get("owner") || existingDeal?.owner || "").trim(),
+      closeDate: String(formData.get("closeDate") || existingDeal?.closeDate || new Date().toISOString().slice(0, 10)),
+      stage: stage.id,
+      probability: stage.probability,
+      status: stage.status
+    };
+
+    setBoardDeals((current) => {
+      const exists = current.some((deal) => deal.id === nextDeal.id);
+      return exists ? current.map((deal) => (deal.id === nextDeal.id ? nextDeal : deal)) : [nextDeal, ...current];
+    });
+    setDialogState(null);
+  }
+
   return (
     <div className="page-stack pipeline-page">
       <PipelineHeader
@@ -219,31 +262,27 @@ export function PipelinePageClient({
         <PipelineDialog
           eyebrow="Nuevo deal"
           title="Crear deal"
-          description="Placeholder premium listo para conectar con el formulario real en la siguiente iteración."
+          description="Alta rapida editable en el tablero."
           onClose={() => setDialogState(null)}
         >
-          <div className="pipeline-dialog-grid">
-            <div className="pipeline-dialog-card">
-              <span>Título</span>
-              <strong>Ej. ERP rollout LATAM</strong>
-            </div>
-            <div className="pipeline-dialog-card">
-              <span>Cliente</span>
-              <strong>Contacto + empresa</strong>
-            </div>
-            <div className="pipeline-dialog-card">
-              <span>Etapa inicial</span>
-              <strong>
-                {dialogState.stageId
-                  ? selectedWorkflow.stages.find((stage) => stage.id === dialogState.stageId)?.name ?? "Lead"
-                  : "Lead"}
-              </strong>
-            </div>
-            <div className="pipeline-dialog-card">
-              <span>Campos previstos</span>
-              <strong>Monto, moneda, owner, cierre, probabilidad, cliente, propiedad y deduplicacion</strong>
-            </div>
-          </div>
+          <form action={(formData) => saveDeal(formData)} className="form-grid">
+            <label className="field"><span className="field-label">Titulo</span><input name="title" required /></label>
+            <label className="field"><span className="field-label">Cliente</span><input name="client" /></label>
+            <label className="field"><span className="field-label">Empresa</span><input name="company" /></label>
+            <label className="field"><span className="field-label">Propiedad</span><input name="propertyKey" /></label>
+            <label className="field"><span className="field-label">Ubicacion</span><input name="location" /></label>
+            <label className="field"><span className="field-label">Owner</span><input name="owner" /></label>
+            <label className="field"><span className="field-label">Monto</span><input name="amount" type="number" min="0" step="0.01" /></label>
+            <label className="field"><span className="field-label">Moneda</span><select name="currency" defaultValue="MXN"><option>MXN</option><option>USD</option></select></label>
+            <label className="field"><span className="field-label">Cierre</span><input name="closeDate" type="date" /></label>
+            <label className="field">
+              <span className="field-label">Etapa</span>
+              <select name="stage" defaultValue={dialogState.stageId ?? selectedWorkflow.stages[0]?.id}>
+                {selectedWorkflow.stages.map((stage) => <option key={stage.id} value={stage.id}>{stage.name}</option>)}
+              </select>
+            </label>
+            <div className="field" style={{ alignSelf: "end" }}><button className="button" type="submit">Crear deal</button></div>
+          </form>
         </PipelineDialog>
       ) : null}
 
@@ -318,6 +357,26 @@ export function PipelinePageClient({
           description="Ficha operativa enriquecida con cliente, propiedad, riesgo de duplicado y acceso a propuestas."
           onClose={() => setDialogState(null)}
         >
+          <form action={(formData) => saveDeal(formData, dialogState.deal)} className="form-grid">
+            <label className="field"><span className="field-label">Titulo</span><input name="title" defaultValue={dialogState.deal.title} required /></label>
+            <label className="field"><span className="field-label">Cliente</span><input name="client" defaultValue={dialogState.deal.client} /></label>
+            <label className="field"><span className="field-label">Empresa</span><input name="company" defaultValue={dialogState.deal.company ?? ""} /></label>
+            <label className="field"><span className="field-label">Propiedad</span><input name="propertyKey" defaultValue={dialogState.deal.propertyKey ?? ""} /></label>
+            <label className="field"><span className="field-label">Ubicacion</span><input name="location" defaultValue={dialogState.deal.location ?? ""} /></label>
+            <label className="field"><span className="field-label">Owner</span><input name="owner" defaultValue={dialogState.deal.owner} /></label>
+            <label className="field"><span className="field-label">Monto</span><input name="amount" type="number" min="0" step="0.01" defaultValue={dialogState.deal.amount} /></label>
+            <label className="field"><span className="field-label">Moneda</span><select name="currency" defaultValue={dialogState.deal.currency}><option>MXN</option><option>USD</option></select></label>
+            <label className="field"><span className="field-label">Cierre</span><input name="closeDate" type="date" defaultValue={dialogState.deal.closeDate.slice(0, 10)} /></label>
+            <label className="field"><span className="field-label">Email</span><input name="primaryEmail" type="email" defaultValue={dialogState.deal.primaryEmail ?? ""} /></label>
+            <label className="field"><span className="field-label">Telefono</span><input name="primaryPhone" defaultValue={dialogState.deal.primaryPhone ?? ""} /></label>
+            <label className="field">
+              <span className="field-label">Etapa</span>
+              <select name="stage" defaultValue={dialogState.deal.stage}>
+                {selectedWorkflow.stages.map((stage) => <option key={stage.id} value={stage.id}>{stage.name}</option>)}
+              </select>
+            </label>
+            <div className="field" style={{ alignSelf: "end" }}><button className="button" type="submit">Guardar deal</button></div>
+          </form>
           <div className="pipeline-dialog-grid">
             <div className="pipeline-dialog-card">
               <span>Cliente</span>
