@@ -358,6 +358,18 @@ export interface StaffDirectorySummary {
   guardEligibleCount: number;
 }
 
+export interface PropertyFormLocationOption {
+  state: string;
+  municipalities: string[];
+}
+
+export interface PropertyFormAdvisorOption {
+  id: string;
+  displayName: string;
+  advisorClass: string;
+  commissionPercent: number;
+}
+
 export interface StaffDirectoryRecord {
   id: string;
   displayName: string;
@@ -1659,6 +1671,67 @@ export async function getStaffDirectoryData(): Promise<{
       guardEligibleCount: staff.filter((member) => member.is_guard_eligible).length
     },
     records
+  };
+}
+
+function getDefaultAdvisorCommissionPercent(advisorClass: string | null | undefined) {
+  if (advisorClass === "A") {
+    return 7;
+  }
+
+  if (advisorClass === "M") {
+    return 4.5;
+  }
+
+  return 0;
+}
+
+export async function getPropertyFormReferenceData(): Promise<{
+  locations: PropertyFormLocationOption[];
+  advisors: PropertyFormAdvisorOption[];
+}> {
+  const [properties, staff] = await Promise.all([
+    fetchAllRows<Pick<PropertyRow, "municipality" | "state">>("properties", "municipality, state"),
+    fetchAllRows<{
+      id: string;
+      display_name: string;
+      staff_kind: string;
+      advisor_class: string | null;
+      employment_status: string;
+    }>("staff_members", "id, display_name, staff_kind, advisor_class, employment_status")
+  ]);
+
+  const municipalitiesByState = new Map<string, Set<string>>();
+
+  for (const property of properties) {
+    const state = property.state?.trim();
+    const municipality = property.municipality?.trim();
+
+    if (!state || !municipality) {
+      continue;
+    }
+
+    const municipalities = municipalitiesByState.get(state) ?? new Set<string>();
+    municipalities.add(municipality);
+    municipalitiesByState.set(state, municipalities);
+  }
+
+  return {
+    locations: [...municipalitiesByState.entries()]
+      .sort(([left], [right]) => left.localeCompare(right, "es-MX"))
+      .map(([state, municipalities]) => ({
+        state,
+        municipalities: [...municipalities].sort((left, right) => left.localeCompare(right, "es-MX"))
+      })),
+    advisors: staff
+      .filter((member) => member.employment_status === "active" && member.staff_kind === "advisor")
+      .sort((left, right) => left.display_name.localeCompare(right.display_name, "es-MX"))
+      .map((member) => ({
+        id: member.id,
+        displayName: member.display_name,
+        advisorClass: member.advisor_class ?? "staff",
+        commissionPercent: getDefaultAdvisorCommissionPercent(member.advisor_class)
+      }))
   };
 }
 
