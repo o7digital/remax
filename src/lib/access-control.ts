@@ -132,6 +132,8 @@ const ROLE_BY_EMAIL_DOMAIN: Record<string, AppRole> = {
   "remax-activa.com.mx": "sales_admin"
 };
 
+const DEFAULT_AUTHENTICATED_ROLE: AppRole = "sales_admin";
+
 const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
   { prefix: "/app/settings/compliance", module: "settings_compliance" },
   { prefix: "/app/settings/tax-identities", module: "settings_tax_identities" },
@@ -173,7 +175,7 @@ export function getRoleForEmail(email: string | null | undefined): AppRole {
   const normalizedEmail = email.trim().toLowerCase();
   const domain = normalizedEmail.split("@")[1];
 
-  return ROLE_BY_EMAIL[normalizedEmail] ?? ROLE_BY_EMAIL_DOMAIN[domain] ?? "viewer";
+  return ROLE_BY_EMAIL[normalizedEmail] ?? ROLE_BY_EMAIL_DOMAIN[domain] ?? DEFAULT_AUTHENTICATED_ROLE;
 }
 
 export function getAllowedModulesForRole(role: AppRole): Set<AppModule> {

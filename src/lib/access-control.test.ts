@@ -8,8 +8,8 @@ describe("access-control", () => {
     expect(getRoleForEmail("brenda@remax-activa.com.mx")).toBe("sales_admin");
   });
 
-  it("keeps unknown external users in viewer mode", () => {
-    expect(getRoleForEmail("guest@example.com")).toBe("viewer");
+  it("assigns invited authenticated users to the operational sales role by default", () => {
+    expect(getRoleForEmail("guest@example.com")).toBe("sales_admin");
   });
 
   it("allows sales admins to open properties", () => {
