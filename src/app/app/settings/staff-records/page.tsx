@@ -12,6 +12,18 @@ import { formatDate } from "@/lib/formatters";
 import { prisma } from "@/lib/prisma";
 import { getStaffAccessFormData } from "@/lib/remax-app-data";
 
+const emptyStaffAccessFormData = {
+  summary: {
+    totalStaff: 0,
+    fiscalProfiles: 0,
+    personalProfiles: 0,
+    remaxAccounts: 0,
+    resicoCount: 0,
+    ampiCount: 0
+  },
+  records: []
+};
+
 function getText(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
   return value || null;
@@ -596,7 +608,13 @@ export default async function StaffRecordsPage({
   searchParams: Promise<{ saved?: string; error?: string }>;
 }) {
   const params = await searchParams;
-  const { summary, records } = await getStaffAccessFormData();
+  let staffDataError: string | null = null;
+  const { summary, records } = await getStaffAccessFormData().catch((error: unknown) => {
+    staffDataError = error instanceof Error ? error.message : "railway-postgres-error";
+    console.error("Unable to load F-Asesores / F-Staff data", error);
+
+    return emptyStaffAccessFormData;
+  });
   const formModules = [
     {
       name: "F-Asesores",
@@ -648,6 +666,12 @@ export default async function StaffRecordsPage({
 
       {params.saved ? <p className="helper-text">Formulario guardado correctamente.</p> : null}
       {params.error ? <p className="auth-error">Error al guardar: {params.error}</p> : null}
+      {staffDataError ? (
+        <DataOriginNotice
+          title="Railway/Postgres pendiente de inicializar"
+          description={`La pagina ya carga, pero no pudo leer las tablas F-Asesores/F-Staff (${staffDataError}). Ejecuta npm run railway:setup-staff con DATABASE_URL apuntando a Railway y vuelve a abrir esta pantalla.`}
+        />
+      ) : null}
 
       <SectionCard
         title="Formularios Access migrados"
