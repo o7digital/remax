@@ -192,7 +192,7 @@ export function ErpShell({
 
         <main className="page-content remax-content app-remax-content">{children}</main>
       </div>
-      <OliviaAiHostess />
+      <OliviaAiHostess locale={locale} />
     </div>
   );
 }

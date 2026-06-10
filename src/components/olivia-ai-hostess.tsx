@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import type { DemoLocale } from "@/lib/demo-locale";
 
 const oliviaUrl = process.env.NEXT_PUBLIC_OLIVIA_AI_URL ?? "https://suitesmine-bot.vercel.app";
 
@@ -20,10 +21,10 @@ const quickHelp = [
   }
 ];
 
-export function OliviaAiHostess() {
+export function OliviaAiHostess({ locale }: { locale: DemoLocale }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const iframeSrc = `${oliviaUrl}?source=remax&context=${encodeURIComponent(pathname)}`;
+  const iframeSrc = `${oliviaUrl}?source=remax&context=${encodeURIComponent(pathname)}&lang=${locale}`;
 
   return (
     <div className="olivia-hostess" aria-live="polite">
