@@ -4,6 +4,7 @@ export interface NavItem {
   label: string;
   href: string;
   module?: AppModule;
+  frozen?: boolean;
 }
 
 export interface NavSection {
@@ -12,6 +13,7 @@ export interface NavSection {
 }
 
 type Translator = (value: string) => string;
+const FROZEN_NAV_MODULES = new Set<AppModule>(["quotes", "orders", "invoices"]);
 
 export function getNavigationSections(txt: Translator, allowedModules?: Set<AppModule>): NavSection[] {
   const sections: NavSection[] = [
@@ -61,7 +63,12 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
   return sections
     .map((section) => ({
       ...section,
-      items: section.items.filter((item) => !item.module || allowedModules.has(item.module))
+      items: section.items
+        .filter((item) => !item.module || allowedModules.has(item.module) || FROZEN_NAV_MODULES.has(item.module))
+        .map((item) => ({
+          ...item,
+          frozen: Boolean(item.module && !allowedModules.has(item.module) && FROZEN_NAV_MODULES.has(item.module))
+        }))
     }))
     .filter((section) => section.items.length > 0);
 }

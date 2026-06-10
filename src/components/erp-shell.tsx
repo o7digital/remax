@@ -111,15 +111,21 @@ export function ErpShell({
           <div key={section.title} className="remax-nav-section">
             <p className="remax-nav-title">{section.title}</p>
             <div className="remax-nav-links">
-              {section.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={isActive(pathname, item.href) ? "remax-nav-link active" : "remax-nav-link"}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {section.items.map((item) =>
+                item.frozen ? (
+                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title="Frozen para pruebas">
+                    {item.label}
+                  </span>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={isActive(pathname, item.href) ? "remax-nav-link active" : "remax-nav-link"}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
             </div>
           </div>
         ))}

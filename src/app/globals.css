@@ -1802,6 +1802,25 @@ textarea {
   box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
 }
 
+.app-remax-shell .remax-nav-link.frozen {
+  cursor: not-allowed;
+  border-color: rgba(245, 158, 11, 0.38);
+  background: rgba(245, 158, 11, 0.09);
+  color: #f8d18d;
+  font-weight: 800;
+}
+
+.app-remax-shell .remax-nav-link.frozen::after {
+  content: "Frozen";
+  margin-left: auto;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
 .app-remax-shell .remax-side-note {
   display: grid;
   gap: 8px;
