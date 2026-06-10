@@ -125,6 +125,9 @@ const ROLE_BY_EMAIL: Record<string, AppRole> = {
 };
 
 const ROLE_BY_EMAIL_DOMAIN: Record<string, AppRole> = {
+  "o7.digital": "dev_admin",
+  "o7digital.com": "dev_admin",
+  "o7digitalgroup.com": "dev_admin",
   "remax-activa.com.mx": "sales_admin"
 };
 
