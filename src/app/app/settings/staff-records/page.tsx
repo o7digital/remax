@@ -24,6 +24,51 @@ const emptyStaffAccessFormData = {
   records: []
 };
 
+const municipalityOptions = [
+  "Zapopan",
+  "Guadalajara",
+  "Tlajomulco de Zúñiga",
+  "San Pedro Tlaquepaque",
+  "Tlaquepaque",
+  "El Salto",
+  "Tonalá"
+];
+
+const neighborhoodOptions = [
+  "Arcos Vallarta",
+  "Paseos del Sol",
+  "Camino Real",
+  "Arboledas",
+  "Ciudad Granja",
+  "La Estancia",
+  "Jardines del Sol",
+  "Jardines Alcalde",
+  "Moderna",
+  "Arcos de Zapopan"
+];
+
+const subdivisionOptions = [
+  "Arcos Vallarta",
+  "Paseos del Sol",
+  "Camino Real",
+  "Ciudad Granja",
+  "La Estancia",
+  "Jardines del Sol",
+  "Arcos de Zapopan"
+];
+
+const languageOptions = ["Español", "Inglés", "Francés", "Alemán", "Italiano", "Portugués", "Sueco"];
+
+function OptionList({ id, options }: { id: string; options: string[] }) {
+  return (
+    <datalist id={id}>
+      {options.map((option) => (
+        <option key={option} value={option} />
+      ))}
+    </datalist>
+  );
+}
+
 function getText(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
   return value || null;
@@ -273,6 +318,9 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
   return (
     <form id={isStaff ? "nuevo-f-staff" : "nuevo-f-asesores"} action={createStaffRecordAction} className="form-grid">
       <input type="hidden" name="formType" value={type} />
+      <OptionList id={`${type}-municipalities`} options={municipalityOptions} />
+      <OptionList id={`${type}-neighborhoods`} options={neighborhoodOptions} />
+      <OptionList id={`${type}-subdivisions`} options={subdivisionOptions} />
 
       <div className="field field-full">
         <strong>{isStaff ? "F-Staff - Registro de miembros del Staff" : "F-Asesores - Registro de asesores internos"}</strong>
@@ -356,15 +404,15 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
       </label>
       <label className="field">
         <span className="field-label">Colonia</span>
-        <input name="neighborhood" />
+        <input name="neighborhood" list={`${type}-neighborhoods`} defaultValue="Arcos Vallarta" />
       </label>
       <label className="field">
         <span className="field-label">Fraccionamiento</span>
-        <input name="subdivision" />
+        <input name="subdivision" list={`${type}-subdivisions`} defaultValue="Arcos Vallarta" />
       </label>
       <label className="field">
         <span className="field-label">Municipio</span>
-        <input name="municipality" />
+        <input name="municipality" list={`${type}-municipalities`} defaultValue="Zapopan" />
       </label>
       <label className="field">
         <span className="field-label">C. P.</span>
@@ -372,7 +420,7 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
       </label>
       <label className="field">
         <span className="field-label">Entidad</span>
-        <input name="state" />
+        <input name="state" defaultValue="Jalisco" />
       </label>
       <label className="field">
         <span className="field-label">Fecha Nacimiento</span>
@@ -384,7 +432,7 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
       </label>
       <label className="field">
         <span className="field-label">Pais nacimiento</span>
-        <input name="birthCountry" />
+        <input name="birthCountry" defaultValue="México" />
       </label>
 
       <div className="field field-full">
@@ -511,11 +559,24 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
       </label>
       <label className="field">
         <span className="field-label">Idioma 1</span>
-        <input name="language1" />
+        <select name="language1" defaultValue="Español">
+          {languageOptions.map((language) => (
+            <option key={language} value={language}>
+              {language}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="field">
         <span className="field-label">Idioma 2</span>
-        <input name="language2" />
+        <select name="language2" defaultValue="Inglés">
+          <option value="">Sin segundo idioma</option>
+          {languageOptions.map((language) => (
+            <option key={language} value={language}>
+              {language}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="field">
         <span className="field-label">Fecha Ingreso SIR</span>
