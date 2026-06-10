@@ -86,9 +86,6 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
     "forecast",
     "tasks",
     "pipeline",
-    "quotes",
-    "orders",
-    "invoices",
     "documents",
     "contracts",
     "settings_ia_search"
