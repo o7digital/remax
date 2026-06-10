@@ -6,6 +6,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import { StatusBadge } from "@/components/status-badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { OliviaAiHostess } from "@/components/olivia-ai-hostess";
 import type { DemoLocale } from "@/lib/demo-locale";
 import type { NavSection } from "@/lib/nav";
 import {
@@ -191,6 +192,7 @@ export function ErpShell({
 
         <main className="page-content remax-content app-remax-content">{children}</main>
       </div>
+      <OliviaAiHostess />
     </div>
   );
 }
