@@ -13,7 +13,7 @@ export interface NavSection {
 }
 
 type Translator = (value: string) => string;
-const FROZEN_NAV_MODULES = new Set<AppModule>(["quotes", "orders", "invoices"]);
+const FROZEN_NAV_MODULES = new Set<AppModule>(["quotes", "orders", "invoices", "contracts"]);
 
 export function getNavigationSections(txt: Translator, allowedModules?: Set<AppModule>): NavSection[] {
   const sections: NavSection[] = [

@@ -87,7 +87,6 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
     "tasks",
     "pipeline",
     "documents",
-    "contracts",
     "settings_ia_search"
   ],
   finance_ops_mx: [
