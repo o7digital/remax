@@ -6,6 +6,21 @@ import type { DemoLocale } from "@/lib/demo-locale";
 
 const oliviaUrl = process.env.NEXT_PUBLIC_OLIVIA_AI_URL ?? "https://suitesmine-bot.vercel.app";
 
+const copyByLocale = {
+  es: {
+    subtitle: "Asistente",
+    close: "Cerrar Olivia AI"
+  },
+  en: {
+    subtitle: "Assistant",
+    close: "Close Olivia AI"
+  },
+  fr: {
+    subtitle: "Hôtesse",
+    close: "Fermer Olivia AI"
+  }
+};
+
 const quickHelp = [
   {
     title: "F-Asesores / F-Staff",
@@ -24,7 +39,8 @@ const quickHelp = [
 export function OliviaAiHostess({ locale }: { locale: DemoLocale }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const iframeSrc = `${oliviaUrl}?source=remax&context=${encodeURIComponent(pathname)}&lang=${locale}`;
+  const copy = copyByLocale[locale] ?? copyByLocale.es;
+  const iframeSrc = `${oliviaUrl}?embed=1&source=remax&context=${encodeURIComponent(pathname)}&lang=${locale}`;
 
   return (
     <div className="olivia-hostess" aria-live="polite">
@@ -33,9 +49,9 @@ export function OliviaAiHostess({ locale }: { locale: DemoLocale }) {
           <div className="olivia-header">
             <div>
               <span>Olivia AI</span>
-              <strong>Hôtesse</strong>
+              <strong>{copy.subtitle}</strong>
             </div>
-            <button type="button" className="olivia-close" onClick={() => setOpen(false)} aria-label="Cerrar Olivia AI">
+            <button type="button" className="olivia-close" onClick={() => setOpen(false)} aria-label={copy.close}>
               ×
             </button>
           </div>
