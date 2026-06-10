@@ -11,6 +11,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "import-csv": "node scripts/import-csv.mjs",
+    "railway:setup-staff": "node scripts/setup-staff.mjs",
     "migrate": "prisma migrate deploy"
   },
   "devDependencies": {
