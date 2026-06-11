@@ -12,7 +12,8 @@
     "prisma:migrate": "prisma migrate deploy",
     "import-csv": "node scripts/import-csv.mjs",
     "railway:setup-staff": "node scripts/setup-staff.mjs",
-    "migrate": "prisma migrate deploy"
+    "migrate": "prisma migrate deploy",
+    "railway:backup": "node scripts/backup.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.5.2",
