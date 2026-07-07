@@ -4,6 +4,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { UserGuidePromptButton } from "@/components/user-guide-prompt-button";
+import { getDemoI18n } from "@/lib/server-i18n";
 
 const chapters = [
   {
@@ -92,23 +93,24 @@ const quickPrompts = [
   "¿Qué hago si una página no muestra datos?"
 ];
 
-export default function UserGuidePage() {
+export default async function UserGuidePage() {
+  const { txt } = await getDemoI18n();
   return (
     <div className="page-stack user-guide-page">
       <PageHeader
-        title="Guía de usuario"
-        description="Manual práctico en español para utilizar la plataforma operativa inmobiliaria."
+        title={txt("Guía de usuario")}
+        description={txt("Manual práctico para utilizar la plataforma operativa inmobiliaria.")}
       />
 
       <section className="user-guide-hero">
         <div>
-          <span className="user-guide-kicker">Inicio rápido</span>
-          <h2>Todo lo necesario para trabajar en REMAX Activa</h2>
-          <p>Recorre las pantallas principales, sigue los pasos y utiliza los accesos directos para practicar en la plataforma.</p>
+          <span className="user-guide-kicker">{txt("Inicio rápido")}</span>
+          <h2>{txt("Todo lo necesario para trabajar en REMAX Activa")}</h2>
+          <p>{txt("Recorre las pantallas principales, sigue los pasos y utiliza los accesos directos para practicar en la plataforma.")}</p>
         </div>
         <nav className="user-guide-toc" aria-label="Contenido de la guía">
           {chapters.map((chapter) => (
-            <a key={chapter.id} href={`#${chapter.id}`}><span>{chapter.number}</span>{chapter.title}</a>
+            <a key={chapter.id} href={`#${chapter.id}`}><span>{chapter.number}</span>{txt(chapter.title)}</a>
           ))}
         </nav>
       </section>
@@ -117,29 +119,29 @@ export default function UserGuidePage() {
         <article className="user-guide-chapter" id={chapter.id} key={chapter.id}>
           <header className="user-guide-chapter-header">
             <span>{chapter.number}</span>
-            <div><h2>{chapter.title}</h2><p>{chapter.description}</p></div>
+            <div><h2>{txt(chapter.title)}</h2><p>{txt(chapter.description)}</p></div>
           </header>
           <figure className="user-guide-screen">
             <Image src={chapter.image} width={chapter.width} height={chapter.height} alt={chapter.alt} sizes="(max-width: 900px) 100vw, 1200px" />
-            <figcaption>Captura de la plataforma REMAX Activa</figcaption>
+            <figcaption>{txt("Captura de la plataforma REMAX Activa")}</figcaption>
           </figure>
           <div className="user-guide-instructions">
-            <div><h3>Pasos</h3><ol>{chapter.steps.map((step) => <li key={step}>{step}</li>)}</ol></div>
-            <div className="user-guide-actions"><h3>Accesos directos</h3>{chapter.links.map((link) => <Link className="button" href={link.href} key={link.href}>{link.label}</Link>)}</div>
+            <div><h3>{txt("Pasos")}</h3><ol>{chapter.steps.map((step) => <li key={step}>{txt(step)}</li>)}</ol></div>
+            <div className="user-guide-actions"><h3>{txt("Accesos directos")}</h3>{chapter.links.map((link) => <Link className="button" href={link.href} key={link.href}>{txt(link.label)}</Link>)}</div>
           </div>
         </article>
       ))}
 
       <div className="two-columns">
-        <SectionCard title="Ayuda con Olivia AI" description="Pregunta sobre la pantalla actual desde el botón flotante inferior.">
-          <div className="guide-prompt-list">{quickPrompts.map((prompt) => <UserGuidePromptButton key={prompt} prompt={prompt} />)}</div>
+        <SectionCard title={txt("Ayuda con Olivia AI")} description={txt("Pregunta sobre la pantalla actual desde el botón flotante inferior.")}>
+          <div className="guide-prompt-list">{quickPrompts.map((prompt) => <UserGuidePromptButton key={prompt} prompt={txt(prompt)} />)}</div>
         </SectionCard>
-        <SectionCard title="Módulos disponibles" description="Accesos operativos más utilizados.">
+        <SectionCard title={txt("Módulos disponibles")} description={txt("Accesos operativos más utilizados.")}>
           <div className="user-guide-module-links">
             <Link href="/app/settings/staff-records">F-Asesores / F-Staff</Link>
-            <Link href="/app/contacts">Contactos</Link>
-            <Link href="/app/tasks">Tareas</Link>
-            <Link href="/app/settings/company">Configuración de empresa</Link>
+            <Link href="/app/contacts">{txt("Contactos")}</Link>
+            <Link href="/app/tasks">{txt("Tareas")}</Link>
+            <Link href="/app/settings/company">{txt("Configuración de empresa")}</Link>
           </div>
         </SectionCard>
       </div>
