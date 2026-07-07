@@ -91,6 +91,11 @@ export default async function UserGuidePage() {
       <PageHeader
         title={txt("Guía de usuario")}
         description={txt("Manual práctico para utilizar la plataforma operativa inmobiliaria.")}
+        actions={
+          <a className="button" href="/user-guide/guia-usuario-remax-activa.pdf" download>
+            {txt("Descargar PDF")}
+          </a>
+        }
       />
 
       <section className="user-guide-hero">

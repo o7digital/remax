@@ -233,6 +233,7 @@ const translations: Record<DemoLocale, Record<string, string>> = {
     "listos para seguimiento": "ready for follow-up",
     "registros operativos": "operating records",
     "Guía de usuario": "User Guide",
+    "Descargar PDF": "Download PDF",
     "Manual práctico para utilizar la plataforma operativa inmobiliaria.": "Practical guide to using the real estate operations platform.",
     "Inicio rápido": "Quick start",
     "Todo lo necesario para trabajar en REMAX Activa": "Everything you need to work in REMAX Activa",
