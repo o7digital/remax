@@ -62,6 +62,26 @@ export interface ContactDirectoryRecord {
   isPrimary: boolean;
 }
 
+export interface PropertyContactReferenceOption {
+  id: string;
+  propertyKey: string;
+  title: string;
+}
+
+export async function getPropertyContactReferenceData(): Promise<PropertyContactReferenceOption[]> {
+  const rows = await prisma.$queryRaw<Array<{ id: string; property_key: string; title: string | null }>>`
+    SELECT id::text, property_key, title
+    FROM public.properties
+    ORDER BY property_key ASC
+  `;
+
+  return rows.map((row) => ({
+    id: row.id,
+    propertyKey: row.property_key,
+    title: row.title ?? row.property_key
+  }));
+}
+
 export interface MarketingSummary {
   uniqueAudience: number;
   emailableContacts: number;

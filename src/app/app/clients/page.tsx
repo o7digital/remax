@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
@@ -6,11 +8,45 @@ import { SectionCard } from "@/components/section-card";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
 import { getDemoI18n } from "@/lib/server-i18n";
-import { getClientOverviewData } from "@/lib/remax-app-data";
+import { createPropertyContact } from "@/lib/remax-app-mutations";
+import { getClientOverviewData, getPropertyContactReferenceData } from "@/lib/remax-app-data";
+
+async function createClientAction(formData: FormData) {
+  "use server";
+
+  const propertyId = String(formData.get("propertyId") ?? "").trim();
+  const fullName = String(formData.get("fullName") ?? "").trim();
+  const contactKind = String(formData.get("contactKind") ?? "buyer").trim();
+
+  if (!propertyId || !fullName || !["owner", "buyer", "tenant", "prospect", "other"].includes(contactKind)) {
+    redirect("/app/clients?error=missing");
+  }
+
+  try {
+    await createPropertyContact({
+      propertyId,
+      contactKind,
+      fullName,
+      email: String(formData.get("email") ?? "").trim() || null,
+      phone: String(formData.get("phone") ?? "").trim() || null,
+      isPrimary: formData.get("isPrimary") === "on"
+    });
+  } catch (error) {
+    console.error("Failed to create client contact", error);
+    redirect("/app/clients?error=database");
+  }
+
+  revalidatePath("/app/clients");
+  revalidatePath("/app/contacts");
+  redirect("/app/clients?saved=1");
+}
 
 export default async function ClientsPage() {
   const { txt } = await getDemoI18n();
-  const { records, summary } = await getClientOverviewData();
+  const [{ records, summary }, propertyOptions] = await Promise.all([
+    getClientOverviewData(),
+    getPropertyContactReferenceData()
+  ]);
 
   return (
     <div className="page-stack">
@@ -20,6 +56,18 @@ export default async function ClientsPage() {
           "Propietarios y compradores reales consolidados desde la base Access migrada a Railway/Postgres."
         )}
       />
+
+      <SectionCard title={txt("Crear cliente")} description={txt("Vincula un propietario, comprador o prospecto a una propiedad real.")}>
+        <form action={createClientAction} className="form-grid">
+          <label className="field"><span className="field-label">Nombre</span><input name="fullName" required /></label>
+          <label className="field"><span className="field-label">Tipo</span><select name="contactKind" defaultValue="buyer"><option value="buyer">Comprador</option><option value="owner">Propietario</option><option value="tenant">Inquilino</option><option value="prospect">Prospecto</option><option value="other">Otro</option></select></label>
+          <label className="field"><span className="field-label">Email</span><input name="email" type="email" /></label>
+          <label className="field"><span className="field-label">Telefono</span><input name="phone" /></label>
+          <label className="field field-full"><span className="field-label">Propiedad vinculada</span><select name="propertyId" required defaultValue=""><option value="">Seleccionar propiedad</option>{propertyOptions.map((property) => <option key={property.id} value={property.id}>{property.propertyKey} · {property.title}</option>)}</select></label>
+          <label className="badge badge-neutral"><input name="isPrimary" type="checkbox" style={{ minHeight: "auto", width: "auto" }} />Contacto principal</label>
+          <div className="field"><button type="submit" className="button">Crear cliente</button></div>
+        </form>
+      </SectionCard>
 
       <div className="stats-grid">
         <StatCard label={txt("Clientes unicos")} value={String(summary.totalClients)} detail={txt("base consolidada")} />
@@ -42,7 +90,7 @@ export default async function ClientsPage() {
               label: txt("Cliente"),
               render: (row) => (
                 <div>
-                  <Link href={`/app/clients/detail?id=${encodeURIComponent(row.id)}`} className="table-link">
+                  <Link href={`/app/clients/${encodeURIComponent(row.id)}`} className="table-link">
                     <strong>{row.fullName}</strong>
                   </Link>
                   <div className="muted">{row.primaryPropertyTitle}</div>
@@ -90,6 +138,11 @@ export default async function ClientsPage() {
                   ))}
                 </div>
               )
+            },
+            {
+              key: "detail",
+              label: txt("Detalle"),
+              render: (row) => <Link href={`/app/clients/${encodeURIComponent(row.id)}`} className="button button-secondary">Ver detalle</Link>
             }
           ]}
         />

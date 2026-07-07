@@ -218,3 +218,23 @@ export async function saveCommissionRule(input: SaveCommissionRuleInput) {
         updated_at = now()
   `;
 }
+
+export interface CreatePropertyContactInput {
+  propertyId: string;
+  contactKind: string;
+  fullName: string;
+  email: string | null;
+  phone: string | null;
+  isPrimary: boolean;
+}
+
+export async function createPropertyContact(input: CreatePropertyContactInput) {
+  await prisma.$executeRaw`
+    INSERT INTO public.property_contacts (
+      property_id, contact_kind, full_name, email, phone, is_primary
+    ) VALUES (
+      ${input.propertyId}::uuid, ${input.contactKind}::public.contact_kind,
+      ${input.fullName}, ${input.email}, ${input.phone}, ${input.isPrimary}
+    )
+  `;
+}
