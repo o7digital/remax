@@ -5,8 +5,6 @@ import { useTransition } from "react";
 
 import { DEMO_LOCALE_COOKIE_NAME, demoLocaleOptions, type DemoLocale } from "@/lib/demo-locale";
 
-const supportedLocales = demoLocaleOptions.filter((option) => option.value === "es" || option.value === "en");
-
 export function LanguageSwitcher({ locale }: { locale: DemoLocale }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -19,7 +17,7 @@ export function LanguageSwitcher({ locale }: { locale: DemoLocale }) {
 
   return (
     <div className="language-switcher" aria-label="Idioma de la aplicación">
-      {supportedLocales.map((option) => (
+      {demoLocaleOptions.map((option) => (
         <button
           key={option.value}
           type="button"

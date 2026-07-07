@@ -1,6 +1,9 @@
+import { clientTxt } from "@/lib/client-i18n";
+import type { DemoLocale } from "@/lib/demo-locale";
 import type { PipelineViewMode, PipelineWorkflow } from "@/lib/pipeline-types";
 
 export function PipelineHeader({
+  locale,
   pipelines,
   selectedPipelineId,
   viewMode,
@@ -10,6 +13,7 @@ export function PipelineHeader({
   onOpenNewWorkflow,
   onOpenNewDeal
 }: {
+  locale: DemoLocale;
   pipelines: PipelineWorkflow[];
   selectedPipelineId: string;
   viewMode: PipelineViewMode;
@@ -19,12 +23,14 @@ export function PipelineHeader({
   onOpenNewWorkflow: () => void;
   onOpenNewDeal: () => void;
 }) {
+  const txt = (value: string) => clientTxt(locale, value);
+
   return (
     <section className="pipeline-hero">
       <div>
         <p className="pipeline-hero-eyebrow">REMAX Activa</p>
         <h1>Pipeline</h1>
-        <p className="pipeline-hero-description">Seguimiento visual de oportunidades inmobiliarias por etapa</p>
+        <p className="pipeline-hero-description">{txt("Seguimiento visual de oportunidades inmobiliarias por etapa")}</p>
       </div>
 
       <div className="pipeline-hero-actions">
@@ -46,20 +52,20 @@ export function PipelineHeader({
 
         <div className="pipeline-action-row">
           <button type="button" className="pipeline-secondary-button" onClick={onOpenManageWorkflow}>
-            Gestionar workflow
+            {txt("Gestionar workflow")}
           </button>
           <button type="button" className="pipeline-secondary-button" onClick={onOpenNewWorkflow}>
-            + Nuevo workflow
+            + {txt("Nuevo workflow")}
           </button>
           <button type="button" className="pipeline-primary-button" onClick={onOpenNewDeal}>
-            Nuevo deal
+            {txt("Nuevo deal")}
           </button>
         </div>
 
-        <div className="pipeline-view-toggle" aria-label="Vista del pipeline">
+        <div className="pipeline-view-toggle" aria-label={txt("Vista del pipeline")}>
           {([
             ["kanban", "Kanban"],
-            ["list", "Lista"],
+            ["list", txt("Lista")],
             ["forecast", "Forecast"]
           ] as const).map(([mode, label]) => (
             <button

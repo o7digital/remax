@@ -7,6 +7,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { StatusBadge } from "@/components/status-badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { OliviaAiHostess } from "@/components/olivia-ai-hostess";
+import { clientTxt } from "@/lib/client-i18n";
 import type { DemoLocale } from "@/lib/demo-locale";
 import type { NavSection } from "@/lib/nav";
 import {
@@ -58,6 +59,7 @@ export function ErpShell({
     complianceEnabled: boolean;
   };
 }) {
+  const txt = (value: string) => clientTxt(locale, value);
   const pathname = usePathname();
   const [branding, setBranding] = useState<RemaxBrandingSettings>(defaultRemaxBrandingSettings);
   const [colorMode, setColorMode] = useState<"light" | "dark">("light");
@@ -107,17 +109,17 @@ export function ErpShell({
         </div>
 
         <div className="remax-session-card app-remax-session-card">
-          <span>Panel operativo</span>
+          <span>{txt("Panel operativo")}</span>
           <strong>{currentUser.label}</strong>
           <p>{currentUser.email}</p>
           {isFictitiousIdentity ? (
             <div className="inline-stack">
-              <StatusBadge value="Datos ficticios" tone="warning" />
+              <StatusBadge value={txt("Datos ficticios")} tone="warning" />
             </div>
           ) : null}
           <form action="/auth/logout" method="post">
             <button type="submit" className="button button-secondary remax-logout-button">
-              Cerrar sesion
+              {txt("Cerrar sesion")}
             </button>
           </form>
         </div>
@@ -128,7 +130,7 @@ export function ErpShell({
             <div className="remax-nav-links">
               {section.items.map((item) =>
                 item.frozen ? (
-                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title="Modulo no disponible">
+                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title={txt("Modulo no disponible")}>
                     {item.label}
                   </span>
                 ) : (
@@ -155,8 +157,8 @@ export function ErpShell({
 
         <div className="remax-side-note app-remax-side-note">
           <span>{shellCopy.activeTenantLabel}</span>
-          <strong>{activeItem?.label ?? "Panel"}</strong>
-          <p>Operacion, administracion y seguimiento centralizado en una sola interfaz.</p>
+          <strong>{activeItem?.label ?? txt("Panel")}</strong>
+          <p>{txt("Operacion, administracion y seguimiento centralizado en una sola interfaz.")}</p>
         </div>
       </aside>
 
@@ -167,9 +169,9 @@ export function ErpShell({
 
         <header className="remax-toolbar app-remax-toolbar">
           <div className="remax-toolbar-ribbon">
-            <span className="remax-toolbar-chip">Plataforma ejecutiva</span>
+            <span className="remax-toolbar-chip">{txt("Plataforma ejecutiva")}</span>
             <span className="remax-toolbar-copy">
-              Gestion centralizada de propiedades, asesores, clientes, documentos y operaciones.
+              {txt("Gestion centralizada de propiedades, asesores, clientes, documentos y operaciones.")}
             </span>
           </div>
 
@@ -178,8 +180,8 @@ export function ErpShell({
               type="button"
               className="button button-secondary color-mode-toggle"
               onClick={toggleColorMode}
-              aria-label={colorMode === "light" ? "Activar modo noche" : "Activar modo día"}
-              title={colorMode === "light" ? "Modo noche" : "Modo día"}
+              aria-label={colorMode === "light" ? txt("Activar modo noche") : txt("Activar modo día")}
+              title={colorMode === "light" ? txt("Modo noche") : txt("Modo día")}
             >
               {colorMode === "light" ? "☾" : "☀"}
             </button>
@@ -207,7 +209,7 @@ export function ErpShell({
             <p>{currentUser.label}</p>
             {isFictitiousIdentity ? (
               <div className="inline-stack">
-                <StatusBadge value="Datos ficticios" tone="warning" />
+                <StatusBadge value={txt("Datos ficticios")} tone="warning" />
               </div>
             ) : null}
           </div>
