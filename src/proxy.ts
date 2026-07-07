@@ -16,6 +16,8 @@ const REMAX_DEMO_ADMIN_PATH = "/remax-demo/admin";
 
 function handlePublicRoutes(request: NextRequest, clerkConfigured: boolean) {
   const { pathname, search } = request.nextUrl;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-remax-pathname", pathname);
 
   if (MAINTENANCE_MODE) {
     if (pathname === MAINTENANCE_PATH) {
@@ -48,7 +50,11 @@ function handlePublicRoutes(request: NextRequest, clerkConfigured: boolean) {
     return NextResponse.redirect(new URL(MAINTENANCE_PATH, request.url));
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders
+    }
+  });
 }
 
 const clerkProxy = clerkMiddleware(async (_auth, request: NextRequest) => {

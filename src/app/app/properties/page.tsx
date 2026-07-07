@@ -13,6 +13,8 @@ import { formatCurrency } from "@/lib/formatters";
 import { createProperty } from "@/lib/remax-app-mutations";
 import { getPropertyDirectoryData, getPropertyFormReferenceData } from "@/lib/remax-app-data";
 import { getDemoI18n } from "@/lib/server-i18n";
+import { getAuthenticatedUserEmail } from "@/lib/auth";
+import { getRoleForEmail } from "@/lib/access-control";
 
 function getText(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
@@ -131,8 +133,10 @@ export default async function PropertiesPage({
 }) {
   const params = await searchParams;
   const { txt } = await getDemoI18n();
+  const email = await getAuthenticatedUserEmail();
+  const role = getRoleForEmail(email);
   const [{ summary, records }, formReferences] = await Promise.all([
-    getPropertyDirectoryData(),
+    getPropertyDirectoryData(role === "asesor" ? { advisorEmail: email } : undefined),
     getPropertyFormReferenceData()
   ]);
 
@@ -140,8 +144,8 @@ export default async function PropertiesPage({
     <div className="page-stack">
       <PageHeader
         title="Propiedades"
-        description="Inventario real migrado desde Access, con alta manual conectada a Railway/Postgres."
-        actions={<a className="button button-secondary" href="#nueva-propiedad">Nueva propiedad</a>}
+        description={role === "asesor" ? "Tus propiedades asignadas como asesor." : "Inventario real migrado desde Access, con alta manual conectada a Railway/Postgres."}
+        actions={role === "asesor" ? undefined : <a className="button button-secondary" href="#nueva-propiedad">Nueva propiedad</a>}
       />
 
       <DataOriginNotice
@@ -205,17 +209,19 @@ export default async function PropertiesPage({
         />
       </SectionCard>
 
-      <SectionCard
-        title="Alta de propiedad"
-        description="Flujo basado en el proceso Access: clave, expediente, caracteristicas, condiciones, valor, asesor alta, propietarios y ficha tecnica."
-      >
-        <PropertyCreateForm
-          action={createPropertyAction}
-          locations={formReferences.locations}
-          advisors={formReferences.advisors}
-          auxiliaries={formReferences.auxiliaries}
-        />
-      </SectionCard>
+      {role === "asesor" ? null : (
+        <SectionCard
+          title="Alta de propiedad"
+          description="Flujo basado en el proceso Access: clave, expediente, caracteristicas, condiciones, valor, asesor alta, propietarios y ficha tecnica."
+        >
+          <PropertyCreateForm
+            action={createPropertyAction}
+            locations={formReferences.locations}
+            advisors={formReferences.advisors}
+            auxiliaries={formReferences.auxiliaries}
+          />
+        </SectionCard>
+      )}
     </div>
   );
 }

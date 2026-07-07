@@ -6,10 +6,19 @@ import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
 import { formatCurrency, formatDate } from "@/lib/formatters";
-import { getPropertyDetailData } from "@/lib/remax-app-data";
+import { canAdvisorAccessProperty, getPropertyDetailData } from "@/lib/remax-app-data";
+import { getAuthenticatedUserEmail } from "@/lib/auth";
+import { getRoleForEmail } from "@/lib/access-control";
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const email = await getAuthenticatedUserEmail();
+  const role = getRoleForEmail(email);
+
+  if (role === "asesor" && !(await canAdvisorAccessProperty(email, id))) {
+    notFound();
+  }
+
   const data = await getPropertyDetailData(id);
 
   if (!data) notFound();

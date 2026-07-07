@@ -68,6 +68,30 @@ export interface PropertyContactReferenceOption {
   title: string;
 }
 
+async function getPropertyIdsForAdvisorEmail(email: string | null | undefined) {
+  const normalizedEmail = email?.trim().toLowerCase();
+  if (!normalizedEmail) {
+    return new Set<string>();
+  }
+
+  const rows = await prisma.$queryRaw<Array<{ property_id: string }>>`
+    SELECT DISTINCT d.property_id::text
+    FROM public.deals d
+    JOIN public.deal_participants dp ON dp.deal_id = d.id
+    LEFT JOIN public.staff_members sm ON sm.id = dp.staff_member_id
+    WHERE
+      lower(coalesce(sm.work_email, '')) = ${normalizedEmail}
+      OR lower(coalesce(sm.personal_email, '')) = ${normalizedEmail}
+  `;
+
+  return new Set(rows.map((row) => row.property_id));
+}
+
+export async function canAdvisorAccessProperty(email: string | null | undefined, propertyId: string) {
+  const propertyIds = await getPropertyIdsForAdvisorEmail(email);
+  return propertyIds.has(propertyId);
+}
+
 export async function getPropertyContactReferenceData(): Promise<PropertyContactReferenceOption[]> {
   const rows = await prisma.$queryRaw<Array<{ id: string; property_key: string; title: string | null }>>`
     SELECT id::text, property_key, title
@@ -645,7 +669,7 @@ export interface PropertyDirectoryRecord {
   ownerCount: number;
 }
 
-export async function getPropertyDirectoryData(): Promise<{
+export async function getPropertyDirectoryData(options?: { advisorEmail?: string | null }): Promise<{
   summary: {
     totalProperties: number;
     activeProperties: number;
@@ -662,7 +686,7 @@ export async function getPropertyDirectoryData(): Promise<{
     created_at: string;
   };
 
-  const [properties, contacts] = await Promise.all([
+  const [properties, contacts, advisorPropertyIds] = await Promise.all([
     prisma.$queryRaw<PropertyDirectoryRow[]>`
       SELECT
         id::text,
@@ -685,8 +709,12 @@ export async function getPropertyDirectoryData(): Promise<{
       FROM public.property_contacts
       WHERE contact_kind::text = 'owner'
       LIMIT 4001
-    `
+    `,
+    options?.advisorEmail ? getPropertyIdsForAdvisorEmail(options.advisorEmail) : Promise.resolve(null)
   ]);
+  const visibleProperties = advisorPropertyIds
+    ? properties.filter((property) => advisorPropertyIds.has(property.id))
+    : properties;
   const ownerCountByPropertyId = new Map<string, number>();
 
   for (const contact of contacts) {
@@ -695,12 +723,12 @@ export async function getPropertyDirectoryData(): Promise<{
 
   return {
     summary: {
-      totalProperties: properties.length,
-      activeProperties: properties.filter((property) => property.property_status === "active").length,
-      closedProperties: properties.filter((property) => property.property_status === "closed").length,
-      draftProperties: properties.filter((property) => property.property_status === "draft").length
+      totalProperties: visibleProperties.length,
+      activeProperties: visibleProperties.filter((property) => property.property_status === "active").length,
+      closedProperties: visibleProperties.filter((property) => property.property_status === "closed").length,
+      draftProperties: visibleProperties.filter((property) => property.property_status === "draft").length
     },
-    records: properties.slice(0, 80).map((property) => ({
+    records: visibleProperties.slice(0, 80).map((property) => ({
       id: property.id,
       propertyKey: property.property_key,
       title: property.title ?? property.property_key,

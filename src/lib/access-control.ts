@@ -1,10 +1,7 @@
 export type AppRole =
-  | "owner"
-  | "sales_admin"
-  | "finance_ops_mx"
-  | "implementation_lead"
-  | "dev_admin"
-  | "viewer";
+  | "super_admin"
+  | "client_admin"
+  | "asesor";
 
 export type AppModule =
   | "dashboard"
@@ -72,67 +69,35 @@ const ALL_MODULES: AppModule[] = [
 ];
 
 export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
-  owner: ALL_MODULES,
-  dev_admin: ALL_MODULES,
-  sales_admin: [
+  super_admin: ALL_MODULES,
+  client_admin: ALL_MODULES,
+  asesor: [
     "dashboard",
     "properties",
     "clients",
     "contacts",
     "surveys",
-    "marketing",
     "commissions",
     "reporting",
     "forecast",
     "tasks",
     "pipeline",
-    "documents",
-    "settings_ia_search"
-  ],
-  finance_ops_mx: [
-    "dashboard",
-    "reporting",
-    "invoices",
-    "payments",
-    "documents",
-    "contracts",
-    "settings_overview",
-    "settings_company",
-    "settings_billing",
-    "settings_compliance",
-    "settings_tax_identities",
-    "settings_invoice_series"
-  ],
-  implementation_lead: [
-    "dashboard",
-    "tasks",
-    "pipeline",
-    "documents",
-    "contracts",
-    "reporting",
-    "settings_ia_search",
-    "settings_overview"
-  ],
-  viewer: ["dashboard", "reporting"]
+    "quotes",
+    "documents"
+  ]
 };
 
 const ROLE_BY_EMAIL: Record<string, AppRole> = {
-  "info@o7digitalgroup.com": "dev_admin",
-  "olivier.steineur@gmail.com": "dev_admin",
-  "oliviersteineur@gmail.com": "dev_admin",
-  "christopher.suarez@remax-activa.com.mx": "owner",
-  "inventario@remax-activa.com.mx": "sales_admin",
-  "pedro.leyva@remax-activa.com.mx": "sales_admin"
+  "olivier.steineur@gmail.com": "super_admin",
+  "oliviersteineur@gmail.com": "super_admin",
+  "christopher.suarez@remax-activa.com.mx": "client_admin"
 };
 
 const ROLE_BY_EMAIL_DOMAIN: Record<string, AppRole> = {
-  "o7.digital": "dev_admin",
-  "o7digital.com": "dev_admin",
-  "o7digitalgroup.com": "dev_admin",
-  "remax-activa.com.mx": "sales_admin"
+  "remax-activa.com.mx": "asesor"
 };
 
-const DEFAULT_AUTHENTICATED_ROLE: AppRole = "sales_admin";
+const DEFAULT_AUTHENTICATED_ROLE: AppRole = "asesor";
 
 const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
   { prefix: "/app/settings/compliance", module: "settings_compliance" },
@@ -169,7 +134,7 @@ const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
 
 export function getRoleForEmail(email: string | null | undefined): AppRole {
   if (!email) {
-    return "viewer";
+    return DEFAULT_AUTHENTICATED_ROLE;
   }
 
   const normalizedEmail = email.trim().toLowerCase();
