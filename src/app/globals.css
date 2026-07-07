@@ -137,6 +137,182 @@
   color: #13223a;
 }
 
+.user-guide-page {
+  scroll-behavior: smooth;
+}
+
+.user-guide-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 32px;
+  padding: 34px;
+  border: 1px solid var(--remax-line);
+  border-radius: 26px;
+  background: linear-gradient(135deg, #162943, #25466e);
+  color: #fff;
+}
+
+.user-guide-hero h2 {
+  max-width: 720px;
+  margin: 10px 0 14px;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+}
+
+.user-guide-hero p {
+  max-width: 720px;
+  margin: 0;
+  color: #c8d8eb;
+  line-height: 1.65;
+}
+
+.user-guide-kicker {
+  color: #8eb8ed;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.user-guide-toc {
+  display: grid;
+  gap: 8px;
+}
+
+.user-guide-toc a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #f8fbff;
+  text-decoration: none;
+}
+
+.user-guide-toc a:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.user-guide-toc span {
+  color: #8eb8ed;
+  font-weight: 800;
+}
+
+.user-guide-chapter {
+  scroll-margin-top: 24px;
+  padding: 28px;
+  border: 1px solid var(--remax-line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.user-guide-chapter-header {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.user-guide-chapter-header > span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border-radius: 14px;
+  background: #dceafb;
+  color: #244a78;
+  font-weight: 900;
+}
+
+.user-guide-chapter-header h2,
+.user-guide-chapter-header p {
+  margin: 0;
+}
+
+.user-guide-chapter-header p {
+  margin-top: 6px;
+  color: var(--remax-muted);
+}
+
+.user-guide-screen {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--remax-line);
+  border-radius: 18px;
+  background: #0b1422;
+}
+
+.user-guide-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.user-guide-screen figcaption {
+  padding: 10px 14px;
+  color: #aebfd3;
+  font-size: 0.78rem;
+}
+
+.user-guide-instructions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 28px;
+  margin-top: 24px;
+}
+
+.user-guide-instructions h3 {
+  margin: 0 0 12px;
+}
+
+.user-guide-instructions ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--remax-text);
+  line-height: 1.55;
+}
+
+.user-guide-actions,
+.user-guide-module-links {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.user-guide-module-links a {
+  padding: 12px 14px;
+  border: 1px solid var(--remax-line);
+  border-radius: 12px;
+  color: var(--remax-text);
+  text-decoration: none;
+}
+
+.app-remax-shell.color-mode-dark .user-guide-chapter {
+  background: #142137;
+  color: #f1f5fb;
+}
+
+.app-remax-shell.color-mode-dark .user-guide-chapter-header > span {
+  background: #29466d;
+  color: #dceaff;
+}
+
+@media (max-width: 900px) {
+  .user-guide-hero,
+  .user-guide-instructions {
+    grid-template-columns: 1fr;
+  }
+
+  .user-guide-hero,
+  .user-guide-chapter {
+    padding: 20px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
