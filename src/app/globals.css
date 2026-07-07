@@ -2331,6 +2331,10 @@ textarea {
   background: linear-gradient(180deg, rgba(239, 246, 255, 0.92), rgba(248, 250, 252, 0.94));
 }
 
+.pipeline-forecast-month:has(.pipeline-forecast-cards button:active) {
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
 .pipeline-forecast-month > strong,
 .pipeline-forecast-month > span {
   display: block;
@@ -2359,6 +2363,16 @@ textarea {
   color: #1f3148;
   text-align: left;
   cursor: pointer;
+  user-select: none;
+}
+
+.pipeline-forecast-cards button[draggable="true"] {
+  cursor: grab;
+}
+
+.pipeline-forecast-cards button[draggable="true"]:active {
+  cursor: grabbing;
+  opacity: 0.72;
 }
 
 .pipeline-forecast-cards button:hover,

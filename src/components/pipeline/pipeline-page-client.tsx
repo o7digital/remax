@@ -28,11 +28,13 @@ const defaultFilters: PipelineFilters = {
 export function PipelinePageClient({
   workflows,
   deals,
-  initialViewMode = "kanban"
+  initialViewMode = "kanban",
+  onMoveForecastDeal
 }: {
   workflows: PipelineWorkflow[];
   deals: PipelineDeal[];
   initialViewMode?: PipelineViewMode;
+  onMoveForecastDeal: (dealId: string, closeDate: string) => Promise<void>;
 }) {
   const [selectedPipelineId, setSelectedPipelineId] = useState(workflows[0]?.id ?? "");
   const [filters, setFilters] = useState<PipelineFilters>(defaultFilters);
@@ -42,6 +44,8 @@ export function PipelinePageClient({
   const [viewMode, setViewMode] = useState<PipelineViewMode>(initialViewMode);
   const availableYears = [...new Set(deals.map((deal) => new Date(deal.closeDate).getFullYear()).filter(Number.isFinite))].sort((a, b) => b - a);
   const [forecastYear, setForecastYear] = useState(availableYears[0] ?? new Date().getFullYear());
+  const [forecastSavingId, setForecastSavingId] = useState<string | null>(null);
+  const [forecastError, setForecastError] = useState("");
 
   const selectedWorkflow = workflows.find((workflow) => workflow.id === selectedPipelineId) ?? workflows[0];
   const workflowDeals = boardDeals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
@@ -109,6 +113,30 @@ export function PipelinePageClient({
       )
     );
     setDraggingDealId(null);
+  }
+
+  async function moveDealToForecastMonth(dealId: string, month: number) {
+    const currentDeal = boardDeals.find((deal) => deal.id === dealId);
+    if (!currentDeal) return;
+
+    const currentDate = new Date(currentDeal.closeDate);
+    const day = Number.isFinite(currentDate.getTime()) ? Math.min(currentDate.getUTCDate(), 28) : 15;
+    const closeDate = `${forecastYear}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const previousDate = currentDeal.closeDate;
+
+    setForecastError("");
+    setForecastSavingId(dealId);
+    setBoardDeals((current) => current.map((deal) => deal.id === dealId ? { ...deal, closeDate } : deal));
+
+    try {
+      await onMoveForecastDeal(dealId, closeDate);
+    } catch (error) {
+      console.error("Failed to move forecast deal", error);
+      setBoardDeals((current) => current.map((deal) => deal.id === dealId ? { ...deal, closeDate: previousDate } : deal));
+      setForecastError("No se pudo guardar el nuevo mes. Intenta de nuevo.");
+    } finally {
+      setForecastSavingId(null);
+    }
   }
 
   function saveDeal(formData: FormData, existingDeal?: PipelineDeal) {
@@ -302,15 +330,38 @@ export function PipelinePageClient({
             <div><strong>Forecast mensual por fecha de cierre</strong><p className="muted">{openForecastDeals.length} operaciones abiertas · {outsideForecastYear.length} fuera de {forecastYear}</p></div>
             <label className="pipeline-select-wrap"><span>Año</span><select className="pipeline-select" value={forecastYear} onChange={(event) => setForecastYear(Number(event.target.value))}>{availableYears.map((year) => <option key={year} value={year}>{year}</option>)}</select></label>
           </div>
+          {forecastError ? <p className="auth-error">{forecastError}</p> : null}
           <div className="pipeline-forecast-scroll">
             {monthlyForecast.map(({ month, deals: monthDeals, totals }) => (
-              <article key={`${forecastYear}-${month}`} className="pipeline-forecast-month">
+              <article
+                key={`${forecastYear}-${month}`}
+                className="pipeline-forecast-month"
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  event.dataTransfer.dropEffect = "move";
+                }}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  const dealId = event.dataTransfer.getData("text/plain");
+                  if (dealId) void moveDealToForecastMonth(dealId, month);
+                }}
+              >
                 <p className="pipeline-hero-eyebrow">{new Intl.DateTimeFormat("es-MX", { month: "long" }).format(new Date(forecastYear, month, 1))}</p>
                 <strong>{monthDeals.length} deals</strong>
                 <span>{formatCurrencyTotals(totals, "es-MX")}</span>
                 <div className="pipeline-forecast-cards">
                   {monthDeals.map((deal) => (
-                    <button key={deal.id} type="button" onClick={() => setDialogState({ type: "deal", deal })}>
+                    <button
+                      key={deal.id}
+                      type="button"
+                      draggable
+                      aria-busy={forecastSavingId === deal.id}
+                      onDragStart={(event) => {
+                        event.dataTransfer.effectAllowed = "move";
+                        event.dataTransfer.setData("text/plain", deal.id);
+                      }}
+                      onClick={() => setDialogState({ type: "deal", deal })}
+                    >
                       <strong>{deal.title}</strong><span>{deal.client || "Sin cliente"}</span><span>{formatCurrency(deal.amount, deal.currency, "es-MX")}</span>
                     </button>
                   ))}

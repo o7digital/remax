@@ -120,6 +120,7 @@ type DealRow = {
   property_id: string;
   closed_on: string | null;
   created_at: string;
+  metadata?: { expected_close_date?: string } | null;
 };
 
 type GuardShiftRow = {
@@ -1102,7 +1103,7 @@ async function buildCommissionDataset(): Promise<{
     ),
     fetchAllRows<DealRow>(
       "deals",
-      "id, title, deal_kind, status, property_id, closed_on, created_at"
+      "id, title, deal_kind, status, property_id, closed_on, created_at, metadata"
     ),
     fetchAllRows<DealParticipantRow>(
       "deal_participants",
@@ -1543,7 +1544,7 @@ export async function getPipelineData(): Promise<{
     ),
     fetchAllRows<DealRow>(
       "deals",
-      "id, title, deal_kind, status, property_id, closed_on, created_at"
+      "id, title, deal_kind, status, property_id, closed_on, created_at, metadata"
     ),
     fetchAllRows<DealParticipantRow>(
       "deal_participants",
@@ -1652,7 +1653,7 @@ export async function getPipelineData(): Promise<{
       stage,
       probability: stageConfig.probability,
       status: stageConfig.status,
-      closeDate: deal.closed_on ?? deal.created_at,
+      closeDate: deal.metadata?.expected_close_date ?? deal.closed_on ?? deal.created_at,
       owner,
       aiPulse:
         deal.deal_kind === "cancellation" ||
