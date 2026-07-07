@@ -6,6 +6,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import { StatusBadge } from "@/components/status-badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { OliviaAiHostess } from "@/components/olivia-ai-hostess";
 import type { DemoLocale } from "@/lib/demo-locale";
 import type { NavSection } from "@/lib/nav";
 import {
@@ -59,6 +60,7 @@ export function ErpShell({
 }) {
   const pathname = usePathname();
   const [branding, setBranding] = useState<RemaxBrandingSettings>(defaultRemaxBrandingSettings);
+  const [colorMode, setColorMode] = useState<"light" | "dark">("light");
   const activeItem = navigationSections.flatMap((section) => section.items).find((item) => isActive(pathname, item.href));
   const isFictitiousIdentity = /@o7digitalgroup\.com$|@o7\.digital$/i.test(currentUser.email);
 
@@ -76,8 +78,21 @@ export function ErpShell({
     };
   }, []);
 
+  useEffect(() => {
+    const stored = window.localStorage.getItem("remax-color-mode");
+    setColorMode(stored === "dark" ? "dark" : "light");
+  }, []);
+
+  function toggleColorMode() {
+    setColorMode((current) => {
+      const next = current === "light" ? "dark" : "light";
+      window.localStorage.setItem("remax-color-mode", next);
+      return next;
+    });
+  }
+
   return (
-    <div className="app-shell app-remax-shell" style={getRemaxBrandingStyle(branding)}>
+    <div className={`app-shell app-remax-shell color-mode-${colorMode}`} style={getRemaxBrandingStyle(branding)}>
       <aside className="remax-sidebar app-remax-sidebar">
         <div className="remax-brand-panel app-remax-brand-panel">
           {branding.logoDataUrl ? (
@@ -113,7 +128,7 @@ export function ErpShell({
             <div className="remax-nav-links">
               {section.items.map((item) =>
                 item.frozen ? (
-                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title="Frozen para pruebas">
+                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title="Modulo no disponible">
                     {item.label}
                   </span>
                 ) : (
@@ -159,16 +174,25 @@ export function ErpShell({
           </div>
 
           <div className="remax-header-actions">
+            <button
+              type="button"
+              className="button button-secondary color-mode-toggle"
+              onClick={toggleColorMode}
+              aria-label={colorMode === "light" ? "Activar modo noche" : "Activar modo día"}
+              title={colorMode === "light" ? "Modo noche" : "Modo día"}
+            >
+              {colorMode === "light" ? "☾" : "☀"}
+            </button>
             <LanguageSwitcher locale={locale} />
             {quickAccess.invoicesEnabled ? (
-              <Link href="/app/invoices" className="button button-secondary">
+              <span className="button button-secondary frozen-quick-access" aria-disabled="true">
                 {shellCopy.invoicesLabel}
-              </Link>
+              </span>
             ) : null}
             {quickAccess.complianceEnabled ? (
-              <Link href="/app/settings/compliance" className="button">
+              <span className="button frozen-quick-access" aria-disabled="true">
                 {shellCopy.complianceLabel}
-              </Link>
+              </span>
             ) : null}
           </div>
         </header>
@@ -191,6 +215,7 @@ export function ErpShell({
 
         <main className="page-content remax-content app-remax-content">{children}</main>
       </div>
+      <OliviaAiHostess locale={locale} />
     </div>
   );
 }

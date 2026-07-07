@@ -1,6 +1,6 @@
 export type PipelineStageStatus = "open" | "won" | "lost";
 
-export type PipelineViewMode = "kanban" | "list";
+export type PipelineViewMode = "kanban" | "list" | "forecast";
 
 export interface PipelineStage {
   id: string;

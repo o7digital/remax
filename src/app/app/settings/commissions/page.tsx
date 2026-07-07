@@ -7,8 +7,8 @@ import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
+import { saveCommissionRule } from "@/lib/remax-app-mutations";
 import { getCommissionRulesData } from "@/lib/remax-app-data";
-import { createAdminClient } from "@/utils/supabase/admin";
 
 const DEAL_KIND_OPTIONS = [
   { value: "global", label: "Global (fallback)" },
@@ -49,46 +49,18 @@ async function saveCommissionRuleAction(formData: FormData) {
 
   const defaultPercent = parsedPercent / 100;
   const dealKind = dealKindInput.toLowerCase() === "global" ? null : dealKindInput.toLowerCase();
-  const admin = createAdminClient();
-
-  const payload = {
-    rule_code: ruleCode.toLowerCase(),
-    name,
-    deal_kind: dealKind,
-    default_percent: defaultPercent,
-    is_active: isActive
-  };
-
-  if (id) {
-    const updateResult = await admin.from("commission_rules").update(payload).eq("id", id);
-
-    if (updateResult.error) {
-      redirect(`/app/settings/commissions?error=${encodeURIComponent(updateResult.error.message)}`);
-    }
-  } else {
-    const existing = await admin
-      .from("commission_rules")
-      .select("id")
-      .eq("rule_code", payload.rule_code)
-      .maybeSingle();
-
-    if (existing.error) {
-      redirect(`/app/settings/commissions?error=${encodeURIComponent(existing.error.message)}`);
-    }
-
-    if (existing.data?.id) {
-      const updateResult = await admin.from("commission_rules").update(payload).eq("id", existing.data.id);
-
-      if (updateResult.error) {
-        redirect(`/app/settings/commissions?error=${encodeURIComponent(updateResult.error.message)}`);
-      }
-    } else {
-      const insertResult = await admin.from("commission_rules").insert(payload);
-
-      if (insertResult.error) {
-        redirect(`/app/settings/commissions?error=${encodeURIComponent(insertResult.error.message)}`);
-      }
-    }
+  try {
+    await saveCommissionRule({
+      id: id || null,
+      ruleCode: ruleCode.toLowerCase(),
+      name,
+      dealKind,
+      defaultPercent,
+      isActive
+    });
+  } catch (error) {
+    console.error("Failed to save commission rule in Railway Postgres", error);
+    redirect("/app/settings/commissions?error=database");
   }
 
   revalidatePath("/app/settings/commissions");
@@ -113,7 +85,7 @@ export default async function SettingsCommissionsPage({
 
       <DataOriginNotice
         title="Fuente real"
-        description="Las tasas se leen desde Supabase en commission_rules. Si una regla no existe para un deal_kind, se aplica fallback tecnico."
+        description="Las tasas se leen desde Railway/Postgres en commission_rules. Si una regla no existe para un deal_kind, se aplica fallback tecnico."
       />
 
       <SectionCard

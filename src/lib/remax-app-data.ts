@@ -3,7 +3,6 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { PipelineDeal, PipelineWorkflow } from "@/lib/pipeline-types";
 import { getPipelineForecast } from "@/lib/pipeline-utils";
-import { createAdminClient } from "@/utils/supabase/admin";
 
 const SUPABASE_BATCH_SIZE = 1000;
 
@@ -63,6 +62,26 @@ export interface ContactDirectoryRecord {
   isPrimary: boolean;
 }
 
+export interface PropertyContactReferenceOption {
+  id: string;
+  propertyKey: string;
+  title: string;
+}
+
+export async function getPropertyContactReferenceData(): Promise<PropertyContactReferenceOption[]> {
+  const rows = await prisma.$queryRaw<Array<{ id: string; property_key: string; title: string | null }>>`
+    SELECT id::text, property_key, title
+    FROM public.properties
+    ORDER BY property_key ASC
+  `;
+
+  return rows.map((row) => ({
+    id: row.id,
+    propertyKey: row.property_key,
+    title: row.title ?? row.property_key
+  }));
+}
+
 export interface MarketingSummary {
   uniqueAudience: number;
   emailableContacts: number;
@@ -101,6 +120,7 @@ type DealRow = {
   property_id: string;
   closed_on: string | null;
   created_at: string;
+  metadata?: { expected_close_date?: string } | null;
 };
 
 type GuardShiftRow = {
@@ -370,6 +390,12 @@ export interface PropertyFormAdvisorOption {
   commissionPercent: number;
 }
 
+export interface PropertyFormAuxiliaryOption {
+  id: string;
+  displayName: string;
+  roleLabel: string;
+}
+
 export interface StaffDirectoryRecord {
   id: string;
   displayName: string;
@@ -472,37 +498,34 @@ const commissionRateByDealKind: Record<string, number> = {
   cancellation: 0.02
 };
 
-function assertData<T>(value: T | null, error: { message: string } | null, label: string): T {
-  if (error) {
-    throw new Error(`Failed to load ${label}: ${error.message}`);
-  }
-
-  if (value === null) {
-    throw new Error(`Missing ${label} data`);
-  }
-
-  return value;
-}
-
 async function fetchAllRows<T>(table: string, selectClause: string): Promise<T[]> {
-  const admin = createAdminClient();
   const rows: T[] = [];
-  let from = 0;
+  let offset = 0;
+
+  // Table names and select clauses are internal constants, never user input.
+  // row_to_json preserves the JSON shapes the former REST client returned:
+  // dates/enums become strings and numeric values become JavaScript numbers.
+  const safeTable = `public.${table}`;
 
   while (true) {
-    const response = await admin
-      .from(table)
-      .select(selectClause)
-      .range(from, from + SUPABASE_BATCH_SIZE - 1);
-
-    const batch = assertData<T[]>(response.data as T[] | null, response.error, table);
+    const result = await prisma.$queryRawUnsafe<Array<{ data: T }>>(
+      `SELECT row_to_json(batch_row) AS data
+       FROM (
+         SELECT ${selectClause}
+         FROM ${safeTable}
+         LIMIT $1 OFFSET $2
+       ) AS batch_row`,
+      SUPABASE_BATCH_SIZE,
+      offset
+    );
+    const batch = result.map((row) => row.data);
     rows.push(...batch);
 
     if (batch.length < SUPABASE_BATCH_SIZE) {
       break;
     }
 
-    from += SUPABASE_BATCH_SIZE;
+    offset += SUPABASE_BATCH_SIZE;
   }
 
   return rows;
@@ -578,24 +601,35 @@ function getLooseContactKey(contact: Pick<PropertyContactRow, "email" | "phone" 
 }
 
 async function fetchPropertiesAndContacts() {
-  const admin = createAdminClient();
-  const [propertiesResponse, contactsResponse] = await Promise.all([
-    admin
-      .from("properties")
-      .select("id, property_key, title, municipality, state, property_status")
-      .range(0, 4000)
-      .order("property_key", { ascending: true }),
-    admin
-      .from("property_contacts")
-      .select("id, property_id, contact_kind, full_name, email, phone, is_primary")
-      .range(0, 4000)
-      .order("full_name", { ascending: true })
+  const [properties, contacts] = await Promise.all([
+    prisma.$queryRaw<PropertyRow[]>`
+      SELECT
+        id::text,
+        property_key,
+        title,
+        municipality,
+        state,
+        property_status::text
+      FROM public.properties
+      ORDER BY property_key ASC
+      LIMIT 4001
+    `,
+    prisma.$queryRaw<PropertyContactRow[]>`
+      SELECT
+        id::text,
+        property_id::text,
+        contact_kind::text,
+        full_name,
+        email,
+        phone,
+        is_primary
+      FROM public.property_contacts
+      ORDER BY full_name ASC
+      LIMIT 4001
+    `
   ]);
 
-  return {
-    properties: assertData<PropertyRow[]>(propertiesResponse.data, propertiesResponse.error, "properties"),
-    contacts: assertData<PropertyContactRow[]>(contactsResponse.data, contactsResponse.error, "property contacts")
-  };
+  return { properties, contacts };
 }
 
 export interface PropertyDirectoryRecord {
@@ -628,32 +662,31 @@ export async function getPropertyDirectoryData(): Promise<{
     created_at: string;
   };
 
-  const admin = createAdminClient();
-  const [propertiesResponse, contactsResponse] = await Promise.all([
-    admin
-      .from("properties")
-      .select(
-        "id, property_key, title, municipality, state, property_status, business_line, operation_type, list_price, currency_code, created_at"
-      )
-      .range(0, 4000)
-      .order("created_at", { ascending: false }),
-    admin
-      .from("property_contacts")
-      .select("property_id, contact_kind")
-      .eq("contact_kind", "owner")
-      .range(0, 4000)
+  const [properties, contacts] = await Promise.all([
+    prisma.$queryRaw<PropertyDirectoryRow[]>`
+      SELECT
+        id::text,
+        property_key,
+        title,
+        municipality,
+        state,
+        property_status::text,
+        business_line::text,
+        operation_type::text,
+        list_price::double precision,
+        currency_code::text,
+        created_at::text
+      FROM public.properties
+      ORDER BY created_at DESC
+      LIMIT 4001
+    `,
+    prisma.$queryRaw<Array<{ property_id: string; contact_kind: string }>>`
+      SELECT property_id::text, contact_kind::text
+      FROM public.property_contacts
+      WHERE contact_kind::text = 'owner'
+      LIMIT 4001
+    `
   ]);
-
-  const properties = assertData<PropertyDirectoryRow[]>(
-    propertiesResponse.data,
-    propertiesResponse.error,
-    "property directory"
-  );
-  const contacts = assertData<Array<{ property_id: string; contact_kind: string }>>(
-    contactsResponse.data,
-    contactsResponse.error,
-    "property owners"
-  );
   const ownerCountByPropertyId = new Map<string, number>();
 
   for (const contact of contacts) {
@@ -1070,7 +1103,7 @@ async function buildCommissionDataset(): Promise<{
     ),
     fetchAllRows<DealRow>(
       "deals",
-      "id, title, deal_kind, status, property_id, closed_on, created_at"
+      "id, title, deal_kind, status, property_id, closed_on, created_at, metadata"
     ),
     fetchAllRows<DealParticipantRow>(
       "deal_participants",
@@ -1220,41 +1253,63 @@ export async function getDashboardData(): Promise<{
   shifts: DashboardShiftRecord[];
   attendance: DashboardAttendanceRecord[];
 }> {
-  const admin = createAdminClient();
-  const [
-    propertiesResponse,
-    staffResponse,
-    dealsResponse,
-    shiftsResponse,
-    attendanceResponse
-  ] = await Promise.all([
-    admin
-      .from("properties")
-      .select("id, property_key, title, municipality, state, property_status")
-      .range(0, 4000),
-    admin
-      .from("staff_members")
-      .select("id, display_name, staff_kind, employment_status, is_guard_eligible, joined_on")
-      .range(0, 1000),
-    admin
-      .from("deals")
-      .select("id, title, deal_kind, status, property_id, closed_on, created_at")
-      .range(0, 3000),
-    admin
-      .from("guard_shifts")
-      .select("id, shift_date, shift_label, shift_status, assigned_staff_member_id")
-      .range(0, 9000),
-    admin
-      .from("attendance_events")
-      .select("id, event_type, event_at, staff_member_id")
-      .range(0, 22000)
+  // The application database is Railway Postgres. Keep these casts explicit so
+  // the records have the same string representation the dashboard expects.
+  const [properties, staff, deals, shifts, attendance] = await Promise.all([
+    prisma.$queryRaw<PropertyRow[]>`
+      SELECT
+        id::text,
+        property_key,
+        title,
+        municipality,
+        state,
+        property_status::text
+      FROM public.properties
+      LIMIT 4001
+    `,
+    prisma.$queryRaw<StaffMemberRow[]>`
+      SELECT
+        id::text,
+        display_name,
+        staff_kind::text,
+        employment_status::text,
+        is_guard_eligible,
+        joined_on::text
+      FROM public.staff_members
+      LIMIT 1001
+    `,
+    prisma.$queryRaw<DealRow[]>`
+      SELECT
+        id::text,
+        title,
+        deal_kind::text,
+        status::text,
+        property_id::text,
+        closed_on::text,
+        created_at::text
+      FROM public.deals
+      LIMIT 3001
+    `,
+    prisma.$queryRaw<GuardShiftRow[]>`
+      SELECT
+        id::text,
+        shift_date::text,
+        shift_label,
+        shift_status::text,
+        assigned_staff_member_id::text
+      FROM public.guard_shifts
+      LIMIT 9001
+    `,
+    prisma.$queryRaw<AttendanceEventRow[]>`
+      SELECT
+        id::text,
+        event_type::text,
+        event_at::text,
+        staff_member_id::text
+      FROM public.attendance_events
+      LIMIT 22001
+    `
   ]);
-
-  const properties = assertData<PropertyRow[]>(propertiesResponse.data, propertiesResponse.error, "dashboard properties");
-  const staff = assertData<StaffMemberRow[]>(staffResponse.data, staffResponse.error, "dashboard staff");
-  const deals = assertData<DealRow[]>(dealsResponse.data, dealsResponse.error, "dashboard deals");
-  const shifts = assertData<GuardShiftRow[]>(shiftsResponse.data, shiftsResponse.error, "dashboard guard shifts");
-  const attendance = assertData<AttendanceEventRow[]>(attendanceResponse.data, attendanceResponse.error, "dashboard attendance");
 
   const propertiesById = new Map(properties.map((property) => [property.id, property]));
   const staffById = new Map(staff.map((member) => [member.id, member]));
@@ -1489,7 +1544,7 @@ export async function getPipelineData(): Promise<{
     ),
     fetchAllRows<DealRow>(
       "deals",
-      "id, title, deal_kind, status, property_id, closed_on, created_at"
+      "id, title, deal_kind, status, property_id, closed_on, created_at, metadata"
     ),
     fetchAllRows<DealParticipantRow>(
       "deal_participants",
@@ -1545,6 +1600,30 @@ export async function getPipelineData(): Promise<{
     ]
   };
 
+  const loadedWorkflows: PipelineWorkflow[] = [workflow];
+  try {
+    const savedWorkflows = await prisma.$queryRaw<Array<{ id: string; name: string; stages: unknown }>>`
+      SELECT id, name, stages FROM public.app_pipeline_workflows
+      ORDER BY updated_at ASC
+    `;
+    for (const saved of savedWorkflows) {
+      if (!Array.isArray(saved.stages) || saved.stages.length === 0) continue;
+      if (saved.id === workflow.id) {
+        workflow.name = saved.name;
+        workflow.stages = saved.stages as PipelineWorkflow["stages"];
+      } else {
+        loadedWorkflows.push({
+          id: saved.id,
+          name: saved.name,
+          description: "Workflow personalizado",
+          stages: saved.stages as PipelineWorkflow["stages"]
+        });
+      }
+    }
+  } catch {
+    // Created lazily on the first workflow save.
+  }
+
   const recentDeals = [...deals]
     .sort((left, right) => compareDateDesc(left.closed_on ?? left.created_at, right.closed_on ?? right.created_at))
     .slice(0, 180);
@@ -1598,7 +1677,7 @@ export async function getPipelineData(): Promise<{
       stage,
       probability: stageConfig.probability,
       status: stageConfig.status,
-      closeDate: deal.closed_on ?? deal.created_at,
+      closeDate: deal.metadata?.expected_close_date ?? deal.closed_on ?? deal.created_at,
       owner,
       aiPulse:
         deal.deal_kind === "cancellation" ||
@@ -1608,7 +1687,7 @@ export async function getPipelineData(): Promise<{
   });
 
   return {
-    workflows: [workflow],
+    workflows: loadedWorkflows,
     deals: pipelineDeals
   };
 }
@@ -1627,10 +1706,24 @@ export async function getStaffDirectoryData(): Promise<{
   summary: StaffDirectorySummary;
   records: StaffDirectoryRecord[];
 }> {
-  const staff = await fetchAllRows<StaffDirectoryRow>(
-    "staff_members",
-    "id, display_name, staff_kind, advisor_class, employment_status, is_guard_eligible, mobile_phone, office_phone, personal_email, work_email, city, state, joined_on, left_on"
-  );
+  const staff = await prisma.$queryRaw<StaffDirectoryRow[]>`
+    SELECT
+      id::text,
+      display_name,
+      staff_kind::text,
+      advisor_class::text,
+      employment_status::text,
+      is_guard_eligible,
+      mobile_phone,
+      office_phone,
+      personal_email,
+      work_email,
+      city,
+      state,
+      joined_on::text,
+      left_on::text
+    FROM public.staff_members
+  `;
 
   const records = [...staff]
     .sort((left, right) => {
@@ -1689,16 +1782,28 @@ function getDefaultAdvisorCommissionPercent(advisorClass: string | null | undefi
 export async function getPropertyFormReferenceData(): Promise<{
   locations: PropertyFormLocationOption[];
   advisors: PropertyFormAdvisorOption[];
+  auxiliaries: PropertyFormAuxiliaryOption[];
 }> {
   const [properties, staff] = await Promise.all([
-    fetchAllRows<Pick<PropertyRow, "municipality" | "state">>("properties", "municipality, state"),
-    fetchAllRows<{
+    prisma.$queryRaw<Array<Pick<PropertyRow, "municipality" | "state">>>`
+      SELECT municipality, state
+      FROM public.properties
+    `,
+    prisma.$queryRaw<Array<{
       id: string;
       display_name: string;
       staff_kind: string;
       advisor_class: string | null;
       employment_status: string;
-    }>("staff_members", "id, display_name, staff_kind, advisor_class, employment_status")
+    }>>`
+      SELECT
+        id::text,
+        display_name,
+        staff_kind::text,
+        advisor_class::text,
+        employment_status::text
+      FROM public.staff_members
+    `
   ]);
 
   const municipalitiesByState = new Map<string, Set<string>>();
@@ -1731,7 +1836,126 @@ export async function getPropertyFormReferenceData(): Promise<{
         displayName: member.display_name,
         advisorClass: member.advisor_class ?? "staff",
         commissionPercent: getDefaultAdvisorCommissionPercent(member.advisor_class)
+      })),
+    auxiliaries: staff
+      .filter((member) => member.employment_status === "active" && member.staff_kind !== "advisor")
+      .sort((left, right) => left.display_name.localeCompare(right.display_name, "es-MX"))
+      .map((member) => ({
+        id: member.id,
+        displayName: member.display_name,
+        roleLabel:
+          member.staff_kind === "admin"
+            ? "Administracion"
+            : member.staff_kind === "manager"
+              ? "Gerencia"
+              : "Recepcion"
       }))
+  };
+}
+
+export interface PropertyDetailData {
+  property: {
+    id: string;
+    propertyKey: string;
+    title: string;
+    description: string | null;
+    status: string;
+    category: string | null;
+    businessLine: string | null;
+    operationType: string | null;
+    location: string;
+    fullAddress: string | null;
+    listPrice: number | null;
+    currencyCode: string;
+    listedOn: string | null;
+  };
+  contacts: Array<{ id: string; kind: string; fullName: string; email: string | null; phone: string | null }>;
+  values: Array<{ id: string; valuedOn: string | null; amount: number | null; currencyCode: string; priceKind: string | null }>;
+  deals: Array<{ id: string; title: string; kind: string; status: string; signedOn: string | null; closedOn: string | null }>;
+  expediente: { receivedOn: string | null; status: string | null; registeredBy: string | null; documents: string[] } | null;
+}
+
+export async function getPropertyDetailData(id: string): Promise<PropertyDetailData | null> {
+  const properties = await prisma.$queryRaw<Array<{
+    id: string;
+    property_key: string;
+    title: string | null;
+    description: string | null;
+    property_status: string;
+    listing_category: string | null;
+    business_line: string | null;
+    operation_type: string | null;
+    municipality: string | null;
+    state: string | null;
+    full_address: string | null;
+    list_price: number | null;
+    currency_code: string;
+    listed_on: string | null;
+  }>>`
+    SELECT id::text, property_key, title, description, property_status::text,
+           listing_category::text, business_line::text, operation_type::text,
+           municipality, state, full_address, list_price::double precision,
+           currency_code, listed_on::text
+    FROM public.properties
+    WHERE id::text = ${id}
+    LIMIT 1
+  `;
+  const property = properties[0];
+
+  if (!property) {
+    return null;
+  }
+
+  const [contacts, values, deals, expedientes] = await Promise.all([
+    prisma.$queryRaw<Array<{ id: string; contact_kind: string; full_name: string; email: string | null; phone: string | null }>>`
+      SELECT id::text, contact_kind::text, full_name, email, phone
+      FROM public.property_contacts
+      WHERE property_id::text = ${id}
+      ORDER BY is_primary DESC, sequence_number ASC NULLS LAST, full_name ASC
+    `,
+    prisma.$queryRaw<Array<{ id: string; valued_on: string | null; price_amount: number | null; currency_code: string; price_kind: string | null }>>`
+      SELECT id::text, valued_on::text, price_amount::double precision, currency_code, price_kind
+      FROM public.property_values
+      WHERE property_id::text = ${id}
+      ORDER BY valued_on DESC NULLS LAST, created_at DESC
+    `,
+    prisma.$queryRaw<Array<{ id: string; title: string; deal_kind: string; status: string; signed_on: string | null; closed_on: string | null }>>`
+      SELECT id::text, title, deal_kind::text, status::text, signed_on::text, closed_on::text
+      FROM public.deals
+      WHERE property_id::text = ${id}
+      ORDER BY created_at DESC
+    `,
+    prisma.$queryRaw<Array<{ received_on: string | null; expediente_status: string | null; registered_by: string | null; included_documents: string[] }>>`
+      SELECT received_on::text, expediente_status, registered_by, included_documents
+      FROM public.property_alta_expedientes
+      WHERE property_id::text = ${id}
+      LIMIT 1
+    `
+  ]);
+  const expediente = expedientes[0];
+
+  return {
+    property: {
+      id: property.id,
+      propertyKey: property.property_key,
+      title: property.title ?? property.property_key,
+      description: property.description,
+      status: property.property_status,
+      category: property.listing_category,
+      businessLine: property.business_line,
+      operationType: property.operation_type,
+      location: getLocation(property),
+      fullAddress: property.full_address,
+      listPrice: property.list_price,
+      currencyCode: property.currency_code,
+      listedOn: property.listed_on
+    },
+    contacts: contacts.map((contact) => ({ id: contact.id, kind: contact.contact_kind, fullName: contact.full_name, email: contact.email, phone: contact.phone })),
+    values: values.map((value) => ({ id: value.id, valuedOn: value.valued_on, amount: value.price_amount, currencyCode: value.currency_code, priceKind: value.price_kind })),
+    deals: deals.map((deal) => ({ id: deal.id, title: deal.title, kind: deal.deal_kind, status: deal.status, signedOn: deal.signed_on, closedOn: deal.closed_on })),
+    expediente: expediente
+      ? { receivedOn: expediente.received_on, status: expediente.expediente_status, registeredBy: expediente.registered_by, documents: expediente.included_documents }
+      : null
   };
 }
 

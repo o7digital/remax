@@ -21,20 +21,21 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
       title: txt("Operations"),
       items: [
         { label: txt("Dashboard"), href: "/app/dashboard", module: "dashboard" },
+        { label: txt("User Guide"), href: "/app/user-guide", frozen: true },
         { label: txt("Propiedades"), href: "/app/properties", module: "properties" },
         { label: txt("Clients"), href: "/app/clients", module: "clients" },
         { label: txt("Contacts"), href: "/app/contacts", module: "contacts" },
         { label: txt("Encuestas"), href: "/app/surveys", module: "surveys" },
-        { label: txt("Marketing"), href: "/app/marketing", module: "marketing" },
+        { label: txt("Marketing"), href: "/app/marketing", module: "marketing", frozen: true },
         { label: txt("Comisiones"), href: "/app/commissions", module: "commissions" },
         { label: txt("Reporting"), href: "/app/reporting", module: "reporting" },
         { label: txt("Forecast"), href: "/app/forecast", module: "forecast" },
-        { label: txt("Guardias"), href: "/app/guards", module: "guards" },
+        { label: txt("Guardias"), href: "/app/guards", module: "guards", frozen: true },
         { label: txt("Tasks"), href: "/app/tasks", module: "tasks" },
         { label: txt("Pipeline"), href: "/app/pipeline", module: "pipeline" },
         { label: txt("Quotes"), href: "/app/quotes", module: "quotes" },
         { label: txt("Orders"), href: "/app/orders", module: "orders" },
-        { label: txt("Invoices"), href: "/app/invoices", module: "invoices" },
+        { label: txt("Invoices"), href: "/app/invoices", module: "invoices", frozen: true },
         { label: txt("Payments"), href: "/app/payments", module: "payments" },
         { label: txt("Documents"), href: "/app/documents", module: "documents" },
         { label: txt("Contracts"), href: "/app/contracts", module: "contracts" }
@@ -47,11 +48,11 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
         { label: txt("IA Search"), href: "/app/settings/ia-search", module: "settings_ia_search" },
         { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
         { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
-        { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles" },
+        { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles", frozen: true },
         { label: txt("Security"), href: "/app/settings/security", module: "settings_security" },
         { label: txt("Company"), href: "/app/settings/company", module: "settings_company" },
         { label: txt("Billing"), href: "/app/settings/billing", module: "settings_billing" },
-        { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance" }
+        { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance", frozen: true }
       ]
     }
   ];
@@ -67,7 +68,9 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
         .filter((item) => !item.module || allowedModules.has(item.module) || FROZEN_NAV_MODULES.has(item.module))
         .map((item) => ({
           ...item,
-          frozen: Boolean(item.module && !allowedModules.has(item.module) && FROZEN_NAV_MODULES.has(item.module))
+          frozen:
+            item.frozen ||
+            Boolean(item.module && !allowedModules.has(item.module) && FROZEN_NAV_MODULES.has(item.module))
         }))
     }))
     .filter((section) => section.items.length > 0);
@@ -80,11 +83,11 @@ export function getSettingsLinks(txt: Translator, allowedModules?: Set<AppModule
     { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
     { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
     { label: txt("Commissions"), href: "/app/settings/commissions", module: "settings_commissions" },
-    { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles" },
+    { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles", frozen: true },
     { label: txt("Security"), href: "/app/settings/security", module: "settings_security" },
     { label: txt("Company"), href: "/app/settings/company", module: "settings_company" },
     { label: txt("Billing"), href: "/app/settings/billing", module: "settings_billing" },
-    { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance" },
+    { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance", frozen: true },
     { label: txt("Tax identities"), href: "/app/settings/tax-identities", module: "settings_tax_identities" },
     { label: txt("Invoice series"), href: "/app/settings/invoice-series", module: "settings_invoice_series" }
   ];

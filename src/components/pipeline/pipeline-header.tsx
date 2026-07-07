@@ -1,11 +1,10 @@
-import Link from "next/link";
-
 import type { PipelineViewMode, PipelineWorkflow } from "@/lib/pipeline-types";
 
 export function PipelineHeader({
   pipelines,
   selectedPipelineId,
   viewMode,
+  onViewModeChange,
   onPipelineChange,
   onOpenManageWorkflow,
   onOpenNewWorkflow,
@@ -14,6 +13,7 @@ export function PipelineHeader({
   pipelines: PipelineWorkflow[];
   selectedPipelineId: string;
   viewMode: PipelineViewMode;
+  onViewModeChange: (viewMode: PipelineViewMode) => void;
   onPipelineChange: (pipelineId: string) => void;
   onOpenManageWorkflow: () => void;
   onOpenNewWorkflow: () => void;
@@ -45,9 +45,6 @@ export function PipelineHeader({
         </div>
 
         <div className="pipeline-action-row">
-          <Link href="/app/forecast" className="pipeline-secondary-button">
-            Forecast
-          </Link>
           <button type="button" className="pipeline-secondary-button" onClick={onOpenManageWorkflow}>
             Gestionar workflow
           </button>
@@ -59,13 +56,21 @@ export function PipelineHeader({
           </button>
         </div>
 
-        <div className="pipeline-view-toggle" aria-label="Vista disponible">
-          <button type="button" className={viewMode === "kanban" ? "pipeline-view-button active" : "pipeline-view-button"}>
-            Kanban
-          </button>
-          <button type="button" className="pipeline-view-button" disabled>
-            Lista pronto
-          </button>
+        <div className="pipeline-view-toggle" aria-label="Vista del pipeline">
+          {([
+            ["kanban", "Kanban"],
+            ["list", "Lista"],
+            ["forecast", "Forecast"]
+          ] as const).map(([mode, label]) => (
+            <button
+              key={mode}
+              type="button"
+              className={viewMode === mode ? "pipeline-view-button active" : "pipeline-view-button"}
+              onClick={() => onViewModeChange(mode)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
     </section>
