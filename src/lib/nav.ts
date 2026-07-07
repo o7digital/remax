@@ -21,16 +21,16 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
       title: txt("Operations"),
       items: [
         { label: txt("Dashboard"), href: "/app/dashboard", module: "dashboard" },
-        { label: txt("User Guide"), href: "/app/user-guide" },
+        { label: txt("User Guide"), href: "/app/user-guide", frozen: true },
         { label: txt("Propiedades"), href: "/app/properties", module: "properties" },
         { label: txt("Clients"), href: "/app/clients", module: "clients" },
         { label: txt("Contacts"), href: "/app/contacts", module: "contacts" },
         { label: txt("Encuestas"), href: "/app/surveys", module: "surveys" },
-        { label: txt("Marketing"), href: "/app/marketing", module: "marketing" },
+        { label: txt("Marketing"), href: "/app/marketing", module: "marketing", frozen: true },
         { label: txt("Comisiones"), href: "/app/commissions", module: "commissions" },
         { label: txt("Reporting"), href: "/app/reporting", module: "reporting" },
         { label: txt("Forecast"), href: "/app/forecast", module: "forecast" },
-        { label: txt("Guardias"), href: "/app/guards", module: "guards" },
+        { label: txt("Guardias"), href: "/app/guards", module: "guards", frozen: true },
         { label: txt("Tasks"), href: "/app/tasks", module: "tasks" },
         { label: txt("Pipeline"), href: "/app/pipeline", module: "pipeline" },
         { label: txt("Quotes"), href: "/app/quotes", module: "quotes" },
@@ -68,7 +68,9 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
         .filter((item) => !item.module || allowedModules.has(item.module) || FROZEN_NAV_MODULES.has(item.module))
         .map((item) => ({
           ...item,
-          frozen: Boolean(item.module && !allowedModules.has(item.module) && FROZEN_NAV_MODULES.has(item.module))
+          frozen:
+            item.frozen ||
+            Boolean(item.module && !allowedModules.has(item.module) && FROZEN_NAV_MODULES.has(item.module))
         }))
     }))
     .filter((section) => section.items.length > 0);

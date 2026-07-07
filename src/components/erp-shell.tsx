@@ -114,7 +114,7 @@ export function ErpShell({
             <div className="remax-nav-links">
               {section.items.map((item) =>
                 item.frozen ? (
-                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title="Frozen para pruebas">
+                  <span key={item.href} className="remax-nav-link frozen" aria-disabled="true" title="Modulo no disponible">
                     {item.label}
                   </span>
                 ) : (
