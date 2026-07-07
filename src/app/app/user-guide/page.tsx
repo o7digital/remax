@@ -2,32 +2,54 @@ import Link from "next/link";
 
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
+import { UserGuidePromptButton } from "@/components/user-guide-prompt-button";
 
 const guideSections = [
   {
     title: "Panel",
     description: "Resumen ejecutivo de propiedades, operaciones, asesores, staff, guardias y asistencia.",
-    actions: ["Revisar indicadores", "Entrar a clientes o propiedades", "Confirmar importaciones desde Access"]
+    actions: [
+      { label: "Revisar indicadores", href: "/app/dashboard" },
+      { label: "Entrar a clientes", href: "/app/clients" },
+      { label: "Revisar propiedades", href: "/app/properties" }
+    ]
   },
   {
     title: "F-Asesores / F-Staff",
     description: "Alta y seguimiento de asesores internos y miembros del staff con formato similar al Access original.",
-    actions: ["Crear asesor", "Completar datos fiscales", "Registrar informacion personal", "Definir estatus REMAX"]
+    actions: [
+      { label: "Crear asesor", href: "/app/settings/staff-records#nuevo-f-asesores" },
+      { label: "Completar datos fiscales", href: "/app/settings/staff-records" },
+      { label: "Registrar informacion personal", href: "/app/settings/staff-records" },
+      { label: "Definir estatus REMAX", href: "/app/settings/staff-records" }
+    ]
   },
   {
     title: "Propiedades y clientes",
     description: "Gestion operativa de inventario, propietarios, clientes y seguimiento comercial.",
-    actions: ["Buscar registros", "Actualizar estado", "Revisar datos relacionados"]
+    actions: [
+      { label: "Buscar propiedades", href: "/app/properties" },
+      { label: "Revisar clientes", href: "/app/clients" },
+      { label: "Revisar contactos", href: "/app/contacts" }
+    ]
   },
   {
     title: "Facturacion y cumplimiento",
     description: "Configuracion de datos fiscales, series, proveedores y paises para facturacion electronica.",
-    actions: ["Validar empresa", "Revisar cumplimiento Mexico/Francia", "Preparar facturacion"]
+    actions: [
+      { label: "Validar empresa", href: "/app/settings/company" },
+      { label: "Revisar cumplimiento Mexico/Francia", href: "/app/settings/compliance" },
+      { label: "Preparar facturacion", href: "/app/invoices" }
+    ]
   },
   {
     title: "Usuarios y roles",
     description: "Control de accesos por perfil para que cada usuario vea solo las funciones necesarias.",
-    actions: ["Revisar usuario", "Asignar rol", "Validar permisos"]
+    actions: [
+      { label: "Revisar usuarios", href: "/app/settings/users" },
+      { label: "Revisar roles", href: "/app/settings/roles" },
+      { label: "Validar seguridad", href: "/app/settings/security" }
+    ]
   }
 ];
 
@@ -55,18 +77,18 @@ export default function UserGuidePage() {
           <div className="guide-callout">
             <strong>Soporte contextual</strong>
             <p>
-              Olivia recibe el contexto de la ruta actual para orientar al usuario sobre el modulo abierto. Tambien puede escalar a revision humana desde el inbox del channel manager.
+              Olivia recibe el contexto de la ruta actual para orientar al usuario sobre el modulo abierto. Tambien puedes abrir el chat en una ventana independiente.
             </p>
           </div>
-          <Link href="https://suitesmine-bot.vercel.app/inbox" className="button button-secondary" target="_blank">
-            Abrir channel manager
+          <Link href="https://suitesmine-bot.vercel.app" className="button button-secondary" target="_blank" rel="noreferrer">
+            Abrir Olivia en una ventana
           </Link>
         </SectionCard>
 
         <SectionCard title="Preguntas rapidas" description="Ideas de preguntas para empezar con Olivia AI.">
           <div className="guide-prompt-list">
             {quickPrompts.map((prompt) => (
-              <span key={prompt}>{prompt}</span>
+              <UserGuidePromptButton key={prompt} prompt={prompt} />
             ))}
           </div>
         </SectionCard>
@@ -77,7 +99,9 @@ export default function UserGuidePage() {
           <SectionCard key={section.title} title={section.title} description={section.description}>
             <ul className="guide-action-list">
               {section.actions.map((action) => (
-                <li key={action}>{action}</li>
+                <li key={action.href + action.label}>
+                  <Link href={action.href}>{action.label}</Link>
+                </li>
               ))}
             </ul>
           </SectionCard>

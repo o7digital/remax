@@ -2767,13 +2767,20 @@ textarea {
   gap: 10px;
 }
 
-.guide-prompt-list span {
+.guide-prompt-list button {
   padding: 9px 12px;
   border: 1px solid #c8d4e3;
   border-radius: 999px;
   background: #f7faff;
   color: #274162;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.guide-prompt-list button:hover,
+.guide-prompt-list button:focus-visible {
+  border-color: #82a6d3;
+  background: #eaf2fc;
 }
 
 .guide-action-list {
@@ -2782,6 +2789,17 @@ textarea {
   margin: 0;
   padding-left: 18px;
   color: #63758b;
+}
+
+.guide-action-list a {
+  color: #274162;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.guide-action-list a:hover,
+.guide-action-list a:focus-visible {
+  color: #0f55a6;
 }
 
 @media (max-width: 1180px) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { DemoLocale } from "@/lib/demo-locale";
 
@@ -38,9 +38,21 @@ const quickHelp = [
 
 export function OliviaAiHostess({ locale }: { locale: DemoLocale }) {
   const [open, setOpen] = useState(false);
+  const [prompt, setPrompt] = useState("");
   const pathname = usePathname();
   const copy = copyByLocale[locale] ?? copyByLocale.es;
-  const iframeSrc = `${oliviaUrl}?embed=1&source=remax&context=${encodeURIComponent(pathname)}&lang=${locale}`;
+  const iframeSrc = `${oliviaUrl}?embed=1&source=remax&context=${encodeURIComponent(pathname)}&lang=${locale}${prompt ? `&prompt=${encodeURIComponent(prompt)}` : ""}`;
+
+  useEffect(() => {
+    function handleOpenOlivia(event: Event) {
+      const detail = (event as CustomEvent<{ prompt?: string }>).detail;
+      setPrompt(detail?.prompt ?? "");
+      setOpen(true);
+    }
+
+    window.addEventListener("remax:open-olivia", handleOpenOlivia);
+    return () => window.removeEventListener("remax:open-olivia", handleOpenOlivia);
+  }, []);
 
   return (
     <div className="olivia-hostess" aria-live="polite">
