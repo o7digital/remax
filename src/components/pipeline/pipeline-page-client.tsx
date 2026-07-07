@@ -9,7 +9,7 @@ import { PipelineHeader } from "@/components/pipeline/pipeline-header";
 import { PipelineStats } from "@/components/pipeline/pipeline-stats";
 import { formatCurrency, formatDate } from "@/lib/formatters";
 import { filterPipelineDeals, formatCurrencyTotals, getCurrencyTotals, getPipelineColumns, getPipelineSummary, getStageStatusLabel } from "@/lib/pipeline-utils";
-import type { PipelineDeal, PipelineFilters, PipelineViewMode, PipelineWorkflow } from "@/lib/pipeline-types";
+import type { PipelineDeal, PipelineFilters, PipelineStage, PipelineStageStatus, PipelineViewMode, PipelineWorkflow } from "@/lib/pipeline-types";
 
 type PipelineDialogState =
   | { type: "new-deal"; stageId?: string }
@@ -29,13 +29,20 @@ export function PipelinePageClient({
   workflows,
   deals,
   initialViewMode = "kanban",
-  onMoveForecastDeal
+  onMoveForecastDeal,
+  onSaveWorkflow,
+  onCreateWorkflow,
+  onDeleteWorkflow
 }: {
   workflows: PipelineWorkflow[];
   deals: PipelineDeal[];
   initialViewMode?: PipelineViewMode;
   onMoveForecastDeal: (dealId: string, closeDate: string) => Promise<void>;
+  onSaveWorkflow: (workflowId: string, name: string, stages: PipelineStage[]) => Promise<{ name: string; stages: PipelineStage[] }>;
+  onCreateWorkflow: (name: string, stages: PipelineStage[]) => Promise<PipelineWorkflow>;
+  onDeleteWorkflow: (workflowId: string) => Promise<void>;
 }) {
+  const [activeWorkflows, setActiveWorkflows] = useState(workflows);
   const [selectedPipelineId, setSelectedPipelineId] = useState(workflows[0]?.id ?? "");
   const [filters, setFilters] = useState<PipelineFilters>(defaultFilters);
   const [dialogState, setDialogState] = useState<PipelineDialogState>(null);
@@ -46,8 +53,13 @@ export function PipelinePageClient({
   const [forecastYear, setForecastYear] = useState(availableYears[0] ?? new Date().getFullYear());
   const [forecastSavingId, setForecastSavingId] = useState<string | null>(null);
   const [forecastError, setForecastError] = useState("");
+  const [workflowName, setWorkflowName] = useState(workflows[0]?.name ?? "");
+  const [workflowStages, setWorkflowStages] = useState<PipelineStage[]>(workflows[0]?.stages ?? []);
+  const [workflowSaving, setWorkflowSaving] = useState(false);
+  const [workflowError, setWorkflowError] = useState("");
+  const [draggedStageId, setDraggedStageId] = useState<string | null>(null);
 
-  const selectedWorkflow = workflows.find((workflow) => workflow.id === selectedPipelineId) ?? workflows[0];
+  const selectedWorkflow = activeWorkflows.find((workflow) => workflow.id === selectedPipelineId) ?? activeWorkflows[0];
   const workflowDeals = boardDeals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
   const filteredDeals = filterPipelineDeals(workflowDeals, filters);
   const columns = getPipelineColumns(selectedWorkflow.stages, filteredDeals);
@@ -93,6 +105,129 @@ export function PipelinePageClient({
   useEffect(() => {
     setBoardDeals(deals);
   }, [deals]);
+
+  useEffect(() => {
+    setActiveWorkflows(workflows);
+  }, [workflows]);
+
+  function openWorkflowEditor() {
+    setWorkflowName(selectedWorkflow.name);
+    setWorkflowStages(selectedWorkflow.stages.map((stage) => ({ ...stage })));
+    setWorkflowError("");
+    setDialogState({ type: "manage-workflow" });
+  }
+
+  function openNewWorkflowEditor() {
+    setWorkflowName("Nuevo workflow");
+    setWorkflowStages([
+      { id: `stage-${crypto.randomUUID()}`, name: "Nuevo lead", probability: 10, status: "open", position: 0 },
+      { id: `stage-${crypto.randomUUID()}`, name: "Ganado", probability: 100, status: "won", position: 1 },
+      { id: `stage-${crypto.randomUUID()}`, name: "Perdido", probability: 0, status: "lost", position: 2 }
+    ]);
+    setWorkflowError("");
+    setDialogState({ type: "new-workflow" });
+  }
+
+  function addWorkflowStage() {
+    setWorkflowStages((current) => [
+      ...current,
+      {
+        id: `stage-${crypto.randomUUID()}`,
+        name: `Etapa ${current.length + 1}`,
+        probability: 0,
+        status: "open",
+        position: current.length
+      }
+    ]);
+  }
+
+  function removeWorkflowStage(stageId: string) {
+    setWorkflowStages((current) =>
+      current.filter((stage) => stage.id !== stageId).map((stage, position) => ({ ...stage, position }))
+    );
+  }
+
+  function updateWorkflowStage(stageId: string, changes: Partial<PipelineStage>) {
+    setWorkflowStages((current) => current.map((stage) => stage.id === stageId ? { ...stage, ...changes } : stage));
+  }
+
+  function moveWorkflowStage(targetStageId: string) {
+    if (!draggedStageId || draggedStageId === targetStageId) return;
+    setWorkflowStages((current) => {
+      const sourceIndex = current.findIndex((stage) => stage.id === draggedStageId);
+      const targetIndex = current.findIndex((stage) => stage.id === targetStageId);
+      if (sourceIndex < 0 || targetIndex < 0) return current;
+      const next = [...current];
+      const [moved] = next.splice(sourceIndex, 1);
+      next.splice(targetIndex, 0, moved);
+      return next.map((stage, position) => ({ ...stage, position }));
+    });
+    setDraggedStageId(null);
+  }
+
+  async function persistWorkflow() {
+    if (!workflowName.trim() || workflowStages.some((stage) => !stage.name.trim())) {
+      setWorkflowError("El nombre del workflow y todas las etapas son obligatorios.");
+      return;
+    }
+    setWorkflowSaving(true);
+    setWorkflowError("");
+    try {
+      const saved = await onSaveWorkflow(selectedWorkflow.id, workflowName, workflowStages);
+      const nextWorkflow = { ...selectedWorkflow, name: saved.name, stages: saved.stages };
+      setActiveWorkflows((current) => current.map((workflow) => workflow.id === selectedWorkflow.id ? nextWorkflow : workflow));
+      setBoardDeals((current) => current.map((deal) => {
+        if (deal.pipelineId !== selectedWorkflow.id) return deal;
+        const stage = saved.stages.find((item) => item.id === deal.stage) ?? saved.stages[0];
+        return { ...deal, stage: stage.id, probability: stage.probability, status: stage.status };
+      }));
+      setDialogState(null);
+    } catch (error) {
+      console.error("Failed to save workflow", error);
+      setWorkflowError("No se pudo guardar el workflow en Railway. Intenta de nuevo.");
+    } finally {
+      setWorkflowSaving(false);
+    }
+  }
+
+  async function createWorkflow() {
+    if (!workflowName.trim() || workflowStages.length === 0 || workflowStages.some((stage) => !stage.name.trim())) {
+      setWorkflowError("El nombre del workflow y al menos una etapa son obligatorios.");
+      return;
+    }
+    setWorkflowSaving(true);
+    setWorkflowError("");
+    try {
+      const created = await onCreateWorkflow(workflowName, workflowStages);
+      setActiveWorkflows((current) => [...current, created]);
+      setSelectedPipelineId(created.id);
+      setDialogState(null);
+    } catch (error) {
+      console.error("Failed to create workflow", error);
+      setWorkflowError("No se pudo crear el workflow en Railway. Intenta de nuevo.");
+    } finally {
+      setWorkflowSaving(false);
+    }
+  }
+
+  async function deleteWorkflow() {
+    if (selectedWorkflow.id === "real-operations") return;
+    if (!window.confirm(`¿Eliminar el workflow “${selectedWorkflow.name}”?`)) return;
+    setWorkflowSaving(true);
+    setWorkflowError("");
+    try {
+      await onDeleteWorkflow(selectedWorkflow.id);
+      const remaining = activeWorkflows.filter((workflow) => workflow.id !== selectedWorkflow.id);
+      setActiveWorkflows(remaining);
+      setSelectedPipelineId(remaining[0]?.id ?? "");
+      setDialogState(null);
+    } catch (error) {
+      console.error("Failed to delete workflow", error);
+      setWorkflowError("No se pudo eliminar el workflow.");
+    } finally {
+      setWorkflowSaving(false);
+    }
+  }
 
   function moveDealToStage(dealId: string, stageId: string) {
     const targetStage = selectedWorkflow.stages.find((stage) => stage.id === stageId);
@@ -185,13 +320,13 @@ export function PipelinePageClient({
   return (
     <div className="page-stack pipeline-page">
       <PipelineHeader
-        pipelines={workflows}
+        pipelines={activeWorkflows}
         selectedPipelineId={selectedPipelineId}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         onPipelineChange={setSelectedPipelineId}
-        onOpenManageWorkflow={() => setDialogState({ type: "manage-workflow" })}
-        onOpenNewWorkflow={() => setDialogState({ type: "new-workflow" })}
+        onOpenManageWorkflow={openWorkflowEditor}
+        onOpenNewWorkflow={openNewWorkflowEditor}
         onOpenNewDeal={() => setDialogState({ type: "new-deal" })}
       />
 
@@ -405,37 +540,46 @@ export function PipelinePageClient({
         <PipelineDialog
           eyebrow="Workflow"
           title="Gestionar workflow"
-          description="Editor operativo del workflow actual. La persistencia en base llega en la siguiente iteracion."
+          description="Edita, ordena y guarda las etapas del workflow en Railway/Postgres."
           onClose={() => setDialogState(null)}
         >
-          <div className="pipeline-dialog-grid">
-            <div className="pipeline-dialog-card">
-              <span>Workflow actual</span>
-              <strong>{selectedWorkflow.name}</strong>
+          <div className="workflow-editor">
+            <label className="field">
+              <span>Nombre del workflow</span>
+              <input value={workflowName} onChange={(event) => setWorkflowName(event.target.value)} maxLength={120} />
+            </label>
+            <div className="workflow-editor-heading">
+              <div><strong>Etapas</strong><p>Arrastra una fila para cambiar su posición.</p></div>
+              <button type="button" className="button button-secondary" onClick={() => setWorkflowStages((current) => [...current, { id: `stage-${crypto.randomUUID()}`, name: "Nueva etapa", probability: 0, status: "open", position: current.length }])}>+ Etapa</button>
             </div>
-            <div className="pipeline-dialog-card">
-              <span>Etapas activas</span>
-              <strong>{selectedWorkflow.stages.length}</strong>
+            <div className="workflow-stage-list">
+              {workflowStages.map((stage) => (
+                <div key={stage.id} className="workflow-stage-row" draggable onDragStart={() => setDraggedStageId(stage.id)} onDragOver={(event) => event.preventDefault()} onDrop={() => moveWorkflowStage(stage.id)}>
+                  <span className="workflow-drag-handle" title="Arrastrar">⠿</span>
+                  <input aria-label="Nombre de etapa" value={stage.name} onChange={(event) => updateWorkflowStage(stage.id, { name: event.target.value })} />
+                  <select aria-label="Estado de etapa" value={stage.status} onChange={(event) => updateWorkflowStage(stage.id, { status: event.target.value as PipelineStageStatus })}>
+                    <option value="open">Abierto</option>
+                    <option value="won">Ganado</option>
+                    <option value="lost">Perdido</option>
+                  </select>
+                  <label className="workflow-probability"><input aria-label="Probabilidad" type="number" min="0" max="100" value={stage.probability} onChange={(event) => updateWorkflowStage(stage.id, { probability: Number(event.target.value) })} /><span>%</span></label>
+                  <button type="button" className="workflow-delete-stage" aria-label={`Eliminar ${stage.name}`} disabled={workflowStages.length === 1} onClick={() => setWorkflowStages((current) => current.filter((item) => item.id !== stage.id).map((item, position) => ({ ...item, position })))}>×</button>
+                </div>
+              ))}
             </div>
-            <div className="pipeline-dialog-card pipeline-dialog-card-wide">
-              <span>Forecast</span>
-              <strong>
-                <Link href="/app/forecast" className="pipeline-text-button">
-                  Abrir forecast del workflow
-                </Link>
-              </strong>
-            </div>
-            {selectedWorkflow.stages.map((stage) => (
-              <div key={stage.id} className="pipeline-dialog-card">
-                <span>{stage.name}</span>
-                <strong>
-                  {getStageStatusLabel(stage.status)} · {stage.probability}%
-                </strong>
+            {workflowError ? <p className="form-error" role="alert">{workflowError}</p> : null}
+            <div className="workflow-editor-actions">
+              <div>
+                {selectedWorkflow.id === "real-operations" ? (
+                  <Link href="/app/forecast" className="button button-secondary">Abrir forecast</Link>
+                ) : (
+                  <button type="button" className="button workflow-delete-button" disabled={workflowSaving} onClick={() => void deleteWorkflow()}>Eliminar workflow</button>
+                )}
               </div>
-            ))}
-            <div className="pipeline-dialog-card pipeline-dialog-card-wide">
-              <span>Movimiento manual</span>
-              <strong>Ya puedes mover deals entre columnas con la souris / drag and drop en el kanban.</strong>
+              <div className="inline-stack">
+                <button type="button" className="button button-secondary" onClick={() => setDialogState(null)}>Cancelar</button>
+                <button type="button" className="button" disabled={workflowSaving} onClick={() => void persistWorkflow()}>{workflowSaving ? "Guardando…" : "Guardar"}</button>
+              </div>
             </div>
           </div>
         </PipelineDialog>
@@ -445,22 +589,28 @@ export function PipelinePageClient({
         <PipelineDialog
           eyebrow="Nuevo workflow"
           title="Crear workflow"
-          description="La vista ya está preparada para sumar Kanban y futura vista Lista sin cambiar la arquitectura."
+          description="Crea un pipeline independiente con sus propias etapas, estados y probabilidades."
           onClose={() => setDialogState(null)}
         >
-          <div className="pipeline-dialog-grid">
-            <div className="pipeline-dialog-card">
-              <span>Base prevista</span>
-              <strong>Nombre, etapas, probabilidades, estado</strong>
+          <div className="workflow-editor">
+            <label className="field"><span>Nombre del workflow</span><input value={workflowName} onChange={(event) => setWorkflowName(event.target.value)} maxLength={120} /></label>
+            <div className="workflow-editor-heading">
+              <div><strong>Etapas</strong><p>Arrastra una fila para cambiar su posición.</p></div>
+              <button type="button" className="button button-secondary" onClick={addWorkflowStage}>+ Etapa</button>
             </div>
-            <div className="pipeline-dialog-card">
-              <span>Vista inicial</span>
-              <strong>Kanban principal</strong>
+            <div className="workflow-stage-list">
+              {workflowStages.map((stage) => (
+                <div key={stage.id} className="workflow-stage-row" draggable onDragStart={() => setDraggedStageId(stage.id)} onDragOver={(event) => event.preventDefault()} onDrop={() => moveWorkflowStage(stage.id)}>
+                  <span className="workflow-drag-handle" title="Arrastrar">⠿</span>
+                  <input aria-label="Nombre de etapa" value={stage.name} onChange={(event) => updateWorkflowStage(stage.id, { name: event.target.value })} />
+                  <select aria-label="Estado de etapa" value={stage.status} onChange={(event) => updateWorkflowStage(stage.id, { status: event.target.value as PipelineStageStatus })}><option value="open">Abierto</option><option value="won">Ganado</option><option value="lost">Perdido</option></select>
+                  <label className="workflow-probability"><input aria-label="Probabilidad" type="number" min="0" max="100" value={stage.probability} onChange={(event) => updateWorkflowStage(stage.id, { probability: Number(event.target.value) })} /><span>%</span></label>
+                  <button type="button" className="workflow-delete-stage" aria-label={`Eliminar ${stage.name}`} disabled={workflowStages.length === 1} onClick={() => removeWorkflowStage(stage.id)}>×</button>
+                </div>
+              ))}
             </div>
-            <div className="pipeline-dialog-card pipeline-dialog-card-wide">
-              <span>Disponibilidad</span>
-              <strong>Próximamente se conecta la creación real de workflows reutilizando este layout.</strong>
-            </div>
+            {workflowError ? <p className="form-error" role="alert">{workflowError}</p> : null}
+            <div className="workflow-editor-actions"><span /><div className="inline-stack"><button type="button" className="button button-secondary" onClick={() => setDialogState(null)}>Cancelar</button><button type="button" className="button" disabled={workflowSaving} onClick={() => void createWorkflow()}>{workflowSaving ? "Creando…" : "Crear workflow"}</button></div></div>
           </div>
         </PipelineDialog>
       ) : null}

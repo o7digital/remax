@@ -1844,6 +1844,93 @@ textarea {
   text-transform: uppercase;
 }
 
+.workflow-editor {
+  display: grid;
+  gap: 20px;
+}
+
+.workflow-editor-heading,
+.workflow-editor-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.workflow-editor-heading p {
+  margin: 4px 0 0;
+  color: #64748b;
+}
+
+.workflow-stage-list {
+  display: grid;
+  gap: 10px;
+  max-height: 48vh;
+  overflow-y: auto;
+}
+
+.workflow-stage-row {
+  display: grid;
+  grid-template-columns: 36px minmax(180px, 1fr) minmax(130px, 0.55fr) 120px 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #d8e1ee;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.workflow-drag-handle {
+  cursor: grab;
+  color: #7185a0;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.workflow-probability {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.workflow-delete-stage,
+.workflow-delete-button {
+  border-color: rgba(220, 38, 38, 0.3) !important;
+  background: rgba(220, 38, 38, 0.08) !important;
+  color: #b91c1c !important;
+}
+
+.workflow-delete-stage {
+  width: 42px;
+  height: 42px;
+  border: 1px solid;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.workflow-delete-stage:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+@media (max-width: 820px) {
+  .workflow-stage-row {
+    grid-template-columns: 32px 1fr 42px;
+  }
+
+  .workflow-stage-row select,
+  .workflow-stage-row .workflow-probability {
+    grid-column: 2 / -1;
+  }
+
+  .workflow-editor-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 .color-mode-toggle {
   width: 44px;
   min-width: 44px;
@@ -1876,6 +1963,69 @@ textarea {
   background-color: #1d2b43;
   color: #edf4ff;
   border-color: rgba(148, 163, 184, 0.28);
+}
+
+.workflow-editor,
+.workflow-stage-list {
+  display: grid;
+  gap: 14px;
+}
+
+.workflow-editor-heading,
+.workflow-editor-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.workflow-editor-heading p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.workflow-stage-row {
+  display: grid;
+  grid-template-columns: 40px minmax(180px, 1fr) minmax(130px, 0.45fr) 120px 46px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(119, 145, 184, 0.06);
+}
+
+.workflow-drag-handle {
+  cursor: grab;
+  text-align: center;
+  font-size: 1.35rem;
+  color: var(--muted);
+}
+
+.workflow-probability {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.workflow-probability input { min-width: 0; }
+
+.workflow-delete-stage {
+  min-height: 42px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 10px;
+  color: #b91c1c;
+  background: rgba(220, 38, 38, 0.08);
+  font-size: 1.2rem;
+}
+
+.workflow-editor-actions { justify-content: flex-end; }
+
+@media (max-width: 760px) {
+  .workflow-stage-row { grid-template-columns: 32px 1fr 44px; }
+  .workflow-stage-row select,
+  .workflow-stage-row .workflow-probability { grid-column: 2 / 3; }
+  .workflow-editor-actions { flex-wrap: wrap; }
 }
 
 .app-remax-shell .remax-side-note {

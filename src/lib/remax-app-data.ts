@@ -1600,6 +1600,30 @@ export async function getPipelineData(): Promise<{
     ]
   };
 
+  const loadedWorkflows: PipelineWorkflow[] = [workflow];
+  try {
+    const savedWorkflows = await prisma.$queryRaw<Array<{ id: string; name: string; stages: unknown }>>`
+      SELECT id, name, stages FROM public.app_pipeline_workflows
+      ORDER BY updated_at ASC
+    `;
+    for (const saved of savedWorkflows) {
+      if (!Array.isArray(saved.stages) || saved.stages.length === 0) continue;
+      if (saved.id === workflow.id) {
+        workflow.name = saved.name;
+        workflow.stages = saved.stages as PipelineWorkflow["stages"];
+      } else {
+        loadedWorkflows.push({
+          id: saved.id,
+          name: saved.name,
+          description: "Workflow personalizado",
+          stages: saved.stages as PipelineWorkflow["stages"]
+        });
+      }
+    }
+  } catch {
+    // Created lazily on the first workflow save.
+  }
+
   const recentDeals = [...deals]
     .sort((left, right) => compareDateDesc(left.closed_on ?? left.created_at, right.closed_on ?? right.created_at))
     .slice(0, 180);
@@ -1663,7 +1687,7 @@ export async function getPipelineData(): Promise<{
   });
 
   return {
-    workflows: [workflow],
+    workflows: loadedWorkflows,
     deals: pipelineDeals
   };
 }
