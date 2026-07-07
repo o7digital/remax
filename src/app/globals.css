@@ -17,6 +17,126 @@
   --radius: 22px;
 }
 
+/* Dark mode is applied last so the light REMAX skin cannot override contrast. */
+.app-remax-shell.color-mode-dark {
+  --remax-text: #f1f5fb;
+  --remax-muted: #a9b8cd;
+  --remax-line: rgba(148, 163, 184, 0.24);
+  --panel: #142137;
+  --text: #f1f5fb;
+  --muted: #a9b8cd;
+  --line: rgba(148, 163, 184, 0.24);
+}
+
+.app-remax-shell.color-mode-dark .app-remax-main,
+.app-remax-shell.color-mode-dark .app-remax-content,
+.app-remax-shell.color-mode-dark .app-remax-subbar {
+  background: #0b1628;
+  color: #f1f5fb;
+}
+
+.app-remax-shell.color-mode-dark .app-remax-toolbar,
+.app-remax-shell.color-mode-dark .card,
+.app-remax-shell.color-mode-dark .stat-card,
+.app-remax-shell.color-mode-dark .summary-block,
+.app-remax-shell.color-mode-dark .security-banner,
+.app-remax-shell.color-mode-dark .security-card,
+.app-remax-shell.color-mode-dark .security-panel,
+.app-remax-shell.color-mode-dark .list-item,
+.app-remax-shell.color-mode-dark .timeline-item,
+.app-remax-shell.color-mode-dark .info-item,
+.app-remax-shell.color-mode-dark .pipeline-toolbar,
+.app-remax-shell.color-mode-dark .pipeline-stat,
+.app-remax-shell.color-mode-dark .pipeline-forecast-view,
+.app-remax-shell.color-mode-dark .pipeline-forecast-month,
+.app-remax-shell.color-mode-dark .pipeline-list-view,
+.app-remax-shell.color-mode-dark .pipeline-dialog,
+.app-remax-shell.color-mode-dark .pipeline-dialog-card,
+.app-remax-shell.color-mode-dark .workflow-stage-row {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: #142137;
+  color: #f1f5fb;
+  box-shadow: none;
+}
+
+.app-remax-shell.color-mode-dark h1,
+.app-remax-shell.color-mode-dark h2,
+.app-remax-shell.color-mode-dark h3,
+.app-remax-shell.color-mode-dark strong,
+.app-remax-shell.color-mode-dark .stat-value,
+.app-remax-shell.color-mode-dark .page-title,
+.app-remax-shell.color-mode-dark .app-remax-subbar strong,
+.app-remax-shell.color-mode-dark .remax-toolbar-meta strong {
+  color: #f8fafc;
+}
+
+.app-remax-shell.color-mode-dark p,
+.app-remax-shell.color-mode-dark .page-description,
+.app-remax-shell.color-mode-dark .stat-label,
+.app-remax-shell.color-mode-dark .stat-detail,
+.app-remax-shell.color-mode-dark .muted,
+.app-remax-shell.color-mode-dark .helper-text,
+.app-remax-shell.color-mode-dark .field-label,
+.app-remax-shell.color-mode-dark .app-remax-subbar span,
+.app-remax-shell.color-mode-dark .remax-toolbar-copy,
+.app-remax-shell.color-mode-dark .remax-toolbar-meta p {
+  color: #a9b8cd;
+}
+
+.app-remax-shell.color-mode-dark .table-wrap,
+.app-remax-shell.color-mode-dark .data-table,
+.app-remax-shell.color-mode-dark .data-table th,
+.app-remax-shell.color-mode-dark .data-table td {
+  border-color: rgba(148, 163, 184, 0.2);
+  background: #111e32;
+  color: #e8eef7;
+}
+
+.app-remax-shell.color-mode-dark .data-table th {
+  background: #1a2940;
+  color: #9fb0c8;
+}
+
+.app-remax-shell.color-mode-dark .data-table tbody tr:hover td {
+  background: #1b2b43;
+}
+
+.app-remax-shell.color-mode-dark input,
+.app-remax-shell.color-mode-dark select,
+.app-remax-shell.color-mode-dark textarea,
+.app-remax-shell.color-mode-dark .field input,
+.app-remax-shell.color-mode-dark .field select,
+.app-remax-shell.color-mode-dark .field textarea {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: #0e1b2e;
+  color: #f1f5fb;
+  box-shadow: none;
+}
+
+.app-remax-shell.color-mode-dark .button:not(.frozen-quick-access),
+.app-remax-shell.color-mode-dark .table-link,
+.app-remax-shell.color-mode-dark .pipeline-filter-pill,
+.app-remax-shell.color-mode-dark .badge {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: #1c2c45;
+  color: #e8eef7;
+  box-shadow: none;
+}
+
+.app-remax-shell.color-mode-dark .button:hover:not(:disabled),
+.app-remax-shell.color-mode-dark .table-link:hover,
+.app-remax-shell.color-mode-dark .pipeline-filter-pill:hover,
+.app-remax-shell.color-mode-dark .pipeline-filter-pill.active {
+  border-color: #78a7e8;
+  background: #29466d;
+  color: #ffffff;
+}
+
+.app-remax-shell.color-mode-dark .color-mode-toggle {
+  background: #f5f8fc;
+  color: #13223a;
+}
+
 * {
   box-sizing: border-box;
 }
