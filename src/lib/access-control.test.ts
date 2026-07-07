@@ -9,11 +9,14 @@ describe("access-control", () => {
 
   it("assigns the manager to the client admin role", () => {
     expect(getRoleForEmail("christopher.suarez@remax-activa.com.mx")).toBe("client_admin");
+    expect(getRoleForEmail("pedro.leyva@remax-activa.com.mx")).toBe("client_admin");
+    expect(getRoleForEmail("brendac0101@gmail.com")).toBe("client_admin");
+    expect(getRoleForEmail("brenda.aguilar@remax-activa.com.mx")).toBe("client_admin");
   });
 
   it("assigns REMAX Activa users and other authenticated users to asesor by default", () => {
     expect(getRoleForEmail("inventario@remax-activa.com.mx")).toBe("asesor");
-    expect(getRoleForEmail("brenda@remax-activa.com.mx")).toBe("asesor");
+    expect(getRoleForEmail("asesor@remax-activa.com.mx")).toBe("asesor");
     expect(getRoleForEmail("guest@example.com")).toBe("asesor");
   });
 

@@ -90,7 +90,10 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
 const ROLE_BY_EMAIL: Record<string, AppRole> = {
   "olivier.steineur@gmail.com": "super_admin",
   "oliviersteineur@gmail.com": "super_admin",
-  "christopher.suarez@remax-activa.com.mx": "client_admin"
+  "christopher.suarez@remax-activa.com.mx": "client_admin",
+  "pedro.leyva@remax-activa.com.mx": "client_admin",
+  "brendac0101@gmail.com": "client_admin",
+  "brenda.aguilar@remax-activa.com.mx": "client_admin"
 };
 
 const ROLE_BY_EMAIL_DOMAIN: Record<string, AppRole> = {
