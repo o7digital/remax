@@ -1823,6 +1823,61 @@ textarea {
   text-transform: uppercase;
 }
 
+.app-remax-shell .subnav-link.frozen,
+.app-remax-shell .frozen-quick-access {
+  cursor: not-allowed;
+  border-color: rgba(245, 158, 11, 0.34);
+  background: rgba(245, 158, 11, 0.09);
+  color: #b77908;
+  font-style: italic;
+  pointer-events: none;
+}
+
+.app-remax-shell .subnav-link.frozen::after {
+  content: "Próximamente";
+  margin-left: 8px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.16);
+  color: #a96300;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+}
+
+.color-mode-toggle {
+  width: 44px;
+  min-width: 44px;
+  padding-inline: 0;
+  font-size: 1.2rem;
+}
+
+.app-remax-shell.color-mode-dark .remax-main,
+.app-remax-shell.color-mode-dark .app-remax-content,
+.app-remax-shell.color-mode-dark .app-remax-subbar {
+  background: #0d1728;
+  color: #e7eef9;
+}
+
+.app-remax-shell.color-mode-dark .remax-toolbar,
+.app-remax-shell.color-mode-dark .card,
+.app-remax-shell.color-mode-dark .pipeline-toolbar,
+.app-remax-shell.color-mode-dark .pipeline-stat,
+.app-remax-shell.color-mode-dark .pipeline-forecast-board,
+.app-remax-shell.color-mode-dark .pipeline-dialog {
+  background: #142137;
+  color: #e7eef9;
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+.app-remax-shell.color-mode-dark input,
+.app-remax-shell.color-mode-dark select,
+.app-remax-shell.color-mode-dark textarea,
+.app-remax-shell.color-mode-dark .button {
+  background-color: #1d2b43;
+  color: #edf4ff;
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
 .app-remax-shell .remax-side-note {
   display: grid;
   gap: 8px;

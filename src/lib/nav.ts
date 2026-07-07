@@ -35,7 +35,7 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
         { label: txt("Pipeline"), href: "/app/pipeline", module: "pipeline" },
         { label: txt("Quotes"), href: "/app/quotes", module: "quotes" },
         { label: txt("Orders"), href: "/app/orders", module: "orders" },
-        { label: txt("Invoices"), href: "/app/invoices", module: "invoices" },
+        { label: txt("Invoices"), href: "/app/invoices", module: "invoices", frozen: true },
         { label: txt("Payments"), href: "/app/payments", module: "payments" },
         { label: txt("Documents"), href: "/app/documents", module: "documents" },
         { label: txt("Contracts"), href: "/app/contracts", module: "contracts" }
@@ -48,11 +48,11 @@ export function getNavigationSections(txt: Translator, allowedModules?: Set<AppM
         { label: txt("IA Search"), href: "/app/settings/ia-search", module: "settings_ia_search" },
         { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
         { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
-        { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles" },
+        { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles", frozen: true },
         { label: txt("Security"), href: "/app/settings/security", module: "settings_security" },
         { label: txt("Company"), href: "/app/settings/company", module: "settings_company" },
         { label: txt("Billing"), href: "/app/settings/billing", module: "settings_billing" },
-        { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance" }
+        { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance", frozen: true }
       ]
     }
   ];
@@ -83,11 +83,11 @@ export function getSettingsLinks(txt: Translator, allowedModules?: Set<AppModule
     { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
     { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
     { label: txt("Commissions"), href: "/app/settings/commissions", module: "settings_commissions" },
-    { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles" },
+    { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles", frozen: true },
     { label: txt("Security"), href: "/app/settings/security", module: "settings_security" },
     { label: txt("Company"), href: "/app/settings/company", module: "settings_company" },
     { label: txt("Billing"), href: "/app/settings/billing", module: "settings_billing" },
-    { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance" },
+    { label: txt("Compliance"), href: "/app/settings/compliance", module: "settings_compliance", frozen: true },
     { label: txt("Tax identities"), href: "/app/settings/tax-identities", module: "settings_tax_identities" },
     { label: txt("Invoice series"), href: "/app/settings/invoice-series", module: "settings_invoice_series" }
   ];
