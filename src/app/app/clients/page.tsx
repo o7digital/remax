@@ -17,7 +17,7 @@ export default async function ClientsPage() {
       <PageHeader
         title={txt("Clients")}
         description={txt(
-          "Propietarios y compradores reales consolidados desde la base Access migrada a Supabase."
+          "Propietarios y compradores reales consolidados desde la base Access migrada a Railway/Postgres."
         )}
       />
 
