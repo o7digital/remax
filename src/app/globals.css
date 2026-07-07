@@ -3478,19 +3478,6 @@ textarea {
   color: #f2bd55;
 }
 
-.language-switcher-static {
-  width: auto;
-  min-width: 52px;
-  padding: 4px;
-}
-
-.language-switcher-static .language-button {
-  display: grid;
-  min-width: 42px;
-  place-items: center;
-  cursor: default;
-}
-
 @media print {
   :root {
     color-scheme: light;

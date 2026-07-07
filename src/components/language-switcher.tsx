@@ -1,9 +1,35 @@
-import type { DemoLocale } from "@/lib/demo-locale";
+"use client";
 
-export function LanguageSwitcher({ locale: _locale }: { locale: DemoLocale }) {
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+
+import { DEMO_LOCALE_COOKIE_NAME, demoLocaleOptions, type DemoLocale } from "@/lib/demo-locale";
+
+const supportedLocales = demoLocaleOptions.filter((option) => option.value === "es" || option.value === "en");
+
+export function LanguageSwitcher({ locale }: { locale: DemoLocale }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  function setLocale(nextLocale: DemoLocale) {
+    if (nextLocale === locale) return;
+    document.cookie = `${DEMO_LOCALE_COOKIE_NAME}=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+    startTransition(() => router.refresh());
+  }
+
   return (
-    <div className="language-switcher language-switcher-static" aria-label="Idioma de la aplicación: español">
-      <span className="language-button active">ES</span>
+    <div className="language-switcher" aria-label="Idioma de la aplicación">
+      {supportedLocales.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          className={option.value === locale ? "language-button active" : "language-button"}
+          onClick={() => setLocale(option.value)}
+          disabled={isPending}
+        >
+          {option.shortLabel}
+        </button>
+      ))}
     </div>
   );
 }
