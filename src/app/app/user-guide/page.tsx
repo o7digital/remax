@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
-import { UserGuidePromptButton } from "@/components/user-guide-prompt-button";
 import { getDemoI18n } from "@/lib/server-i18n";
 
 const chapters = [
@@ -85,14 +84,6 @@ const chapters = [
   }
 ];
 
-const quickPrompts = [
-  "¿Cómo creo una propiedad?",
-  "¿Cómo muevo una operación en el pipeline?",
-  "¿Cómo creo un workflow?",
-  "¿Dónde reviso los asesores?",
-  "¿Qué hago si una página no muestra datos?"
-];
-
 export default async function UserGuidePage() {
   const { txt } = await getDemoI18n();
   return (
@@ -133,9 +124,6 @@ export default async function UserGuidePage() {
       ))}
 
       <div className="two-columns">
-        <SectionCard title={txt("Ayuda con Olivia AI")} description={txt("Pregunta sobre la pantalla actual desde el botón flotante inferior.")}>
-          <div className="guide-prompt-list">{quickPrompts.map((prompt) => <UserGuidePromptButton key={prompt} prompt={txt(prompt)} />)}</div>
-        </SectionCard>
         <SectionCard title={txt("Módulos disponibles")} description={txt("Accesos operativos más utilizados.")}>
           <div className="user-guide-module-links">
             <Link href="/app/settings/staff-records">F-Asesores / F-Staff</Link>

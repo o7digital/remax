@@ -274,8 +274,6 @@ const translations: Record<DemoLocale, Record<string, string>> = {
     "Abrir Pipeline": "Open Pipeline",
     "Gestionar workflows": "Manage workflows",
     "Abrir Forecast": "Open Forecast",
-    "Ayuda con Olivia AI": "Help with Olivia AI",
-    "Pregunta sobre la pantalla actual desde el botón flotante inferior.": "Ask about the current screen using the floating button below.",
     "Módulos disponibles": "Available modules",
     "Accesos operativos más utilizados.": "Most-used operational shortcuts.",
     Contactos: "Contacts",
