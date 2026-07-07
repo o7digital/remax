@@ -3443,6 +3443,54 @@ textarea {
   }
 }
 
+/* Final dark-theme overrides: keep these after the complete REMAX light skin. */
+.app-remax-shell.color-mode-dark .page-header h1,
+.app-remax-shell.color-mode-dark .page-header h2,
+.app-remax-shell.color-mode-dark .page-header .page-title {
+  color: #f8fafc;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.app-remax-shell.color-mode-dark .page-header .eyebrow {
+  color: #7eb2f2;
+}
+
+.app-remax-shell.color-mode-dark .page-header .page-description {
+  color: #b7c6d9;
+}
+
+.app-remax-shell.color-mode-dark .user-guide-chapter,
+.app-remax-shell.color-mode-dark .user-guide-module-links a {
+  border-color: rgba(148, 163, 184, 0.25);
+  background: #142137;
+  color: #eef4fc;
+}
+
+.app-remax-shell.color-mode-dark .user-guide-chapter-header h2,
+.app-remax-shell.color-mode-dark .user-guide-instructions h3,
+.app-remax-shell.color-mode-dark .user-guide-instructions li {
+  color: #eef4fc;
+}
+
+.app-remax-shell.color-mode-dark .frozen-quick-access {
+  border-color: rgba(245, 158, 11, 0.38);
+  background: rgba(245, 158, 11, 0.12);
+  color: #f2bd55;
+}
+
+.language-switcher-static {
+  width: auto;
+  min-width: 52px;
+  padding: 4px;
+}
+
+.language-switcher-static .language-button {
+  display: grid;
+  min-width: 42px;
+  place-items: center;
+  cursor: default;
+}
+
 @media print {
   :root {
     color-scheme: light;
