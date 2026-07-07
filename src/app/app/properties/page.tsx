@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -190,7 +191,16 @@ export default async function PropertiesPage({
               align: "right",
               render: (row) => row.listPrice ? formatCurrency(row.listPrice, row.currencyCode, "es-MX") : "Sin precio"
             },
-            { key: "owners", label: "Propietarios", align: "right", render: (row) => row.ownerCount }
+            { key: "owners", label: "Propietarios", align: "right", render: (row) => row.ownerCount },
+            {
+              key: "detail",
+              label: "Detalle",
+              render: (row) => (
+                <Link href={`/app/properties/${row.id}`} className="button button-secondary">
+                  Ver detalle
+                </Link>
+              )
+            }
           ]}
         />
       </SectionCard>
@@ -203,6 +213,7 @@ export default async function PropertiesPage({
           action={createPropertyAction}
           locations={formReferences.locations}
           advisors={formReferences.advisors}
+          auxiliaries={formReferences.auxiliaries}
         />
       </SectionCard>
     </div>

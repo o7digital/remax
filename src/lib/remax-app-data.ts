@@ -369,6 +369,12 @@ export interface PropertyFormAdvisorOption {
   commissionPercent: number;
 }
 
+export interface PropertyFormAuxiliaryOption {
+  id: string;
+  displayName: string;
+  roleLabel: string;
+}
+
 export interface StaffDirectoryRecord {
   id: string;
   displayName: string;
@@ -1731,6 +1737,7 @@ function getDefaultAdvisorCommissionPercent(advisorClass: string | null | undefi
 export async function getPropertyFormReferenceData(): Promise<{
   locations: PropertyFormLocationOption[];
   advisors: PropertyFormAdvisorOption[];
+  auxiliaries: PropertyFormAuxiliaryOption[];
 }> {
   const [properties, staff] = await Promise.all([
     prisma.$queryRaw<Array<Pick<PropertyRow, "municipality" | "state">>>`
@@ -1784,7 +1791,126 @@ export async function getPropertyFormReferenceData(): Promise<{
         displayName: member.display_name,
         advisorClass: member.advisor_class ?? "staff",
         commissionPercent: getDefaultAdvisorCommissionPercent(member.advisor_class)
+      })),
+    auxiliaries: staff
+      .filter((member) => member.employment_status === "active" && member.staff_kind !== "advisor")
+      .sort((left, right) => left.display_name.localeCompare(right.display_name, "es-MX"))
+      .map((member) => ({
+        id: member.id,
+        displayName: member.display_name,
+        roleLabel:
+          member.staff_kind === "admin"
+            ? "Administracion"
+            : member.staff_kind === "manager"
+              ? "Gerencia"
+              : "Recepcion"
       }))
+  };
+}
+
+export interface PropertyDetailData {
+  property: {
+    id: string;
+    propertyKey: string;
+    title: string;
+    description: string | null;
+    status: string;
+    category: string | null;
+    businessLine: string | null;
+    operationType: string | null;
+    location: string;
+    fullAddress: string | null;
+    listPrice: number | null;
+    currencyCode: string;
+    listedOn: string | null;
+  };
+  contacts: Array<{ id: string; kind: string; fullName: string; email: string | null; phone: string | null }>;
+  values: Array<{ id: string; valuedOn: string | null; amount: number | null; currencyCode: string; priceKind: string | null }>;
+  deals: Array<{ id: string; title: string; kind: string; status: string; signedOn: string | null; closedOn: string | null }>;
+  expediente: { receivedOn: string | null; status: string | null; registeredBy: string | null; documents: string[] } | null;
+}
+
+export async function getPropertyDetailData(id: string): Promise<PropertyDetailData | null> {
+  const properties = await prisma.$queryRaw<Array<{
+    id: string;
+    property_key: string;
+    title: string | null;
+    description: string | null;
+    property_status: string;
+    listing_category: string | null;
+    business_line: string | null;
+    operation_type: string | null;
+    municipality: string | null;
+    state: string | null;
+    full_address: string | null;
+    list_price: number | null;
+    currency_code: string;
+    listed_on: string | null;
+  }>>`
+    SELECT id::text, property_key, title, description, property_status::text,
+           listing_category::text, business_line::text, operation_type::text,
+           municipality, state, full_address, list_price::double precision,
+           currency_code, listed_on::text
+    FROM public.properties
+    WHERE id::text = ${id}
+    LIMIT 1
+  `;
+  const property = properties[0];
+
+  if (!property) {
+    return null;
+  }
+
+  const [contacts, values, deals, expedientes] = await Promise.all([
+    prisma.$queryRaw<Array<{ id: string; contact_kind: string; full_name: string; email: string | null; phone: string | null }>>`
+      SELECT id::text, contact_kind::text, full_name, email, phone
+      FROM public.property_contacts
+      WHERE property_id::text = ${id}
+      ORDER BY is_primary DESC, sequence_number ASC NULLS LAST, full_name ASC
+    `,
+    prisma.$queryRaw<Array<{ id: string; valued_on: string | null; price_amount: number | null; currency_code: string; price_kind: string | null }>>`
+      SELECT id::text, valued_on::text, price_amount::double precision, currency_code, price_kind
+      FROM public.property_values
+      WHERE property_id::text = ${id}
+      ORDER BY valued_on DESC NULLS LAST, created_at DESC
+    `,
+    prisma.$queryRaw<Array<{ id: string; title: string; deal_kind: string; status: string; signed_on: string | null; closed_on: string | null }>>`
+      SELECT id::text, title, deal_kind::text, status::text, signed_on::text, closed_on::text
+      FROM public.deals
+      WHERE property_id::text = ${id}
+      ORDER BY created_at DESC
+    `,
+    prisma.$queryRaw<Array<{ received_on: string | null; expediente_status: string | null; registered_by: string | null; included_documents: string[] }>>`
+      SELECT received_on::text, expediente_status, registered_by, included_documents
+      FROM public.property_alta_expedientes
+      WHERE property_id::text = ${id}
+      LIMIT 1
+    `
+  ]);
+  const expediente = expedientes[0];
+
+  return {
+    property: {
+      id: property.id,
+      propertyKey: property.property_key,
+      title: property.title ?? property.property_key,
+      description: property.description,
+      status: property.property_status,
+      category: property.listing_category,
+      businessLine: property.business_line,
+      operationType: property.operation_type,
+      location: getLocation(property),
+      fullAddress: property.full_address,
+      listPrice: property.list_price,
+      currencyCode: property.currency_code,
+      listedOn: property.listed_on
+    },
+    contacts: contacts.map((contact) => ({ id: contact.id, kind: contact.contact_kind, fullName: contact.full_name, email: contact.email, phone: contact.phone })),
+    values: values.map((value) => ({ id: value.id, valuedOn: value.valued_on, amount: value.price_amount, currencyCode: value.currency_code, priceKind: value.price_kind })),
+    deals: deals.map((deal) => ({ id: deal.id, title: deal.title, kind: deal.deal_kind, status: deal.status, signedOn: deal.signed_on, closedOn: deal.closed_on })),
+    expediente: expediente
+      ? { receivedOn: expediente.received_on, status: expediente.expediente_status, registeredBy: expediente.registered_by, documents: expediente.included_documents }
+      : null
   };
 }
 

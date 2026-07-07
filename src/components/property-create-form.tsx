@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from "react";
 
-import type { PropertyFormAdvisorOption, PropertyFormLocationOption } from "@/lib/remax-app-data";
+import type {
+  PropertyFormAdvisorOption,
+  PropertyFormAuxiliaryOption,
+  PropertyFormLocationOption
+} from "@/lib/remax-app-data";
 
 const STATUS_OPTIONS = [
   { value: "draft", label: "Borrador" },
@@ -50,11 +54,13 @@ const DOCUMENT_OPTIONS = [
 export function PropertyCreateForm({
   action,
   locations,
-  advisors
+  advisors,
+  auxiliaries
 }: {
   action: (formData: FormData) => void | Promise<void>;
   locations: PropertyFormLocationOption[];
   advisors: PropertyFormAdvisorOption[];
+  auxiliaries: PropertyFormAuxiliaryOption[];
 }) {
   const [selectedState, setSelectedState] = useState(locations[0]?.state ?? "");
   const [selectedAdvisorId, setSelectedAdvisorId] = useState("");
@@ -123,7 +129,14 @@ export function PropertyCreateForm({
       </label>
       <label className="field">
         <span className="field-label">Registra alta</span>
-        <input name="registeredBy" placeholder="Auxiliar administrativo" />
+        <select name="registeredBy" defaultValue="">
+          <option value="">Seleccionar auxiliar</option>
+          {auxiliaries.map((auxiliary) => (
+            <option key={auxiliary.id} value={auxiliary.displayName}>
+              {auxiliary.displayName} · {auxiliary.roleLabel}
+            </option>
+          ))}
+        </select>
       </label>
       <div className="field field-full">
         <span className="field-label">Documentos incluidos</span>
