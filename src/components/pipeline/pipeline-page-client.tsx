@@ -8,8 +8,8 @@ import { PipelineDialog } from "@/components/pipeline/pipeline-dialog";
 import { PipelineHeader } from "@/components/pipeline/pipeline-header";
 import { PipelineStats } from "@/components/pipeline/pipeline-stats";
 import { formatCurrency, formatDate } from "@/lib/formatters";
-import { filterPipelineDeals, getPipelineColumns, getPipelineSummary, getStageStatusLabel } from "@/lib/pipeline-utils";
-import type { PipelineDeal, PipelineFilters, PipelineWorkflow } from "@/lib/pipeline-types";
+import { filterPipelineDeals, formatCurrencyTotals, getCurrencyTotals, getPipelineColumns, getPipelineSummary, getStageStatusLabel } from "@/lib/pipeline-utils";
+import type { PipelineDeal, PipelineFilters, PipelineViewMode, PipelineWorkflow } from "@/lib/pipeline-types";
 
 type PipelineDialogState =
   | { type: "new-deal"; stageId?: string }
@@ -27,16 +27,21 @@ const defaultFilters: PipelineFilters = {
 
 export function PipelinePageClient({
   workflows,
-  deals
+  deals,
+  initialViewMode = "kanban"
 }: {
   workflows: PipelineWorkflow[];
   deals: PipelineDeal[];
+  initialViewMode?: PipelineViewMode;
 }) {
   const [selectedPipelineId, setSelectedPipelineId] = useState(workflows[0]?.id ?? "");
   const [filters, setFilters] = useState<PipelineFilters>(defaultFilters);
   const [dialogState, setDialogState] = useState<PipelineDialogState>(null);
   const [boardDeals, setBoardDeals] = useState<PipelineDeal[]>(deals);
   const [draggingDealId, setDraggingDealId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<PipelineViewMode>(initialViewMode);
+  const availableYears = [...new Set(deals.map((deal) => new Date(deal.closeDate).getFullYear()).filter(Number.isFinite))].sort((a, b) => b - a);
+  const [forecastYear, setForecastYear] = useState(availableYears[0] ?? new Date().getFullYear());
 
   const selectedWorkflow = workflows.find((workflow) => workflow.id === selectedPipelineId) ?? workflows[0];
   const workflowDeals = boardDeals.filter((deal) => deal.pipelineId === selectedWorkflow.id);
@@ -46,6 +51,15 @@ export function PipelinePageClient({
   const owners = [...new Set(workflowDeals.map((deal) => deal.owner))].sort((left, right) => left.localeCompare(right));
   const hasActiveFilters =
     filters.query.trim().length > 0 || filters.owner !== "all" || filters.status !== "all" || filters.aiOnly;
+  const openForecastDeals = filteredDeals.filter((deal) => deal.status === "open");
+  const monthlyForecast = Array.from({ length: 12 }, (_, month) => {
+    const monthDeals = openForecastDeals.filter((deal) => {
+      const date = new Date(deal.closeDate);
+      return date.getFullYear() === forecastYear && date.getMonth() === month;
+    });
+    return { month, deals: monthDeals, totals: getCurrencyTotals(monthDeals) };
+  });
+  const outsideForecastYear = openForecastDeals.filter((deal) => new Date(deal.closeDate).getFullYear() !== forecastYear);
 
   useEffect(() => {
     if (!dialogState) {
@@ -145,7 +159,8 @@ export function PipelinePageClient({
       <PipelineHeader
         pipelines={workflows}
         selectedPipelineId={selectedPipelineId}
-        viewMode="kanban"
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
         onPipelineChange={setSelectedPipelineId}
         onOpenManageWorkflow={() => setDialogState({ type: "manage-workflow" })}
         onOpenNewWorkflow={() => setDialogState({ type: "new-workflow" })}
@@ -246,17 +261,66 @@ export function PipelinePageClient({
       <div className="pipeline-summary-row">
         <span>Operaciones abiertas: {summary.openLeads}</span>
         <span>Total operaciones: {summary.totalLeads}</span>
-        <span>{filteredDeals.length} visibles en Kanban</span>
+        <span>{filteredDeals.length} visibles en {viewMode === "kanban" ? "Kanban" : viewMode === "list" ? "Lista" : "Forecast"}</span>
       </div>
 
-      <KanbanBoard
-        columns={columns}
-        onOpenDeal={(deal) => setDialogState({ type: "deal", deal })}
-        onAddDeal={(stageId) => setDialogState({ type: "new-deal", stageId })}
-        onMoveDeal={moveDealToStage}
-        draggingDealId={draggingDealId}
-        onDragStartDeal={setDraggingDealId}
-      />
+      {viewMode === "kanban" ? (
+        <KanbanBoard
+          columns={columns}
+          onOpenDeal={(deal) => setDialogState({ type: "deal", deal })}
+          onAddDeal={(stageId) => setDialogState({ type: "new-deal", stageId })}
+          onMoveDeal={moveDealToStage}
+          draggingDealId={draggingDealId}
+          onDragStartDeal={setDraggingDealId}
+        />
+      ) : null}
+
+      {viewMode === "list" ? (
+        <section className="pipeline-list-view">
+          <table className="data-table">
+            <thead><tr><th>Operacion</th><th>Cliente</th><th>Etapa</th><th>Estado</th><th>Owner</th><th className="align-right">Valor</th><th>Cierre</th></tr></thead>
+            <tbody>
+              {filteredDeals.map((deal) => (
+                <tr key={deal.id} onClick={() => setDialogState({ type: "deal", deal })} className="pipeline-list-row">
+                  <td><strong>{deal.title}</strong><div className="muted">{deal.propertyKey ?? "Sin propiedad"}</div></td>
+                  <td>{deal.client || "Sin cliente"}</td>
+                  <td>{selectedWorkflow.stages.find((stage) => stage.id === deal.stage)?.name ?? deal.stage}</td>
+                  <td>{getStageStatusLabel(deal.status)}</td>
+                  <td>{deal.owner || "Sin owner"}</td>
+                  <td className="align-right">{formatCurrency(deal.amount, deal.currency, "es-MX")}</td>
+                  <td>{formatDate(deal.closeDate, "es-MX")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      ) : null}
+
+      {viewMode === "forecast" ? (
+        <section className="pipeline-forecast-view">
+          <div className="pipeline-forecast-heading">
+            <div><strong>Forecast mensual por fecha de cierre</strong><p className="muted">{openForecastDeals.length} operaciones abiertas · {outsideForecastYear.length} fuera de {forecastYear}</p></div>
+            <label className="pipeline-select-wrap"><span>Año</span><select className="pipeline-select" value={forecastYear} onChange={(event) => setForecastYear(Number(event.target.value))}>{availableYears.map((year) => <option key={year} value={year}>{year}</option>)}</select></label>
+          </div>
+          <div className="pipeline-forecast-scroll">
+            {monthlyForecast.map(({ month, deals: monthDeals, totals }) => (
+              <article key={`${forecastYear}-${month}`} className="pipeline-forecast-month">
+                <p className="pipeline-hero-eyebrow">{new Intl.DateTimeFormat("es-MX", { month: "long" }).format(new Date(forecastYear, month, 1))}</p>
+                <strong>{monthDeals.length} deals</strong>
+                <span>{formatCurrencyTotals(totals, "es-MX")}</span>
+                <div className="pipeline-forecast-cards">
+                  {monthDeals.map((deal) => (
+                    <button key={deal.id} type="button" onClick={() => setDialogState({ type: "deal", deal })}>
+                      <strong>{deal.title}</strong><span>{deal.client || "Sin cliente"}</span><span>{formatCurrency(deal.amount, deal.currency, "es-MX")}</span>
+                    </button>
+                  ))}
+                  {monthDeals.length === 0 ? <p className="muted">Sin operaciones</p> : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {dialogState?.type === "new-deal" ? (
         <PipelineDialog
