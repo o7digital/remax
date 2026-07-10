@@ -89,16 +89,15 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
 
 const ROLE_BY_EMAIL: Record<string, AppRole> = {
   "olivier.steineur@gmail.com": "super_admin",
-  "oliviersteineur@gmail.com": "super_admin",
   "christopher.suarez@remax-activa.com.mx": "client_admin",
   "pedro.leyva@remax-activa.com.mx": "client_admin",
   "brendac0101@gmail.com": "client_admin",
   "brenda.aguilar@remax-activa.com.mx": "client_admin"
 };
 
-const ROLE_BY_EMAIL_DOMAIN: Record<string, AppRole> = {
-  "remax-activa.com.mx": "asesor"
-};
+export const MAX_AUTHORIZED_USERS = 5;
+
+export const AUTHORIZED_USER_EMAILS = Object.freeze(Object.keys(ROLE_BY_EMAIL));
 
 const DEFAULT_AUTHENTICATED_ROLE: AppRole = "asesor";
 
@@ -141,9 +140,16 @@ export function getRoleForEmail(email: string | null | undefined): AppRole {
   }
 
   const normalizedEmail = email.trim().toLowerCase();
-  const domain = normalizedEmail.split("@")[1];
 
-  return ROLE_BY_EMAIL[normalizedEmail] ?? ROLE_BY_EMAIL_DOMAIN[domain] ?? DEFAULT_AUTHENTICATED_ROLE;
+  return ROLE_BY_EMAIL[normalizedEmail] ?? DEFAULT_AUTHENTICATED_ROLE;
+}
+
+export function canEmailAccessApp(email: string | null | undefined): boolean {
+  if (!email) {
+    return false;
+  }
+
+  return AUTHORIZED_USER_EMAILS.includes(email.trim().toLowerCase());
 }
 
 export function getAllowedModulesForRole(role: AppRole): Set<AppModule> {

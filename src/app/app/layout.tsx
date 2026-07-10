@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { ErpShell } from "@/components/erp-shell";
 import { getAuthenticatedUserEmail } from "@/lib/auth";
-import { canRoleAccessPath, getAllowedModulesForRole, getRoleForEmail } from "@/lib/access-control";
+import { canEmailAccessApp, canRoleAccessPath, getAllowedModulesForRole, getRoleForEmail } from "@/lib/access-control";
 import { workspaceProfile } from "@/lib/erp-data";
 import { getNavigationSections } from "@/lib/nav";
 import { getDemoI18n } from "@/lib/server-i18n";
@@ -18,6 +18,11 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   if (!email) {
     redirect("/auth/login?next=/app");
   }
+
+  if (!canEmailAccessApp(email) && pathname !== "/app/forbidden") {
+    redirect(`/app/forbidden?path=${encodeURIComponent(pathname)}&reason=seat_limit`);
+  }
+
   const role = getRoleForEmail(email);
   const allowedModules = getAllowedModulesForRole(role);
 

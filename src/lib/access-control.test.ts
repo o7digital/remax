@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { canRoleAccessPath, getRoleForEmail } from "@/lib/access-control";
+import {
+  AUTHORIZED_USER_EMAILS,
+  MAX_AUTHORIZED_USERS,
+  canEmailAccessApp,
+  canRoleAccessPath,
+  getRoleForEmail
+} from "@/lib/access-control";
 
 describe("access-control", () => {
   it("assigns Olivier to the super admin role", () => {
@@ -14,7 +20,23 @@ describe("access-control", () => {
     expect(getRoleForEmail("brenda.aguilar@remax-activa.com.mx")).toBe("client_admin");
   });
 
-  it("assigns REMAX Activa users and other authenticated users to asesor by default", () => {
+  it("keeps Christophe Suarez out of the super admin role", () => {
+    expect(getRoleForEmail("christopher.suarez@remax-activa.com.mx")).not.toBe("super_admin");
+  });
+
+  it("limits app access to the 5 authorized user emails", () => {
+    expect(AUTHORIZED_USER_EMAILS).toHaveLength(MAX_AUTHORIZED_USERS);
+    expect(canEmailAccessApp("olivier.steineur@gmail.com")).toBe(true);
+    expect(canEmailAccessApp("christopher.suarez@remax-activa.com.mx")).toBe(true);
+    expect(canEmailAccessApp("pedro.leyva@remax-activa.com.mx")).toBe(true);
+    expect(canEmailAccessApp("brendac0101@gmail.com")).toBe(true);
+    expect(canEmailAccessApp("brenda.aguilar@remax-activa.com.mx")).toBe(true);
+  });
+
+  it("does not authorize the REMAX domain or random authenticated users by default", () => {
+    expect(canEmailAccessApp("inventario@remax-activa.com.mx")).toBe(false);
+    expect(canEmailAccessApp("asesor@remax-activa.com.mx")).toBe(false);
+    expect(canEmailAccessApp("guest@example.com")).toBe(false);
     expect(getRoleForEmail("inventario@remax-activa.com.mx")).toBe("asesor");
     expect(getRoleForEmail("asesor@remax-activa.com.mx")).toBe("asesor");
     expect(getRoleForEmail("guest@example.com")).toBe("asesor");
