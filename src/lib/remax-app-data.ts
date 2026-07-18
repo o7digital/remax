@@ -1281,63 +1281,73 @@ export async function getDashboardData(): Promise<{
   shifts: DashboardShiftRecord[];
   attendance: DashboardAttendanceRecord[];
 }> {
-  // The application database is Railway Postgres. Keep these casts explicit so
-  // the records have the same string representation the dashboard expects.
-  const [properties, staff, deals, shifts, attendance] = await Promise.all([
-    prisma.$queryRaw<PropertyRow[]>`
-      SELECT
-        id::text,
-        property_key,
-        title,
-        municipality,
-        state,
-        property_status::text
-      FROM public.properties
-      LIMIT 4001
-    `,
-    prisma.$queryRaw<StaffMemberRow[]>`
-      SELECT
-        id::text,
-        display_name,
-        staff_kind::text,
-        employment_status::text,
-        is_guard_eligible,
-        joined_on::text
-      FROM public.staff_members
-      LIMIT 1001
-    `,
-    prisma.$queryRaw<DealRow[]>`
-      SELECT
-        id::text,
-        title,
-        deal_kind::text,
-        status::text,
-        property_id::text,
-        closed_on::text,
-        created_at::text
-      FROM public.deals
-      LIMIT 3001
-    `,
-    prisma.$queryRaw<GuardShiftRow[]>`
-      SELECT
-        id::text,
-        shift_date::text,
-        shift_label,
-        shift_status::text,
-        assigned_staff_member_id::text
-      FROM public.guard_shifts
-      LIMIT 9001
-    `,
-    prisma.$queryRaw<AttendanceEventRow[]>`
-      SELECT
-        id::text,
-        event_type::text,
-        event_at::text,
-        staff_member_id::text
-      FROM public.attendance_events
-      LIMIT 22001
-    `
-  ]);
+  let properties: PropertyRow[] = [];
+  let staff: StaffMemberRow[] = [];
+  let deals: DealRow[] = [];
+  let shifts: GuardShiftRow[] = [];
+  let attendance: AttendanceEventRow[] = [];
+
+  try {
+    // The application database is Railway Postgres. Keep these casts explicit so
+    // the records have the same string representation the dashboard expects.
+    [properties, staff, deals, shifts, attendance] = await Promise.all([
+      prisma.$queryRaw<PropertyRow[]>`
+        SELECT
+          id::text,
+          property_key,
+          title,
+          municipality,
+          state,
+          property_status::text
+        FROM public.properties
+        LIMIT 4001
+      `,
+      prisma.$queryRaw<StaffMemberRow[]>`
+        SELECT
+          id::text,
+          display_name,
+          staff_kind::text,
+          employment_status::text,
+          is_guard_eligible,
+          joined_on::text
+        FROM public.staff_members
+        LIMIT 1001
+      `,
+      prisma.$queryRaw<DealRow[]>`
+        SELECT
+          id::text,
+          title,
+          deal_kind::text,
+          status::text,
+          property_id::text,
+          closed_on::text,
+          created_at::text
+        FROM public.deals
+        LIMIT 3001
+      `,
+      prisma.$queryRaw<GuardShiftRow[]>`
+        SELECT
+          id::text,
+          shift_date::text,
+          shift_label,
+          shift_status::text,
+          assigned_staff_member_id::text
+        FROM public.guard_shifts
+        LIMIT 9001
+      `,
+      prisma.$queryRaw<AttendanceEventRow[]>`
+        SELECT
+          id::text,
+          event_type::text,
+          event_at::text,
+          staff_member_id::text
+        FROM public.attendance_events
+        LIMIT 22001
+      `
+    ]);
+  } catch (error) {
+    console.error("Unable to load dashboard data from database", error);
+  }
 
   const propertiesById = new Map(properties.map((property) => [property.id, property]));
   const staffById = new Map(staff.map((member) => [member.id, member]));
