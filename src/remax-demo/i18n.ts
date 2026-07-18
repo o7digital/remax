@@ -73,9 +73,9 @@ const copy: Record<string, { es: string; en: string }> = {
   Busqueda: { es: "Busqueda", en: "Search" },
   Registro: { es: "Registro", en: "Record" },
   Comunicado: { es: "Comunicado", en: "Communication" },
-  "REMAX ACTIVA | PLATAFORMA OPERATIVA INMOBILIARIA": {
-    es: "REMAX ACTIVA | PLATAFORMA OPERATIVA INMOBILIARIA",
-    en: "REMAX ACTIVA | REAL ESTATE OPERATIONS PLATFORM"
+  "ERP WORKSPACE | PLATAFORMA OPERATIVA INMOBILIARIA": {
+    es: "ERP WORKSPACE | PLATAFORMA OPERATIVA INMOBILIARIA",
+    en: "ERP WORKSPACE | REAL ESTATE OPERATIONS PLATFORM"
   },
   "REMAX Activa | Plataforma Operativa Inmobiliaria": {
     es: "REMAX Activa | Plataforma Operativa Inmobiliaria",

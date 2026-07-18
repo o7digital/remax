@@ -169,8 +169,8 @@ export function RemaxDemoShell({
         <div className="remax-auth-stage">
           <section className="remax-auth-brand">
             <div className="remax-brand-lockup">
-              <span className="remax-brand-mark">REMAX</span>
-              <span className="remax-brand-sub">ACTIVA</span>
+              <span className="remax-brand-mark">ERP</span>
+              <span className="remax-brand-sub">Workspace</span>
             </div>
             <strong>{shellTitle}</strong>
             <p>
@@ -200,8 +200,8 @@ export function RemaxDemoShell({
       <aside className="remax-sidebar">
         <div className="remax-brand-panel">
           <div className="remax-brand-lockup">
-            <span className="remax-brand-mark">REMAX</span>
-            <span className="remax-brand-sub">ACTIVA</span>
+            <span className="remax-brand-mark">ERP</span>
+            <span className="remax-brand-sub">Workspace</span>
           </div>
           <p>{shellTitle}</p>
         </div>
@@ -261,7 +261,7 @@ export function RemaxDemoShell({
         </div>
         <header className="remax-toolbar">
           <div className="remax-toolbar-ribbon">
-            <span className="remax-toolbar-chip">REMAX ACTIVA</span>
+            <span className="remax-toolbar-chip">ERP Workspace</span>
             <span className="remax-toolbar-copy">{rt(currentLanguage, "Plataforma disenada para la operacion inmobiliaria real")}</span>
           </div>
           <div className="remax-language-switch" aria-label="Language switcher">

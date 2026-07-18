@@ -36,8 +36,8 @@ function BrandingPreview({ settings }: { settings: RemaxBrandingSettings }) {
             <img src={settings.logoDataUrl} alt="Vista previa del logo" className="remax-brand-preview-logo" />
           ) : (
             <div className="remax-brand-preview-mark">
-              <span>REMAX</span>
-              <small>ACTIVA</small>
+              <span>ERP</span>
+              <small>Workspace</small>
             </div>
           )}
           <strong>Dashboard</strong>
@@ -120,11 +120,11 @@ export function RemaxBrandSettings() {
               </option>
             ))}
           </select>
-          <p className="helper-text">Define el idioma por defecto visible en el backoffice REMAX.</p>
+          <p className="helper-text">Define el idioma por defecto visible en el backoffice.</p>
         </div>
 
         <div className="field field-full">
-          <label className="field-label">Logo REMAX</label>
+          <label className="field-label">Logo</label>
           <div className="remax-brand-upload-row">
             <input type="file" accept=".png,.jpg,.jpeg,.svg" onChange={handleLogoUpload} />
             <button type="button" className="button button-secondary" onClick={() => updateSetting("logoDataUrl", null)}>
@@ -171,7 +171,7 @@ export function RemaxBrandSettings() {
           Restablecer
         </button>
         <button type="button" className="button" onClick={handleSave} disabled={isPending}>
-          Guardar ajustes REMAX
+          Guardar ajustes
         </button>
       </div>
     </div>

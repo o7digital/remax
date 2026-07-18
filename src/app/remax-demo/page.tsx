@@ -680,7 +680,7 @@ export default async function RemaxMenuOperacionPage() {
     <div className="remax-page-stack">
       <section className="remax-premium-hero">
         <div className="remax-premium-hero-copy">
-          <p className="remax-hero-kicker">{t("REMAX ACTIVA | PLATAFORMA OPERATIVA INMOBILIARIA")}</p>
+          <p className="remax-hero-kicker">{t("ERP WORKSPACE | PLATAFORMA OPERATIVA INMOBILIARIA")}</p>
           <h1>{t("REMAX Activa | Plataforma Operativa Inmobiliaria")}</h1>
           <p className="remax-hero-description">{t("Sistema inmobiliario moderno desarrollado en Astro para centralizar la operacion comercial, administrativa y ejecutiva de una oficina inmobiliaria en una sola plataforma mas clara, rapida y escalable.")}</p>
 
