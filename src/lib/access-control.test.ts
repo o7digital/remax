@@ -14,31 +14,31 @@ describe("access-control", () => {
   });
 
   it("assigns the manager to the client admin role", () => {
-    expect(getRoleForEmail("christopher.suarez@remax-activa.com.mx")).toBe("client_admin");
-    expect(getRoleForEmail("pedro.leyva@remax-activa.com.mx")).toBe("client_admin");
+    expect(getRoleForEmail("christopher.suarez@inmo-o7.com.mx")).toBe("client_admin");
+    expect(getRoleForEmail("pedro.leyva@inmo-o7.com.mx")).toBe("client_admin");
     expect(getRoleForEmail("brendac0101@gmail.com")).toBe("client_admin");
-    expect(getRoleForEmail("brenda.aguilar@remax-activa.com.mx")).toBe("client_admin");
+    expect(getRoleForEmail("brenda.aguilar@inmo-o7.com.mx")).toBe("client_admin");
   });
 
   it("keeps Christophe Suarez out of the super admin role", () => {
-    expect(getRoleForEmail("christopher.suarez@remax-activa.com.mx")).not.toBe("super_admin");
+    expect(getRoleForEmail("christopher.suarez@inmo-o7.com.mx")).not.toBe("super_admin");
   });
 
   it("limits app access to the 5 authorized user emails", () => {
     expect(AUTHORIZED_USER_EMAILS).toHaveLength(MAX_AUTHORIZED_USERS);
     expect(canEmailAccessApp("olivier.steineur@gmail.com")).toBe(true);
-    expect(canEmailAccessApp("christopher.suarez@remax-activa.com.mx")).toBe(true);
-    expect(canEmailAccessApp("pedro.leyva@remax-activa.com.mx")).toBe(true);
+    expect(canEmailAccessApp("christopher.suarez@inmo-o7.com.mx")).toBe(true);
+    expect(canEmailAccessApp("pedro.leyva@inmo-o7.com.mx")).toBe(true);
     expect(canEmailAccessApp("brendac0101@gmail.com")).toBe(true);
-    expect(canEmailAccessApp("brenda.aguilar@remax-activa.com.mx")).toBe(true);
+    expect(canEmailAccessApp("brenda.aguilar@inmo-o7.com.mx")).toBe(true);
   });
 
-  it("does not authorize the REMAX domain or random authenticated users by default", () => {
-    expect(canEmailAccessApp("inventario@remax-activa.com.mx")).toBe(false);
-    expect(canEmailAccessApp("asesor@remax-activa.com.mx")).toBe(false);
+  it("does not authorize the Inmo o7 domain or random authenticated users by default", () => {
+    expect(canEmailAccessApp("inventario@inmo-o7.com.mx")).toBe(false);
+    expect(canEmailAccessApp("asesor@inmo-o7.com.mx")).toBe(false);
     expect(canEmailAccessApp("guest@example.com")).toBe(false);
-    expect(getRoleForEmail("inventario@remax-activa.com.mx")).toBe("asesor");
-    expect(getRoleForEmail("asesor@remax-activa.com.mx")).toBe("asesor");
+    expect(getRoleForEmail("inventario@inmo-o7.com.mx")).toBe("asesor");
+    expect(getRoleForEmail("asesor@inmo-o7.com.mx")).toBe("asesor");
     expect(getRoleForEmail("guest@example.com")).toBe("asesor");
   });
 

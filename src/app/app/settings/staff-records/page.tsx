@@ -383,7 +383,7 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
         <input name="homePhone" />
       </label>
       <label className="field">
-        <span className="field-label">Correo Remax Activa</span>
+        <span className="field-label">Correo Inmo o7</span>
         <input name="workEmail" type="email" />
       </label>
       <label className="field">
@@ -527,10 +527,10 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
       </label>
 
       <div className="field field-full">
-        <strong>INF. SOCIO REMAX</strong>
+        <strong>INF. SOCIO INMO O7</strong>
       </div>
       <label className="field">
-        <span className="field-label">Fecha Ingreso Remax Activa</span>
+        <span className="field-label">Fecha Ingreso Inmo o7</span>
         <input name="joinedOn" type="date" />
       </label>
       <label className="field">
@@ -595,11 +595,11 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
         <input name="easyBrokerLastLoginOn" type="date" />
       </label>
       <label className="field">
-        <span className="field-label">ID Remax Mexico</span>
+        <span className="field-label">ID Inmo o7 Mexico</span>
         <input name="remaxMexicoId" />
       </label>
       <label className="field">
-        <span className="field-label">Status Remax Mexico</span>
+        <span className="field-label">Status Inmo o7 Mexico</span>
         <input name="remaxMexicoStatus" />
       </label>
       <label className="field">
@@ -607,11 +607,11 @@ function StaffCaptureForm({ type }: { type: "asesor" | "staff" }) {
         <input name="remaxInternationalId" />
       </label>
       <label className="field">
-        <span className="field-label">Usuario Remax Int</span>
+        <span className="field-label">Usuario Inmo o7 Int</span>
         <input name="remaxInternationalUser" />
       </label>
       <label className="field">
-        <span className="field-label">Status Remax Int</span>
+        <span className="field-label">Status Inmo o7 Int</span>
         <input name="remaxInternationalStatus" />
       </label>
       <label className="field">
@@ -680,19 +680,19 @@ export default async function StaffRecordsPage({
     {
       name: "F-Asesores",
       title: "Registro de asesores internos",
-      detail: "INF. GRAL. + INF. FISCAL + INF. PERSONAL + INF. SOCIO REMAX",
+      detail: "INF. GRAL. + INF. FISCAL + INF. PERSONAL + INF. SOCIO INMO O7",
       table: "staff_members + staff_fiscal_profiles + staff_personal_profiles + staff_remax_accounts"
     },
     {
       name: "F-Staff",
       title: "Registro de miembros del Staff",
-      detail: "INF. GRAL. + INF. FISCAL + INF. PERSONAL + INF. SOCIO REMAX",
+      detail: "INF. GRAL. + INF. FISCAL + INF. PERSONAL + INF. SOCIO INMO O7",
       table: "staff_members + staff_fiscal_profiles + staff_personal_profiles + staff_remax_accounts"
     },
     {
       name: "F-Asesores - parte inferior",
-      title: "Socio REMAX / SIR / AMPI / Universidad",
-      detail: "Fecha ingreso SIR, ID Remax Mexico, Remax Int, Universidad, AMPI, estatus y comentarios",
+      title: "Socio Inmo o7 / SIR / AMPI / Universidad",
+      detail: "Fecha ingreso SIR, ID Inmo o7 Mexico, Inmo o7 Int, Universidad, AMPI, estatus y comentarios",
       table: "staff_remax_accounts"
     }
   ];
@@ -701,7 +701,7 @@ export default async function StaffRecordsPage({
     <div className="page-stack">
       <PageHeader
         title="F-Asesores / F-Staff"
-        description="Pantallas de captura migradas desde Access: Registro de asesores internos, Registro de miembros del Staff y bloque Socio REMAX."
+        description="Pantallas de captura migradas desde Access: Registro de asesores internos, Registro de miembros del Staff y bloque Socio Inmo o7."
         actions={
           <div className="button-row">
             <a href="#nuevo-f-asesores" className="button">
@@ -763,7 +763,7 @@ export default async function StaffRecordsPage({
         <StatCard label="F-Asesores / F-Staff" value={String(summary.totalStaff)} detail="staff_members" />
         <StatCard label="INF. FISCAL" value={String(summary.fiscalProfiles)} detail="staff_fiscal_profiles" />
         <StatCard label="INF. PERSONAL" value={String(summary.personalProfiles)} detail="staff_personal_profiles" />
-        <StatCard label="INF. SOCIO REMAX" value={String(summary.remaxAccounts)} detail="staff_remax_accounts" />
+        <StatCard label="INF. SOCIO INMO O7" value={String(summary.remaxAccounts)} detail="staff_remax_accounts" />
       </div>
 
       <div className="stats-grid">
@@ -787,7 +787,7 @@ export default async function StaffRecordsPage({
 
       <SectionCard
         title="F-Asesores / F-Staff - registros importados"
-        description="Vista consolidada de los bloques INF. FISCAL, INF. PERSONAL et INF. SOCIO REMAX conectados por staff_member_id."
+        description="Vista consolidada de los bloques INF. FISCAL, INF. PERSONAL et INF. SOCIO INMO O7 conectados por staff_member_id."
       >
         <DataTable
           rows={records}

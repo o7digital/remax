@@ -664,7 +664,7 @@ export const users = [
   {
     id: "usr-1",
     name: "Christopher Suarez",
-    email: "christopher.suarez@remax-activa.com.mx",
+    email: "christopher.suarez@inmo-o7.com.mx",
     role: "Administrador",
     region: "MX",
     status: "Active",
@@ -674,7 +674,7 @@ export const users = [
   {
     id: "usr-2",
     name: "Pedro Leyva",
-    email: "pedro.leyva@remax-activa.com.mx",
+    email: "pedro.leyva@inmo-o7.com.mx",
     role: "Director General",
     region: "MX",
     status: "Active",

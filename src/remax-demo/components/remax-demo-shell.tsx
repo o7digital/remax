@@ -42,7 +42,7 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     } as const;
 
     return [
-      rt(language, "Plataforma REMAX"),
+      rt(language, "Plataforma Inmo o7"),
       rt(language, "Alta de propiedad"),
       labelByStep[(step ?? "clave") as keyof typeof labelByStep] ?? rt(language, "Alta de propiedad")
     ];
@@ -58,7 +58,7 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     } as const;
 
     return [
-      rt(language, "Plataforma REMAX"),
+      rt(language, "Plataforma Inmo o7"),
       rt(language, "Bajas y cierres"),
       labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? rt(language, "Bajas y cierres")
     ];
@@ -73,41 +73,41 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     } as const;
 
     return [
-      rt(language, "Plataforma REMAX"),
+      rt(language, "Plataforma Inmo o7"),
       rt(language, "Cancelaciones"),
       labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? rt(language, "Cancelaciones")
     ];
   }
 
   if (pathname === "/remax-demo/valores") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Gestion de cartera"), rt(language, "Valores")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Gestion de cartera"), rt(language, "Valores")];
   }
 
   if (pathname === "/remax-demo/propietarios") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Gestion de cartera"), rt(language, "Propietarios")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Gestion de cartera"), rt(language, "Propietarios")];
   }
 
   if (pathname === "/remax-demo/asesores") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Equipo"), rt(language, "Asesores")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Equipo"), rt(language, "Asesores")];
   }
 
   if (pathname === "/remax-demo/comunicados") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Control"), rt(language, "Comunicados")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Control"), rt(language, "Comunicados")];
   }
 
   if (pathname === "/remax-demo/analisis") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Analisis inteligente")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Inteligencia comercial"), rt(language, "Analisis inteligente")];
   }
 
   if (pathname === "/remax-demo/pipeline") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Pipeline operativo")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Inteligencia comercial"), rt(language, "Pipeline operativo")];
   }
 
   if (pathname === "/remax-demo/admin") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Administracion"), rt(language, "Modulo admin")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Administracion"), rt(language, "Modulo admin")];
   }
 
-  return [rt(language, "Plataforma REMAX"), rt(language, "Arquitectura Astro")];
+  return [rt(language, "Plataforma Inmo o7"), rt(language, "Arquitectura Astro")];
 }
 
 export function RemaxDemoShell({

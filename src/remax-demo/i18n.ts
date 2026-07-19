@@ -14,13 +14,13 @@ export const REMAX_LANGUAGE_COOKIE = "remax_demo_lang";
 export const REMAX_LANGUAGE_STORAGE_KEY = "remax-demo-language";
 
 const copy: Record<string, { es: string; en: string }> = {
-  "REMAX Demo": { es: "REMAX Demo", en: "REMAX Demo" },
-  "Plataforma operativa inmobiliaria de REMAX Activa desarrollada en Astro": {
-    es: "Plataforma operativa inmobiliaria de REMAX Activa desarrollada en Astro",
-    en: "Modern real estate operations platform for REMAX Activa built with Astro"
+  "Inmo o7 Demo": { es: "Inmo o7 Demo", en: "Inmo o7 Demo" },
+  "Plataforma operativa inmobiliaria de Inmo o7 desarrollada en Astro": {
+    es: "Plataforma operativa inmobiliaria de Inmo o7 desarrollada en Astro",
+    en: "Modern real estate operations platform for Inmo o7 built with Astro"
   },
   "Plataforma ejecutiva": { es: "Plataforma ejecutiva", en: "Executive Platform" },
-  "Plataforma REMAX": { es: "Plataforma REMAX", en: "REMAX Platform" },
+  "Plataforma Inmo o7": { es: "Plataforma Inmo o7", en: "Inmo o7 Platform" },
   "Alta de propiedad": { es: "Alta de propiedad", en: "Property Onboarding" },
   "Bajas y cierres": { es: "Bajas y cierres", en: "Closings & Offboarding" },
   Cancelaciones: { es: "Cancelaciones", en: "Cancellations" },
@@ -77,9 +77,9 @@ const copy: Record<string, { es: string; en: string }> = {
     es: "ERP WORKSPACE | PLATAFORMA OPERATIVA INMOBILIARIA",
     en: "ERP WORKSPACE | REAL ESTATE OPERATIONS PLATFORM"
   },
-  "REMAX Activa | Plataforma Operativa Inmobiliaria": {
-    es: "REMAX Activa | Plataforma Operativa Inmobiliaria",
-    en: "REMAX Activa | Real Estate Operations Platform"
+  "Inmo o7 | Plataforma Operativa Inmobiliaria": {
+    es: "Inmo o7 | Plataforma Operativa Inmobiliaria",
+    en: "Inmo o7 | Real Estate Operations Platform"
   },
   "Sistema inmobiliario moderno desarrollado en Astro para centralizar la operacion comercial, administrativa y ejecutiva de una oficina inmobiliaria en una sola plataforma mas clara, rapida y escalable.": {
     es: "Sistema inmobiliario moderno desarrollado en Astro para centralizar la operacion comercial, administrativa y ejecutiva de una oficina inmobiliaria en una sola plataforma mas clara, rapida y escalable.",
@@ -667,7 +667,7 @@ Object.assign(copy, {
   "Fecha Contrato": { es: "Fecha Contrato", en: "Contract date" },
   "Inicio Promo": { es: "Inicio Promo", en: "Promotion start" },
   "ID AMPI": { es: "ID AMPI", en: "AMPI ID" },
-  "ID REMAX": { es: "ID REMAX", en: "REMAX ID" },
+  "ID Inmo o7": { es: "ID Inmo o7", en: "Inmo o7 ID" },
   "Clave Catastral": { es: "Clave Catastral", en: "Cadastral key" },
   "Status Propiedad": { es: "Status Propiedad", en: "Property status" },
   "Alta / Baja": { es: "Alta / Baja", en: "Onboarding / Offboarding" },
@@ -836,7 +836,7 @@ export function normalizeRemaxLanguage(value?: string | null): RemaxLanguage {
 }
 
 export function rt(language: RemaxLanguage, text: string): string {
-  const normalized = text.replaceAll("RE/MAX", "REMAX");
+  const normalized = text.replaceAll("RE/MAX", "Inmo o7");
   const entry = copy[normalized];
   return entry ? entry[language] : normalized;
 }

@@ -30,7 +30,7 @@ export default async function ArquitecturaPage() {
       <div className="remax-two-columns">
         <AccessSection title={language === "en" ? "Phase A - Web app" : "Fase A - Webapp"} accent="blue">
           <ul className="remax-feature-list">
-            <li>{language === "en" ? "Modern front end focused on operational flow, following REMAX's real structure." : "Frontend moderno orientado a flujo operativo, siguiendo la estructura real de REMAX."}</li>
+            <li>{language === "en" ? "Modern front end focused on operational flow, following Inmo o7 real structure." : "Frontend moderno orientado a flujo operativo, siguiendo la estructura real de Inmo o7."}</li>
             <li>{language === "en" ? "Astro as the interface layer for performance and clear composition." : "Astro como capa de interfaz para rendimiento y composicion clara."}</li>
             <li>{language === "en" ? "Supabase for auth, database and relational model by property, agent and communication." : "Supabase para auth, base de datos y modelo relacional por propiedad, asesor y comunicado."}</li>
             <li>{language === "en" ? "Railway for jobs, internal services and backend deployment." : "Railway para jobs, servicios internos y despliegue backend."}</li>

@@ -1181,7 +1181,7 @@
           "name": "fing",
           "data_type": "DATE",
           "nullable": true,
-          "comment": "Fecha de ingreso a REMAX ACTIVA"
+          "comment": "Fecha de ingreso a INMO O7"
         },
         {
           "name": "fcnivel",
@@ -1549,13 +1549,13 @@
           "name": "fia",
           "data_type": "DATE",
           "nullable": true,
-          "comment": "Fecha de ingreso a Remax Activa"
+          "comment": "Fecha de ingreso a Inmo o7"
         },
         {
           "name": "fsa",
           "data_type": "DATE",
           "nullable": true,
-          "comment": "Fecha de separaci\u00f3n de Remax Activa"
+          "comment": "Fecha de separaci\u00f3n de Inmo o7"
         },
         {
           "name": "fsaa",
@@ -1573,7 +1573,7 @@
           "name": "frra",
           "data_type": "TIMESTAMP WITHOUT TIME ZONE",
           "nullable": true,
-          "comment": "Fecha de reingreso a Remax Activa"
+          "comment": "Fecha de reingreso a Inmo o7"
         },
         {
           "name": "ena",
@@ -2116,7 +2116,7 @@
           "name": "otprem",
           "data_type": "VARCHAR (255)",
           "nullable": true,
-          "comment": "Qui\u00e9n otorg\u00f3 el premio Remax Activa o Remax M\u00e9xico"
+          "comment": "Qui\u00e9n otorg\u00f3 el premio Inmo o7 o Remax M\u00e9xico"
         },
         {
           "name": "comprem",
@@ -2885,7 +2885,7 @@
           "name": "topc",
           "data_type": "VARCHAR (255)",
           "nullable": true,
-          "comment": "Tipo de operaci\u00f3n de cierre si es una cooperaci\u00f3n ya sea de REMAX Activa o de un Coop externo"
+          "comment": "Tipo de operaci\u00f3n de cierre si es una cooperaci\u00f3n ya sea de Inmo o7 o de un Coop externo"
         },
         {
           "name": "lado aux",
@@ -3150,7 +3150,7 @@
           "name": "topc",
           "data_type": "VARCHAR (255)",
           "nullable": true,
-          "comment": "Tipo de operaci\u00f3n de cierre si es una cooperaci\u00f3n ya sea de REMAX Activa o de un Coop externo"
+          "comment": "Tipo de operaci\u00f3n de cierre si es una cooperaci\u00f3n ya sea de Inmo o7 o de un Coop externo"
         },
         {
           "name": "lado aux",
@@ -7568,7 +7568,7 @@
           "name": "asesll",
           "data_type": "VARCHAR (255) NOT NULL",
           "nullable": false,
-          "comment": "Asesor Remax Activa"
+          "comment": "Asesor Inmo o7"
         },
         {
           "name": "fechlls",
@@ -7737,7 +7737,7 @@
           "name": "asesll",
           "data_type": "VARCHAR (255)",
           "nullable": true,
-          "comment": "Asesor Remax Activa"
+          "comment": "Asesor Inmo o7"
         },
         {
           "name": "fechlls",
@@ -7882,7 +7882,7 @@
           "name": "asesll",
           "data_type": "VARCHAR (255)",
           "nullable": true,
-          "comment": "Asesor Remax Activa"
+          "comment": "Asesor Inmo o7"
         },
         {
           "name": "fechlls",
@@ -12582,7 +12582,7 @@
           "name": "mprem",
           "data_type": "NUMERIC (39)",
           "nullable": true,
-          "comment": "Monto para Remax Activa"
+          "comment": "Monto para Inmo o7"
         },
         {
           "name": "mpprop",
@@ -19336,7 +19336,7 @@
           "name": "asesllp",
           "data_type": "VARCHAR (255)",
           "nullable": true,
-          "comment": "Asesor Remax Activa"
+          "comment": "Asesor Inmo o7"
         },
         {
           "name": "fechllsp",
