@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { StatusBadge } from "@/components/status-badge";
 
 type Plan = "trial" | "basic" | "standard" | "advanced" | "team";
-type CrmMode = "B2B" | "B2C";
+type WorkspaceMode = "backoffice" | "multi_agence";
 type Country = "MX" | "CA" | "FR";
 type SubscriptionStatus = "ACTIVE" | "PAUSED" | "CANCELED";
 
@@ -18,7 +18,7 @@ interface SubscriptionRecord {
   contactEmail: string;
   plan: Plan;
   seats: number;
-  crmMode: CrmMode;
+  workspaceMode: WorkspaceMode;
   industry: string;
   tenantId: string;
   status: SubscriptionStatus;
@@ -30,14 +30,14 @@ interface SubscriptionRecord {
   lastAccessAt: string | null;
 }
 
-const STORAGE_KEY = "inmo-o7-subscriptions";
+const STORAGE_KEY = "inmo-o7-erp-subscriptions-v2";
 
 const planOptions: Array<{ value: Plan; label: string; seats: number }> = [
   { value: "trial", label: "Essai (30 jours)", seats: 1 },
-  { value: "basic", label: "Pulse Basic - 1 utilisateur", seats: 1 },
-  { value: "standard", label: "Pulse Standard - 3 utilisateurs", seats: 3 },
-  { value: "advanced", label: "Pulse Advanced - 5 utilisateurs", seats: 5 },
-  { value: "team", label: "Pulse Team - 20 utilisateurs", seats: 20 }
+  { value: "basic", label: "Inmo o7 Basic - 1 utilisateur", seats: 1 },
+  { value: "standard", label: "Inmo o7 Standard - 3 utilisateurs", seats: 3 },
+  { value: "advanced", label: "Inmo o7 Advanced - 5 utilisateurs", seats: 5 },
+  { value: "team", label: "Inmo o7 Team - 20 utilisateurs", seats: 20 }
 ];
 
 const industries = [
@@ -48,49 +48,6 @@ const industries = [
   "Juridique",
   "Services professionnels",
   "Autre"
-];
-
-const seedSubscriptions: SubscriptionRecord[] = [
-  {
-    id: "sub-zevi",
-    customerName: "ZEVI CAPITAL",
-    country: "MX",
-    address: "Mexico",
-    contactName: "Eduardo ZEPEDA",
-    contactEmail: "edzepedaed@gmail.com",
-    plan: "standard",
-    seats: 3,
-    crmMode: "B2B",
-    industry: "Conseil",
-    tenantId: "4b715980-e138-4dc4-88ff-6cffd4de3a3",
-    status: "ACTIVE",
-    connectedUsers: 1,
-    pendingAdmins: [],
-    paymentConfigured: false,
-    createdAt: "2026-06-16",
-    firstAccessAt: "2026-06-16T22:14:15",
-    lastAccessAt: "2026-06-16T22:14:15"
-  },
-  {
-    id: "sub-scm",
-    customerName: "SCM ABOGADOS",
-    country: "MX",
-    address: "Rio Panuco 43, Col. Renacimiento, Cuauhtemoc, CDMX",
-    contactName: "Gil Vazquez",
-    contactEmail: "gvm240581@gmail.com",
-    plan: "standard",
-    seats: 3,
-    crmMode: "B2B",
-    industry: "Juridique",
-    tenantId: "54691445-15d2-495e-8b43-421971cf2e8f",
-    status: "ACTIVE",
-    connectedUsers: 0,
-    pendingAdmins: [],
-    paymentConfigured: false,
-    createdAt: "2026-05-05",
-    firstAccessAt: null,
-    lastAccessAt: null
-  }
 ];
 
 function makeId(prefix: string) {
@@ -125,11 +82,11 @@ function buildRegistrationLink(subscription: SubscriptionRecord) {
     email: subscription.contactEmail
   });
 
-  return `${origin}/register?${params.toString()}`;
+  return `${origin}/sign-up?${params.toString()}`;
 }
 
 export function SubscriptionManager() {
-  const [subscriptions, setSubscriptions] = useState<SubscriptionRecord[]>(seedSubscriptions);
+  const [subscriptions, setSubscriptions] = useState<SubscriptionRecord[]>([]);
   const [customerName, setCustomerName] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -137,7 +94,7 @@ export function SubscriptionManager() {
   const [country, setCountry] = useState<Country>("MX");
   const [plan, setPlan] = useState<Plan>("trial");
   const [seats, setSeats] = useState(1);
-  const [crmMode, setCrmMode] = useState<CrmMode>("B2B");
+  const [workspaceMode, setWorkspaceMode] = useState<WorkspaceMode>("backoffice");
   const [industry, setIndustry] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [adminDrafts, setAdminDrafts] = useState<Record<string, string>>({});
@@ -149,7 +106,7 @@ export function SubscriptionManager() {
       try {
         setSubscriptions(JSON.parse(stored) as SubscriptionRecord[]);
       } catch {
-        setSubscriptions(seedSubscriptions);
+        setSubscriptions([]);
       }
     }
   }, []);
@@ -192,7 +149,7 @@ export function SubscriptionManager() {
       contactEmail: contactEmail.trim(),
       plan,
       seats,
-      crmMode,
+      workspaceMode,
       industry,
       tenantId: makeId("tenant"),
       status: "ACTIVE",
@@ -257,7 +214,7 @@ export function SubscriptionManager() {
         <div className="card-header">
           <div>
             <h2>Creer un espace client</h2>
-            <p>Genere un lien d'inscription pour un workspace Inmo o7 isole.</p>
+            <p>Genere un lien d'inscription pour un espace ERP Inmo o7 isole.</p>
           </div>
           <button type="button" className="button" onClick={createSubscription} disabled={!industry}>
             Creer le lien
@@ -310,10 +267,10 @@ export function SubscriptionManager() {
             </select>
           </label>
           <label className="field">
-            <span className="field-label">Mode CRM</span>
-            <select value={crmMode} onChange={(event) => setCrmMode(event.target.value as CrmMode)}>
-              <option value="B2B">B2B</option>
-              <option value="B2C">B2C</option>
+            <span className="field-label">Type d'espace</span>
+            <select value={workspaceMode} onChange={(event) => setWorkspaceMode(event.target.value as WorkspaceMode)}>
+              <option value="backoffice">Backoffice agence</option>
+              <option value="multi_agence">Multi-agence</option>
             </select>
           </label>
           <label className="field">
@@ -351,6 +308,13 @@ export function SubscriptionManager() {
               </tr>
             </thead>
             <tbody>
+              {subscriptions.length === 0 ? (
+                <tr>
+                  <td colSpan={5}>
+                    <span className="muted">Aucune souscription ERP creee pour le moment.</span>
+                  </td>
+                </tr>
+              ) : null}
               {subscriptions.map((subscription) => {
                 const isEditing = editingId === subscription.id;
                 const link = buildRegistrationLink(subscription);
