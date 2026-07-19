@@ -16,6 +16,22 @@ import { getDemoI18n } from "@/lib/server-i18n";
 import { getAuthenticatedUserEmail } from "@/lib/auth";
 import { getRoleForEmail } from "@/lib/access-control";
 
+const emptyPropertyDirectoryData = {
+  summary: {
+    totalProperties: 0,
+    activeProperties: 0,
+    closedProperties: 0,
+    draftProperties: 0
+  },
+  records: []
+};
+
+const emptyPropertyFormReferenceData = {
+  locations: [],
+  advisors: [],
+  auxiliaries: []
+};
+
 function getText(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
   return value || null;
@@ -136,8 +152,14 @@ export default async function PropertiesPage({
   const email = await getAuthenticatedUserEmail();
   const role = getRoleForEmail(email);
   const [{ summary, records }, formReferences] = await Promise.all([
-    getPropertyDirectoryData(role === "asesor" ? { advisorEmail: email } : undefined),
-    getPropertyFormReferenceData()
+    getPropertyDirectoryData(role === "asesor" ? { advisorEmail: email } : undefined).catch((error: unknown) => {
+      console.error("Unable to load property directory data", error);
+      return emptyPropertyDirectoryData;
+    }),
+    getPropertyFormReferenceData().catch((error: unknown) => {
+      console.error("Unable to load property form reference data", error);
+      return emptyPropertyFormReferenceData;
+    })
   ]);
 
   return (
