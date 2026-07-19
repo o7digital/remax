@@ -81,6 +81,7 @@ export function getSettingsLinks(txt: Translator, allowedModules?: Set<AppModule
     { label: txt("Vue globale"), href: "/app/settings", module: "settings_overview" },
     { label: txt("IA Search"), href: "/app/settings/ia-search", module: "settings_ia_search" },
     { label: txt("F-Asesores / F-Staff"), href: "/app/settings/staff-records", module: "settings_staff_records" },
+    { label: txt("Souscriptions"), href: "/app/settings/subscriptions", module: "settings_subscriptions" },
     { label: txt("Users"), href: "/app/settings/users", module: "settings_users" },
     { label: txt("Commissions"), href: "/app/settings/commissions", module: "settings_commissions" },
     { label: txt("Roles"), href: "/app/settings/roles", module: "settings_roles", frozen: true },
