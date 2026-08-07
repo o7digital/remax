@@ -5,6 +5,8 @@ coverage
 out
 .DS_Store
 bdd/*.accdb
+bdd/exports/
+backups/
 .env
 .env.local
 .env.*.local
