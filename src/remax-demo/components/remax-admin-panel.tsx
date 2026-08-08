@@ -61,7 +61,7 @@ const defaultAdvisorForm: AdvisorFormState = {
   rol: "Captacion residencial CDMX",
   comisionRate: "7",
   ciudadBase: "Polanco, Miguel Hidalgo, CDMX",
-  correo: "camille.laurent@remax-demo.test",
+  correo: "camille.laurent@inmo-o7-demo.test",
   telefono: "55 1000 2040"
 };
 
@@ -223,7 +223,7 @@ export function RemaxAdminPanel({
       comisionRate: commissionRate,
       activo: true,
       ciudadBase,
-      correo: advisorForm.correo.trim() || `${slugify(nombre)}@remax-demo.test`,
+      correo: advisorForm.correo.trim() || `${slugify(nombre)}@inmo-o7-demo.test`,
       telefono: advisorForm.telefono.trim() || "55 0000 0000",
       scope: "sandbox"
     };
@@ -232,7 +232,7 @@ export function RemaxAdminPanel({
     setAdvisorForm({
       ...defaultAdvisorForm,
       nombre: "Sophie Bernard",
-      correo: "sophie.bernard@remax-demo.test",
+      correo: "sophie.bernard@inmo-o7-demo.test",
       ciudadBase: "Roma Norte, Cuauhtemoc, CDMX",
       telefono: "55 1000 3050"
     });
@@ -387,7 +387,7 @@ export function RemaxAdminPanel({
                     rol: "Rentas ejecutivas CDMX",
                     comisionRate: "4.5",
                     ciudadBase: "Del Valle, Benito Juarez, CDMX",
-                    correo: "juliette.morel@remax-demo.test",
+                    correo: "juliette.morel@inmo-o7-demo.test",
                     telefono: "55 1000 1180"
                   })
                 }

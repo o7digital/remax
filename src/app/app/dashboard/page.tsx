@@ -18,7 +18,7 @@ export default async function DashboardPage() {
       <PageHeader
         title={txt("Dashboard")}
         description={txt(
-          "Vista ejecutiva de propiedades, operaciones, asesores y asistencia cargada desde la base real del cliente."
+          "Vista ejecutiva preparada para propiedades, operaciones, asesores y asistencia."
         )}
         actions={
           <div className="button-row">
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
       <div className="two-columns">
         <SectionCard
           title={txt("Propiedades destacadas")}
-          description={txt("Muestra inicial del inventario real con estado y ubicacion.")}
+          description={txt("Muestra inicial del inventario con estado y ubicacion.")}
           action={
             <Link href="/app/clients" className="button button-ghost">
               {txt("Clientes")}
@@ -95,7 +95,7 @@ export default async function DashboardPage() {
 
         <SectionCard
           title={txt("Resumen operativo")}
-          description={txt("Lectura rapida del nucleo importado desde Access.")}
+          description={txt("Lectura rapida del nucleo operativo cuando los datos esten habilitados.")}
         >
           <ul className="list">
             <li className="list-item">

@@ -14,7 +14,7 @@ const chapters = [
     image: "/user-guide/properties.jpg",
     width: 1780,
     height: 948,
-    alt: "Pantalla de propiedades de REMAX Activa",
+    alt: "Pantalla de propiedades de Inmo o7",
     steps: [
       "Utiliza el menú izquierdo para abrir cada módulo.",
       "Revisa los indicadores superiores antes de entrar al detalle.",
@@ -92,7 +92,7 @@ export default async function UserGuidePage() {
         title={txt("Guía de usuario")}
         description={txt("Manual práctico para utilizar la plataforma operativa inmobiliaria.")}
         actions={
-          <a className="button" href="/user-guide/guia-usuario-remax-activa.pdf" download>
+          <a className="button" href="/user-guide/guia-usuario-inmo-o7.pdf" download>
             {txt("Descargar PDF")}
           </a>
         }
@@ -101,7 +101,7 @@ export default async function UserGuidePage() {
       <section className="user-guide-hero">
         <div>
           <span className="user-guide-kicker">{txt("Inicio rápido")}</span>
-          <h2>{txt("Todo lo necesario para trabajar en REMAX Activa")}</h2>
+          <h2>{txt("Todo lo necesario para trabajar en Inmo o7")}</h2>
           <p>{txt("Recorre las pantallas principales, sigue los pasos y utiliza los accesos directos para practicar en la plataforma.")}</p>
         </div>
         <nav className="user-guide-toc" aria-label="Contenido de la guía">
@@ -119,7 +119,7 @@ export default async function UserGuidePage() {
           </header>
           <figure className="user-guide-screen">
             <Image src={chapter.image} width={chapter.width} height={chapter.height} alt={chapter.alt} sizes="(max-width: 900px) 100vw, 1200px" />
-            <figcaption>{txt("Captura de la plataforma REMAX Activa")}</figcaption>
+            <figcaption>{txt("Captura de la plataforma Inmo o7")}</figcaption>
           </figure>
           <div className="user-guide-instructions">
             <div><h3>{txt("Pasos")}</h3><ol>{chapter.steps.map((step) => <li key={step}>{txt(step)}</li>)}</ol></div>

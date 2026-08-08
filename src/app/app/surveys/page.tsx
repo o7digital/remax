@@ -36,7 +36,7 @@ const SURVEY_TEMPLATES = {
     questions: [
       "¿Cómo evalúas la atención postventa? (1-5)",
       "¿Se resolvieron tus dudas después de la operación?",
-      "¿Volverías a trabajar con REMAX Activa?",
+      "¿Volverías a trabajar con Inmo o7?",
       "¿Qué podríamos mejorar?"
     ]
   }
@@ -56,14 +56,14 @@ function buildSurveyEmailBody(args: {
     return [
       `Hello ${args.clientName},`,
       "",
-      `Thank you for your interaction with REMAX Activa. Please help us evaluate your experience with advisor ${args.advisorName}.`,
+      `Thank you for your interaction with Inmo o7. Please help us evaluate your experience with advisor ${args.advisorName}.`,
       "",
       `Survey: ${template.label}`,
       "",
       ...template.questions.map((question, index) => `${index + 1}. ${question}`),
       "",
       "Thank you for your feedback.",
-      "REMAX Activa"
+      "Inmo o7"
     ].join("\n");
   }
 
@@ -71,28 +71,28 @@ function buildSurveyEmailBody(args: {
     return [
       `Bonjour ${args.clientName},`,
       "",
-      `Merci pour votre interaction avec REMAX Activa. Nous souhaitons evaluer votre experience avec le conseiller ${args.advisorName}.`,
+      `Merci pour votre interaction avec Inmo o7. Nous souhaitons evaluer votre experience avec le conseiller ${args.advisorName}.`,
       "",
       `Enquete: ${template.label}`,
       "",
       ...template.questions.map((question, index) => `${index + 1}. ${question}`),
       "",
       "Merci pour votre retour.",
-      "REMAX Activa"
+      "Inmo o7"
     ].join("\n");
   }
 
   return [
     `Hola ${args.clientName},`,
     "",
-    `Gracias por tu interacción con REMAX Activa. Queremos conocer tu experiencia con el asesor ${args.advisorName}.`,
+    `Gracias por tu interacción con Inmo o7. Queremos conocer tu experiencia con el asesor ${args.advisorName}.`,
     "",
     `Encuesta: ${template.label}`,
     "",
     ...template.questions.map((question, index) => `${index + 1}. ${question}`),
     "",
     "Gracias por tu tiempo.",
-    "REMAX Activa"
+    "Inmo o7"
   ].join("\n");
 }
 
@@ -101,7 +101,7 @@ async function sendSurveyAction(formData: FormData) {
 
   const clientId = String(formData.get("clientId") ?? "").trim();
   const surveyTemplate = String(formData.get("surveyTemplate") ?? "") as SurveyTemplateKey;
-  const advisorName = String(formData.get("advisorName") ?? "Asesor REMAX").trim();
+  const advisorName = String(formData.get("advisorName") ?? "Asesor Inmo o7").trim();
   const fallbackEmail = String(formData.get("fallbackEmail") ?? "").trim();
   const language = String(formData.get("language") ?? "es") as "es" | "en" | "fr";
 
@@ -124,10 +124,10 @@ async function sendSurveyAction(formData: FormData) {
 
   const subject =
     language === "en"
-      ? `REMAX Survey - ${SURVEY_TEMPLATES[surveyTemplate].label}`
+      ? `Inmo o7 Survey - ${SURVEY_TEMPLATES[surveyTemplate].label}`
       : language === "fr"
-        ? `Enquete REMAX - ${SURVEY_TEMPLATES[surveyTemplate].label}`
-        : `Encuesta REMAX - ${SURVEY_TEMPLATES[surveyTemplate].label}`;
+        ? `Enquete Inmo o7 - ${SURVEY_TEMPLATES[surveyTemplate].label}`
+        : `Encuesta Inmo o7 - ${SURVEY_TEMPLATES[surveyTemplate].label}`;
 
   const body = buildSurveyEmailBody({
     clientName: client.fullName,
@@ -137,7 +137,7 @@ async function sendSurveyAction(formData: FormData) {
   });
 
   const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.SURVEY_FROM_EMAIL ?? "Encuestas REMAX <onboarding@resend.dev>";
+  const fromEmail = process.env.SURVEY_FROM_EMAIL ?? "Encuestas Inmo o7 <onboarding@resend.dev>";
 
   if (!resendApiKey) {
     const mailto = `mailto:${encodeURIComponent(recipientEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -240,7 +240,7 @@ export default async function SurveysPage({
 
           <label className="field">
             <span className="field-label">{txt("Nombre del asesor")}</span>
-            <input name="advisorName" defaultValue="Asesor REMAX" required />
+            <input name="advisorName" defaultValue="Asesor Inmo o7" required />
           </label>
 
           <label className="field">

@@ -1,9 +1,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATABASE_URL = process.env.DATABASE_URL;
 
 if (!DATABASE_URL) {
@@ -11,7 +9,12 @@ if (!DATABASE_URL) {
   process.exit(1);
 }
 
-const csvDir = path.join(__dirname, '../bdd/exports');
+const csvDir = process.env.REMAX_PRIVATE_EXPORTS_DIR;
+
+if (!csvDir) {
+  console.error('REMAX_PRIVATE_EXPORTS_DIR not set. Refusing to import client CSVs from the repo.');
+  process.exit(1);
+}
 const csvFiles = [
   { file: 'properties.csv', table: 'public.properties' },
   { file: 'staff_members.csv', table: 'public.staff_members' },

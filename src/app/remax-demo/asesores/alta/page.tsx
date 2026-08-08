@@ -138,8 +138,8 @@ export default async function AltaAsesorPage({
         title={isEnglish ? "Advisor onboarding form" : "Alta de asesor"}
         description={
           isEnglish
-            ? "Initial advisor registration form with general, tax, personal and REMAX membership blocks."
-            : "Formulario inicial de registro de asesor con bloques de informacion general, fiscal, personal y socio REMAX."
+            ? "Initial advisor registration form with general, tax, personal and Inmo o7 membership blocks."
+            : "Formulario inicial de registro de asesor con bloques de informacion general, fiscal, personal y socio Inmo o7."
         }
         actions={
           <div className="remax-header-actions">
@@ -170,8 +170,8 @@ export default async function AltaAsesorPage({
             <label className="remax-field"><span>Movil</span><input name="movil" defaultValue={advisor?.mobile_phone ?? ""} /></label>
             <label className="remax-field"><span>Tel Oficina</span><input name="tel_oficina" defaultValue={advisor?.office_phone ?? ""} /></label>
             <label className="remax-field"><span>Tel Casa</span><input name="tel_casa" defaultValue={md.telCasa ?? ""} /></label>
-            <label className="remax-field remax-field-span-2"><span>Correo Remax Activa</span><input name="correo_remax" defaultValue={advisor?.work_email ?? ""} /></label>
-            <label className="remax-field"><span>Correo Remax Internacional</span><input name="correo_remax_internacional" defaultValue={md.correoRemaxInternacional ?? ""} /></label>
+            <label className="remax-field remax-field-span-2"><span>Correo Inmo o7</span><input name="correo_remax" defaultValue={advisor?.work_email ?? ""} /></label>
+            <label className="remax-field"><span>Correo Inmo o7 Internacional</span><input name="correo_remax_internacional" defaultValue={md.correoRemaxInternacional ?? ""} /></label>
             <label className="remax-field remax-field-span-2"><span>Correo Personal</span><input name="correo_personal" defaultValue={advisor?.personal_email ?? ""} /></label>
             <label className="remax-field"><span>Calle</span><input name="calle" defaultValue={advisor?.address_line_1 ?? ""} /></label>
             <label className="remax-field"><span>No. Ext.</span><input name="no_ext" defaultValue={advisor?.address_line_2?.split(" ")[0] ?? ""} /></label>
@@ -208,7 +208,7 @@ export default async function AltaAsesorPage({
           </div>
         </AccessSection>
 
-        <AccessSection title="INF. SOCIO REMAX" accent="gold">
+        <AccessSection title="INF. SOCIO INMO O7" accent="gold">
           <div className="remax-form-grid remax-form-grid-6 remax-advisor-alta-grid">
             <label className="remax-field"><span>Fecha Ingreso</span><input type="date" name="fecha_ingreso" defaultValue={advisor?.joined_on ?? ""} /></label>
             <label className="remax-field"><span>Fecha Separacion</span><input type="date" name="fecha_separacion" defaultValue={advisor?.left_on ?? ""} /></label>

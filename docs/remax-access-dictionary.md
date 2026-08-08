@@ -495,7 +495,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | --- | --- | --- | --- |
 | `idasecursos` | `SERIAL` | `yes` | Registro de Cursos seleccionados por los Asesores |
 | `asesorc` | `VARCHAR (255)` | `yes` | Asesor que toma el Curso |
-| `fing` | `DATE` | `yes` | Fecha de ingreso a REMAX ACTIVA |
+| `fing` | `DATE` | `yes` | Fecha de ingreso a INMO O7 |
 | `fcnivel` | `DATE` | `yes` | Fecha de cambio de nivel |
 | `nivel` | `VARCHAR (255)` | `yes` | Nivel actual del Asesor |
 | `catcursoase` | `VARCHAR (255)` | `yes` | Catálogo al que pertenece el curso |
@@ -574,11 +574,11 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `muna` | `VARCHAR (255)` | `yes` | Municipio |
 | `cpa` | `VARCHAR (255)` | `yes` | Código Postal |
 | `enta` | `VARCHAR (255)` | `yes` | Entidad Federativa |
-| `fia` | `DATE` | `yes` | Fecha de ingreso a Remax Activa |
-| `fsa` | `DATE` | `yes` | Fecha de separación de Remax Activa |
+| `fia` | `DATE` | `yes` | Fecha de ingreso a Inmo o7 |
+| `fsa` | `DATE` | `yes` | Fecha de separación de Inmo o7 |
 | `fsaa` | `INTEGER` | `yes` | Año de fecha de separación |
 | `msa` | `VARCHAR (255)` | `yes` | Motivo de separación |
-| `frra` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Fecha de reingreso a Remax Activa |
+| `frra` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Fecha de reingreso a Inmo o7 |
 | `ena` | `VARCHAR (255)` | `yes` | Nombre de contacto de emergencia |
 | `eta` | `DOUBLE PRECISION` | `yes` | Teléfono de contacto de emergencia |
 | `epa` | `VARCHAR (255)` | `yes` | Parentesco |
@@ -695,7 +695,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `fecp` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Fecha del premio |
 | `añopr` | `INTEGER` | `yes` | Año del premio |
 | `lprem` | `VARCHAR (255)` | `yes` | Lugar en donde se recibió el premio |
-| `otprem` | `VARCHAR (255)` | `yes` | Quién otorgó el premio Remax Activa o Remax México |
+| `otprem` | `VARCHAR (255)` | `yes` | Quién otorgó el premio Inmo o7 o Remax México |
 | `comprem` | `VARCHAR (255)` | `yes` | Comentarios sobre el premio |
 
 ### `AsesorJuntas`
@@ -938,7 +938,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `clave aux` | `VARCHAR (255)` | `yes` | Clave de la propiedad |
 | `consec` | `VARCHAR (255)` | `yes` | Número consecutivo |
 | `revisado aux` | `VARCHAR (255)` | `yes` | Capturado |
-| `topc` | `VARCHAR (255)` | `yes` | Tipo de operación de cierre si es una cooperación ya sea de REMAX Activa o de un Coop externo |
+| `topc` | `VARCHAR (255)` | `yes` | Tipo de operación de cierre si es una cooperación ya sea de Inmo o7 o de un Coop externo |
 | `lado aux` | `VARCHAR (255)` | `yes` | Exclusiva o cierre |
 | `ca` | `VARCHAR (255)` | `yes` | Alta o Cierre |
 | `lado aux2` | `INTEGER` | `yes` | Valor aux 2 cálculo para evitar número de lados dobles |
@@ -991,7 +991,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `clave aux` | `VARCHAR (255)` | `yes` | Clave de la propiedad |
 | `consec` | `VARCHAR (255)` | `yes` | Número consecutivo |
 | `revisado aux` | `VARCHAR (255)` | `yes` | Capturado |
-| `topc` | `VARCHAR (255)` | `yes` | Tipo de operación de cierre si es una cooperación ya sea de REMAX Activa o de un Coop externo |
+| `topc` | `VARCHAR (255)` | `yes` | Tipo de operación de cierre si es una cooperación ya sea de Inmo o7 o de un Coop externo |
 | `lado aux` | `VARCHAR (255)` | `yes` | Exclusiva o cierre |
 | `ca` | `VARCHAR (255)` | `yes` | Alta o Cierre |
 | `lado aux2` | `INTEGER` | `yes` | Valor aux 2 cálculo para evitar número de lados dobles |
@@ -2063,7 +2063,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `vistall` | `VARCHAR (255) NOT NULL` | `no` | Dónde vió la propiedad |
 | `portalll1` | `VARCHAR (255)` | `yes` | Portal nombre comercial o corto |
 | `portalll` | `VARCHAR (255)` | `yes` | Portal liga completa |
-| `asesll` | `VARCHAR (255) NOT NULL` | `no` | Asesor Remax Activa |
+| `asesll` | `VARCHAR (255) NOT NULL` | `no` | Asesor Inmo o7 |
 | `fechlls` | `DATE` | `yes` | Fecha en Sistema |
 | `horalls` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Hora en Sistema |
 | `fechlll` | `DATE NOT NULL` | `no` | Fecha de Llamada, correo o visita |
@@ -2100,7 +2100,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `correoll` | `VARCHAR (255)` | `yes` | Buzón de correo electrónico |
 | `vistall` | `VARCHAR (255)` | `yes` | Dónde vió la propiedad |
 | `portalll` | `VARCHAR (255)` | `yes` | Portal |
-| `asesll` | `VARCHAR (255)` | `yes` | Asesor Remax Activa |
+| `asesll` | `VARCHAR (255)` | `yes` | Asesor Inmo o7 |
 | `fechlls` | `DATE` | `yes` | Fecha en Sistema |
 | `horalls` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Hora en Sistema |
 | `fechlll` | `DATE` | `yes` | Fecha de Llamada, correo o visita |
@@ -2133,7 +2133,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `correoll` | `VARCHAR (255)` | `yes` | Buzón de correo electrónico |
 | `vistall` | `VARCHAR (255)` | `yes` | Dónde vió la propiedad |
 | `portalll` | `VARCHAR (255)` | `yes` | Portal |
-| `asesll` | `VARCHAR (255)` | `yes` | Asesor Remax Activa |
+| `asesll` | `VARCHAR (255)` | `yes` | Asesor Inmo o7 |
 | `fechlls` | `DATE` | `yes` | Fecha en Sistema |
 | `horalls` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Hora en Sistema |
 | `fechlll` | `DATE` | `yes` | Fecha de Llamada, correo o visita |
@@ -3411,7 +3411,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `mpenrem` | `NUMERIC (39)` | `yes` | Monto para repartir entre Remax y Asesores |
 | `prem` | `DOUBLE PRECISION` | `yes` | Porcentaje Remax |
 | `pprop` | `DOUBLE PRECISION` | `yes` | Porcentaje Propietario |
-| `mprem` | `NUMERIC (39)` | `yes` | Monto para Remax Activa |
+| `mprem` | `NUMERIC (39)` | `yes` | Monto para Inmo o7 |
 | `mpprop` | `NUMERIC (39)` | `yes` | Monto para Propietario |
 | `compen` | `VARCHAR (255)` | `yes` | Comentarios |
 
@@ -5049,7 +5049,7 @@ These tables should not become first-class Postgres tables. They are mainly mont
 | `correollp` | `VARCHAR (255)` | `yes` | Buzón de correo electrónico |
 | `vistallp` | `VARCHAR (255)` | `yes` | Dónde vió la propiedad |
 | `portalllp` | `VARCHAR (255)` | `yes` | Portal |
-| `asesllp` | `VARCHAR (255)` | `yes` | Asesor Remax Activa |
+| `asesllp` | `VARCHAR (255)` | `yes` | Asesor Inmo o7 |
 | `fechllsp` | `DATE` | `yes` | Fecha en Sistema |
 | `horallsp` | `TIMESTAMP WITHOUT TIME ZONE` | `yes` | Hora en Sistema |
 | `fechlllp` | `DATE` | `yes` | Fecha de Llamada, correo o visita |

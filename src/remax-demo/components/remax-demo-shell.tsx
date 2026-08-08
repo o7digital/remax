@@ -42,7 +42,7 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     } as const;
 
     return [
-      rt(language, "Plataforma REMAX"),
+      rt(language, "Plataforma Inmo o7"),
       rt(language, "Alta de propiedad"),
       labelByStep[(step ?? "clave") as keyof typeof labelByStep] ?? rt(language, "Alta de propiedad")
     ];
@@ -58,7 +58,7 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     } as const;
 
     return [
-      rt(language, "Plataforma REMAX"),
+      rt(language, "Plataforma Inmo o7"),
       rt(language, "Bajas y cierres"),
       labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? rt(language, "Bajas y cierres")
     ];
@@ -73,41 +73,41 @@ function getFormTabs(pathname: string, step: string | null, language: RemaxLangu
     } as const;
 
     return [
-      rt(language, "Plataforma REMAX"),
+      rt(language, "Plataforma Inmo o7"),
       rt(language, "Cancelaciones"),
       labelByStep[(step ?? "busqueda") as keyof typeof labelByStep] ?? rt(language, "Cancelaciones")
     ];
   }
 
   if (pathname === "/remax-demo/valores") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Gestion de cartera"), rt(language, "Valores")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Gestion de cartera"), rt(language, "Valores")];
   }
 
   if (pathname === "/remax-demo/propietarios") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Gestion de cartera"), rt(language, "Propietarios")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Gestion de cartera"), rt(language, "Propietarios")];
   }
 
   if (pathname === "/remax-demo/asesores") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Equipo"), rt(language, "Asesores")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Equipo"), rt(language, "Asesores")];
   }
 
   if (pathname === "/remax-demo/comunicados") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Control"), rt(language, "Comunicados")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Control"), rt(language, "Comunicados")];
   }
 
   if (pathname === "/remax-demo/analisis") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Analisis inteligente")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Inteligencia comercial"), rt(language, "Analisis inteligente")];
   }
 
   if (pathname === "/remax-demo/pipeline") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Inteligencia comercial"), rt(language, "Pipeline operativo")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Inteligencia comercial"), rt(language, "Pipeline operativo")];
   }
 
   if (pathname === "/remax-demo/admin") {
-    return [rt(language, "Plataforma REMAX"), rt(language, "Administracion"), rt(language, "Modulo admin")];
+    return [rt(language, "Plataforma Inmo o7"), rt(language, "Administracion"), rt(language, "Modulo admin")];
   }
 
-  return [rt(language, "Plataforma REMAX"), rt(language, "Arquitectura Astro")];
+  return [rt(language, "Plataforma Inmo o7"), rt(language, "Arquitectura Astro")];
 }
 
 export function RemaxDemoShell({
@@ -169,8 +169,8 @@ export function RemaxDemoShell({
         <div className="remax-auth-stage">
           <section className="remax-auth-brand">
             <div className="remax-brand-lockup">
-              <span className="remax-brand-mark">REMAX</span>
-              <span className="remax-brand-sub">ACTIVA</span>
+              <span className="remax-brand-mark">ERP</span>
+              <span className="remax-brand-sub">Workspace</span>
             </div>
             <strong>{shellTitle}</strong>
             <p>
@@ -200,8 +200,8 @@ export function RemaxDemoShell({
       <aside className="remax-sidebar">
         <div className="remax-brand-panel">
           <div className="remax-brand-lockup">
-            <span className="remax-brand-mark">REMAX</span>
-            <span className="remax-brand-sub">ACTIVA</span>
+            <span className="remax-brand-mark">ERP</span>
+            <span className="remax-brand-sub">Workspace</span>
           </div>
           <p>{shellTitle}</p>
         </div>
@@ -261,7 +261,7 @@ export function RemaxDemoShell({
         </div>
         <header className="remax-toolbar">
           <div className="remax-toolbar-ribbon">
-            <span className="remax-toolbar-chip">REMAX ACTIVA</span>
+            <span className="remax-toolbar-chip">ERP Workspace</span>
             <span className="remax-toolbar-copy">{rt(currentLanguage, "Plataforma disenada para la operacion inmobiliaria real")}</span>
           </div>
           <div className="remax-language-switch" aria-label="Language switcher">

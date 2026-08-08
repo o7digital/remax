@@ -230,7 +230,7 @@ export default async function AltaPage({
               <label className="remax-field"><span>{t("Fecha Contrato")}</span><input value={property.fechas.contrato} readOnly /></label>
               <label className="remax-field"><span>{t("Inicio Promo")}</span><input value={property.fechas.inicioPromo} readOnly /></label>
               <label className="remax-field"><span>{t("ID AMPI")}</span><input value={property.ids.ampi} readOnly /></label>
-              <label className="remax-field"><span>{t("ID REMAX")}</span><input value={property.ids.remax} readOnly /></label>
+              <label className="remax-field"><span>{t("ID Inmo o7")}</span><input value={property.ids.remax} readOnly /></label>
               <label className="remax-field"><span>{t("Clave Catastral")}</span><input value={property.ids.catastral} readOnly /></label>
               <div className="remax-field">
                 <span>{t("Status Propiedad")}</span>

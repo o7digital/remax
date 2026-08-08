@@ -16,6 +16,22 @@ import { getDemoI18n } from "@/lib/server-i18n";
 import { getAuthenticatedUserEmail } from "@/lib/auth";
 import { getRoleForEmail } from "@/lib/access-control";
 
+const emptyPropertyDirectoryData = {
+  summary: {
+    totalProperties: 0,
+    activeProperties: 0,
+    closedProperties: 0,
+    draftProperties: 0
+  },
+  records: []
+};
+
+const emptyPropertyFormReferenceData = {
+  locations: [],
+  advisors: [],
+  auxiliaries: []
+};
+
 function getText(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
   return value || null;
@@ -136,21 +152,27 @@ export default async function PropertiesPage({
   const email = await getAuthenticatedUserEmail();
   const role = getRoleForEmail(email);
   const [{ summary, records }, formReferences] = await Promise.all([
-    getPropertyDirectoryData(role === "asesor" ? { advisorEmail: email } : undefined),
-    getPropertyFormReferenceData()
+    getPropertyDirectoryData(role === "asesor" ? { advisorEmail: email } : undefined).catch((error: unknown) => {
+      console.error("Unable to load property directory data", error);
+      return emptyPropertyDirectoryData;
+    }),
+    getPropertyFormReferenceData().catch((error: unknown) => {
+      console.error("Unable to load property form reference data", error);
+      return emptyPropertyFormReferenceData;
+    })
   ]);
 
   return (
     <div className="page-stack">
       <PageHeader
         title="Propiedades"
-        description={role === "asesor" ? "Tus propiedades asignadas como asesor." : "Inventario real migrado desde Access, con alta manual conectada a Railway/Postgres."}
+        description={role === "asesor" ? "Tus propiedades asignadas como asesor." : "Inventario disponible cuando los datos cliente esten habilitados."}
         actions={role === "asesor" ? undefined : <a className="button button-secondary" href="#nueva-propiedad">Nueva propiedad</a>}
       />
 
       <DataOriginNotice
-        title="Fuente real"
-        description="Esta pantalla lee y escribe en la tabla properties. Es el primer bloque CRUD para validar la migracion contigo."
+        title="Datos cliente deshabilitados"
+        description="Esta pantalla no muestra ni escribe datos cliente mientras REMAX_CLIENT_DATA_ENABLED no este activo."
       />
 
       {params.saved ? <p className="helper-text">Propiedad creada correctamente.</p> : null}

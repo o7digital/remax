@@ -14,12 +14,12 @@ export default async function SettingsUsersPage() {
     <div className="page-stack">
       <PageHeader
         title="Usuarios"
-        description="Directorio real del staff REMAX importado desde Access. Las cuentas de acceso del producto se gestionan aparte."
+        description="Directorio del staff cuando los datos cliente esten habilitados. Las cuentas de acceso del producto se gestionan aparte."
       />
 
       <DataOriginNotice
-        title="Staff real"
-        description="Esta vista muestra asesores y administracion reales del cliente. El login tecnico de dev sigue siendo una cuenta separada del producto."
+        title="Datos cliente deshabilitados"
+        description="Esta vista permanece vacia hasta activar explicitamente los datos cliente."
       />
 
       <div className="stats-grid">

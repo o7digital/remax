@@ -6,6 +6,10 @@ import { getPipelineForecast } from "@/lib/pipeline-utils";
 
 const SUPABASE_BATCH_SIZE = 1000;
 
+export function isClientDataEnabled() {
+  return process.env.REMAX_CLIENT_DATA_ENABLED === "true";
+}
+
 type PropertyRow = {
   id: string;
   property_key: string;
@@ -69,6 +73,10 @@ export interface PropertyContactReferenceOption {
 }
 
 async function getPropertyIdsForAdvisorEmail(email: string | null | undefined) {
+  if (!isClientDataEnabled()) {
+    return new Set<string>();
+  }
+
   const normalizedEmail = email?.trim().toLowerCase();
   if (!normalizedEmail) {
     return new Set<string>();
@@ -93,6 +101,10 @@ export async function canAdvisorAccessProperty(email: string | null | undefined,
 }
 
 export async function getPropertyContactReferenceData(): Promise<PropertyContactReferenceOption[]> {
+  if (!isClientDataEnabled()) {
+    return [];
+  }
+
   const rows = await prisma.$queryRaw<Array<{ id: string; property_key: string; title: string | null }>>`
     SELECT id::text, property_key, title
     FROM public.properties
@@ -522,7 +534,24 @@ const commissionRateByDealKind: Record<string, number> = {
   cancellation: 0.02
 };
 
+const emptyPipelineWorkflow: PipelineWorkflow = {
+  id: "client-data-disabled",
+  name: "Operaciones",
+  description: "Client data disabled.",
+  stages: [
+    { id: "lead", name: "Lead", probability: 15, status: "open", position: 1 },
+    { id: "validado", name: "Validado", probability: 35, status: "open", position: 2 },
+    { id: "negociacion", name: "Negociacion", probability: 70, status: "open", position: 3 },
+    { id: "ganado", name: "Ganado", probability: 100, status: "won", position: 4 },
+    { id: "perdido", name: "Perdido", probability: 0, status: "lost", position: 5 }
+  ]
+};
+
 async function fetchAllRows<T>(table: string, selectClause: string): Promise<T[]> {
+  if (!isClientDataEnabled()) {
+    return [];
+  }
+
   const rows: T[] = [];
   let offset = 0;
 
@@ -625,6 +654,10 @@ function getLooseContactKey(contact: Pick<PropertyContactRow, "email" | "phone" 
 }
 
 async function fetchPropertiesAndContacts() {
+  if (!isClientDataEnabled()) {
+    return { properties: [], contacts: [] };
+  }
+
   const [properties, contacts] = await Promise.all([
     prisma.$queryRaw<PropertyRow[]>`
       SELECT
@@ -678,6 +711,18 @@ export async function getPropertyDirectoryData(options?: { advisorEmail?: string
   };
   records: PropertyDirectoryRecord[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      summary: {
+        totalProperties: 0,
+        activeProperties: 0,
+        closedProperties: 0,
+        draftProperties: 0
+      },
+      records: []
+    };
+  }
+
   type PropertyDirectoryRow = PropertyRow & {
     business_line: string | null;
     operation_type: string | null;
@@ -1120,6 +1165,20 @@ async function buildCommissionDataset(): Promise<{
   advisorRecords: CommissionAdvisorRecord[];
   dealRecords: CommissionDealComputation[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      summary: {
+        totalDeals: 0,
+        estimableDeals: 0,
+        totalEstimatedCommission: 0,
+        activeAdvisorsWithCommission: 0,
+        coverageRatio: 0
+      },
+      advisorRecords: [],
+      dealRecords: []
+    };
+  }
+
   const [properties, propertyValues, deals, participants, staff, rules] = await Promise.all([
     fetchAllRows<PropertyRow>(
       "properties",
@@ -1281,63 +1340,92 @@ export async function getDashboardData(): Promise<{
   shifts: DashboardShiftRecord[];
   attendance: DashboardAttendanceRecord[];
 }> {
-  // The application database is Railway Postgres. Keep these casts explicit so
-  // the records have the same string representation the dashboard expects.
-  const [properties, staff, deals, shifts, attendance] = await Promise.all([
-    prisma.$queryRaw<PropertyRow[]>`
-      SELECT
-        id::text,
-        property_key,
-        title,
-        municipality,
-        state,
-        property_status::text
-      FROM public.properties
-      LIMIT 4001
-    `,
-    prisma.$queryRaw<StaffMemberRow[]>`
-      SELECT
-        id::text,
-        display_name,
-        staff_kind::text,
-        employment_status::text,
-        is_guard_eligible,
-        joined_on::text
-      FROM public.staff_members
-      LIMIT 1001
-    `,
-    prisma.$queryRaw<DealRow[]>`
-      SELECT
-        id::text,
-        title,
-        deal_kind::text,
-        status::text,
-        property_id::text,
-        closed_on::text,
-        created_at::text
-      FROM public.deals
-      LIMIT 3001
-    `,
-    prisma.$queryRaw<GuardShiftRow[]>`
-      SELECT
-        id::text,
-        shift_date::text,
-        shift_label,
-        shift_status::text,
-        assigned_staff_member_id::text
-      FROM public.guard_shifts
-      LIMIT 9001
-    `,
-    prisma.$queryRaw<AttendanceEventRow[]>`
-      SELECT
-        id::text,
-        event_type::text,
-        event_at::text,
-        staff_member_id::text
-      FROM public.attendance_events
-      LIMIT 22001
-    `
-  ]);
+  if (!isClientDataEnabled()) {
+    return {
+      summary: {
+        propertyCount: 0,
+        activePropertyCount: 0,
+        closedPropertyCount: 0,
+        activeStaffCount: 0,
+        guardShiftCount: 0,
+        attendanceEventCount: 0,
+        completedDealCount: 0
+      },
+      properties: [],
+      deals: [],
+      staff: [],
+      shifts: [],
+      attendance: []
+    };
+  }
+
+  let properties: PropertyRow[] = [];
+  let staff: StaffMemberRow[] = [];
+  let deals: DealRow[] = [];
+  let shifts: GuardShiftRow[] = [];
+  let attendance: AttendanceEventRow[] = [];
+
+  try {
+    // The application database is Railway Postgres. Keep these casts explicit so
+    // the records have the same string representation the dashboard expects.
+    [properties, staff, deals, shifts, attendance] = await Promise.all([
+      prisma.$queryRaw<PropertyRow[]>`
+        SELECT
+          id::text,
+          property_key,
+          title,
+          municipality,
+          state,
+          property_status::text
+        FROM public.properties
+        LIMIT 4001
+      `,
+      prisma.$queryRaw<StaffMemberRow[]>`
+        SELECT
+          id::text,
+          display_name,
+          staff_kind::text,
+          employment_status::text,
+          is_guard_eligible,
+          joined_on::text
+        FROM public.staff_members
+        LIMIT 1001
+      `,
+      prisma.$queryRaw<DealRow[]>`
+        SELECT
+          id::text,
+          title,
+          deal_kind::text,
+          status::text,
+          property_id::text,
+          closed_on::text,
+          created_at::text
+        FROM public.deals
+        LIMIT 3001
+      `,
+      prisma.$queryRaw<GuardShiftRow[]>`
+        SELECT
+          id::text,
+          shift_date::text,
+          shift_label,
+          shift_status::text,
+          assigned_staff_member_id::text
+        FROM public.guard_shifts
+        LIMIT 9001
+      `,
+      prisma.$queryRaw<AttendanceEventRow[]>`
+        SELECT
+          id::text,
+          event_type::text,
+          event_at::text,
+          staff_member_id::text
+        FROM public.attendance_events
+        LIMIT 22001
+      `
+    ]);
+  } catch (error) {
+    console.error("Unable to load dashboard data from database", error);
+  }
 
   const propertiesById = new Map(properties.map((property) => [property.id, property]));
   const staffById = new Map(staff.map((member) => [member.id, member]));
@@ -1561,6 +1649,13 @@ export async function getPipelineData(): Promise<{
   workflows: PipelineWorkflow[];
   deals: PipelineDeal[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      workflows: [emptyPipelineWorkflow],
+      deals: []
+    };
+  }
+
   const [properties, propertyValues, deals, participants, staff, contacts] = await Promise.all([
     fetchAllRows<PropertyRow>(
       "properties",
@@ -1734,6 +1829,19 @@ export async function getStaffDirectoryData(): Promise<{
   summary: StaffDirectorySummary;
   records: StaffDirectoryRecord[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      summary: {
+        totalStaff: 0,
+        activeStaff: 0,
+        advisorCount: 0,
+        adminCount: 0,
+        guardEligibleCount: 0
+      },
+      records: []
+    };
+  }
+
   const staff = await prisma.$queryRaw<StaffDirectoryRow[]>`
     SELECT
       id::text,
@@ -1812,6 +1920,14 @@ export async function getPropertyFormReferenceData(): Promise<{
   advisors: PropertyFormAdvisorOption[];
   auxiliaries: PropertyFormAuxiliaryOption[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      locations: [],
+      advisors: [],
+      auxiliaries: []
+    };
+  }
+
   const [properties, staff] = await Promise.all([
     prisma.$queryRaw<Array<Pick<PropertyRow, "municipality" | "state">>>`
       SELECT municipality, state
@@ -1904,6 +2020,10 @@ export interface PropertyDetailData {
 }
 
 export async function getPropertyDetailData(id: string): Promise<PropertyDetailData | null> {
+  if (!isClientDataEnabled()) {
+    return null;
+  }
+
   const properties = await prisma.$queryRaw<Array<{
     id: string;
     property_key: string;
@@ -1991,6 +2111,20 @@ export async function getStaffAccessFormData(): Promise<{
   summary: StaffAccessFormSummary;
   records: StaffAccessFormRecord[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      summary: {
+        totalStaff: 0,
+        fiscalProfiles: 0,
+        personalProfiles: 0,
+        remaxAccounts: 0,
+        resicoCount: 0,
+        ampiCount: 0
+      },
+      records: []
+    };
+  }
+
   const [staff, fiscalProfiles, personalProfiles, remaxAccounts] = await Promise.all([
     prisma.$queryRaw<StaffDirectoryRow[]>`
       select
@@ -2118,6 +2252,21 @@ export async function getGuardAttendanceData(): Promise<{
   shifts: GuardShiftRecord[];
   attendance: AttendanceActivityRecord[];
 }> {
+  if (!isClientDataEnabled()) {
+    return {
+      summary: {
+        totalShifts: 0,
+        assignedShifts: 0,
+        attendanceEvents: 0,
+        activeGuardStaff: 0,
+        lateShiftCount: 0
+      },
+      coverage: [],
+      shifts: [],
+      attendance: []
+    };
+  }
+
   const [staff, shifts, attendance] = await Promise.all([
     fetchAllRows<StaffMemberRow>(
       "staff_members",

@@ -198,10 +198,10 @@ const imageRefs = chapters.map((chapter) => pdf.addImage(chapter.image));
   const c = [];
   c.push("0.055 0.114 0.200 rg 0 0 595.28 841.89 re f");
   c.push("0.090 0.250 0.470 rg 0 0 595.28 330 re f");
-  text(c, "REMAX", margin, 760, 36, true, "ffffff");
-  text(c, "Activa", margin + 2, 730, 25, true, "4ea0ff");
+  text(c, "Inmo", margin, 760, 36, true, "ffffff");
+  text(c, "o7", margin + 2, 730, 25, true, "4ea0ff");
   text(c, "GUIA DE USUARIO", margin, 650, 12, true, "9fc4f4");
-  multiline(c, "Todo lo necesario para trabajar en REMAX Activa", margin, 600, 38, 24, 42, true, "ffffff");
+  multiline(c, "Todo lo necesario para trabajar en Inmo o7", margin, 600, 38, 24, 42, true, "ffffff");
   multiline(c, "Manual practico en espanol para operar el panel, el pipeline comercial, workflows y forecast mensual.", margin, 460, 15, 62, 20, false, "dce8fb");
   text(c, "Plataforma operativa inmobiliaria", margin, 120, 13, true, "ffffff");
   text(c, "Version Julio 2026", margin, 96, 11, false, "b8c9df");
@@ -212,7 +212,7 @@ const imageRefs = chapters.map((chapter) => pdf.addImage(chapter.image));
   const c = [];
   text(c, "Inicio rapido", margin, 780, 11, true, "315f9e");
   text(c, "Contenido de la guia", margin, 742, 30, true);
-  multiline(c, "Esta guia resume los flujos principales para que el equipo trabaje con seguridad y rapidez dentro de REMAX Activa.", margin, 708, 13, 75, 18, false, "58708f");
+  multiline(c, "Esta guia resume los flujos principales para que el equipo trabaje con seguridad y rapidez dentro de Inmo o7.", margin, 708, 13, 75, 18, false, "58708f");
   let y = 640;
   for (const chapter of chapters) {
     c.push("0.965 0.984 1 rg 42 " + (y - 66) + " 511 78 re f");
@@ -241,7 +241,7 @@ chapters.forEach((chapter, index) => {
   c.push("0.930 0.965 1 rg 42 382 511 340 re f");
   c.push("0.780 0.850 0.940 RG 42 382 511 340 re S");
   c.push(`q ${iw.toFixed(2)} 0 0 ${ih.toFixed(2)} ${ix.toFixed(2)} ${iy.toFixed(2)} cm /${img.name} Do Q`);
-  text(c, "Captura de pantalla de la plataforma REMAX Activa.", margin, 366, 10, false, "6f83a0");
+  text(c, "Captura de pantalla de la plataforma Inmo o7.", margin, 366, 10, false, "6f83a0");
 
   text(c, "Pasos recomendados", margin, 324, 16, true);
   let y = 296;
@@ -249,11 +249,11 @@ chapters.forEach((chapter, index) => {
     y = multiline(c, `${stepIndex + 1}. ${step}`, margin + 10, y, 12, 78, 16, false, "24364d");
     y -= 2;
   });
-  text(c, "REMAX Activa - Guia de usuario", margin, 36, 9, false, "8a99ad");
+  text(c, "Inmo o7 - Guia de usuario", margin, 36, 9, false, "8a99ad");
   const resources = `/XObject << /${img.name} ${img.id} 0 R >>`;
   pdf.addPage(c, resources);
 });
 
-const pdfPath = resolve(outDir, "guia-usuario-remax-activa.pdf");
+const pdfPath = resolve(outDir, "guia-usuario-inmo-o7.pdf");
 writeFileSync(pdfPath, pdf.render());
 console.log(`Generated ${pdfPath}`);

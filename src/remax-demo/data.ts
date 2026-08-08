@@ -205,7 +205,7 @@ export const remaxDemoAdvisors: RemaxAdvisor[] = [
 
 const defaultResidentialSheet = {
   estilo: "Contemporaneo",
-  proyecto: "Remax Activa Residencial",
+  proyecto: "Inmo o7 Residencial",
   acabados: "Piso porcelanato y carpinteria en maple",
   conservacion: "Muy buena",
   fachada: "Moderna",
@@ -242,10 +242,10 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-1012",
     fecha: "2026-03-21",
     asunto: "COMUNICADO INTERNO: ALTA DE PROPIEDAD, REM-1012.",
-    destinatarios: ["inventario@remax-demo.test", "recepcion@remax-demo.test"],
+    destinatarios: ["inventario@inmo-o7-demo.test", "recepcion@inmo-o7-demo.test"],
     estado: "enviado",
     resumen: "Se informa el alta demo de REM-1012 y la apertura del expediente operativo.",
-    remitente: "Inventario REMAX Demo",
+    remitente: "Inventario Inmo o7 Demo",
     firma: "Operaciones Demo | Coordinacion operativa"
   },
   {
@@ -254,10 +254,10 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-2044",
     fecha: "2026-03-18",
     asunto: "COMUNICADO INTERNO: BAJA / CIERRE DE PROPIEDAD, REM-2044.",
-    destinatarios: ["comisiones@remax-demo.test", "operaciones@remax-demo.test"],
+    destinatarios: ["comisiones@inmo-o7-demo.test", "operaciones@inmo-o7-demo.test"],
     estado: "enviado",
     resumen: "REM-2044 pasa a cerrada y se activa el circuito interno de comisiones demo.",
-    remitente: "Inventario REMAX Demo",
+    remitente: "Inventario Inmo o7 Demo",
     firma: "Comisiones Demo | Control de comisiones"
   },
   {
@@ -266,10 +266,10 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-3308",
     fecha: "2026-03-24",
     asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, REM-3308.",
-    destinatarios: ["direccion.demo@remax-demo.test", "inventario@remax-demo.test"],
+    destinatarios: ["direccion.demo@inmo-o7-demo.test", "inventario@inmo-o7-demo.test"],
     estado: "borrador",
     resumen: "Se documenta la cancelacion demo de REM-3308 con motivo registrado por operaciones.",
-    remitente: "Inventario REMAX Demo",
+    remitente: "Inventario Inmo o7 Demo",
     firma: "Operaciones Demo | Coordinacion operativa"
   },
   {
@@ -278,10 +278,10 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-4417",
     fecha: "2026-03-24",
     asunto: "COMUNICADO INTERNO: CANCELACION DE PROPIEDAD, REM-4417.",
-    destinatarios: ["todos@remax-demo.test"],
+    destinatarios: ["todos@inmo-o7-demo.test"],
     estado: "enviado",
     resumen: "Se informa la salida de REM-4417 del inventario demo y el cierre administrativo del expediente.",
-    remitente: "Inventario REMAX Demo",
+    remitente: "Inventario Inmo o7 Demo",
     firma: "Operaciones Demo | Coordinacion operativa"
   },
   {
@@ -290,10 +290,10 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-5521",
     fecha: "2026-02-12",
     asunto: "COMUNICADO INTERNO: ALTA DE PROPIEDAD, REM-5521.",
-    destinatarios: ["inventario@remax-demo.test", "recepcion@remax-demo.test"],
+    destinatarios: ["inventario@inmo-o7-demo.test", "recepcion@inmo-o7-demo.test"],
     estado: "enviado",
     resumen: "Nueva captacion residencial demo lista para publicacion y agenda de visitas.",
-    remitente: "Inventario REMAX Demo",
+    remitente: "Inventario Inmo o7 Demo",
     firma: "Recepcion Demo | Recepcion"
   },
   {
@@ -302,10 +302,10 @@ export const remaxDemoCommunications: RemaxCommunication[] = [
     propiedadClave: "REM-6684",
     fecha: "2026-02-28",
     asunto: "COMUNICADO INTERNO: BAJA DE PROPIEDAD, REM-6684.",
-    destinatarios: ["comisiones@remax-demo.test", "operaciones@remax-demo.test"],
+    destinatarios: ["comisiones@inmo-o7-demo.test", "operaciones@inmo-o7-demo.test"],
     estado: "archivado",
     resumen: "La oficina demo REM-6684 se marca como cerrada por firma del contrato ejecutivo.",
-    remitente: "Inventario REMAX Demo",
+    remitente: "Inventario Inmo o7 Demo",
     firma: "Operaciones Demo | Coordinacion operativa"
   }
 ];
@@ -607,8 +607,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     visitaRecorrido: "Programada",
     comoLlegar: {
-      ligasA: "REMAX Demo y mapa interno",
-      remax: "demo.remax.test/rem-1012",
+      ligasA: "Inmo o7 Demo y mapa interno",
+      remax: "demo.inmo-o7.test/rem-1012",
       googleMap: "maps.demo.test/rem-1012",
       googleEarth: "earth.demo.test/rem-1012",
       ampi: "ampi.demo.test/rem-1012",
@@ -681,7 +681,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
       herramientaJuridica: "Convenio interno",
       abogado: "Juridico Demo",
       notario: "N/A",
-      empresa: "REMAX Demo",
+      empresa: "Inmo o7 Demo",
       aplicaMantenimiento: true,
       montoMantenimiento: 12500,
       periodoMantenimiento: "Mensual",
@@ -692,7 +692,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
         id: "owner-rem-1012-1",
         nombre: "Alejandra Rios",
         telefono: "33 0000 1112",
-        correo: "owner.demo.a@remax-demo.test",
+        correo: "owner.demo.a@inmo-o7-demo.test",
         principal: true
       }
     ],
@@ -831,7 +831,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
     visitaRecorrido: "Visitada",
     comoLlegar: {
       ligasA: "Mapa interno y AMPI demo",
-      remax: "demo.remax.test/rem-2044",
+      remax: "demo.inmo-o7.test/rem-2044",
       googleMap: "maps.demo.test/rem-2044",
       googleEarth: "",
       ampi: "ampi.demo.test/rem-2044",
@@ -914,7 +914,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
         id: "owner-rem-2044-1",
         nombre: "Julieta Mora",
         telefono: "33 0000 2244",
-        correo: "owner.demo.b@remax-demo.test",
+        correo: "owner.demo.b@inmo-o7-demo.test",
         principal: true
       }
     ],
@@ -1071,7 +1071,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
     visitaRecorrido: "Por visitar",
     comoLlegar: {
       ligasA: "Mapa interno",
-      remax: "demo.remax.test/rem-3308",
+      remax: "demo.inmo-o7.test/rem-3308",
       googleMap: "maps.demo.test/rem-3308",
       googleEarth: "",
       ampi: "",
@@ -1124,7 +1124,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
         id: "owner-rem-3308-1",
         nombre: "Alejandra Rios",
         telefono: "33 0000 3301",
-        correo: "owner.demo.a@remax-demo.test",
+        correo: "owner.demo.a@inmo-o7-demo.test",
         principal: true
       }
     ],
@@ -1279,7 +1279,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
     visitaRecorrido: "Visitada",
     comoLlegar: {
       ligasA: "Google Map demo",
-      remax: "demo.remax.test/rem-4417",
+      remax: "demo.inmo-o7.test/rem-4417",
       googleMap: "maps.demo.test/rem-4417",
       googleEarth: "",
       ampi: "",
@@ -1335,7 +1335,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
         id: "owner-rem-4417-1",
         nombre: "Andrea Lozano",
         telefono: "81 0000 4411",
-        correo: "owner.demo.c@remax-demo.test",
+        correo: "owner.demo.c@inmo-o7-demo.test",
         principal: true
       }
     ],
@@ -1475,7 +1475,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
     referidos: {
       idRef: "REM-REF-55",
       nombre: "Luis Navarro",
-      empresa: "REMAX Demo"
+      empresa: "Inmo o7 Demo"
     },
     ids: {
       ampi: "REM5521",
@@ -1484,8 +1484,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     visitaRecorrido: "Programada",
     comoLlegar: {
-      ligasA: "REMAX Demo y Google Map",
-      remax: "demo.remax.test/rem-5521",
+      ligasA: "Inmo o7 Demo y Google Map",
+      remax: "demo.inmo-o7.test/rem-5521",
       googleMap: "maps.demo.test/rem-5521",
       googleEarth: "",
       ampi: "",
@@ -1541,14 +1541,14 @@ export const remaxDemoProperties: RemaxProperty[] = [
         id: "owner-rem-5521-1",
         nombre: "Mariana Fuentes",
         telefono: "81 0000 5522",
-        correo: "owner.demo.d@remax-demo.test",
+        correo: "owner.demo.d@inmo-o7-demo.test",
         principal: true
       },
       {
         id: "owner-rem-5521-2",
         nombre: "Ricardo Salinas",
         telefono: "81 0000 5523",
-        correo: "owner.demo.e@remax-demo.test",
+        correo: "owner.demo.e@inmo-o7-demo.test",
         principal: false
       }
     ],
@@ -1677,8 +1677,8 @@ export const remaxDemoProperties: RemaxProperty[] = [
     },
     visitaRecorrido: "Visitada",
     comoLlegar: {
-      ligasA: "REMAX Demo",
-      remax: "demo.remax.test/rem-6684",
+      ligasA: "Inmo o7 Demo",
+      remax: "demo.inmo-o7.test/rem-6684",
       googleMap: "",
       googleEarth: "",
       ampi: "",
@@ -1758,7 +1758,7 @@ export const remaxDemoProperties: RemaxProperty[] = [
         id: "owner-rem-6684-1",
         nombre: "Torre Central 402 Demo",
         telefono: "81 0000 6680",
-        correo: "owner.demo.f@remax-demo.test",
+        correo: "owner.demo.f@inmo-o7-demo.test",
         principal: true
       }
     ],

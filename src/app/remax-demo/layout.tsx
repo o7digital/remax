@@ -10,8 +10,8 @@ import { rt } from "@/remax-demo/i18n";
 import "./remax-demo.css";
 
 export const metadata: Metadata = {
-  title: "REMAX Demo",
-  description: "Plataforma operativa inmobiliaria de REMAX Activa desarrollada en Astro"
+  title: "Inmo o7 Demo",
+  description: "Plataforma operativa inmobiliaria de Inmo o7 desarrollada en Astro"
 };
 
 function formatToolbarDate(language: "es" | "en") {
@@ -33,7 +33,7 @@ export default async function RemaxDemoLayout({ children }: { children: ReactNod
       currentLanguage={language}
       currentSession={session}
       logoutAction={logoutAction}
-      shellTitle={rt(language, "REMAX Activa | Plataforma Operativa Inmobiliaria")}
+      shellTitle={rt(language, "Inmo o7 | Plataforma Operativa Inmobiliaria")}
     >
       {children}
     </RemaxDemoShell>

@@ -28,7 +28,7 @@ export function PipelineHeader({
   return (
     <section className="pipeline-hero">
       <div>
-        <p className="pipeline-hero-eyebrow">REMAX Activa</p>
+        <p className="pipeline-hero-eyebrow">Inmo o7</p>
         <h1>Pipeline</h1>
         <p className="pipeline-hero-description">{txt("Seguimiento visual de oportunidades inmobiliarias por etapa")}</p>
       </div>

@@ -17,7 +17,7 @@ const adminBaseAdvisors = [
     comisionRate: 0.075,
     activo: true,
     ciudadBase: "Lomas de Chapultepec, Miguel Hidalgo, CDMX",
-    correo: "claire.dubois@remax-demo.test",
+    correo: "claire.dubois@inmo-o7-demo.test",
     telefono: "55 1000 1001"
   },
   {
@@ -29,7 +29,7 @@ const adminBaseAdvisors = [
     comisionRate: 0.07,
     activo: true,
     ciudadBase: "Polanco, Miguel Hidalgo, CDMX",
-    correo: "camille.laurent@remax-demo.test",
+    correo: "camille.laurent@inmo-o7-demo.test",
     telefono: "55 1000 2040"
   },
   {
@@ -41,7 +41,7 @@ const adminBaseAdvisors = [
     comisionRate: 0.07,
     activo: true,
     ciudadBase: "Condesa, Cuauhtemoc, CDMX",
-    correo: "julien.moreau@remax-demo.test",
+    correo: "julien.moreau@inmo-o7-demo.test",
     telefono: "55 1000 1180"
   },
   {
@@ -53,7 +53,7 @@ const adminBaseAdvisors = [
     comisionRate: 0.045,
     activo: true,
     ciudadBase: "Roma Norte, Cuauhtemoc, CDMX",
-    correo: "sophie.bernard@remax-demo.test",
+    correo: "sophie.bernard@inmo-o7-demo.test",
     telefono: "55 1000 3050"
   },
   {
@@ -65,7 +65,7 @@ const adminBaseAdvisors = [
     comisionRate: 0.045,
     activo: true,
     ciudadBase: "Del Valle, Benito Juarez, CDMX",
-    correo: "emma.chevalier@remax-demo.test",
+    correo: "emma.chevalier@inmo-o7-demo.test",
     telefono: "55 1000 4222"
   },
   {
@@ -77,7 +77,7 @@ const adminBaseAdvisors = [
     comisionRate: null,
     activo: true,
     ciudadBase: "Napoles, Benito Juarez, CDMX",
-    correo: "leo.fournier@remax-demo.test",
+    correo: "leo.fournier@inmo-o7-demo.test",
     telefono: "55 1000 5100"
   },
   {
@@ -89,7 +89,7 @@ const adminBaseAdvisors = [
     comisionRate: null,
     activo: true,
     ciudadBase: "Santa Maria la Ribera, Cuauhtemoc, CDMX",
-    correo: "adele.martin@remax-demo.test",
+    correo: "adele.martin@inmo-o7-demo.test",
     telefono: "55 1000 6120"
   },
   {
@@ -101,7 +101,7 @@ const adminBaseAdvisors = [
     comisionRate: null,
     activo: true,
     ciudadBase: "San Angel, Alvaro Obregon, CDMX",
-    correo: "nora.petit@remax-demo.test",
+    correo: "nora.petit@inmo-o7-demo.test",
     telefono: "55 1000 7007"
   }
 ];

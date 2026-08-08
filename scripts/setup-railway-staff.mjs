@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, "..");
 const databaseUrl = process.env.DATABASE_URL;
+const privateExportsDir = process.env.REMAX_PRIVATE_EXPORTS_DIR;
 
 const staffTables = [
   {
@@ -172,7 +173,11 @@ function runSqlFile(relativePath) {
 }
 
 function importCsv({ file, table, columns }) {
-  const csvPath = path.join(rootDir, "bdd", "exports", file);
+  if (!privateExportsDir) {
+    throw new Error("REMAX_PRIVATE_EXPORTS_DIR not set. Refusing to import client CSVs from the repo.");
+  }
+
+  const csvPath = path.join(privateExportsDir, file);
 
   if (!fs.existsSync(csvPath)) {
     throw new Error(`Missing CSV file: ${file}`);

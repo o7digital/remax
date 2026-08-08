@@ -10,7 +10,7 @@ export const remaxThemeOptions: Array<{
 }> = [
   {
     id: "classic",
-    label: "Classic REMAX",
+    label: "Classic Inmo o7",
     description: "Base corporativa azul, rojo y blanco.",
     swatches: ["#16202f", "#d7433f", "#eef2f7"]
   },

@@ -12,6 +12,7 @@
     "prisma:migrate": "prisma migrate deploy",
     "railway:setup-staff": "node scripts/setup-railway-staff.mjs",
     "railway:backup": "node scripts/backup-railway-postgres.mjs",
+    "db:purge-client-data": "node scripts/purge-client-data.mjs --confirm=PURGE_REMAX_CLIENT_DATA",
     "import-csv": "node scripts/import-csv.mjs",
     "migrate": "prisma migrate deploy"
   },

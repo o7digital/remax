@@ -48,7 +48,7 @@ export default async function ContactsPage() {
         )}
       />
 
-      <SectionCard title={txt("Crear contacto")} description={txt("Registra un contacto y vincularlo a una propiedad real.")}>
+      <SectionCard title={txt("Crear contacto")} description={txt("Registra un contacto y vincularlo a una propiedad.")}>
         <form action={createContactAction} className="form-grid">
           <label className="field"><span className="field-label">Nombre</span><input name="fullName" required /></label>
           <label className="field"><span className="field-label">Tipo</span><select name="contactKind" defaultValue="owner"><option value="owner">Propietario</option><option value="buyer">Comprador</option><option value="tenant">Inquilino</option><option value="prospect">Prospecto</option><option value="other">Otro</option></select></label>

@@ -12,7 +12,7 @@ export function RemaxPageHeader({
   return (
     <header className="remax-page-header">
       <div>
-        <p className="remax-eyebrow">REMAX ACTIVA</p>
+        <p className="remax-eyebrow">ERP Workspace</p>
         <h1>{title}</h1>
         <p>{description}</p>
       </div>

@@ -17,7 +17,7 @@ export interface RemaxBrandingSettings {
 }
 
 export const defaultRemaxBrandingSettings: RemaxBrandingSettings = {
-  logoDataUrl: "/logo.png",
+  logoDataUrl: null,
   backgroundColor: "#eef2f7",
   surfaceColor: "#ffffff",
   textColor: "#1a2433",

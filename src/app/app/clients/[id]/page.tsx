@@ -25,18 +25,36 @@ function toCanonicalKey(value: string) {
     .trim();
 }
 
+function getRouteIdCandidates(value: string) {
+  const candidates = new Set([value]);
+
+  try {
+    candidates.add(decodeURIComponent(value));
+  } catch {
+    // Keep the raw route value if the browser sends a malformed escape sequence.
+  }
+
+  for (const candidate of Array.from(candidates)) {
+    candidates.add(toRouteSlug(candidate));
+    candidates.add(toCanonicalKey(candidate));
+  }
+
+  return candidates;
+}
+
 export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { txt } = await getDemoI18n();
   const { id } = await params;
   const { records } = await getClientOverviewData();
-  const canonicalId = toCanonicalKey(id);
+  const routeIds = getRouteIdCandidates(id);
 
   const client = records.find((record) => {
-    if (record.id === id || toRouteSlug(record.id) === id) {
-      return true;
-    }
-
-    return toCanonicalKey(record.id) === canonicalId || toCanonicalKey(toRouteSlug(record.id)) === canonicalId;
+    return (
+      routeIds.has(record.id) ||
+      routeIds.has(toRouteSlug(record.id)) ||
+      routeIds.has(toCanonicalKey(record.id)) ||
+      routeIds.has(toCanonicalKey(toRouteSlug(record.id)))
+    );
   });
 
   if (!client) {

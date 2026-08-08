@@ -53,11 +53,11 @@ export default async function ClientsPage() {
       <PageHeader
         title={txt("Clients")}
         description={txt(
-          "Propietarios y compradores reales consolidados desde la base Access migrada a Railway/Postgres."
+          "Propietarios y compradores consolidados cuando los datos cliente esten habilitados."
         )}
       />
 
-      <SectionCard title={txt("Crear cliente")} description={txt("Vincula un propietario, comprador o prospecto a una propiedad real.")}>
+      <SectionCard title={txt("Crear cliente")} description={txt("Vincula un propietario, comprador o prospecto a una propiedad.")}>
         <form action={createClientAction} className="form-grid">
           <label className="field"><span className="field-label">Nombre</span><input name="fullName" required /></label>
           <label className="field"><span className="field-label">Tipo</span><select name="contactKind" defaultValue="buyer"><option value="buyer">Comprador</option><option value="owner">Propietario</option><option value="tenant">Inquilino</option><option value="prospect">Prospecto</option><option value="other">Otro</option></select></label>
@@ -78,7 +78,7 @@ export default async function ClientsPage() {
 
       <SectionCard
         title={txt("Base de clientes")}
-        description={txt("Vista operativa con cartera, ubicacion y datos de contacto reales.")}
+        description={txt("Vista operativa con cartera, ubicacion y datos de contacto.")}
       >
         <DataTable
           rows={records}

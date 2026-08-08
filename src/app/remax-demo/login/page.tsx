@@ -22,7 +22,7 @@ export default async function RemaxDemoLoginPage({
     <div className="remax-auth-card">
       <div className="remax-auth-card-header">
         <span>{language === "en" ? "Test access" : "Acceso de prueba"}</span>
-        <strong>{language === "en" ? "Login to the REMAX demo" : "Ingresar a la demo REMAX"}</strong>
+        <strong>{language === "en" ? "Login to the Inmo o7 demo" : "Ingresar a la demo Inmo o7"}</strong>
         <p>
           {language === "en"
             ? "Simple access for the client test environment with demo-only data."
@@ -80,7 +80,7 @@ export default async function RemaxDemoLoginPage({
           <input
             type="email"
             name="email"
-            placeholder={language === "en" ? "demo@remax-demo.test" : "usuario@remax-demo.test"}
+            placeholder={language === "en" ? "demo@inmo-o7-demo.test" : "usuario@inmo-o7-demo.test"}
             autoComplete="off"
             autoCapitalize="none"
             autoCorrect="off"

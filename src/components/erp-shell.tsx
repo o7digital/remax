@@ -22,6 +22,17 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function getBrandInitials(value: string) {
+  const initials = value
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+
+  return initials || "ERP";
+}
+
 export function ErpShell({
   children,
   locale,
@@ -100,8 +111,8 @@ export function ErpShell({
             <img src={branding.logoDataUrl} alt={workspace.productName} className="remax-brand-logo" />
           ) : (
             <div className="remax-brand-lockup">
-              <span className="remax-brand-mark">REMAX</span>
-              <span className="remax-brand-sub">ACTIVA</span>
+              <span className="remax-brand-mark">{getBrandInitials(workspace.productName)}</span>
+              <span className="remax-brand-sub">{workspace.workspaceName}</span>
             </div>
           )}
           <p>{workspace.workspaceName}</p>

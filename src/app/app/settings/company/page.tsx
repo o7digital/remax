@@ -43,7 +43,7 @@ export default async function SettingsCompanyPage() {
       </SectionCard>
 
       <SectionCard
-        title="Personalizacion REMAX"
+        title="Personalizacion de marca"
         description="Ajusta logo, colores principales y lenguaje visible del shell para alinear el backoffice con la marca del cliente."
       >
         <RemaxBrandSettings />

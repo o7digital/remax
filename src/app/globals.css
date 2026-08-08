@@ -1350,6 +1350,60 @@ textarea {
   background: rgba(255, 255, 255, 0.04);
 }
 
+.subscription-stack {
+  display: grid;
+  gap: 24px;
+}
+
+.subscription-table th,
+.subscription-table td {
+  vertical-align: top;
+}
+
+.subscription-actions {
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.subscription-actions .button {
+  min-height: 38px;
+  padding-inline: 13px;
+  white-space: nowrap;
+}
+
+.subscription-link {
+  display: block;
+  max-width: 768px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.subscription-meta {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+.subscription-warning {
+  color: #b45309;
+}
+
+.subscription-paid {
+  color: #047857;
+}
+
+.subscription-admin-input {
+  width: min(100%, 416px);
+  margin-bottom: 10px;
+}
+
+.subscription-edit-grid {
+  display: grid;
+  gap: 8px;
+}
+
 .divider {
   height: 1px;
   background: var(--line);

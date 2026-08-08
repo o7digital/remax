@@ -29,7 +29,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     <div className="page-stack">
       <PageHeader
         title={`${property.propertyKey} · ${property.title}`}
-        description="Ficha completa de la propiedad y sus registros relacionados en Railway/Postgres."
+        description="Ficha completa de la propiedad y sus registros relacionados."
         actions={<Link href="/app/properties" className="button button-secondary">Volver a propiedades</Link>}
       />
 

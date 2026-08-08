@@ -80,12 +80,12 @@ export default async function SettingsCommissionsPage({
     <div className="page-stack">
       <PageHeader
         title="Formula de comisiones"
-        description="Configuracion real de reglas desde la tabla commission_rules. Este es el origen usado por el calculo operativo."
+        description="Configuracion de reglas desde la tabla commission_rules cuando los datos esten habilitados."
       />
 
       <DataOriginNotice
-        title="Fuente real"
-        description="Las tasas se leen desde Railway/Postgres en commission_rules. Si una regla no existe para un deal_kind, se aplica fallback tecnico."
+        title="Datos cliente deshabilitados"
+        description="Las tasas permanecen ocultas hasta activar explicitamente los datos cliente."
       />
 
       <SectionCard

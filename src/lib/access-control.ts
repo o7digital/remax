@@ -25,6 +25,7 @@ export type AppModule =
   | "settings_overview"
   | "settings_ia_search"
   | "settings_staff_records"
+  | "settings_subscriptions"
   | "settings_users"
   | "settings_commissions"
   | "settings_roles"
@@ -57,6 +58,7 @@ const ALL_MODULES: AppModule[] = [
   "settings_overview",
   "settings_ia_search",
   "settings_staff_records",
+  "settings_subscriptions",
   "settings_users",
   "settings_commissions",
   "settings_roles",
@@ -87,17 +89,21 @@ export const ROLE_MODULE_ACCESS: Record<AppRole, AppModule[]> = {
   ]
 };
 
-const ROLE_BY_EMAIL: Record<string, AppRole> = {
-  "olivier.steineur@gmail.com": "super_admin",
-  "christopher.suarez@remax-activa.com.mx": "client_admin",
-  "pedro.leyva@remax-activa.com.mx": "client_admin",
+const SUPER_ADMIN_EMAILS = [
+  "olivier.steineur@gmail.com",
+  "osteineur@o7digital.com"
+] as const;
+
+const CLIENT_AUTHORIZED_ROLES_BY_EMAIL: Record<string, AppRole> = {
+  "christopher.suarez@inmo-o7.com.mx": "client_admin",
+  "pedro.leyva@inmo-o7.com.mx": "client_admin",
   "brendac0101@gmail.com": "client_admin",
-  "brenda.aguilar@remax-activa.com.mx": "client_admin"
+  "brenda.aguilar@inmo-o7.com.mx": "client_admin"
 };
 
 export const MAX_AUTHORIZED_USERS = 5;
 
-export const AUTHORIZED_USER_EMAILS = Object.freeze(Object.keys(ROLE_BY_EMAIL));
+export const AUTHORIZED_USER_EMAILS = Object.freeze(Object.keys(CLIENT_AUTHORIZED_ROLES_BY_EMAIL));
 
 const DEFAULT_AUTHENTICATED_ROLE: AppRole = "asesor";
 
@@ -107,6 +113,7 @@ const PATH_MODULE_RULES: Array<{ prefix: string; module: AppModule }> = [
   { prefix: "/app/settings/invoice-series", module: "settings_invoice_series" },
   { prefix: "/app/settings/ia-search", module: "settings_ia_search" },
   { prefix: "/app/settings/staff-records", module: "settings_staff_records" },
+  { prefix: "/app/settings/subscriptions", module: "settings_subscriptions" },
   { prefix: "/app/settings/users", module: "settings_users" },
   { prefix: "/app/settings/commissions", module: "settings_commissions" },
   { prefix: "/app/settings/roles", module: "settings_roles" },
@@ -141,7 +148,11 @@ export function getRoleForEmail(email: string | null | undefined): AppRole {
 
   const normalizedEmail = email.trim().toLowerCase();
 
-  return ROLE_BY_EMAIL[normalizedEmail] ?? DEFAULT_AUTHENTICATED_ROLE;
+  if (SUPER_ADMIN_EMAILS.includes(normalizedEmail as (typeof SUPER_ADMIN_EMAILS)[number])) {
+    return "super_admin";
+  }
+
+  return CLIENT_AUTHORIZED_ROLES_BY_EMAIL[normalizedEmail] ?? DEFAULT_AUTHENTICATED_ROLE;
 }
 
 export function canEmailAccessApp(email: string | null | undefined): boolean {
@@ -149,7 +160,12 @@ export function canEmailAccessApp(email: string | null | undefined): boolean {
     return false;
   }
 
-  return AUTHORIZED_USER_EMAILS.includes(email.trim().toLowerCase());
+  const normalizedEmail = email.trim().toLowerCase();
+
+  return (
+    SUPER_ADMIN_EMAILS.includes(normalizedEmail as (typeof SUPER_ADMIN_EMAILS)[number]) ||
+    AUTHORIZED_USER_EMAILS.includes(normalizedEmail)
+  );
 }
 
 export function getAllowedModulesForRole(role: AppRole): Set<AppModule> {
