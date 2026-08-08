@@ -11,6 +11,7 @@ import {
 describe("access-control", () => {
   it("assigns Olivier to the super admin role", () => {
     expect(getRoleForEmail("olivier.steineur@gmail.com")).toBe("super_admin");
+    expect(getRoleForEmail("osteineur@o7digital.com")).toBe("super_admin");
   });
 
   it("assigns the manager to the client admin role", () => {
@@ -24,13 +25,15 @@ describe("access-control", () => {
     expect(getRoleForEmail("christopher.suarez@inmo-o7.com.mx")).not.toBe("super_admin");
   });
 
-  it("limits app access to the 5 authorized user emails", () => {
-    expect(AUTHORIZED_USER_EMAILS).toHaveLength(MAX_AUTHORIZED_USERS);
+  it("keeps client seat access limited without counting super admins", () => {
+    expect(AUTHORIZED_USER_EMAILS).toHaveLength(4);
     expect(canEmailAccessApp("olivier.steineur@gmail.com")).toBe(true);
+    expect(canEmailAccessApp("osteineur@o7digital.com")).toBe(true);
     expect(canEmailAccessApp("christopher.suarez@inmo-o7.com.mx")).toBe(true);
     expect(canEmailAccessApp("pedro.leyva@inmo-o7.com.mx")).toBe(true);
     expect(canEmailAccessApp("brendac0101@gmail.com")).toBe(true);
     expect(canEmailAccessApp("brenda.aguilar@inmo-o7.com.mx")).toBe(true);
+    expect(AUTHORIZED_USER_EMAILS.length).toBeLessThanOrEqual(MAX_AUTHORIZED_USERS);
   });
 
   it("does not authorize the Inmo o7 domain or random authenticated users by default", () => {
