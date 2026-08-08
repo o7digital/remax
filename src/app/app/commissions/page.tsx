@@ -38,7 +38,7 @@ export default async function CommissionsPage() {
 
       <DataOriginNotice
         title="Formula en Settings"
-        description="La base operativa es real del cliente. Las tasas por deal kind se leen desde commission_rules en Settings > Commissions."
+        description="Los calculos permanecen vacios hasta activar explicitamente los datos cliente."
       />
 
       <div className="stats-grid">
@@ -111,8 +111,8 @@ export default async function CommissionsPage() {
               <span className="muted">El modulo ya estima bruto, pero aun falta definir repartos exactos de oficina y direccion.</span>
             </li>
             <li className="list-item">
-              <strong>Fuente real</strong>
-              <span className="muted">Se usan `deals`, `deal_participants`, `properties` y `property_values` importados desde Access.</span>
+              <strong>Fuente de calculo</strong>
+              <span className="muted">Se usan `deals`, `deal_participants`, `properties` y `property_values` cuando los datos esten habilitados.</span>
             </li>
           </ul>
         </SectionCard>

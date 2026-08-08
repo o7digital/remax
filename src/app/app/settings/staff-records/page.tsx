@@ -701,7 +701,7 @@ export default async function StaffRecordsPage({
     <div className="page-stack">
       <PageHeader
         title="F-Asesores / F-Staff"
-        description="Pantallas de captura migradas desde Access: Registro de asesores internos, Registro de miembros del Staff y bloque Socio Inmo o7."
+        description="Pantallas de captura para Registro de asesores internos, Registro de miembros del Staff y bloque Socio Inmo o7."
         actions={
           <div className="button-row">
             <a href="#nuevo-f-asesores" className="button">
@@ -722,7 +722,7 @@ export default async function StaffRecordsPage({
 
       <DataOriginNotice
         title="Nombres originales Access visibles"
-        description="Los formularios que pasaste quedan identificados aqui por su nombre original. Abajo se ve la tabla consolidada conectada a Railway/Postgres."
+        description="Los formularios quedan identificados por su nombre original. Las tablas se muestran vacias mientras los datos cliente esten deshabilitados."
       />
 
       {params.saved ? <p className="helper-text">Formulario guardado correctamente.</p> : null}

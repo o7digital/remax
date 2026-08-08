@@ -16,7 +16,7 @@ export default async function GuardsPage() {
     <div className="page-stack">
       <PageHeader
         title="Guardias"
-        description="Cobertura historica de turnos, puntualidad y eventos de check-in/check-out importados desde la base real."
+        description="Cobertura de turnos, puntualidad y eventos de check-in/check-out cuando los datos esten habilitados."
         actions={
           <div className="button-row">
             <Link href="/app/settings/users" className="button">
@@ -30,8 +30,8 @@ export default async function GuardsPage() {
       />
 
       <DataOriginNotice
-        title="Historico real"
-        description="Los turnos y eventos de asistencia salen de la migracion Access. El check-in webapp en tiempo real se construira en la siguiente fase."
+        title="Datos cliente deshabilitados"
+        description="Los turnos y eventos de asistencia permanecen ocultos hasta activar explicitamente los datos cliente."
       />
 
       <div className="stats-grid">

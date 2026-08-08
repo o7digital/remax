@@ -3,6 +3,13 @@ import "server-only";
 import { Prisma } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
+import { isClientDataEnabled } from "@/lib/remax-app-data";
+
+function assertClientDataEnabled() {
+  if (!isClientDataEnabled()) {
+    throw new Error("client-data-disabled");
+  }
+}
 
 export interface CreatePropertyInput {
   propertyKey: string;
@@ -52,6 +59,8 @@ export interface CreatePropertyInput {
 }
 
 export async function createProperty(input: CreatePropertyInput) {
+  assertClientDataEnabled();
+
   return prisma.$transaction(async (tx) => {
     const [property] = await tx.$queryRaw<Array<{ id: string }>>`
       INSERT INTO public.properties (
@@ -189,6 +198,8 @@ export interface SaveCommissionRuleInput {
 }
 
 export async function saveCommissionRule(input: SaveCommissionRuleInput) {
+  assertClientDataEnabled();
+
   if (input.id) {
     await prisma.$executeRaw`
       UPDATE public.commission_rules
@@ -229,6 +240,8 @@ export interface CreatePropertyContactInput {
 }
 
 export async function createPropertyContact(input: CreatePropertyContactInput) {
+  assertClientDataEnabled();
+
   await prisma.$executeRaw`
     INSERT INTO public.property_contacts (
       property_id, contact_kind, full_name, email, phone, is_primary

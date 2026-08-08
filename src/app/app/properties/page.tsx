@@ -166,13 +166,13 @@ export default async function PropertiesPage({
     <div className="page-stack">
       <PageHeader
         title="Propiedades"
-        description={role === "asesor" ? "Tus propiedades asignadas como asesor." : "Inventario real migrado desde Access, con alta manual conectada a Railway/Postgres."}
+        description={role === "asesor" ? "Tus propiedades asignadas como asesor." : "Inventario disponible cuando los datos cliente esten habilitados."}
         actions={role === "asesor" ? undefined : <a className="button button-secondary" href="#nueva-propiedad">Nueva propiedad</a>}
       />
 
       <DataOriginNotice
-        title="Fuente real"
-        description="Esta pantalla lee y escribe en la tabla properties. Es el primer bloque CRUD para validar la migracion contigo."
+        title="Datos cliente deshabilitados"
+        description="Esta pantalla no muestra ni escribe datos cliente mientras REMAX_CLIENT_DATA_ENABLED no este activo."
       />
 
       {params.saved ? <p className="helper-text">Propiedad creada correctamente.</p> : null}

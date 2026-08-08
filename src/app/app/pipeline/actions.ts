@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 import type { PipelineStage } from "@/lib/pipeline-types";
+import { isClientDataEnabled } from "@/lib/remax-app-data";
 
 const validStatuses = new Set(["open", "won", "lost"]);
 
@@ -37,6 +38,10 @@ function cleanWorkflow(name: string, stages: PipelineStage[]) {
 }
 
 export async function savePipelineWorkflow(workflowId: string, name: string, stages: PipelineStage[]) {
+  if (!isClientDataEnabled()) {
+    throw new Error("client-data-disabled");
+  }
+
   const { cleanName, cleanStages } = cleanWorkflow(name, stages);
 
   if (!workflowId) {
@@ -58,6 +63,10 @@ export async function savePipelineWorkflow(workflowId: string, name: string, sta
 }
 
 export async function createPipelineWorkflow(name: string, stages: PipelineStage[]) {
+  if (!isClientDataEnabled()) {
+    throw new Error("client-data-disabled");
+  }
+
   const { cleanName, cleanStages } = cleanWorkflow(name, stages);
   const workflowId = `workflow-${randomUUID()}`;
   await ensureWorkflowTable();
@@ -77,6 +86,10 @@ export async function createPipelineWorkflow(name: string, stages: PipelineStage
 }
 
 export async function deletePipelineWorkflow(workflowId: string) {
+  if (!isClientDataEnabled()) {
+    throw new Error("client-data-disabled");
+  }
+
   if (!workflowId || workflowId === "real-operations") {
     throw new Error("protected-workflow");
   }
@@ -87,6 +100,10 @@ export async function deletePipelineWorkflow(workflowId: string) {
 }
 
 export async function updateDealForecastDate(dealId: string, closeDate: string) {
+  if (!isClientDataEnabled()) {
+    throw new Error("client-data-disabled");
+  }
+
   if (!/^[0-9a-f-]{36}$/i.test(dealId) || !/^\d{4}-\d{2}-\d{2}$/.test(closeDate)) {
     throw new Error("invalid-forecast-date");
   }

@@ -29,8 +29,8 @@ export default async function MarketingPage() {
       />
 
       <DataOriginNotice
-        title="Base real + modulos a integrar"
-        description="La audiencia y los duplicados salen de los contactos reales importados del cliente. Newsletter, landing SEO Astro y chat IA se integran despues sobre esta misma base."
+        title="Datos cliente deshabilitados"
+        description="La audiencia y los duplicados permanecen ocultos hasta activar explicitamente los datos cliente."
       />
 
       <div className="stats-grid">
