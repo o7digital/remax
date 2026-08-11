@@ -14,7 +14,9 @@
     "railway:backup": "node scripts/backup-railway-postgres.mjs",
     "db:purge-client-data": "node scripts/purge-client-data.mjs --confirm=PURGE_REMAX_CLIENT_DATA",
     "import-csv": "node scripts/import-csv.mjs",
-    "migrate": "prisma migrate deploy"
+    "migrate": "prisma migrate deploy",
+    "directus:backup:weekly": "node scripts/backup-railway-postgres.mjs",
+    "directus:backup:monthly": "node scripts/backup-railway-postgres.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.5.2",
