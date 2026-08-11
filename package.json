@@ -12,6 +12,8 @@
     "prisma:migrate": "prisma migrate deploy",
     "railway:setup-staff": "node scripts/setup-railway-staff.mjs",
     "railway:backup": "node scripts/backup-railway-postgres.mjs",
+    "directus:backup:weekly": "BACKUP_PREFIX=${BACKUP_PREFIX:-directus-weekly} BACKUP_DIR=${BACKUP_DIR:-/data/backups/directus/weekly} BACKUP_RETENTION_DAYS=${BACKUP_RETENTION_DAYS:-120} node scripts/backup-railway-postgres.mjs",
+    "directus:backup:monthly": "BACKUP_PREFIX=${BACKUP_PREFIX:-directus-monthly} BACKUP_DIR=${BACKUP_DIR:-/data/backups/directus/monthly} BACKUP_RETENTION_DAYS=${BACKUP_RETENTION_DAYS:-730} node scripts/backup-railway-postgres.mjs",
     "db:purge-client-data": "node scripts/purge-client-data.mjs --confirm=PURGE_REMAX_CLIENT_DATA",
     "import-csv": "node scripts/import-csv.mjs",
     "migrate": "prisma migrate deploy"

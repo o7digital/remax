@@ -10,6 +10,7 @@ Required environment:
 
 - `DATABASE_URL`: Railway Postgres connection string.
 - `BACKUP_DIR`: optional directory for dump files. Defaults to `/data/backups`.
+- `BACKUP_PREFIX`: optional file prefix. Defaults to `remax`.
 - `BACKUP_RETENTION_DAYS`: optional retention window. Defaults to `14`.
 
 Recommended Railway setup:

@@ -4,6 +4,7 @@ import * as path from "path";
 
 const databaseUrl = process.env.DATABASE_URL;
 const backupDir = process.env.BACKUP_DIR ?? "/data/backups";
+const backupPrefix = process.env.BACKUP_PREFIX ?? "remax";
 const retentionDays = Number(process.env.BACKUP_RETENTION_DAYS ?? "14");
 
 if (!databaseUrl) {
@@ -14,7 +15,7 @@ if (!databaseUrl) {
 fs.mkdirSync(backupDir, { recursive: true });
 
 const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-const outputPath = path.join(backupDir, `remax-${timestamp}.dump`);
+const outputPath = path.join(backupDir, `${backupPrefix}-${timestamp}.dump`);
 
 console.log(`Creating Railway Postgres backup: ${outputPath}`);
 
@@ -26,7 +27,7 @@ if (Number.isFinite(retentionDays) && retentionDays > 0) {
   const cutoff = Date.now() - retentionDays * 24 * 60 * 60 * 1000;
 
   for (const entry of fs.readdirSync(backupDir)) {
-    if (!entry.startsWith("remax-") || !entry.endsWith(".dump")) {
+    if (!entry.startsWith(`${backupPrefix}-`) || !entry.endsWith(".dump")) {
       continue;
     }
 
